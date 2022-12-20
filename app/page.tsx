@@ -21,18 +21,24 @@ export default function Home() {
               La seule agence web dont vous avez besoin
             </h1>
             <p>
-              Qraft est une agence de développement web qui vous accompagne dans
-              la construction de votre application, API ou infrastructure
-              technique.
+              Qraft est une <strong>agence de développement web</strong> qui
+              vous accompagne dans la construction de votre application, API ou
+              infrastructure technique.
             </p>
             <p>
-              Notre équipe composée d&quot;experts de plus de 10 années
-              d&quot;expérience met l&quot;accent sur la qualité et la
-              performance de votre service, dans la durée.
+              Notre équipe composée d&quot;experts de plus de{" "}
+              <strong>10 années d&quot;expérience</strong> met l&quot;accent sur
+              la <strong>qualité</strong> et la <strong>performance</strong> de
+              votre service, dans la durée.
             </p>
-            <button>Nous contacter</button>
+            <button
+              type="button"
+              className="inline-flex items-center px-6 py-4 text-sm font-medium text-white bg-transparent border border-white rounded-2xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Nous contacter
+            </button>
           </div>
-          <div className="flex flex-1 justify-center">
+          <div className="flex justify-center flex-1">
             <Image src={smilingFace} alt="Smiling doodle face" />
           </div>
         </div>
