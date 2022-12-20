@@ -6,7 +6,7 @@ import heroBackground from "../public/images/hero-background.png";
 export default function Home() {
   return (
     <main>
-      <div>
+      <div className="container mx-auto">
         <div className="absolute inset-x-0 top-0 -z-10">
           <Image
             src={heroBackground}
