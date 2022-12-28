@@ -7,8 +7,13 @@ import sticker from "../public/images/sticker.svg";
 export default function Home() {
   return (
     <main>
-      <div className="relative bg-gradient-to-r from-purple-500 to-pink-500">
-        <div className="absolute inset-0 opacity-30 bg-gradient-to-l from-cyan-500 to-blue-500" />
+      <div
+        className="relative"
+        style={{
+          background:
+            "linear-gradient(105deg, rgba(220, 52, 235, 0.6) 0%, rgba(220, 52, 235, 0) 31%, rgba(220, 52, 235, 0) 68%, rgba(220, 52, 235, 0.5) 100%), linear-gradient(210deg, #4AA7B8 14.5%, #348CAF 30%, #324DB1 52%, #3116AC 64%, #2B0AB1 83%)",
+        }}
+      >
         <div
           className="absolute inset-y-0 right-0 -left-32 "
           style={{
@@ -20,7 +25,7 @@ export default function Home() {
         <div
           className="absolute right-0 bottom-0 -top-32 -left-[126px]"
           style={{
-            opacity: 0.2,
+            opacity: 0.1,
             background:
               "radial-gradient(circle, transparent 2%, #1f2937 2%, #1f2937 98%, transparent 98%, transparent) 200px 200px, linear-gradient(#f9fafb 1.6px, transparent 1.6px) 0 -0.8px, linear-gradient(90deg, #f9fafb 1.6px, #1f2937 1.6px) -0.8px 0",
             backgroundSize: "200px 200px",
