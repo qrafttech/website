@@ -9,6 +9,14 @@ export default function Home() {
     <main>
       <div className="relative bg-gradient-to-r from-purple-500 to-pink-500">
         <div className="absolute inset-0 opacity-30 bg-gradient-to-l from-cyan-500 to-blue-500" />
+        <div
+          className="absolute inset-y-0 right-0 -left-16 "
+          style={{
+            background:
+              "linear-gradient(90deg, #f9fafb1a 1%, transparent 1%) 1px 0, transparent",
+            backgroundSize: "200px 1px",
+          }}
+        />
         <div className="container pt-6 mx-auto">
           <div className="flex md:h-5/6">
             <div className="relative flex flex-col-reverse md:flex-row">
