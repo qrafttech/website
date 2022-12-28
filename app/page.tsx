@@ -10,7 +10,7 @@ export default function Home() {
       <div className="relative bg-gradient-to-r from-purple-500 to-pink-500">
         <div className="absolute inset-0 opacity-30 bg-gradient-to-l from-cyan-500 to-blue-500" />
         <div
-          className="absolute inset-y-0 right-0 -left-16 "
+          className="absolute inset-y-0 right-0 -left-32 "
           style={{
             background:
               "linear-gradient(90deg, #f9fafb1a 1%, transparent 1%) 1px 0, transparent",
@@ -18,7 +18,7 @@ export default function Home() {
           }}
         />
         <div
-          className="absolute right-0 bottom-0 -top-16 -left-[62px]"
+          className="absolute right-0 bottom-0 -top-32 -left-[126px]"
           style={{
             opacity: 0.2,
             background:
