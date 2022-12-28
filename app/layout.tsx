@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body className={`${montserrat.variable} font-sans font-medium text-lg`}>
+      <body className={`${montserrat.variable} font-sans font-medium`}>
         {children}
       </body>
     </html>
