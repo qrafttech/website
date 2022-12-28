@@ -45,7 +45,7 @@ export default function Home() {
                 <h1 className="text-6xl font-bold text-white">
                   La seule agence web
                   <br />
-                  <span className="text-transparent opacity-90 bg-clip-text bg-gradient-to-r from-fuchsia-400 to-indigo-500">
+                  <span className="text-transparent opacity-90 bg-clip-text bg-gradient-to-r from-[#d582fc] to-[#95b2fd]">
                     dont vous avez besoin
                   </span>
                 </h1>
