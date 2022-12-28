@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       <div
-        className="relative"
+        className="relative md:pt-32"
         style={{
           background:
             "linear-gradient(105deg, rgba(220, 52, 235, 0.6) 0%, rgba(220, 52, 235, 0) 31%, rgba(220, 52, 235, 0) 68%, rgba(220, 52, 235, 0.5) 100%), linear-gradient(210deg, #4AA7B8 14.5%, #348CAF 30%, #324DB1 52%, #3116AC 64%, #2B0AB1 83%)",
@@ -34,12 +34,13 @@ export default function Home() {
         <div className="container pt-6 mx-auto">
           <div className="flex md:h-5/6">
             <div className="relative flex flex-col-reverse md:flex-row">
-              <div className="absolute -bottom-20 right-20">
-                <Image
-                  src={sticker}
-                  alt="Made with trust, build to last sticker"
-                />
-              </div>
+              <Image
+                src={sticker}
+                alt="Made with trust, build to last sticker"
+                width={120}
+                height={120}
+                className="absolute mx-auto max-md:left-0 max-md:right-0 -bottom-20 md:right-20"
+              />
               <div className="flex flex-col flex-[6_6_0%] p-4 justify-center">
                 <h1 className="text-6xl font-bold text-white">
                   La seule agence web
@@ -56,7 +57,7 @@ export default function Home() {
                   qui vous accompagne dans la construction de votre application,
                   API ou infrastructure technique.
                 </p>
-                <p className="pb-6 text-white/70">
+                <p className="pb-12 text-white/70">
                   Notre équipe composée d&#39;experts de plus de{" "}
                   <strong className="text-white">
                     10 années d&#39;expérience
@@ -67,7 +68,7 @@ export default function Home() {
                   service,{" "}
                   <strong className="text-white">dans la durée.</strong>
                 </p>
-                <div>
+                <div className="max-md:hidden">
                   <button
                     type="button"
                     className="px-6 py-4 text-sm font-medium text-white bg-transparent border border-white rounded-2xl hover:bg-white/20 "
@@ -85,7 +86,7 @@ export default function Home() {
                 <Image
                   src={heroIllustrationDesktop}
                   alt="Smiling doodle face and lightbulb"
-                  className="max-md:hidden"
+                  className="pb-32 max-md:hidden"
                 />
               </div>
             </div>
