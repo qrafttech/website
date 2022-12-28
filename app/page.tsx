@@ -17,6 +17,15 @@ export default function Home() {
             backgroundSize: "200px 1px",
           }}
         />
+        <div
+          className="absolute right-0 bottom-0 -top-16 -left-[62px]"
+          style={{
+            opacity: 0.2,
+            background:
+              "radial-gradient(circle, transparent 2%, #1f2937 2%, #1f2937 98%, transparent 98%, transparent) 200px 200px, linear-gradient(#f9fafb 1.6px, transparent 1.6px) 0 -0.8px, linear-gradient(90deg, #f9fafb 1.6px, #1f2937 1.6px) -0.8px 0",
+            backgroundSize: "200px 200px",
+          }}
+        />
         <div className="container pt-6 mx-auto">
           <div className="flex md:h-5/6">
             <div className="relative flex flex-col-reverse md:flex-row">
