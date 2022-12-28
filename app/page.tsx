@@ -12,7 +12,6 @@ export default function Home() {
         style={{
           background:
             "linear-gradient(105deg, rgba(220, 52, 235, 0.6) 0%, rgba(220, 52, 235, 0) 31%, rgba(220, 52, 235, 0) 68%, rgba(220, 52, 235, 0.5) 100%), linear-gradient(210deg, #4AA7B8 14.5%, #348CAF 30%, #324DB1 52%, #3116AC 64%, #2B0AB1 83%)",
-          maskImage: "url(/images/hero-mask-desktop.svg)",
           WebkitMaskImage: "url(/images/hero-mask-desktop.svg)",
           WebkitMaskPosition: "bottom",
           WebkitMaskRepeat: "no-repeat",
