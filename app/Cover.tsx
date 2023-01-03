@@ -38,7 +38,7 @@ export default function Cover() {
         <div className="container mx-auto pt-6">
           <div className="flex md:h-5/6">
             <div className="flex flex-col-reverse md:flex-row">
-              <div className="flex flex-[6_6_0%] flex-col justify-center p-4">
+              <div className="flex flex-[6_6_0%] flex-col justify-center p-4 font-serif">
                 <h1 className="text-4xl font-bold text-white md:text-6xl">
                   La seule agence web
                   <br />
