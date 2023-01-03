@@ -36,14 +36,14 @@ export default function Home() {
               backgroundSize: "200px 200px",
             }}
           />
-          <div className="container pt-6 mx-auto">
+          <div className="container mx-auto pt-6">
             <div className="flex md:h-5/6">
               <div className="flex flex-col-reverse md:flex-row">
-                <div className="flex flex-col flex-[6_6_0%] p-4 justify-center">
+                <div className="flex flex-[6_6_0%] flex-col justify-center p-4">
                   <h1 className="text-4xl font-bold text-white md:text-6xl">
                     La seule agence web
                     <br />
-                    <span className="text-transparent opacity-90 bg-clip-text bg-gradient-to-r from-[#d582fc] to-[#95b2fd]">
+                    <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
                       dont vous avez besoin
                     </span>
                   </h1>
@@ -71,17 +71,17 @@ export default function Home() {
                   <div className="max-md:hidden">
                     <button
                       type="button"
-                      className="px-6 py-4 text-sm font-medium text-white bg-transparent border border-white rounded-2xl hover:bg-white/20 "
+                      className="rounded-2xl border border-white bg-transparent px-6 py-4 text-sm font-medium text-white hover:bg-white/20 "
                     >
                       Nous contacter
                     </button>
                   </div>
                 </div>
-                <div className="flex justify-center flex-[4_4_0%] max-md:max-h-72">
+                <div className="flex flex-[4_4_0%] justify-center max-md:max-h-72">
                   <Image
                     src={heroIllustrationMobile}
                     alt="Smiling doodle face and lightbulb"
-                    className="w-5/6 heigth-auto md:hidden"
+                    className="heigth-auto w-5/6 md:hidden"
                   />
                   <Image
                     src={heroIllustrationDesktop}
@@ -98,7 +98,7 @@ export default function Home() {
           alt="Made with trust, build to last sticker"
           width={120}
           height={120}
-          className="absolute mx-auto -bottom-6 max-md:left-0 max-md:right-0 md:right-20"
+          className="absolute -bottom-6 mx-auto max-md:left-0 max-md:right-0 md:right-20"
         />
       </div>
     </main>
