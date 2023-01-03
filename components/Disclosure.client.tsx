@@ -1,0 +1,32 @@
+"use client";
+
+import { Disclosure } from "@headlessui/react";
+import { ChevronUpIcon } from "@heroicons/react/20/solid";
+
+interface CustomDisclosureProps {
+  title: string;
+  content: string;
+}
+
+export default function CustomDisclosure({
+  title,
+  content,
+}: CustomDisclosureProps) {
+  return (
+    <Disclosure>
+      {({ open }) => (
+        <div className="mb-6 rounded-md border-[1px] border-black text-zinc-900">
+          <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-2xl font-bold rounded-md">
+            <span>{title}</span>
+            <ChevronUpIcon
+              className={`${open ? "rotate-180 transform" : ""} h-8 w-8`}
+            />
+          </Disclosure.Button>
+          <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm">
+            {content}
+          </Disclosure.Panel>
+        </div>
+      )}
+    </Disclosure>
+  );
+}
