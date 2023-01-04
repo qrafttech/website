@@ -4,6 +4,7 @@ import Cover from "./Cover";
 import CoverBackground from "./CoverBackground";
 import Services from "./Services";
 import sticker from "../public/images/sticker.svg";
+import Values from "./Values";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       <div className="flex justify-center">
         <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
           <Services />
+          <Values />
         </div>
       </div>
     </main>
