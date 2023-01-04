@@ -23,7 +23,7 @@ export default function CustomDisclosure({
           <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-2xl font-bold rounded-md">
             <span>{title}</span>
             <ChevronUpIcon
-              className={`${open ? "rotate-180 transform" : ""} h-8 w-8`}
+              className={`${open ? "" : "rotate-180 transform"} h-8 w-8`}
             />
           </Disclosure.Button>
           <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm">
