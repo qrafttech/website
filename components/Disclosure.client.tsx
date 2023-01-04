@@ -1,9 +1,12 @@
 "use client";
 
+import { ComponentType } from "react";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 
-interface CustomDisclosureProps {
+type ExtractProps<T> = T extends ComponentType<infer P> ? P : T;
+
+interface CustomDisclosureProps extends ExtractProps<typeof Disclosure> {
   title: string;
   content: string;
 }
@@ -11,9 +14,10 @@ interface CustomDisclosureProps {
 export default function CustomDisclosure({
   title,
   content,
+  ...props
 }: CustomDisclosureProps) {
   return (
-    <Disclosure>
+    <Disclosure {...props}>
       {({ open }) => (
         <div className="mb-6 rounded-md border-[1px] border-black text-zinc-900">
           <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-2xl font-bold rounded-md">

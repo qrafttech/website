@@ -27,6 +27,7 @@ export default function Services() {
         <Disclosure
           title="Développement web"
           content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
+          defaultOpen
         />
         <Disclosure
           title="Développement mobile"
