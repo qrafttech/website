@@ -35,7 +35,7 @@ export default function Cover() {
           <div className="max-md:hidden">
             <button
               type="button"
-              className="px-6 py-4 text-sm font-medium text-white bg-transparent border border-white rounded-2xl hover:bg-white/20 "
+              className="rounded-2xl border border-white bg-transparent px-6 py-4 text-sm font-medium text-white hover:bg-white/20 "
             >
               Nous contacter
             </button>
@@ -45,7 +45,7 @@ export default function Cover() {
           <Image
             src={heroIllustrationMobile}
             alt="Smiling doodle face and lightbulb"
-            className="w-5/6 heigth-auto md:hidden"
+            className="heigth-auto w-5/6 md:hidden"
           />
           <Image
             src={heroIllustrationDesktop}

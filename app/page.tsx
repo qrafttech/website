@@ -10,7 +10,7 @@ export default function Home() {
     <main>
       <div className="relative">
         <CoverBackground>
-          <div className="px-4 pt-6 max-w-screen-2xl lg:px-24 xl:px-32">
+          <div className="max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
             <Cover />
           </div>
         </CoverBackground>
@@ -19,11 +19,11 @@ export default function Home() {
           alt="Made with trust, build to last sticker"
           width={120}
           height={120}
-          className="absolute mx-auto -bottom-6 max-md:left-0 max-md:right-0 md:right-20"
+          className="absolute -bottom-6 mx-auto max-md:left-0 max-md:right-0 md:right-20"
         />
       </div>
       <div className="flex justify-center">
-        <div className="px-4 pt-20 max-w-screen-2xl lg:px-24 xl:px-32">
+        <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
           <Services />
         </div>
       </div>
