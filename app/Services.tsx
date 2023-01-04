@@ -4,7 +4,7 @@ import shiningStar from "../public/images/shining-star.svg";
 
 export default function Services() {
   return (
-    <div className="container mx-auto pt-16">
+    <>
       <div className="relative">
         <Image
           src={shiningStar}
@@ -20,6 +20,6 @@ export default function Services() {
         partir de zéro, et possède une expertise en langages bas niveau (C),
         compilateurs, DevOps, ainsi que les langages Web les plus courants.
       </p>
-    </div>
+    </>
   );
 }
