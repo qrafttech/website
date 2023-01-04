@@ -10,7 +10,7 @@ export default function Home() {
     <main>
       <div className="relative">
         <CoverBackground>
-          <div className="px-4 pt-6 max-w-screen-2xl md:px-20 lg:px-24 xl:px-32">
+          <div className="px-4 pt-6 max-w-screen-2xl lg:px-24 xl:px-32">
             <Cover />
           </div>
         </CoverBackground>
@@ -23,7 +23,7 @@ export default function Home() {
         />
       </div>
       <div className="flex justify-center">
-        <div className="px-4 pt-20  max-w-screen-2xl md:px-20 lg:px-24 xl:px-32">
+        <div className="px-4 pt-20 max-w-screen-2xl lg:px-24 xl:px-32">
           <Services />
         </div>
       </div>

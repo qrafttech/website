@@ -9,7 +9,7 @@ export default function Services() {
         <Image
           src={shiningStar}
           alt="Shining star for decoration"
-          className="absolute -top-8 -left-16 max-md:hidden"
+          className="absolute -top-8 -left-16 max-lg:hidden"
         />
         <h2 className="bg-gradient-to-r from-[#8732c8] to-[#db73ff] bg-clip-text py-4 font-serif text-5xl font-bold text-transparent">
           Nos loyaux services
