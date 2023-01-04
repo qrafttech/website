@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import singingFrogWithCloud from "../public/images/singing-frog-with-cloud.svg";
 import underline from "../public/images/underline.svg";
+import Value from "./Value";
 
 export default function Values() {
   return (
@@ -25,7 +26,7 @@ export default function Values() {
           </p>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative my-8">
         <Image
           src={underline}
           alt="Handrawing of a strike through to mimic an underline"
@@ -34,6 +35,33 @@ export default function Values() {
         <h3 className="p-8 font-serif text-4xl font-bold text-[#0074dd]">
           Nos plus-values
         </h3>
+      </div>
+      <div className="grid grid-cols-1 py-16 sm:grid-cols-2 md:grid-cols-4">
+        <Value
+          title="Expertise"
+          content="Avec plus de 20 ans d&#39;expérience cumulée, nous connaissons les
+            tenants et aboutissants d&#39;un projet digital, les effets de mode,
+            les raccourcis fiables et ceux à éviter."
+        />
+        <Value
+          title="Honnêteté"
+          content="Zéro bullshit. Nous cultivons une politique de l&#39;écrit pour
+          chacun puisse suivre l&#39;avancement du projet au grand jour. Nous
+          évitons les blocages inutiles par fierté, et avançons tous dans le
+          même sens."
+        />
+        <Value
+          title="Robustesse"
+          content="Nous mettons en place des méthodes de prévention (code reviews,
+            tests unitaires, déploiement continu, migrations réversibles,
+            monitoring...) et de remédiation rapide en cas de pépin."
+        />
+        <Value
+          title="Performance"
+          content="Nous apportons la solution la plus simple à un problème donné, en
+          utilisant les technologies les plus fiables et rapides, sans
+          artifices inutiles."
+        />
       </div>
     </div>
   );
