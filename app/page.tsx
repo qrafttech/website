@@ -26,6 +26,13 @@ export default function Home() {
       <div className="flex justify-center">
         <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
           <Services />
+        </div>
+      </div>
+      <div
+        className="flex justify-center"
+        style={{ backgroundImage: "url(/images/values-background.svg" }}
+      >
+        <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
           <Values />
         </div>
       </div>
