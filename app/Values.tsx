@@ -1,18 +1,26 @@
 import Image from "next/image";
 
-import singingFrogWithCloud from "../public/images/singing-frog-with-cloud.svg";
+import singingFrogWithCloudDesktop from "../public/images/singing-frog-with-cloud-desktop.svg";
+import singingFrogWithCloudMobile from "../public/images/singing-frog-with-cloud-mobile.svg";
 import underline from "../public/images/underline.svg";
 import Value from "./Value";
 
 export default function Values() {
   return (
     <div className="flex flex-col">
-      <div className="flex items-end">
-        <Image
-          src={singingFrogWithCloud}
-          alt="Frog with a crown singing a binary song"
-          className="flex-1 p-4"
-        />
+      <div className="flex flex-col md:flex-row md:items-end">
+        <div>
+          <Image
+            src={singingFrogWithCloudDesktop}
+            alt="Frog with a crown singing a binary song"
+            className="flex-1 p-4 max-md:hidden"
+          />
+          <Image
+            src={singingFrogWithCloudMobile}
+            alt="Frog with a crown singing a binary song"
+            className="flex-1 p-4 md:hidden"
+          />
+        </div>
         <div className="flex-1">
           <h2 className="bg-gradient-to-r from-[#2650e1] to-[#1079f4] bg-clip-text py-4 font-serif text-5xl font-bold text-transparent">
             Traversons ensemble l&#39;épreuve du temps.
