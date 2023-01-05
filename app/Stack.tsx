@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import rubyOnRails from "../public/images/logos/rails-logo.svg";
 import sidekiq from "../public/images/logos/sidekiq-logo.svg";
 import rubocop from "../public/images/logos/rubocop-logo.svg";
@@ -18,19 +20,33 @@ import nestjs from "../public/images/logos/nestjs-logo.svg";
 import graphql from "../public/images/logos/graphql-logo.svg";
 import aws from "../public/images/logos/aws-logo.svg";
 import serverless from "../public/images/logos/serverless-logo.svg";
+import gem from "../public/images/gem.svg";
+import paperCoffeeCup from "../public/images/paper-coffee-cup.svg";
 import Logo from "./Logo";
 import StackGroup from "./StackGroup";
 
 export default function Stack() {
   return (
     <div className="flex flex-col justify-center">
-      <h2 className="bg-gradient-to-r from-[#d81746] to-[#fc45a8] bg-clip-text py-4 text-center font-serif text-5xl font-bold text-transparent">
-        Nos armes de prédilection
-      </h2>
+      <div className="relative">
+        <Image
+          src={gem}
+          alt="Decorative pink gem"
+          className="absolute -right-16 -top-32 max-xl:hidden"
+        />
+        <h2 className="bg-gradient-to-r from-[#d81746] to-[#fc45a8] bg-clip-text py-4 text-center font-serif text-5xl font-bold text-transparent">
+          Nos armes de prédilection
+        </h2>
+      </div>
       <p className="text-center">
         Le café et les gems ça vous parle ? Nous en sommes experts.
       </p>
-      <div className="my-16 flex flex-col flex-wrap justify-center max-xl:space-y-8 md:mx-8 xl:flex-row xl:space-x-8">
+      <div className="relative my-16 flex flex-col flex-wrap justify-center max-xl:space-y-8 md:mx-8 xl:flex-row xl:space-x-8">
+        <Image
+          src={paperCoffeeCup}
+          alt="Paper coffee cup to go with scribbled name"
+          className="absolute -top-16 -left-44 max-xl:hidden"
+        />
         <div className="order-1 flex-[6_6_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
           <h3 className="pb-3 font-serif text-2xl font-bold">
             Notre arsenal favori
