@@ -5,6 +5,7 @@ import CoverBackground from "./CoverBackground";
 import Services from "./Services";
 import sticker from "../public/images/sticker.svg";
 import Values from "./Values";
+import Stack from "./Stack";
 
 export default function Home() {
   return (
@@ -31,6 +32,11 @@ export default function Home() {
       <div className="flex justify-center bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x pb-60 md:bg-[url(/images/values-background-desktop.svg)]">
         <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
           <Values />
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <div className="max-w-screen-2xl px-4 pt-20 lg:px-24 xl:px-32">
+          <Stack />
         </div>
       </div>
     </main>
