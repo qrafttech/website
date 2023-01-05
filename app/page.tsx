@@ -30,8 +30,8 @@ export default function Home() {
           <Services />
         </div>
       </FluidContainer>
-      <FluidContainer className="bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x pb-60 md:bg-[url(/images/values-background-desktop.svg)]">
-        <div className="pt-20">
+      <FluidContainer className="bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x md:bg-[url(/images/values-background-desktop.svg)]">
+        <div className="pt-20 xl:pb-40">
           <Values />
         </div>
       </FluidContainer>

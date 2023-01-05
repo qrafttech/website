@@ -27,26 +27,26 @@ import StackGroup from "./StackGroup";
 
 export default function Stack() {
   return (
-    <div className="flex flex-col justify-center">
-      <div className="relative">
-        <Image
-          src={gem}
-          alt="Decorative pink gem"
-          className="absolute -right-16 -top-32 max-xl:hidden"
-        />
-        <h2 className="bg-gradient-to-r from-[#d81746] to-[#fc45a8] bg-clip-text py-4 text-center font-serif text-5xl font-bold text-transparent">
-          Nos armes de prédilection
-        </h2>
-      </div>
-      <p className="text-center">
-        Le café et les gems ça vous parle ? Nous en sommes experts.
-      </p>
-      <div className="relative my-16 flex flex-col flex-wrap justify-center max-xl:space-y-8 md:mx-8 xl:flex-row xl:space-x-8">
+    <div className="relative flex flex-col justify-center">
+      <div className="flex items-start justify-around">
         <Image
           src={paperCoffeeCup}
           alt="Paper coffee cup to go with scribbled name"
-          className="absolute -top-16 -left-44 max-xl:hidden"
+          className="max-xl:pt-8 xl:absolute xl:top-20 xl:-left-44"
         />
+        <Image
+          src={gem}
+          alt="Decorative pink gem"
+          className="xl:absolute xl:-right-32 xl:-top-8"
+        />
+      </div>
+      <h2 className="bg-gradient-to-r from-[#d81746] to-[#fc45a8] bg-clip-text py-4 text-center font-serif text-5xl font-bold text-transparent">
+        Nos armes de prédilection
+      </h2>
+      <p className="text-center">
+        Le café et les gems ça vous parle ? Nous en sommes experts.
+      </p>
+      <div className="my-16 flex flex-col flex-wrap justify-center max-xl:space-y-8 md:mx-8 xl:flex-row xl:space-x-8">
         <div className="order-1 flex-[6_6_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
           <h3 className="pb-3 font-serif text-2xl font-bold">
             Notre arsenal favori
