@@ -8,6 +8,9 @@ import react from "../public/images/logos/react-logo.svg";
 import mui from "../public/images/logos/mui-logo.svg";
 import nextjs from "../public/images/logos/nextjs-logo.svg";
 import typescript from "../public/images/logos/typescript-logo.svg";
+import tailwindcss from "../public/images/logos/tailwindcss-logo.svg";
+import prettier from "../public/images/logos/prettier-logo.svg";
+import eslint from "../public/images/logos/eslint-logo.svg";
 import heroku from "../public/images/logos/heroku-logo.svg";
 import vercel from "../public/images/logos/vercel-logo.svg";
 import posgres from "../public/images/logos/posgres-logo.svg";
@@ -72,16 +75,24 @@ export default function Stack() {
                 <Logo src={redis} title="Redis" alt="Redis logo" />
               </StackGroup>
             </div>
+            <StackGroup title="Frontend">
+              <Logo src={react} title="React" alt="React logo" />
+              <Logo src={mui} title="Material UI" alt="Material UI logo" />
+              <Logo
+                src={tailwindcss}
+                title="Tailwind CSS"
+                alt="Tailwind CSS logo"
+              />
+              <Logo src={nextjs} title="Next.js" alt="Next.js logo" />
+              <Logo src={prettier} title="Prettier" alt="Prettier logo" />
+              <Logo src={eslint} title="ESLint" alt="ESLint logo" />
+              <Logo src={typescript} title="Typescript" alt="Typescript logo" />
+            </StackGroup>
             <div className="flex flex-col md:flex-row md:justify-between">
-              <StackGroup title="Frontend">
-                <Logo src={react} title="React" alt="React logo" />
-                <Logo src={mui} title="Material UI" alt="Material UI logo" />
-                <Logo src={nextjs} title="Next.js" alt="Next.js logo" />
-                <Logo
-                  src={typescript}
-                  title="Typescript"
-                  alt="Typescript logo"
-                />
+              <StackGroup title="Hosting & Intégration Continue">
+                <Logo src={heroku} title="Heroku" alt="Heroku logo" />
+                <Logo src={vercel} title="Vercel" alt="Vercel logo" />
+                <Logo src={github} title="Github Actions" alt="Github logo" />
               </StackGroup>
               <StackGroup title="Apps mobile">
                 <Logo
@@ -92,11 +103,6 @@ export default function Stack() {
                 <Logo src={expo} title="Expo" alt="Expo logo" />
               </StackGroup>
             </div>
-            <StackGroup title="Hosting & Intégration Continue">
-              <Logo src={heroku} title="Heroku" alt="Heroku logo" />
-              <Logo src={vercel} title="Vercel" alt="Vercel logo" />
-              <Logo src={github} title="Github Actions" alt="Github logo" />
-            </StackGroup>
           </div>
         </div>
         <p className="order-1 px-8 text-zinc-400 xl:order-2 xl:mt-8">
