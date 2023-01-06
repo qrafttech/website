@@ -21,7 +21,6 @@ export default function Home() {
           src={sticker}
           alt="Made with trust, build to last sticker"
           width={120}
-          height={120}
           className="absolute -bottom-6 mx-auto max-md:left-0 max-md:right-0 md:right-20"
         />
       </div>
