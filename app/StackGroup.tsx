@@ -11,7 +11,9 @@ export default function StackGroup({ title, children }: StackGroupProps) {
       <h4 className="pb-4 font-serif text-sm font-bold uppercase text-violet-300">
         {title}
       </h4>
-      <div className="flex flex-wrap items-start">{children}</div>
+      <div className="flex flex-wrap items-start [&>*]:pr-6 [&>*]:pb-8">
+        {children}
+      </div>
     </div>
   );
 }
