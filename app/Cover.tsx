@@ -46,11 +46,13 @@ export default function Cover() {
             src={heroIllustrationMobile}
             alt="Smiling doodle face and lightbulb"
             className="heigth-auto w-5/6 md:hidden"
+            priority
           />
           <Image
             src={heroIllustrationDesktop}
             alt="Smiling doodle face and lightbulb"
             className="pb-32 max-md:hidden"
+            priority
           />
         </div>
       </div>
