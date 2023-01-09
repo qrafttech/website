@@ -5,6 +5,8 @@ import patioAlexisLili from "../public/images/patio-alexis-lili.jpg";
 import patioNicolas from "../public/images/patio-nicolas.jpg";
 import dinosaur from "../public/images/dinosaur.svg";
 import marseille from "../public/images/marseille.svg";
+import bubbles from "../public/images/bubbles.svg";
+import cloud from "../public/images/cloud.svg";
 
 export default function Team() {
   return (
@@ -34,8 +36,21 @@ export default function Team() {
           plus, dans la <strong>bonne humeur</strong>&nbsp;!
         </p>
       </div>
-      <div className="col-span-full flex flex-col justify-end lg:col-span-1">
-        <div className="grid grid-cols-2 gap-2 max-xl:pt-8 sm:max-lg:gap-8 lg:gap-4 lg:px-8">
+      <div className="col-span-full flex flex-col items-center justify-end lg:col-span-1">
+        <div className="relative mb-4 flex items-center justify-center max-xl:pt-8">
+          <Image src={cloud} alt="Cloud to mimic a comic chat bubble" />
+          <p className="absolute text-center font-scribble text-xl uppercase text-[#059034]">
+            Je comprends rien...
+            <br />
+            L&#39;élève dépasse le maître
+          </p>
+          <Image
+            src={bubbles}
+            alt="Bubbles to mimic a comic chat bubble"
+            className="absolute inset-x-2/3 -bottom-10 z-10"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-2 sm:max-lg:gap-8 lg:gap-4 lg:px-8">
           <div className="row-span-2 flex sm:col-span-1">
             <Image
               src={patioNicolas}
