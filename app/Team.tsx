@@ -34,6 +34,7 @@ export default function Team() {
             alt="Picture of Nicolas from above in a the patio with a laptop looking surprised"
             placeholder="blur"
             className="border-8 border-white object-cover drop-shadow-lg"
+            width={640}
           />
         </div>
         <div className="flex max-sm:col-span-full">
@@ -42,6 +43,7 @@ export default function Team() {
             alt="Picture of Mehdi and Nicolas looking at code on a laptop screen in an office"
             placeholder="blur"
             className="border-8 border-white object-cover"
+            width={640}
           />
         </div>
         <div className="flex max-sm:col-span-full">
@@ -50,6 +52,7 @@ export default function Team() {
             alt="Picture of Alexis and Lili with a laptop smiling in the patio"
             placeholder="blur"
             className="border-8 border-white object-cover"
+            width={640}
           />
         </div>
       </div>
