@@ -37,6 +37,8 @@ export default function Home() {
       </FluidContainer>
       <FluidContainer>
         <Stack />
+      </FluidContainer>
+      <FluidContainer className="bg-[url(/images/team-background.svg)]">
         <Team />
       </FluidContainer>
     </main>

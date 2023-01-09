@@ -3,12 +3,19 @@ import Image from "next/image";
 import officeMehdiNicolas from "../public/images/office-mehdi-nicolas.jpg";
 import patioAlexisLili from "../public/images/patio-alexis-lili.jpg";
 import patioNicolas from "../public/images/patio-nicolas.jpg";
+import dinosaur from "../public/images/dinosaur.svg";
+import marseille from "../public/images/marseille.svg";
 
 export default function Team() {
   return (
     <div className="grid grid-cols-2">
       <div className="max-lg:col-span-2">
-        <h2 className="bg-gradient-to-r from-[#048e33] to-[#04b23f] bg-clip-text py-6 text-center font-serif text-5xl font-bold text-transparent">
+        <Image
+          src={dinosaur}
+          alt="Illustration of a dinosaur screaming 'Whoa!'"
+          className="py-2"
+        />
+        <h2 className="bg-gradient-to-r from-[#048e33] to-[#04b23f] bg-clip-text py-6 font-serif text-5xl font-bold text-transparent">
           Les devs sur le front, comme sur le back&nbsp;!
         </h2>
         <p className="pb-6">
@@ -53,6 +60,12 @@ export default function Team() {
             placeholder="blur"
             className="border-8 border-white object-cover"
             width={640}
+          />
+        </div>
+        <div className="col-span-full flex flex-1">
+          <Image
+            src={marseille}
+            alt="Handwriting of 'Marseille' with a location pinpoint and a curly arrow"
           />
         </div>
       </div>
