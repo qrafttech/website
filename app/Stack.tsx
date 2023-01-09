@@ -105,7 +105,7 @@ export default function Stack() {
             </div>
           </div>
         </div>
-        <p className="order-1 px-8 text-zinc-400 xl:order-2 xl:mt-8">
+        <p className="order-1 px-8 text-zinc-500 xl:order-2 xl:mt-8">
           PS : Quelques sociétés utilisants Rails en technologie principale :
           Shopify, Airbnb, GitHub, Netflix, Doctolib, Swile...
         </p>
