@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="fr">
       <head />
       <body
         className={`${montserrat.variable} ${sora.variable} font-sans font-medium`}
