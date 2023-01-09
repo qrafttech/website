@@ -7,6 +7,7 @@ import sticker from "../public/images/sticker.svg";
 import Values from "./Values";
 import Stack from "./Stack";
 import FluidContainer from "./FluidContainer";
+import Team from "./Team";
 
 export default function Home() {
   return (
@@ -36,6 +37,9 @@ export default function Home() {
       </FluidContainer>
       <FluidContainer>
         <Stack />
+      </FluidContainer>
+      <FluidContainer className="bg-[url(/images/team-background.svg)]">
+        <Team />
       </FluidContainer>
     </main>
   );
