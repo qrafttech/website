@@ -21,29 +21,21 @@ export default function Services() {
         </div>
         <p className="py-6">
           Qraft oeuvre principalement dans le développement de votre application
-          à partir de zéro, et possède une expertise en langages bas niveau (C),
-          compilateurs, DevOps, ainsi que les langages Web les plus courants.
+          à partir de zéro, mais peut aussi construire et encadrer techniquement
+          votre équipe de développeur.euse.s.
         </p>
         <Disclosure
-          title="Développement web"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
+          title="Développement"
+          content="Nous construisons votre produit en vous proposant les technologies les plus adaptées à votre besoin. Nous avons nos préférences, alliant vélocité et robustesse, mais nous nous adaptons à vos contraintes."
           defaultOpen
         />
         <Disclosure
-          title="Développement mobile"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
-        />
-        <Disclosure
           title="Design UX/UI (externe)"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
+          content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n’est rien sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques ; ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
         />
         <Disclosure
-          title="Conseil & Mentorat"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
-        />
-        <Disclosure
-          title="Recrutement"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pellentesque amet, massa auctor arcu, risus, libero tincidunt id. Diam in fermentum tincidunt elementum sed enim tortor, senectus. Turpis senectus consectetur vitae risus molestie pellentesque ultrices auctor."
+          title="Direction technique"
+          content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. Nous savons recruter et encadrer votre future équipe de développeurs."
         />
       </div>
       <Image

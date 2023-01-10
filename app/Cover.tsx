@@ -9,19 +9,17 @@ export default function Cover() {
       <div className="flex flex-col-reverse md:flex-row">
         <div className="flex flex-[6_6_0%] flex-col justify-center p-4">
           <h1 className="font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            La seule agence web{" "}
+            Construisons ensemble{" "}
             <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
-              dont vous avez besoin
+              des applications de qualité
             </span>
           </h1>
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
               Qraft est une{" "}
-              <strong className="text-white">
-                agence de développement web
-              </strong>{" "}
-              qui vous accompagne dans la construction de votre application, API
-              ou infrastructure technique.
+              <strong className="text-white">agence de développement</strong>{" "}
+              qui vous accompagne dans la construction de votre application web,
+              mobile, API ou infrastructure technique.
             </p>
             <p className="pb-12 text-white/70">
               Notre équipe composée d&#39;experts de plus de{" "}

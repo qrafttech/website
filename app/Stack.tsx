@@ -56,7 +56,8 @@ export default function Stack() {
           </h3>
           <p className="pb-8">
             Nous nous adaptons à votre stack technique, mais nous avons quelques
-            préférences, en ligne avec nos valeurs.
+            préférences, qui représentent nos valeurs&nbsp;: performance,
+            qualité et vélocité.
           </p>
           <div className="flex flex-col">
             <div className="flex flex-col md:flex-row md:justify-between">
@@ -114,8 +115,8 @@ export default function Stack() {
             Dans nos cordes
           </h3>
           <p className="pb-8">
-            Nous travaillons avec plaisir avec ces technologies plébiscitées par
-            nos clients.
+            Nous travaillons aussi avec plaisir avec ces technologies
+            plébiscitées par nos clients.
           </p>
           <div className="flex flex-col">
             <StackGroup title="Backend">
