@@ -30,6 +30,10 @@ export default function Services() {
           defaultOpen
         />
         <Disclosure
+          title="Mentorat"
+          content="Nous sommes passionnés par notre métier qui nécessite une veille assidue pour rester compétitif. Nous nous formons en continu pour délivrer notre apprentissage à vos équipes et leur donner les clés des bonnes pratiques du secteur."
+        />
+        <Disclosure
           title="Direction technique"
           content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. Nous savons recruter et encadrer votre future équipe de développeurs."
         />

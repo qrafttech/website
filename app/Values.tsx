@@ -28,7 +28,7 @@ export default function Values() {
           <p className="py-6">
             Nous avons pour vocation de vous garantir une application qui
             fonctionne non seulement à un instant T, mais qui peut être
-            améliorée et étendue avec la même vélocité au fur et à mesure que
+            améliorée et étendue avec la même agilité au fur et à mesure que
             votre produit évolue. Nous sommes fiers du code que nous livrons,
             aujourd&#39;hui comme dans 3 ans.
           </p>
@@ -53,9 +53,9 @@ export default function Values() {
         />
         <Value
           title="Honnêteté"
-          content="Zéro bullshit. Nous cultivons une politique de l&#39;écrit pour
-          que chacun puisse suivre l&#39;avancement du projet au grand jour. Nous
-          prônons la transparence, entre Qrafters et avec nos clients, pour avancer tous dans le même sens."
+          content="Zéro bullshit. Nous prônons la transparence, entre Qrafters et avec nos clients,
+          pour avancer tous dans le même sens. Nous cultivons une politique de l&#39;écrit pour
+          que chacun puisse suivre l&#39;avancement du projet au grand jour."
         />
         <Value
           title="Robustesse"
