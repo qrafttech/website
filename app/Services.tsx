@@ -30,12 +30,12 @@ export default function Services() {
           defaultOpen
         />
         <Disclosure
-          title="Design UX/UI (externe)"
-          content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n’est rien sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques ; ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
-        />
-        <Disclosure
           title="Direction technique"
           content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. Nous savons recruter et encadrer votre future équipe de développeurs."
+        />
+        <Disclosure
+          title="Design UX/UI (externe)"
+          content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n&#39;est rien sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques ; ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
         />
       </div>
       <Image
