@@ -39,7 +39,7 @@ export default function Team() {
       <div className="col-span-full flex flex-col items-center justify-end lg:col-span-1">
         <div className="relative mb-4 flex items-center justify-center max-xl:pt-8">
           <Image src={cloud} alt="Cloud to mimic a comic chat bubble" />
-          <p className="absolute text-center font-scribble text-xl uppercase text-[#059034]">
+          <p className="absolute text-center font-scribble text-lg uppercase text-[#059034]">
             Je comprends rien...
             <br />
             L&#39;élève dépasse le maître
