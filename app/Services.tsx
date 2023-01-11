@@ -25,21 +25,60 @@ export default function Services() {
           votre équipe de développeur.euse.s.
         </p>
         <Disclosure
-          title="Développement"
-          content="Nous construisons votre produit en vous proposant les technologies les plus adaptées à votre besoin. Nous avons nos préférences, alliant vélocité et robustesse, mais nous nous adaptons à vos contraintes."
+          title="Backend"
+          content={
+            <p>
+              Nous développons des backend performants et résilients pour servir
+              des APIs REST ou GraphQL. Nous nous basons sur des technologies
+              robustes et éprouvées comme Rails ou Node.js pour servir parfois
+              plus de 10,000&nbsp;req/s.
+              <br />
+              Pour des besoins spécifiques on pourra aussi vous proposer des
+              micro-services ou des clusters Elasticsearch, mais comptez sur
+              nous pour toujours choisir la solution la plus simple et
+              efficace&nbsp;!
+              <br />
+              <br />
+              Nos backends contiennent toute la logique métier de nos
+              applications et sont systématiquement couverts par des tests
+              unitaires et end-to-end et monitorés (erreurs et performances).
+            </p>
+          }
           defaultOpen
         />
         <Disclosure
+          title="Frontend (Web / Apps Mobile)"
+          content={
+            <p>
+              Chez Qraft on est fans de <strong>React</strong>. React permet de
+              construire des applications web complexes et interactives et de
+              vraies applications mobiles <strong>iOS</strong> et{" "}
+              <strong>Android</strong> (avec <strong>React Native</strong>) en
+              s&#39;appuyant sur un énorme écosystème de librairies et
+              composants.
+              <br />
+              Toutes nos applications sont responsives, mobile-first et
+              intègrent un design system comme celui Material UI ou Tailwind CSS
+              pour garantir une interface consistante et agréable.
+            </p>
+          }
+        />
+        <Disclosure
           title="Mentorat"
-          content="Nous sommes passionnés par notre métier qui nécessite une veille assidue pour rester compétitif. Nous nous formons en continu pour délivrer notre apprentissage à vos équipes et leur donner les clés des bonnes pratiques du secteur."
+          content="Nous sommes passionnés par notre métier qui nécessite une veille assidue pour rester compétitif.
+          Nous nous formons en continu pour délivrer notre apprentissage à vos équipes
+          et leur donner les clés des bonnes pratiques du secteur."
         />
         <Disclosure
           title="Direction technique"
-          content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. Nous savons recruter et encadrer votre future équipe de développeurs."
+          content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. 
+          Nous savons recruter et encadrer votre future équipe de développeurs."
         />
         <Disclosure
           title="Design UX/UI (externe)"
-          content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n&#39;est rien sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques ; ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
+          content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n&#39;est rien
+           sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques&nbsp; 
+           ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
         />
       </div>
       <Image
