@@ -28,8 +28,8 @@ export default function Values() {
           <p className="py-6">
             Nous avons pour vocation de vous garantir une application qui
             fonctionne non seulement à un instant T, mais qui peut être
-            améliorée et étendue avec justesse au fur et à mesure que votre
-            produit évolue. Nous sommes fier du code que nous livrons,
+            améliorée et étendue avec la même agilité au fur et à mesure que
+            votre produit évolue. Nous sommes fiers du code que nous livrons,
             aujourd&#39;hui comme dans 3 ans.
           </p>
         </div>
@@ -47,16 +47,15 @@ export default function Values() {
       <div className="grid grid-cols-1 py-16 sm:grid-cols-2 md:grid-cols-4">
         <Value
           title="Expertise"
-          content="Avec plus de 20 ans d&#39;expérience cumulée, nous connaissons les
-            tenants et aboutissants d&#39;un projet digital, les effets de mode,
-            les raccourcis fiables et ceux à éviter."
+          content="Avec plus de 10 ans d&#39;expérience, nous connaissons les
+            pièges d&#39;un projet digital, les effets de mode,
+            les raccourcis fiables et ceux à éviter. Nous aimons partager notre expérience avec vous, c'est ce qui nous fait vibrer."
         />
         <Value
           title="Honnêteté"
-          content="Zéro bullshit. Nous cultivons une politique de l&#39;écrit pour
-          chacun puisse suivre l&#39;avancement du projet au grand jour. Nous
-          évitons les blocages inutiles par fierté, et avançons tous dans le
-          même sens."
+          content="Zéro bullshit. Nous prônons la transparence, entre Qrafters et avec nos clients,
+          pour avancer tous dans le même sens. Nous cultivons une politique de l&#39;écrit pour
+          que chacun puisse suivre l&#39;avancement du projet au grand jour."
         />
         <Value
           title="Robustesse"
@@ -68,7 +67,7 @@ export default function Values() {
           title="Performance"
           content="Nous apportons la solution la plus simple à un problème donné, en
           utilisant les technologies les plus fiables et rapides, sans
-          artifices inutiles."
+          artifices inutiles. Les détails sont importants&nbsp;: vitesse et qualité sont étroitement liés."
         />
       </div>
     </div>

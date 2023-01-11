@@ -56,7 +56,8 @@ export default function Stack() {
           </h3>
           <p className="pb-8">
             Nous nous adaptons à votre stack technique, mais nous avons quelques
-            préférences, en ligne avec nos valeurs.
+            préférences, qui représentent nos valeurs&nbsp;: performance,
+            qualité et vélocité.
           </p>
           <div className="flex flex-col">
             <div className="flex flex-col md:flex-row md:justify-between">
@@ -106,16 +107,20 @@ export default function Stack() {
           </div>
         </div>
         <p className="order-1 px-8 text-zinc-500 xl:order-2 xl:mt-8">
-          PS : Quelques sociétés utilisants Rails en technologie principale :
-          Shopify, Airbnb, GitHub, Netflix, Doctolib, Swile...
+          PS : Quelques sociétés utilisant{" "}
+          <a className="underline" href="https://rubyonrails.org">
+            Rails
+          </a>{" "}
+          en technologie principale : Shopify, Airbnb, GitHub, Twitch, Coinbase,
+          Doctolib, Swile...
         </p>
         <div className="order-1 flex-[4_4_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
           <h3 className="pb-3 font-serif text-2xl font-bold">
             Dans nos cordes
           </h3>
           <p className="pb-8">
-            Nous travaillons avec plaisir avec ces technologies plébiscitées par
-            nos clients.
+            Nous travaillons aussi avec plaisir avec ces technologies
+            plébiscitées par nos clients.
           </p>
           <div className="flex flex-col">
             <StackGroup title="Backend">

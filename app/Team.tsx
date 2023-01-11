@@ -24,13 +24,13 @@ export default function Team() {
           <strong>Alexis</strong> et <strong>Nicolas</strong> ont une dizaine
           d&#39;années d&#39;expériences dans le développement et se sont
           rencontrés au sein d&#39;une startup fintech incubée par Facebook.
-          Après avoir travaillés ensemble sur plusieurs projets, ils décident de
+          Après avoir travaillé ensemble sur plusieurs projets, ils décident de
           s&#39;associer autour de valeurs communes en 2020&nbsp;:{" "}
           <strong>Qraft</strong> est né.
         </p>
         <p>
           Tous deux croient fortement aux profils atypiques, tant qu&#39;ils
-          sont motivés et font preuves de résilience. C&#39;est dans cette
+          sont motivés et font preuve de résilience. C&#39;est dans cette
           optique <strong>organique</strong> et <strong>pédagogue</strong> que
           Qraft compte aujourd&#39;hui 4 développeurs et s&#39;agrandit toujours
           plus, dans la <strong>bonne humeur</strong>&nbsp;!
@@ -39,7 +39,7 @@ export default function Team() {
       <div className="col-span-full flex flex-col items-center justify-end lg:col-span-1">
         <div className="relative mb-4 flex items-center justify-center max-xl:pt-8">
           <Image src={cloud} alt="Cloud to mimic a comic chat bubble" />
-          <p className="absolute text-center font-scribble text-xl uppercase text-[#059034]">
+          <p className="absolute text-center font-scribble text-lg uppercase text-[#059034]">
             Je comprends rien...
             <br />
             L&#39;élève dépasse le maître
@@ -51,31 +51,31 @@ export default function Team() {
           />
         </div>
         <div className="grid grid-cols-2 gap-2 sm:max-lg:gap-8 lg:gap-4 lg:px-8">
-          <div className="row-span-2 flex sm:col-span-1">
+          <div className="row-span-2 flex">
             <Image
               src={patioNicolas}
               alt="Picture of Nicolas from above in a the patio with a laptop looking surprised"
               placeholder="blur"
               className="border-8 border-white object-cover drop-shadow-lg"
-              width={640}
+              width={470}
             />
           </div>
-          <div className="flex sm:col-span-1">
+          <div className="flex">
             <Image
               src={officeMehdiNicolas}
               alt="Picture of Mehdi and Nicolas looking at code on a laptop screen in an office"
               placeholder="blur"
               className="border-8 border-white object-cover"
-              width={640}
+              width={470}
             />
           </div>
-          <div className="flex sm:col-span-1">
+          <div className="flex">
             <Image
               src={patioAlexisLili}
               alt="Picture of Alexis and Lili with a laptop smiling in the patio"
               placeholder="blur"
               className="border-8 border-white object-cover"
-              width={640}
+              width={470}
             />
           </div>
         </div>

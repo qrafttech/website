@@ -17,11 +17,9 @@ export default function Cover() {
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
               Qraft est une{" "}
-              <strong className="text-white">
-                agence de développement web
-              </strong>{" "}
-              qui vous accompagne dans la construction de votre application, API
-              ou infrastructure technique.
+              <strong className="text-white">agence de développement</strong>{" "}
+              qui vous accompagne dans la construction de votre application web,
+              mobile, API ou infrastructure technique.
             </p>
             <p className="pb-12 text-white/70">
               Notre équipe composée d&#39;experts de plus de{" "}
