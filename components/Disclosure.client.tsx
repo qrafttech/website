@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentType } from "react";
+import { ComponentType, ReactNode } from "react";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 
@@ -8,7 +8,7 @@ type ExtractProps<T> = T extends ComponentType<infer P> ? P : T;
 
 interface CustomDisclosureProps extends ExtractProps<typeof Disclosure> {
   title: string;
-  content: string;
+  content: ReactNode;
 }
 
 export default function CustomDisclosure({
