@@ -2,12 +2,14 @@ import Image from "next/image";
 
 import heroIllustrationMobile from "../public/images/hero-illustration-mobile.svg";
 import heroIllustrationDesktop from "../public/images/hero-illustration-desktop.svg";
+import Menu from "./Menu";
 
 export default function Cover() {
   return (
-    <div className="flex md:h-5/6">
-      <div className="flex flex-col-reverse md:flex-row">
-        <div className="flex flex-[6_6_0%] flex-col justify-center p-4">
+    <div className="space-between flex flex-col md:h-5/6">
+      <Menu />
+      <div className="flex flex-col-reverse pt-8 md:flex-row md:pt-24">
+        <div className="flex flex-[6_6_0%] flex-col justify-center">
           <h1 className="font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             La seule agence web{" "}
             <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
