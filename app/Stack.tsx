@@ -107,7 +107,7 @@ export default function Stack() {
           </div>
         </div>
         <p className="order-1 px-8 text-zinc-500 xl:order-2 xl:mt-8">
-          PS : Quelques sociétés utilisants Rails en technologie principale :
+          PS : Quelques sociétés utilisant Rails en technologie principale :
           Shopify, Airbnb, GitHub, Twitch, Coinbase, Doctolib, Swile...
         </p>
         <div className="order-1 flex-[4_4_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
