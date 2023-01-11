@@ -3,6 +3,7 @@ import Image from "next/image";
 import heroIllustrationMobile from "../public/images/hero-illustration-mobile.svg";
 import heroIllustrationDesktop from "../public/images/hero-illustration-desktop.svg";
 import Menu from "./Menu";
+import ContactUs from "./ContactUs";
 
 export default function Cover() {
   return (
@@ -33,12 +34,7 @@ export default function Cover() {
             </p>
           </div>
           <div className="max-md:hidden">
-            <button
-              type="button"
-              className="rounded-2xl border border-white bg-transparent px-6 py-4 text-sm font-medium text-white hover:bg-white/20 "
-            >
-              Nous contacter
-            </button>
+            <ContactUs className="px-6 py-4 text-lg" />
           </div>
         </div>
         <div className="flex flex-[4_4_0%] justify-center max-md:max-h-72">
