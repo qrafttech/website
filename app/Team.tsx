@@ -51,7 +51,7 @@ export default function Team() {
           />
         </div>
         <div className="grid grid-cols-2 gap-2 sm:max-lg:gap-8 lg:gap-4 lg:px-8">
-          <div className="row-span-2 flex sm:col-span-1">
+          <div className="row-span-2 flex">
             <Image
               src={patioNicolas}
               alt="Picture of Nicolas from above in a the patio with a laptop looking surprised"
@@ -60,7 +60,7 @@ export default function Team() {
               width={470}
             />
           </div>
-          <div className="flex sm:col-span-1">
+          <div className="flex">
             <Image
               src={officeMehdiNicolas}
               alt="Picture of Mehdi and Nicolas looking at code on a laptop screen in an office"
@@ -69,7 +69,7 @@ export default function Team() {
               width={470}
             />
           </div>
-          <div className="flex sm:col-span-1">
+          <div className="flex">
             <Image
               src={patioAlexisLili}
               alt="Picture of Alexis and Lili with a laptop smiling in the patio"
