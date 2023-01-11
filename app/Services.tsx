@@ -40,8 +40,8 @@ export default function Services() {
               <br />
               <br />
               Nos backends contiennent toute la logique métier de nos
-              applications et sont systématiquement couverts par des tests
-              unitaires et end-to-end et monitorés (erreurs et performances).
+              applications. Ils sont systématiquement couverts par des tests
+              (unitaires et end-to-end) et monitorés (erreurs et performances).
             </p>
           }
           defaultOpen
@@ -58,8 +58,8 @@ export default function Services() {
               composants.
               <br />
               Toutes nos applications sont responsives, mobile-first et
-              intègrent un design system comme celui Material UI ou Tailwind CSS
-              pour garantir une interface consistante et agréable.
+              intègrent un design system comme celui de Material UI ou Tailwind
+              CSS pour garantir une interface consistante et agréable.
             </p>
           }
         />
@@ -77,8 +77,8 @@ export default function Services() {
         <Disclosure
           title="Design UX/UI (externe)"
           content="Qraft est composé uniquement de développeur.euse.s, mais un produit performant n&#39;est rien
-           sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques&nbsp; 
-           ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
+           sans une bonne interface. Nous travaillons avec des designers créatifs et pragmatiques&nbsp;.
+           Ils connaissent les contraintes du développement et imaginent des interfaces utilisables et rapides à implémenter."
         />
       </div>
       <Image
