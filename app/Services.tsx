@@ -59,7 +59,7 @@ export default function Services() {
               <br />
               Toutes nos applications sont responsives, mobile-first et
               intègrent un design system comme celui de Material UI ou Tailwind
-              CSS pour garantir une interface consistante et agréable.
+              CSS pour garantir une interface cohérente et agréable.
             </p>
           }
         />
