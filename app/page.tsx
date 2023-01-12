@@ -8,11 +8,13 @@ import Values from "./Values";
 import Stack from "./Stack";
 import FluidContainer from "./FluidContainer";
 import Team from "./Team";
+import Menu from "./Menu.client";
 
 export default function Home() {
   return (
     <main>
       <div className="relative">
+        <Menu />
         <CoverBackground>
           <FluidContainer>
             <Cover />
