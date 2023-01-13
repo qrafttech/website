@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className="scroll-smooth">
       <head />
       <body
         className={`${montserrat.variable} ${sora.variable} ${scribbleNote.variable} font-sans font-medium`}
