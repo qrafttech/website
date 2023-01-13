@@ -8,11 +8,13 @@ import Values from "./Values";
 import Stack from "./Stack";
 import FluidContainer from "./FluidContainer";
 import Team from "./Team";
+import Menu from "./Menu.client";
 
 export default function Home() {
   return (
     <main>
       <div className="relative">
+        <Menu />
         <CoverBackground>
           <FluidContainer>
             <Cover />
@@ -25,20 +27,26 @@ export default function Home() {
           className="absolute -bottom-6 mx-auto max-md:left-0 max-md:right-0 md:right-20"
         />
       </div>
-      <FluidContainer>
+      <FluidContainer id="services">
         <div className="pt-20">
           <Services />
         </div>
       </FluidContainer>
-      <FluidContainer className="bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x md:bg-[url(/images/values-background-desktop.svg)]">
+      <FluidContainer
+        id="values"
+        className="bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x md:bg-[url(/images/values-background-desktop.svg)]"
+      >
         <div className="pt-20 xl:pb-40">
           <Values />
         </div>
       </FluidContainer>
-      <FluidContainer>
+      <FluidContainer id="stack">
         <Stack />
       </FluidContainer>
-      <FluidContainer className="bg-[url(/images/team-background.svg)]">
+      <FluidContainer
+        id="team"
+        className="bg-[url(/images/team-background.svg)]"
+      >
         <Team />
       </FluidContainer>
     </main>

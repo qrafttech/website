@@ -2,12 +2,13 @@ import Image from "next/image";
 
 import heroIllustrationMobile from "../public/images/hero-illustration-mobile.svg";
 import heroIllustrationDesktop from "../public/images/hero-illustration-desktop.svg";
+import ContactUs from "./ContactUs";
 
 export default function Cover() {
   return (
-    <div className="flex md:h-5/6">
-      <div className="flex flex-col-reverse md:flex-row">
-        <div className="flex flex-[6_6_0%] flex-col justify-center p-4">
+    <div className="space-between flex flex-col md:h-5/6">
+      <div className="flex flex-col-reverse pt-20 md:flex-row md:pt-52">
+        <div className="flex flex-[6_6_0%] flex-col justify-center">
           <h1 className="font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             La seule agence web{" "}
             <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
@@ -31,12 +32,7 @@ export default function Cover() {
             </p>
           </div>
           <div className="max-md:hidden">
-            <button
-              type="button"
-              className="rounded-2xl border border-white bg-transparent px-6 py-4 text-sm font-medium text-white hover:bg-white/20 "
-            >
-              Nous contacter
-            </button>
+            <ContactUs className="px-6 py-4 text-lg" />
           </div>
         </div>
         <div className="flex flex-[4_4_0%] justify-center max-md:max-h-72">
