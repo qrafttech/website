@@ -1,14 +1,14 @@
 import Image from "next/image";
 
-import Cover from "./Cover";
-import CoverBackground from "./CoverBackground";
-import Services from "./Services";
+import Cover from "./components/Cover";
+import CoverBackground from "./components/CoverBackground";
+import Services from "./components/Services";
 import sticker from "../public/images/sticker.svg";
-import Values from "./Values";
-import Stack from "./Stack";
-import FluidContainer from "./FluidContainer";
-import Team from "./Team";
-import Menu from "./Menu.client";
+import Values from "./components/Values";
+import Stack from "./components/Stack";
+import FluidContainer from "../components/FluidContainer";
+import Team from "./components/Team";
+import Menu from "./components/Menu.client";
 
 export default function Home() {
   return (
