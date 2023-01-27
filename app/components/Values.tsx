@@ -3,13 +3,14 @@ import Image from "next/image";
 import singingFrogWithCloudDesktop from "../../public/images/singing-frog-with-cloud-desktop.svg";
 import singingFrogWithCloudMobile from "../../public/images/singing-frog-with-cloud-mobile.svg";
 import underline from "../../public/images/underline.svg";
+import SectionTitle from "./SectionTitle";
 import Value from "./Value";
 
 export default function Values() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row md:items-end">
-        <div>
+        <div className="flex">
           <Image
             src={singingFrogWithCloudDesktop}
             alt="Frog with a crown singing a binary song"
@@ -22,9 +23,9 @@ export default function Values() {
           />
         </div>
         <div className="flex-1">
-          <h2 className="bg-gradient-to-r from-[#2650e1] to-[#1079f4] bg-clip-text py-4 font-serif text-5xl font-bold text-transparent">
+          <SectionTitle className="from-[#2650e1] to-[#1079f4] py-4">
             Traversons ensemble l&#39;épreuve du temps.
-          </h2>
+          </SectionTitle>
           <p className="py-6">
             Nous avons pour vocation de vous garantir une application qui
             fonctionne non seulement à un instant T, mais qui peut être
@@ -34,17 +35,17 @@ export default function Values() {
           </p>
         </div>
       </div>
-      <div className="relative my-8">
+      <div className="relative mt-16 mb-4">
         <Image
           src={underline}
           alt="Handrawing of a strike through to mimic an underline"
           className="absolute -bottom-4"
         />
-        <h3 className="p-8 font-serif text-4xl font-bold text-[#0074dd]">
+        <h3 className="pb-6 font-serif text-4xl font-bold text-[#0074dd]">
           Nos plus-values
         </h3>
       </div>
-      <div className="grid grid-cols-1 py-16 sm:grid-cols-2 md:grid-cols-4">
+      <div className="mt-8 mb-16 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
         <Value
           title="Expertise"
           content="Avec plus de 10 ans d&#39;expérience, nous connaissons les
