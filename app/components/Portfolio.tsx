@@ -6,6 +6,7 @@ import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg"
 import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import PortfolioItem from "./PortofolioItem";
+import SectionTitle from "./SectionTitle";
 
 export default function Portfolio() {
   return (
@@ -16,9 +17,9 @@ export default function Portfolio() {
           alt="Little star dancing with light rays"
           className="absolute -top-12 -left-32"
         />
-        <h2 className="bg-gradient-to-r from-[#e77c40] to-[#f8c618] bg-clip-text p-6 font-serif text-5xl font-bold text-transparent">
+        <SectionTitle className="from-[#e77c40] to-[#f8c618] p-6">
           Nos dernières victoires
-        </h2>
+        </SectionTitle>
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
         <PortfolioItem

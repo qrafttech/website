@@ -3,6 +3,7 @@ import Image from "next/image";
 import singingFrogWithCloudDesktop from "../../public/images/singing-frog-with-cloud-desktop.svg";
 import singingFrogWithCloudMobile from "../../public/images/singing-frog-with-cloud-mobile.svg";
 import underline from "../../public/images/underline.svg";
+import SectionTitle from "./SectionTitle";
 import Value from "./Value";
 
 export default function Values() {
@@ -22,9 +23,9 @@ export default function Values() {
           />
         </div>
         <div className="flex-1">
-          <h2 className="bg-gradient-to-r from-[#2650e1] to-[#1079f4] bg-clip-text py-4 font-serif text-5xl font-bold text-transparent">
+          <SectionTitle className="from-[#2650e1] to-[#1079f4] py-4">
             Traversons ensemble l&#39;épreuve du temps.
-          </h2>
+          </SectionTitle>
           <p className="py-6">
             Nous avons pour vocation de vous garantir une application qui
             fonctionne non seulement à un instant T, mais qui peut être

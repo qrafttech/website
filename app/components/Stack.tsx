@@ -27,6 +27,7 @@ import gem from "../../public/images/gem.svg";
 import paperCoffeeCup from "../../public/images/paper-coffee-cup.svg";
 import Logo from "../../components/Logo";
 import StackGroup from "./StackGroup";
+import SectionTitle from "./SectionTitle";
 
 export default function Stack() {
   return (
@@ -43,9 +44,9 @@ export default function Stack() {
           className="xl:absolute xl:-right-32 xl:-top-8"
         />
       </div>
-      <h2 className="bg-gradient-to-r from-[#d81746] to-[#fc45a8] bg-clip-text py-4 text-center font-serif text-5xl font-bold text-transparent">
+      <SectionTitle className="from-[#d81746] to-[#fc45a8] py-4 text-center">
         Nos armes de prédilection
-      </h2>
+      </SectionTitle>
       <p className="text-center">
         Le café et les gems ça vous parle ? Nous en sommes experts.
       </p>

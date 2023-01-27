@@ -4,6 +4,7 @@ import shiningStar from "../../public/images/shining-star.svg";
 import devicesDesktop from "../../public/images/devices-desktop.svg";
 import devicesMobile from "../../public/images/devices-mobile.svg";
 import Disclosure from "../../components/Disclosure.client";
+import SectionTitle from "./SectionTitle";
 
 export default function Services() {
   return (
@@ -15,9 +16,9 @@ export default function Services() {
             alt="Shining star for decoration"
             className="absolute -top-8 -left-16 max-lg:hidden"
           />
-          <h2 className="bg-gradient-to-r from-[#8732c8] to-[#db73ff] bg-clip-text py-4 font-serif text-5xl font-bold text-transparent">
+          <SectionTitle className="from-[#8732c8] to-[#db73ff] py-4">
             Nos loyaux services
-          </h2>
+          </SectionTitle>
         </div>
         <p className="py-6">
           Qraft oeuvre principalement dans le développement de votre application

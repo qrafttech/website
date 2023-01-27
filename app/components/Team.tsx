@@ -7,6 +7,7 @@ import dinosaur from "../../public/images/dinosaur.svg";
 import marseille from "../../public/images/marseille.svg";
 import bubbles from "../../public/images/bubbles.svg";
 import cloud from "../../public/images/cloud.svg";
+import SectionTitle from "./SectionTitle";
 
 export default function Team() {
   return (
@@ -17,9 +18,9 @@ export default function Team() {
           alt="Illustration of a dinosaur screaming 'Whoa!'"
           className="py-2"
         />
-        <h2 className="bg-gradient-to-r from-[#048e33] to-[#04b23f] bg-clip-text py-6 font-serif text-5xl font-bold text-transparent">
+        <SectionTitle className="from-[#048e33] to-[#04b23f] py-6">
           Les devs sur le front, comme sur le back&nbsp;!
-        </h2>
+        </SectionTitle>
         <p className="pb-6">
           <strong>Alexis</strong> et <strong>Nicolas</strong> ont une dizaine
           d&#39;années d&#39;expériences dans le développement et se sont
