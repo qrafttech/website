@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="fr" className="scroll-smooth">
       <head />
       <body
-        className={`${montserrat.variable} ${sora.variable} ${scribbleNote.variable} font-sans font-medium`}
+        className={`${montserrat.variable} ${sora.variable} ${scribbleNote.variable} font-sans text-base font-medium`}
       >
         {children}
       </body>
