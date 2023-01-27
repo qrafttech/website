@@ -45,7 +45,7 @@ export default function Values() {
           Nos plus-values
         </h3>
       </div>
-      <div className="mt-8 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+      <div className="mt-8 mb-16 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
         <Value
           title="Expertise"
           content="Avec plus de 10 ans d&#39;expérience, nous connaissons les
