@@ -16,7 +16,7 @@ export default function Portfolio() {
           alt="Little star dancing with light rays"
           className="absolute -top-12 -left-32"
         />
-        <h2 className="bg-gradient-to-r from-[#e77c40] to-[#f8c618] bg-clip-text py-6 font-serif text-5xl font-bold text-transparent">
+        <h2 className="bg-gradient-to-r from-[#e77c40] to-[#f8c618] bg-clip-text p-6 font-serif text-5xl font-bold text-transparent">
           Nos dernières victoires
         </h2>
       </div>
