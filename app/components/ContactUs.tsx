@@ -7,7 +7,11 @@ export default function ContactUs({ className }: ContactUsProps) {
   const subject = "Hello Qraft - Un petit mail après être allé sur votre site";
 
   return (
-    <a href={`mailto:${email}?subject=${subject}`}>
+    <a
+      href={`mailto:${email}?subject=${subject}`}
+      target="_blank"
+      rel="noreferrer"
+    >
       <button
         type="button"
         className={clsx(
