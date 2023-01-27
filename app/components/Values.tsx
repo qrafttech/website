@@ -10,7 +10,7 @@ export default function Values() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row md:items-end">
-        <div>
+        <div className="flex">
           <Image
             src={singingFrogWithCloudDesktop}
             alt="Frog with a crown singing a binary song"
