@@ -9,6 +9,7 @@ import Stack from "./components/Stack";
 import FluidContainer from "../components/FluidContainer";
 import Team from "./components/Team";
 import Menu from "./components/Menu.client";
+import Portfolio from "./components/Portfolio";
 
 export default function Home() {
   return (
@@ -48,6 +49,11 @@ export default function Home() {
         className="bg-[url(/images/team-background.svg)]"
       >
         <Team />
+      </FluidContainer>
+      <FluidContainer id="portfolio">
+        <div className="pt-16">
+          <Portfolio />
+        </div>
       </FluidContainer>
     </main>
   );
