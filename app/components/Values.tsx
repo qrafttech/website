@@ -35,17 +35,17 @@ export default function Values() {
           </p>
         </div>
       </div>
-      <div className="relative my-8">
+      <div className="relative mt-16 mb-4">
         <Image
           src={underline}
           alt="Handrawing of a strike through to mimic an underline"
           className="absolute -bottom-4"
         />
-        <h3 className="p-8 font-serif text-4xl font-bold text-[#0074dd]">
+        <h3 className="pb-6 font-serif text-4xl font-bold text-[#0074dd]">
           Nos plus-values
         </h3>
       </div>
-      <div className="grid grid-cols-1 py-16 sm:grid-cols-2 md:grid-cols-4">
+      <div className="mt-8 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
         <Value
           title="Expertise"
           content="Avec plus de 10 ans d&#39;expérience, nous connaissons les
