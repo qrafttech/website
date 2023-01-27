@@ -26,9 +26,7 @@ export default function CustomDisclosure({
               className={`${open ? "" : "rotate-180 transform"} h-8 w-8`}
             />
           </Disclosure.Button>
-          <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm">
-            {content}
-          </Disclosure.Panel>
+          <Disclosure.Panel className="p-4 text-sm">{content}</Disclosure.Panel>
         </div>
       )}
     </Disclosure>
