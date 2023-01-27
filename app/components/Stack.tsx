@@ -51,7 +51,7 @@ export default function Stack() {
         Le café et les gems ça vous parle ? Nous en sommes experts.
       </p>
       <div className="my-16 flex flex-col flex-wrap justify-center md:mx-8 md:max-xl:space-y-8 xl:flex-row xl:space-x-8">
-        <div className="order-1 flex-[6_6_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
+        <div className="order-1 flex-[6_6_0%] px-8 pt-8 md:rounded-3xl md:border-[1px] md:border-black">
           <h3 className="pb-3 font-serif text-2xl font-bold">
             Notre arsenal favori
           </h3>
