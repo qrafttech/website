@@ -1,7 +1,10 @@
+import type { AppProps } from "next/app";
 import { Montserrat, Sora } from "@next/font/google";
 import localFont from "@next/font/local";
 
-import "./globals.css";
+import Head from "../components/head";
+
+import "../globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -16,18 +19,14 @@ const scribbleNote = localFont({
   variable: "--font-scribble",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <html lang="fr" className="scroll-smooth">
-      <head />
+      <Head />
       <body
         className={`${montserrat.variable} ${sora.variable} ${scribbleNote.variable} font-sans text-base font-medium`}
       >
-        {children}
+        <Component {...pageProps} />
       </body>
     </html>
   );
