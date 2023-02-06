@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/20/solid";
 
