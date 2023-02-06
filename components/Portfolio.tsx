@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-import dancingStar from "../../public/images/dancing-star.svg";
-import embarqScreenshot from "../../public/images/embarq-screenshot.jpg";
-import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg";
-import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
-import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
+import dancingStar from "../public/images/dancing-star.svg";
+import embarqScreenshot from "../public/images/embarq-screenshot.jpg";
+import cevidentiaScreenshot from "../public/images/cevidentia-screenshot.jpg";
+import easiwareScreenshot from "../public/images/easiware-screenshot.jpg";
+import brunoScreenshot from "../public/images/bruno-screenshot.jpg";
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "./SectionTitle";
 

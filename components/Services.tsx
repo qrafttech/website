@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-import shiningStar from "../../public/images/shining-star.svg";
-import devicesDesktop from "../../public/images/devices-desktop.svg";
-import devicesMobile from "../../public/images/devices-mobile.svg";
-import Disclosure from "../../components/Disclosure.client";
+import shiningStar from "../public/images/shining-star.svg";
+import devicesDesktop from "../public/images/devices-desktop.svg";
+import devicesMobile from "../public/images/devices-mobile.svg";
+import Disclosure from "./Disclosure";
 import SectionTitle from "./SectionTitle";
 
 export default function Services() {

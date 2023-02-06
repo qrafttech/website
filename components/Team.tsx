@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-import officeMehdiNicolas from "../../public/images/office-mehdi-nicolas.jpg";
-import patioAlexisLili from "../../public/images/patio-alexis-lili.jpg";
-import patioNicolas from "../../public/images/patio-nicolas.jpg";
-import dinosaur from "../../public/images/dinosaur.svg";
-import marseille from "../../public/images/marseille.svg";
-import bubbles from "../../public/images/bubbles.svg";
-import cloud from "../../public/images/cloud.svg";
+import officeMehdiNicolas from "../public/images/office-mehdi-nicolas.jpg";
+import patioAlexisLili from "../public/images/patio-alexis-lili.jpg";
+import patioNicolas from "../public/images/patio-nicolas.jpg";
+import dinosaur from "../public/images/dinosaur.svg";
+import marseille from "../public/images/marseille.svg";
+import bubbles from "../public/images/bubbles.svg";
+import cloud from "../public/images/cloud.svg";
 import SectionTitle from "./SectionTitle";
 
 export default function Team() {
