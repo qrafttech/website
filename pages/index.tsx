@@ -8,7 +8,7 @@ import Values from "../components/Values";
 import Stack from "../components/Stack";
 import FluidContainer from "../components/FluidContainer";
 import Team from "../components/Team";
-import Menu from "../components/Menu.client";
+import Menu from "../components/Menu";
 import Portfolio from "../components/Portfolio";
 
 export default function Home() {
