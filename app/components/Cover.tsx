@@ -1,8 +1,5 @@
-import Image from "next/image";
 import Animation from "../../components/Animation.client";
 
-import heroIllustrationMobile from "../../public/images/hero-illustration-mobile.svg";
-import heroIllustrationDesktop from "../../public/images/hero-illustration-desktop.svg";
 import ContactUs from "./ContactUs";
 
 export default function Cover() {
