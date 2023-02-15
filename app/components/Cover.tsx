@@ -16,6 +16,7 @@ export default function Cover() {
               dont vous avez besoin
             </span>
           </h1>
+
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
               Qraft est une{" "}
@@ -36,14 +37,8 @@ export default function Cover() {
             <ContactUs className="px-6 py-4 text-lg" />
           </div>
         </div>
-        <div className="flex flex-[4_4_0%] justify-center max-md:max-h-72">
-          <Image
-            src={heroIllustrationMobile}
-            alt="Smiling doodle face and lightbulb"
-            className="heigth-auto w-5/6 md:hidden"
-            priority
-          />
-          <div className="w-5/6 pb-32 max-md:hidden">
+        <div className="flex flex-[4_4_0%] justify-center">
+          <div className="w-5/6 sm:max-md:h-72 max-sm:h-64 md:pb-32">
             <Animation src="animations/laughing-smile.riv" />
           </div>
         </div>
