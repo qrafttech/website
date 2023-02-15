@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Animation from "../../components/Animation.client";
 
 import heroIllustrationMobile from "../../public/images/hero-illustration-mobile.svg";
 import heroIllustrationDesktop from "../../public/images/hero-illustration-desktop.svg";
@@ -42,12 +43,9 @@ export default function Cover() {
             className="heigth-auto w-5/6 md:hidden"
             priority
           />
-          <Image
-            src={heroIllustrationDesktop}
-            alt="Smiling doodle face and lightbulb"
-            className="pb-32 max-md:hidden"
-            priority
-          />
+          <div className="w-5/6 pb-32 max-md:hidden">
+            <Animation src="animations/laughing-smile.riv" />
+          </div>
         </div>
       </div>
     </div>
