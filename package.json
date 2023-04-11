@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@next/font": "^13.0.7",
+    "@rive-app/react-canvas": "^3.0.35",
     "clsx": "^1.2.1",
     "next": "13.0.7",
     "react": "18.2.0",

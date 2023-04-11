@@ -1,7 +1,5 @@
-import Image from "next/image";
+import Animation from "../../components/Animation.client";
 
-import heroIllustrationMobile from "../../public/images/hero-illustration-mobile.svg";
-import heroIllustrationDesktop from "../../public/images/hero-illustration-desktop.svg";
 import ContactUs from "./ContactUs";
 
 export default function Cover() {
@@ -15,6 +13,7 @@ export default function Cover() {
               dont vous avez besoin
             </span>
           </h1>
+
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
               Qraft est une{" "}
@@ -35,19 +34,10 @@ export default function Cover() {
             <ContactUs className="px-6 py-4 text-lg" />
           </div>
         </div>
-        <div className="flex flex-[4_4_0%] justify-center max-md:max-h-72">
-          <Image
-            src={heroIllustrationMobile}
-            alt="Smiling doodle face and lightbulb"
-            className="heigth-auto w-5/6 md:hidden"
-            priority
-          />
-          <Image
-            src={heroIllustrationDesktop}
-            alt="Smiling doodle face and lightbulb"
-            className="pb-32 max-md:hidden"
-            priority
-          />
+        <div className="flex flex-[4_4_0%] justify-center">
+          <div className="w-5/6 sm:max-md:h-72 max-sm:h-64 md:pb-32">
+            <Animation src="animations/laughing-smile.riv" />
+          </div>
         </div>
       </div>
     </div>

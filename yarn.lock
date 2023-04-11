@@ -178,6 +178,18 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
+"@rive-app/canvas@1.0.98":
+  version "1.0.98"
+  resolved "https://registry.yarnpkg.com/@rive-app/canvas/-/canvas-1.0.98.tgz#36b75be962fbb77b6ef9c47a843efb3297e45300"
+  integrity sha512-dBsiM6ObIBHCUA/8RwCBDwlOSJ7+K3m4M0/OgPpgmvQ4Qw7d63ouSoOJxiwBeysu9dSqIVEXk9zR/pdqhAVCVQ==
+
+"@rive-app/react-canvas@^3.0.35":
+  version "3.0.35"
+  resolved "https://registry.yarnpkg.com/@rive-app/react-canvas/-/react-canvas-3.0.35.tgz#4749bd40851f35769880404f7d0590681527f63b"
+  integrity sha512-215d3bw57OZundZXnuLWWr8mtRW5iomzNZ6TdQ4+MaLxKKKX91cSI0ef8g0Tq9khgNTCyRt1morNOTDXMLbDZg==
+  dependencies:
+    "@rive-app/canvas" "1.0.98"
+
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
