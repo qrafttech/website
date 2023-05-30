@@ -15,7 +15,7 @@ export default function Portfolio() {
         <Image
           src={dancingStar}
           alt="Little star dancing with light rays"
-          className="absolute -top-12 -left-32"
+          className="absolute -top-12 -left-32 animate-grow-and-shrink"
         />
         <SectionTitle className="from-[#e77c40] to-[#f8c618] p-6">
           Nos dernières victoires

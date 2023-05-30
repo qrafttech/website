@@ -2,6 +2,8 @@ import Image from "next/image";
 
 import singingFrogWithCloudDesktop from "../../public/images/singing-frog-with-cloud-desktop.svg";
 import singingFrogWithCloudMobile from "../../public/images/singing-frog-with-cloud-mobile.svg";
+import singingFrog from "../../public/images/singing-frog.svg";
+import rainMovingCloud from "../../public/images/rain-moving-cloud.svg";
 import underline from "../../public/images/underline.svg";
 import SectionTitle from "./SectionTitle";
 import Value from "./Value";
@@ -10,17 +12,31 @@ export default function Values() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row md:items-end">
-        <div className="flex">
-          <Image
-            src={singingFrogWithCloudDesktop}
-            alt="Frog with a crown singing a binary song"
-            className="flex-1 p-4 max-md:hidden"
-          />
-          <Image
-            src={singingFrogWithCloudMobile}
-            alt="Frog with a crown singing a binary song"
-            className="flex-1 p-4 md:hidden"
-          />
+        <div className="flex flex-col">
+          <div className="flex">
+            <Image
+              src={rainMovingCloud}
+              alt="A rainy cloud"
+              className="flex-1 animate-slide-in p-4 max-md:hidden"
+            />
+            <Image
+              src={rainMovingCloud}
+              alt="A rainy cloud"
+              className="flex-1 animate-slide-in p-4 md:hidden"
+            />
+          </div>
+          <div className="flex">
+            <Image
+              src={singingFrog}
+              alt="Frog with a crown singing a binary song"
+              className="flex-1 p-4 max-md:hidden"
+            />
+            <Image
+              src={singingFrog}
+              alt="Frog with a crown singing a binary song"
+              className="flex-1 p-4 md:hidden"
+            />
+          </div>
         </div>
         <div className="flex-1">
           <SectionTitle className="from-[#2650e1] to-[#1079f4] py-4">

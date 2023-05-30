@@ -36,12 +36,12 @@ export default function Stack() {
         <Image
           src={paperCoffeeCup}
           alt="Paper coffee cup to go with scribbled name"
-          className="max-xl:pt-8 xl:absolute xl:top-20 xl:-left-44"
+          className="animate-waving-hand max-xl:pt-8 xl:absolute xl:top-20 xl:-left-44"
         />
         <Image
           src={gem}
           alt="Decorative pink gem"
-          className="xl:absolute xl:-right-32 xl:-top-8"
+          className="animate-spin-slow xl:absolute xl:-right-32 xl:-top-8"
         />
       </div>
       <SectionTitle className="from-[#d81746] to-[#fc45a8] py-4 text-center">
