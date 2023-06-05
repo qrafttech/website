@@ -41,7 +41,7 @@ export default function Home() {
           <Values />
         </div>
       </FluidContainer>
-      <FluidContainer id="stack">
+      <FluidContainer id="stack" className="overflow-x-hidden">
         <Stack />
       </FluidContainer>
       <FluidContainer
