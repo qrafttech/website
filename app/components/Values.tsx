@@ -10,7 +10,7 @@ import Value from "./Value";
 
 export default function Values() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       <div className="flex flex-col md:flex-row md:items-end">
         <div className="p-4">
           <Image
