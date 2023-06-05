@@ -35,13 +35,13 @@ export default function Home() {
       </FluidContainer>
       <FluidContainer
         id="values"
-        className="bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x md:bg-[url(/images/values-background-desktop.svg)]"
+        className="overflow-x-clip bg-[url(/images/values-background-mobile.svg)] bg-center bg-repeat-x md:bg-[url(/images/values-background-desktop.svg)]"
       >
         <div className="pt-20 xl:pb-40">
           <Values />
         </div>
       </FluidContainer>
-      <FluidContainer id="stack">
+      <FluidContainer id="stack" className="overflow-x-clip">
         <Stack />
       </FluidContainer>
       <FluidContainer

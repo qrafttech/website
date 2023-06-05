@@ -31,17 +31,17 @@ import SectionTitle from "./SectionTitle";
 
 export default function Stack() {
   return (
-    <div className="relative flex flex-col justify-center">
-      <div className="flex items-start justify-around">
+    <div className="flex flex-col justify-center">
+      <div className="relative flex items-start justify-around">
         <Image
           src={paperCoffeeCup}
           alt="Paper coffee cup to go with scribbled name"
-          className="max-xl:pt-8 xl:absolute xl:top-20 xl:-left-44"
+          className="animate-waving-hand max-xl:pt-8 xl:absolute xl:top-20 xl:-left-44"
         />
         <Image
           src={gem}
           alt="Decorative pink gem"
-          className="xl:absolute xl:-right-32 xl:-top-8"
+          className="animate-spin-slow xl:absolute xl:-right-32 xl:-top-8"
         />
       </div>
       <SectionTitle className="from-[#d81746] to-[#fc45a8] py-4 text-center">
