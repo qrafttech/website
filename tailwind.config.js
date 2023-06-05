@@ -30,12 +30,12 @@ module.exports = {
           "60%": { transform: "rotate(0.0deg)" },
           "100%": { transform: "rotate(0.0deg)" },
         },
-        grow_and_shrink: {
+        "grow-and-shrink": {
           "0%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.5)" },
           "100%": { transform: "scale(1)" },
         },
-        slide_in: {
+        "slide-in": {
           from: { transform: "translateX(100%)" },
           to: { transform: "translateX(0%)" },
         },
@@ -43,8 +43,8 @@ module.exports = {
       animation: {
         "waving-hand": "wave 2s linear infinite",
         "spin-slow": "spin 15s linear infinite",
-        "grow-and-shrink": "grow_and_shrink 5s infinite",
-        "slide-in": "slide_in 10s",
+        "grow-and-shrink": "grow-and-shrink 5s infinite",
+        "slide-in": "slide-in 10s",
       },
     },
   },
