@@ -31,8 +31,8 @@ import SectionTitle from "./SectionTitle";
 
 export default function Stack() {
   return (
-    <div className="relative flex flex-col justify-center">
-      <div className="flex items-start justify-around">
+    <div className="flex flex-col justify-center">
+      <div className="relative flex items-start justify-around">
         <Image
           src={paperCoffeeCup}
           alt="Paper coffee cup to go with scribbled name"
