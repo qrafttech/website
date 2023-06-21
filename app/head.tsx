@@ -1,5 +1,5 @@
 export default function Head() {
-  const title = "Qraft - La seule agence web dont vous avez besoin";
+  const title = "Qraft - Construisons ensemble des applications web de qualité";
   const url = "https://qraft.tech";
   const description =
     "Qraft est une agence de développement qui vous accompagne dans la construction de votre application web, mobile, API ou infrastructure technique.";
