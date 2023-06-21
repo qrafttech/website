@@ -10,6 +10,9 @@ import cloud from "../../public/images/cloud.svg";
 import SectionTitle from "./SectionTitle";
 
 export default function Team() {
+  const email = "hello@qraft.tech";
+  const subject = "Hello Qraft - J'aimerais vous rejoindre !";
+
   return (
     <div className="grid grid-cols-2 py-16">
       <div className="col-span-full lg:col-span-1">
@@ -30,20 +33,44 @@ export default function Team() {
           <strong>Qraft</strong> est né.
         </p>
         <p>
-          Tous deux croient fortement aux profils atypiques, tant qu&#39;ils
-          sont motivés et font preuve de résilience. C&#39;est dans cette
-          optique <strong>organique</strong> et <strong>pédagogue</strong> que
-          Qraft compte aujourd&#39;hui 4 développeurs et s&#39;agrandit toujours
-          plus, dans la <strong>bonne humeur</strong>&nbsp;!
+          Qraft s&#39;est construit autour de l&#39;idée qu&#39;une équipe de
+          développeurs.euses <strong>talentueux.ses et passionné.e.s</strong>{" "}
+          doit être composée de profils variés et issus de parcours différents.{" "}
+          <strong>La diversité est une force</strong>&nbsp;: nous recrutons des
+          hommes et des femmes à fort potentiel, en reconversion vers le
+          développement à travers des bootcamps de code reconnus comme{" "}
+          <a
+            className="underline"
+            target="_blank"
+            href="https://www.lewagon.com"
+            rel="noreferrer"
+          >
+            Le Wagon,
+          </a>{" "}
+          tout comme des ingénieur.e.s issu.e.s d&#39;écoles spécialisées, comme{" "}
+          <a
+            className="underline"
+            target="_blank"
+            href="https://www.epitech.eu"
+            rel="noreferrer"
+          >
+            Epitech
+          </a>
+          .
         </p>
+        <a
+          href={`mailto:${email}?subject=${subject}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Rejoignez-nous&nbsp;!
+        </a>
       </div>
       <div className="col-span-full flex flex-col items-center justify-end lg:col-span-1">
         <div className="relative mb-4 flex items-center justify-center max-xl:pt-8">
           <Image src={cloud} alt="Cloud to mimic a comic chat bubble" />
-          <p className="absolute text-center font-scribble text-lg uppercase text-[#059034]">
-            Je comprends rien...
-            <br />
-            L&#39;élève dépasse le maître
+          <p className="absolute font-scribble text-lg uppercase text-[#059034]">
+            N&#39;oublions pas les tests...
           </p>
           <Image
             src={bubbles}
