@@ -33,7 +33,7 @@ export default function Team() {
           <strong>Qraft</strong> est né.
         </p>
         <p>
-          Qraft s&#39;est construite autour de l&#39;idée qu&#39;une équipe de
+          Qraft s&#39;est construit autour de l&#39;idée qu&#39;une équipe de
           développeurs.euses <strong>talentueux.ses et passionné.e.s</strong>{" "}
           doit être composée de profils variés et issus de parcours différents.{" "}
           <strong>La diversité est une force</strong>&nbsp;: nous recrutons des
