@@ -10,7 +10,7 @@ export default function Cover() {
           <h1 className="font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Construisons ensemble{" "}
             <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
-              des applications web de qualité
+              des applications de qualité
             </span>
           </h1>
 
