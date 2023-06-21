@@ -46,7 +46,7 @@ export default function Home() {
       </FluidContainer>
       <FluidContainer
         id="team"
-        className="bg-[url(/images/team-background.svg)]"
+        className="bg-[url(/images/team-background.svg)] lg:bg-repeat-x"
       >
         <Team />
       </FluidContainer>
