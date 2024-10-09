@@ -17,15 +17,17 @@ export default function Cover() {
 
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
-              Qraft est une{" "}
-              <strong className="text-white">agence de développement</strong>{" "}
-              qui vous accompagne dans la construction de votre application web,
-              mobile, API ou infrastructure technique.
+              Qraft est une équipe{" "}
+              <strong className="text-white">
+                d&#39;expert.e.s techniques
+              </strong>{" "}
+              qui vous accompagnent dans la construction de votre application
+              web, mobile, API ou infrastructure.
             </p>
             <p className="pb-12 text-white/70">
-              Notre équipe composée d&#39;experts de plus de{" "}
+              Nos développeur.euse.s de plus de{" "}
               <strong className="text-white">10 années d&#39;expérience</strong>{" "}
-              met l&#39;accent sur la{" "}
+              mettent l&#39;accent sur la{" "}
               <strong className="text-white">qualité</strong> et la{" "}
               <strong className="text-white">performance</strong> de votre
               service, <strong className="text-white">dans la durée.</strong>
