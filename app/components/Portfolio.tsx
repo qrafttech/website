@@ -4,6 +4,7 @@ import dancingStar from "../../public/images/dancing-star.svg";
 import embarqScreenshot from "../../public/images/embarq-screenshot.jpg";
 import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg";
 import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
+import billiScreenshot from "../../public/images/billi-screenshot.jpg";
 import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "./SectionTitle";
@@ -23,23 +24,27 @@ export default function Portfolio() {
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
         <PortfolioItem
-          title="Embarq"
+          title="Billi"
+          detailsUrl="https://qrafttech.notion.site/Billi-113218ed56d780fc80b2e505d206aa5b"
+          company={{ name: "billi.so", url: "https://billi.so" }}
           image={
             <Image
-              src={embarqScreenshot}
-              alt="Screenshot of the Embarq application"
+              src={billiScreenshot}
+              alt="Screenshot of Billi application"
               placeholder="blur"
             />
           }
-          description="Application de gestion de portage salarial à destination des
-          administrateurs (B2B) et des salariés portés (B2C). Edition de
-          contrats, génération de factures, signature électronique,
-          Compte-rendu d'activité, Notes de frais..."
-          stack="Rails API, Postgres, Redis, GraphQL, Next.js, MUI, Heroku, AWS"
-          integrations="Docusign, Upflow, Sendgrid"
+          description="
+          Application SaaS conçue pour simplifier la gestion des cabinets de freelances et 
+          des entreprises de management intérimaire : automatisation des tâches administratives
+           comme la génération de contrats, factures, notes de frais, et compte-rendu d’activités."
+          stack="Rails API, Postgres, Redis, Next.js, Tailwind CSS, Scalingo, AWS"
+          integrations="YouSign, Postmark"
         />
         <PortfolioItem
           title="C'Evidentia"
+          detailsUrl="https://qrafttech.notion.site/C-Evidentia-113218ed56d78053a1e2f7759ed2e8f8"
+          company={{ name: "cevidentia.com", url: "https://cevidentia.com" }}
           image={
             <Image
               src={cevidentiaScreenshot}
@@ -55,6 +60,8 @@ export default function Portfolio() {
         />
         <PortfolioItem
           title="easiware"
+          detailsUrl="https://qrafttech.notion.site/easiware-119218ed56d7800b8a3de88b12da2619"
+          company={{ name: "easiware.com", url: "https://easiware.com" }}
           image={
             <Image
               src={easiwareScreenshot}
@@ -69,7 +76,27 @@ export default function Portfolio() {
           integrations="Auth0, Postmark"
         />
         <PortfolioItem
+          title="Embarq"
+          detailsUrl="https://qrafttech.notion.site/Embarq-118218ed56d780e19285de1f8de1d95f"
+          company={{ name: "embarq.fr", url: "https://embarq.fr" }}
+          image={
+            <Image
+              src={embarqScreenshot}
+              alt="Screenshot of the Embarq application"
+              placeholder="blur"
+            />
+          }
+          description="Application de gestion de portage salarial à destination des
+        administrateurs (B2B) et des salariés portés (B2C). Edition de
+        contrats, génération de factures, signature électronique,
+        Compte-rendu d'activité, Notes de frais..."
+          stack="Rails API, Postgres, Redis, GraphQL, Next.js, MUI, Heroku, AWS"
+          integrations="Docusign, Upflow, Sendgrid"
+        />
+        <PortfolioItem
           title="Bruno"
+          detailsUrl="https://qrafttech.notion.site/Bruno-120218ed56d780f7818bc1148249adf5"
+          company={{ name: "hibruno.com", url: "https://hibruno.com" }}
           image={
             <Image
               src={brunoScreenshot}
