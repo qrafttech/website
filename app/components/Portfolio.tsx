@@ -24,6 +24,8 @@ export default function Portfolio() {
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
         <PortfolioItem
           title="Embarq"
+          detailsUrl="https://qrafttech.notion.site/Embarq-118218ed56d780e19285de1f8de1d95f"
+          company={{ name: "embarq.fr", url: "https://embarq.fr" }}
           image={
             <Image
               src={embarqScreenshot}
@@ -40,6 +42,8 @@ export default function Portfolio() {
         />
         <PortfolioItem
           title="C'Evidentia"
+          detailsUrl="https://qrafttech.notion.site/C-Evidentia-113218ed56d78053a1e2f7759ed2e8f8"
+          company={{ name: "cevidentia.com", url: "https://cevidentia.com" }}
           image={
             <Image
               src={cevidentiaScreenshot}
@@ -55,6 +59,8 @@ export default function Portfolio() {
         />
         <PortfolioItem
           title="easiware"
+          detailsUrl="https://qrafttech.notion.site/easiware-119218ed56d7800b8a3de88b12da2619"
+          company={{ name: "easiware.com", url: "https://easiware.com" }}
           image={
             <Image
               src={easiwareScreenshot}
@@ -70,6 +76,8 @@ export default function Portfolio() {
         />
         <PortfolioItem
           title="Bruno"
+          detailsUrl="https://qrafttech.notion.site/Bruno-120218ed56d780f7818bc1148249adf5"
+          company={{ name: "hibruno.com", url: "https://hibruno.com" }}
           image={
             <Image
               src={brunoScreenshot}
