@@ -2,7 +2,7 @@
 
 [![Lint](https://github.com/qrafttech/website/actions/workflows/lint.yml/badge.svg)](https://github.com/qrafttech/website/actions/workflows/lint.yml)
 
-Website for the **Qraft** software engineering agency; powered by [_Next.js_](https://nextjs.org/) and [_Tailwind CSS_](https://tailwindcss.com/).
+Website for the **Qraft** software engineering company; powered by [_Next.js_](https://nextjs.org/) and [_Tailwind CSS_](https://tailwindcss.com/).
 
 ## Installation
 
