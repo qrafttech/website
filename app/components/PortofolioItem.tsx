@@ -6,9 +6,9 @@ interface PortfolioItemProps {
   title: string;
   description: ReactNode;
   detailsUrl: string;
-  company: { name: string; url: string };
+  companyUrl: string;
   stack: string;
-  integrations: string;
+  integrations?: string;
 }
 
 export default function PortfolioItem({
@@ -17,7 +17,7 @@ export default function PortfolioItem({
   description,
   stack,
   detailsUrl,
-  company,
+  companyUrl,
   integrations,
 }: PortfolioItemProps) {
   return (
@@ -30,9 +30,10 @@ export default function PortfolioItem({
             className="flex gap-2 text-sm underline"
             target="_blank"
             rel="noopener noreferrer"
-            href={company.url}
+            href={companyUrl}
           >
-            {company.name} <ArrowTopRightOnSquareIcon width={12} />
+            {companyUrl.replace(/^https?:\/\//, "")}{" "}
+            <ArrowTopRightOnSquareIcon width={12} />
           </a>
         </div>
       </a>
@@ -44,12 +45,14 @@ export default function PortfolioItem({
             {stack}
           </em>
         </li>
-        <li>
-          <em>
-            <strong>Intégrations&nbsp;: </strong>
-            {integrations}
-          </em>
-        </li>
+        {integrations && (
+          <li>
+            <em>
+              <strong>Intégrations&nbsp;: </strong>
+              {integrations}
+            </em>
+          </li>
+        )}
       </ul>
     </div>
   );
