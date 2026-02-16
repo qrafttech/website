@@ -1,5 +1,5 @@
-import { Montserrat, Sora } from "@next/font/google";
-import localFont from "@next/font/local";
+import { Montserrat, Sora } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
