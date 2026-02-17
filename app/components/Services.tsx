@@ -29,20 +29,19 @@ export default function Services() {
           title="Backend"
           content={
             <p>
-              Nous développons des backend performants et résilients pour servir
-              des APIs REST ou GraphQL. Nous nous basons sur des technologies
-              robustes et éprouvées comme Rails ou Node.js pour servir parfois
-              plus de 10,000&nbsp;req/s.
-              <br />
-              Pour des besoins spécifiques on pourra aussi vous proposer des
-              micro-services ou des clusters Elasticsearch, mais comptez sur
-              nous pour toujours choisir la solution la plus simple et
-              efficace&nbsp;!
+              Nous concevons des backends robustes avec Rails et Node.js :
+              APIs REST ou GraphQL, jobs asynchrones, intégrations tierces et
+              pipelines IA.
               <br />
               <br />
-              Nos backends contiennent toute la logique métier de nos
-              applications. Ils sont systématiquement couverts par des tests
-              (unitaires et end-to-end) et monitorés (erreurs et performances).
+              Notre philosophie : la solution la plus simple qui tient en
+              production. Pas de micro-services quand un monolithe bien
+              structuré suffit, pas d&#39;infrastructure sur-dimensionnée quand
+              une architecture classique fait le travail.
+              <br />
+              <br />
+              Tout ce qu&#39;on livre est testé, monitoré et pensé pour évoluer
+              avec votre produit.
             </p>
           }
           defaultOpen
