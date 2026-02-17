@@ -33,6 +33,7 @@ export default function Portfolio() {
               src={chloeScreenshot}
               alt="Screenshots of the Chloé à la plage landing page"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="Création d'une landing page événementielle, disponible en 7 langues, pour accompagner le lancement
@@ -48,6 +49,7 @@ export default function Portfolio() {
               src={billiScreenshot}
               alt="Screenshot of Billi application"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="
@@ -66,6 +68,7 @@ export default function Portfolio() {
               src={cevidentiaScreenshot}
               alt="Screenshot of the C'Evidentia e-commerce website and application"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="Application d'essayage et de vente de lunettes en ligne :
@@ -83,6 +86,7 @@ export default function Portfolio() {
               src={easiwareScreenshot}
               alt="Screenshot of the easiware customer care solution"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="Outil conversationnel multicanal pour gérer le support client.
@@ -100,6 +104,7 @@ export default function Portfolio() {
               src={embarqScreenshot}
               alt="Screenshot of the Embarq application"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="Application de gestion de portage salarial à destination des
@@ -118,6 +123,7 @@ export default function Portfolio() {
               src={brunoScreenshot}
               alt="Screenshot of the Bruno fintech app"
               placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           }
           description="Micro-épargne intelligente basée sur une analyse de vos dépenses

@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import singingFrogWithCloudDesktop from "../../public/images/singing-frog-with-cloud-desktop.svg";
-import singingFrogWithCloudMobile from "../../public/images/singing-frog-with-cloud-mobile.svg";
 import singingFrog from "../../public/images/singing-frog.svg";
 import rainMovingCloud from "../../public/images/rain-moving-cloud.svg";
 import underline from "../../public/images/underline.svg";

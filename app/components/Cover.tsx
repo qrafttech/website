@@ -1,6 +1,13 @@
-import Animation from "../../components/Animation.client";
+"use client";
+
+import dynamic from "next/dynamic";
 
 import ContactUs from "./ContactUs";
+
+const Animation = dynamic(
+  () => import("../../components/Animation.client"),
+  { ssr: false }
+);
 
 export default function Cover() {
   return (
@@ -11,13 +18,13 @@ export default function Cover() {
             Construisons ensemble
             <br />
             <span className="bg-gradient-to-r from-[#d582fc] to-[#95b2fd] bg-clip-text text-transparent opacity-90">
-              des applications de qualité
+              des applications de qualit&#233;
             </span>
           </h1>
 
           <div className="lg:text-lg">
             <p className="py-6 text-white/70">
-              Qraft est une équipe{" "}
+              Qraft est une &#233;quipe{" "}
               <strong className="text-white">
                 d&#39;expert.e.s techniques
               </strong>{" "}
@@ -25,12 +32,12 @@ export default function Cover() {
               web, mobile, API ou infrastructure.
             </p>
             <p className="pb-12 text-white/70">
-              Nos développeur.euse.s de plus de{" "}
-              <strong className="text-white">10 années d&#39;expérience</strong>{" "}
+              Nos d&#233;veloppeur.euse.s de plus de{" "}
+              <strong className="text-white">10 ann&#233;es d&#39;exp&#233;rience</strong>{" "}
               mettent l&#39;accent sur la{" "}
-              <strong className="text-white">qualité</strong> et la{" "}
+              <strong className="text-white">qualit&#233;</strong> et la{" "}
               <strong className="text-white">performance</strong> de votre
-              service, <strong className="text-white">dans la durée.</strong>
+              service, <strong className="text-white">dans la dur&#233;e.</strong>
             </p>
           </div>
           <div className="max-md:hidden">

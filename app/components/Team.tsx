@@ -86,6 +86,7 @@ export default function Team() {
               placeholder="blur"
               className="border-8 border-white object-cover drop-shadow-lg"
               width={470}
+              sizes="(max-width: 1024px) 50vw, 25vw"
             />
           </div>
           <div className="flex">
@@ -95,6 +96,7 @@ export default function Team() {
               placeholder="blur"
               className="border-8 border-white object-cover"
               width={470}
+              sizes="(max-width: 1024px) 50vw, 25vw"
             />
           </div>
           <div className="flex">
@@ -104,6 +106,7 @@ export default function Team() {
               placeholder="blur"
               className="border-8 border-white object-cover"
               width={470}
+              sizes="(max-width: 1024px) 50vw, 25vw"
             />
           </div>
         </div>
