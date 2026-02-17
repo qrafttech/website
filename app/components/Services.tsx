@@ -22,8 +22,8 @@ export default function Services() {
         </div>
         <p className="py-6">
           Qraft oeuvre principalement dans le développement de votre application
-          à partir de zéro, mais peut aussi construire et encadrer techniquement
-          votre équipe de développeur.euse.s.
+          à partir de zéro - du backend à l&#39;IA - mais peut aussi construire
+          et encadrer techniquement votre équipe de développeur.euse.s.
         </p>
         <Disclosure
           title="Backend"
@@ -65,6 +65,24 @@ export default function Services() {
           }
         />
         <Disclosure
+          title="Intelligence Artificielle"
+          content={
+            <p>
+              Côté IA : nous intégrons des LLMs (GPT, Claude, modèles
+              open-source) dans vos applications, construisons des systèmes de
+              RAG (Retrieval-Augmented Generation) pour exploiter vos données
+              métier, et développons des agents IA qui automatisent vos
+              processus répétitifs.
+              <br />
+              <br />
+              Notre approche : la même rigueur que pour le reste. Pas de démo
+              magique qui ne tient pas en production, mais des intégrations
+              testées, monitorées et pensées pour durer. On avance vite sur le
+              sujet - et on vous embarque avec nous.
+            </p>
+          }
+        />
+        <Disclosure
           title="Mentorat"
           content="Nous sommes passionnés par notre métier qui nécessite une veille assidue pour rester compétitif.
           Nous nous formons en continu pour délivrer notre apprentissage à vos équipes
@@ -72,8 +90,8 @@ export default function Services() {
         />
         <Disclosure
           title="Direction technique"
-          content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups. 
-          Nous savons recruter et encadrer votre future équipe de développeurs."
+          content="Les expert.e.s de Qraft ont été CTO ou VP Engineering dans plusieurs startups.
+          Nous savons recruter et encadrer votre future équipe de développeur.euse.s."
         />
         <Disclosure
           title="Design UX/UI (externe)"

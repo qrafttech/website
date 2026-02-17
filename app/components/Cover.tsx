@@ -21,8 +21,8 @@ export default function Cover() {
               <strong className="text-white">
                 d&#39;expert.e.s techniques
               </strong>{" "}
-              qui vous accompagnent dans la construction de votre application
-              web, mobile, API ou infrastructure.
+              qui vous accompagnent dans la construction de vos produits
+              digitaux : applications web et mobile, APIs, intégrations IA.
             </p>
             <p className="pb-12 text-white/70">
               Nos développeur.euse.s de plus de{" "}

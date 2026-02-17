@@ -27,10 +27,11 @@ export default function Team() {
         <p className="pb-6">
           <strong>Alexis</strong> et <strong>Nicolas</strong> ont une dizaine
           d&#39;années d&#39;expériences dans le développement et se sont
-          rencontrés au sein d&#39;une startup fintech incubée par Facebook.
-          Après avoir travaillé ensemble sur plusieurs projets, ils décident de
+          rencontrés au sein d&#39;une startup fintech incubée par Meta. Après
+          avoir travaillé ensemble sur plusieurs projets, ils décident de
           s&#39;associer autour de valeurs communes en 2020&nbsp;:{" "}
-          <strong>Qraft</strong> est né.
+          <strong>Qraft</strong> est né. Aujourd&#39;hui, Qraft c&#39;est une
+          équipe de 4 développeur.euse.s passionné.e.s, basée à Marseille.
         </p>
         <p>
           Qraft s&#39;est construit autour de l&#39;idée qu&#39;une équipe de

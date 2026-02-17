@@ -48,7 +48,7 @@ export default function Stack() {
         Nos armes de prédilection
       </SectionTitle>
       <p className="text-center">
-        Le café et les gems ça vous parle ? Nous en sommes experts.
+        De Rails à l&#39;IA, on maîtrise la stack qu&#39;il vous faut.
       </p>
       <div className="my-16 flex flex-col flex-wrap justify-center md:mx-8 md:max-xl:space-y-8 xl:flex-row xl:space-x-8">
         <div className="order-1 flex-[6_6_0%] px-8 pt-8 md:rounded-3xl md:border-[1px] md:border-black">
@@ -107,14 +107,6 @@ export default function Stack() {
             </div>
           </div>
         </div>
-        <p className="order-1 px-8 text-zinc-500 xl:order-2 xl:mt-8">
-          PS : Quelques sociétés utilisant{" "}
-          <a className="underline" href="https://rubyonrails.org">
-            Rails
-          </a>{" "}
-          en technologie principale : Shopify, Airbnb, GitHub, Twitch, Coinbase,
-          Doctolib, Swile...
-        </p>
         <div className="order-1 flex-[4_4_0%] p-8 md:rounded-3xl md:border-[1px] md:border-black">
           <h3 className="pb-3 font-serif text-2xl font-bold">
             Dans nos cordes
