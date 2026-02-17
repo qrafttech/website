@@ -24,19 +24,21 @@ export default function PortfolioItem({
     <div>
       <a href={detailsUrl}>
         <div className="pb-4">{image}</div>
-        <div className="flex items-center gap-4">
-          <h3 className="pb-2 font-serif text-2xl font-bold">{title}</h3>
-          <a
-            className="flex gap-2 text-sm underline"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={companyUrl}
-          >
-            {companyUrl.replace(/^https?:\/\//, "")}{" "}
-            <ArrowTopRightOnSquareIcon width={12} />
-          </a>
-        </div>
       </a>
+      <div className="flex items-center gap-4">
+        <h3 className="pb-2 font-serif text-2xl font-bold">
+          <a href={detailsUrl}>{title}</a>
+        </h3>
+        <a
+          className="flex gap-2 text-sm underline"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={companyUrl}
+        >
+          {companyUrl.replace(/^https?:\/\//, "")}{" "}
+          <ArrowTopRightOnSquareIcon width={12} />
+        </a>
+      </div>
       <p className="pb-2">{description}</p>
       <ul>
         <li>
