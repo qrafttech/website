@@ -3,12 +3,9 @@ import clsx from "clsx";
 type ContactUsProps = Partial<Pick<HTMLDivElement, "className">>;
 
 export default function ContactUs({ className }: ContactUsProps) {
-  const email = "hello@qraft.tech";
-  const subject = "Hello Qraft - Un petit mail après être allé sur votre site";
-
   return (
     <a
-      href={`mailto:${email}?subject=${subject}`}
+      href="https://cal.com/nicolasrouanne/30min"
       target="_blank"
       rel="noreferrer"
     >
