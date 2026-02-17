@@ -5,6 +5,7 @@ import embarqScreenshot from "../../public/images/embarq-screenshot.jpg";
 import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg";
 import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import billiScreenshot from "../../public/images/billi-screenshot.jpg";
+import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
 
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "./SectionTitle";
@@ -23,6 +24,19 @@ export default function Portfolio() {
         </SectionTitle>
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
+        <PortfolioItem
+          title="Chloe"
+          detailsUrl="https://www.notion.so/qrafttech/Chlo-1f9218ed56d780d891b3e9332b92974a"
+          image={
+            <Image
+              src={chloeScreenshot}
+              alt="Screenshot of Chloe landing page"
+              placeholder="blur"
+            />
+          }
+          description="Creation d'une landing page evenementielle, disponible en 7 langues, pour accompagner le lancement digital d'une collection capsule resort de la Maison Chloe."
+          stack="Next.js, Tailwind CSS, AWS"
+        />
         <PortfolioItem
           title="Billi"
           detailsUrl="https://qrafttech.notion.site/Billi-113218ed56d780fc80b2e505d206aa5b"

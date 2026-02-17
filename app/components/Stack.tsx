@@ -16,6 +16,10 @@ import nestjs from "../../public/images/logos/nestjs-logo.svg";
 import aws from "../../public/images/logos/aws-logo.svg";
 import docker from "../../public/images/logos/docker-logo.svg";
 import scalingo from "../../public/images/logos/scalingo-logo.svg";
+import sidekiq from "../../public/images/logos/sidekiq-logo.svg";
+import rubocop from "../../public/images/logos/rubocop-logo.svg";
+import rspec from "../../public/images/logos/rspec-logo.svg";
+import github from "../../public/images/logos/github-logo.svg";
 import fastapi from "../../public/images/logos/fastapi-logo.svg";
 import claudeCode from "../../public/images/logos/claude-code-logo.svg";
 import cursor from "../../public/images/logos/cursor-logo.svg";
@@ -72,6 +76,9 @@ export default function Stack() {
               <Logo src={nodejs} title="Node.js" alt="Node.js logo" />
               <Logo src={nestjs} title="NestJS" alt="NestJS logo" />
               <Logo src={fastapi} title="FastAPI" alt="FastAPI logo" />
+              <Logo src={sidekiq} title="Sidekiq" alt="Sidekiq logo" />
+              <Logo src={rubocop} title="Rubocop" alt="Rubocop logo" />
+              <Logo src={rspec} title="RSpec" alt="RSpec logo" />
             </StackGroup>
             <StackGroup title="Base de donn&eacute;es">
               <Logo src={posgres} title="Postgres" alt="PostgreSQL logo" />
@@ -97,6 +104,11 @@ export default function Stack() {
               <Logo src={aws} title="AWS" alt="AWS logo" />
               <Logo src={scalingo} title="Scalingo" alt="Scalingo logo" />
               <Logo src={docker} title="Docker" alt="Docker logo" />
+              <Logo
+                src={github}
+                title="GitHub Actions"
+                alt="GitHub Actions logo"
+              />
             </StackGroup>
             <StackGroup title="Apps mobile">
               <Logo

@@ -29,9 +29,9 @@ export default function Services() {
           title="Backend"
           content={
             <p>
-              Nous concevons des backends robustes avec Rails et Node.js : APIs
-              REST ou GraphQL, jobs asynchrones, intégrations tierces et
-              pipelines IA.
+              Nous concevons des backends robustes avec Rails, Node.js, NestJS
+              et Python : APIs REST ou GraphQL, jobs asynchrones, intégrations
+              tierces et pipelines IA.
               <br />
               <br />
               Notre philosophie : la solution la plus simple qui tient en
