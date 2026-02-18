@@ -3,10 +3,10 @@ import Image from "next/image";
 import dancingStar from "../../public/images/dancing-star.svg";
 import embarqScreenshot from "../../public/images/embarq-screenshot.jpg";
 import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg";
-import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
 import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import billiScreenshot from "../../public/images/billi-screenshot.jpg";
-import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
+import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
+
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "./SectionTitle";
 
@@ -25,18 +25,16 @@ export default function Portfolio() {
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
         <PortfolioItem
-          title="Chloé"
+          title="Chloe"
           detailsUrl="https://www.notion.so/qrafttech/Chlo-1f9218ed56d780d891b3e9332b92974a"
-          companyUrl="https://chloealaplage.chloe.com"
           image={
             <Image
               src={chloeScreenshot}
-              alt="Screenshots of the Chloé à la plage landing page"
+              alt="Screenshot of Chloe landing page"
               placeholder="blur"
             />
           }
-          description="Création d'une landing page événementielle, disponible en 7 langues, pour accompagner le lancement
-          digital d’une collection capsule resort de la Maison Chloé."
+          description="Creation d'une landing page evenementielle, disponible en 7 langues, pour accompagner le lancement digital d'une collection capsule resort de la Maison Chloe."
           stack="Next.js, Tailwind CSS, AWS"
         />
         <PortfolioItem
@@ -108,23 +106,6 @@ export default function Portfolio() {
         Compte-rendu d'activité, Notes de frais..."
           stack="Rails API, Postgres, Redis, GraphQL, Next.js, MUI, Heroku, AWS"
           integrations="Docusign, Upflow, Sendgrid"
-        />
-        <PortfolioItem
-          title="Bruno"
-          detailsUrl="https://qrafttech.notion.site/Bruno-120218ed56d780f7818bc1148249adf5"
-          companyUrl="https://hibruno.com"
-          image={
-            <Image
-              src={brunoScreenshot}
-              alt="Screenshot of the Bruno fintech app"
-              placeholder="blur"
-            />
-          }
-          description="Micro-épargne intelligente basée sur une analyse de vos dépenses
-           via de l'intelligence artificielle. Bruno met de côté automatiquement sur 
-           des produits d'épargne mais ne vous met jamais dans le rouge."
-          stack="Rails API (REST), Postgres, Redis, Flask, NumPy, Pandas, React, React Native, Expo, Heroku, AWS"
-          integrations="Budget Insight, GoCardless, Postmark"
         />
       </div>
     </>

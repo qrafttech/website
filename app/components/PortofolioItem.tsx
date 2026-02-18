@@ -6,7 +6,7 @@ interface PortfolioItemProps {
   title: string;
   description: ReactNode;
   detailsUrl: string;
-  companyUrl: string;
+  companyUrl?: string;
   stack: string;
   integrations?: string;
 }
@@ -24,8 +24,12 @@ export default function PortfolioItem({
     <div>
       <a href={detailsUrl}>
         <div className="pb-4">{image}</div>
-        <div className="flex items-center gap-4">
-          <h3 className="pb-2 font-serif text-2xl font-bold">{title}</h3>
+      </a>
+      <div className="flex items-center gap-4">
+        <h3 className="pb-2 font-serif text-2xl font-bold">
+          <a href={detailsUrl}>{title}</a>
+        </h3>
+        {companyUrl && (
           <a
             className="flex gap-2 text-sm underline"
             target="_blank"
@@ -35,8 +39,8 @@ export default function PortfolioItem({
             {companyUrl.replace(/^https?:\/\//, "")}{" "}
             <ArrowTopRightOnSquareIcon width={12} />
           </a>
-        </div>
-      </a>
+        )}
+      </div>
       <p className="pb-2">{description}</p>
       <ul>
         <li>

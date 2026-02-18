@@ -2,7 +2,7 @@ export default function Head() {
   const title = "Qraft - Construisons ensemble des applications de qualité";
   const url = "https://qraft.tech";
   const description =
-    "Qraft est une équipe d'expert.e.s techniques qui vous accompagnent dans la construction de votre application web, mobile, API ou infrastructure.";
+    "Qraft est une équipe d'expert.e.s techniques spécialisée dans le développement d'applications web, mobile et l'intégration d'IA.";
   const thumbnail = "/favicons/thumbnail.png";
 
   return (
