@@ -5,6 +5,7 @@ import embarqScreenshot from "../../public/images/embarq-screenshot.jpg";
 import cevidentiaScreenshot from "../../public/images/cevidentia-screenshot.jpg";
 import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import billiScreenshot from "../../public/images/billi-screenshot.jpg";
+import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
 
 import PortfolioItem from "./PortofolioItem";
@@ -106,6 +107,20 @@ export default function Portfolio() {
         Compte-rendu d'activité, Notes de frais..."
           stack="Rails API, Postgres, Redis, GraphQL, Next.js, MUI, Heroku, AWS"
           integrations="Docusign, Upflow, Sendgrid"
+        />
+        <PortfolioItem
+          title="Bruno"
+          detailsUrl="https://qrafttech.notion.site/Bruno-120218ed56d780f7818bc1148249adf5"
+          image={
+            <Image
+              src={brunoScreenshot}
+              alt="Screenshot of the Bruno application"
+              placeholder="blur"
+            />
+          }
+          description="Micro-épargne intelligente basée sur une analyse de vos dépenses via de l'intelligence artificielle. Bruno met de côté automatiquement sur des produits d'épargne mais ne vous met jamais dans le rouge."
+          stack="Rails API (REST), Postgres, Redis, Flask, NumPy, Pandas, React, React Native, Expo, Heroku, AWS"
+          integrations="Budget Insight, GoCardless, Postmark"
         />
       </div>
     </>
