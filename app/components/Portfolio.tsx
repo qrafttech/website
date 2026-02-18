@@ -7,6 +7,7 @@ import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import billiScreenshot from "../../public/images/billi-screenshot.jpg";
 import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
+import sammScreenshot from "../../public/images/samm.jpg";
 
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "./SectionTitle";
@@ -25,6 +26,19 @@ export default function Portfolio() {
         </SectionTitle>
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
+        <PortfolioItem
+          title="SAMM"
+          image={
+            <Image
+              src={sammScreenshot}
+              alt="Screenshot of the SAMM application"
+              placeholder="blur"
+            />
+          }
+          description="Plateforme de santé destinée à la gestion des soins à domicile pour les personnes âgées. Elle permet de coordonner les interventions entre médecins, aidants professionnels et familles, afin de maintenir les patients à domicile tout en assurant un suivi médical de qualité."
+          stack="FastAPI (Python), PostgreSQL, Redis (RQ), React Native (Expo), NativeWind (Tailwind CSS), Scalingo"
+          integrations="Ximi, Brevo, Expo (EAS)"
+        />
         <PortfolioItem
           title="Chloe"
           detailsUrl="https://www.notion.so/qrafttech/Chlo-1f9218ed56d780d891b3e9332b92974a"
