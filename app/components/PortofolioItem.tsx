@@ -5,7 +5,7 @@ interface PortfolioItemProps {
   image: ReactNode;
   title: string;
   description: ReactNode;
-  detailsUrl: string;
+  detailsUrl?: string;
   companyUrl?: string;
   stack: string;
   integrations?: string;
@@ -22,12 +22,16 @@ export default function PortfolioItem({
 }: PortfolioItemProps) {
   return (
     <div>
-      <a href={detailsUrl}>
+      {detailsUrl ? (
+        <a href={detailsUrl}>
+          <div className="pb-4">{image}</div>
+        </a>
+      ) : (
         <div className="pb-4">{image}</div>
-      </a>
+      )}
       <div className="flex items-center gap-4">
         <h3 className="pb-2 font-serif text-2xl font-bold">
-          <a href={detailsUrl}>{title}</a>
+          {detailsUrl ? <a href={detailsUrl}>{title}</a> : title}
         </h3>
         {companyUrl && (
           <a

@@ -110,7 +110,6 @@ export default function Portfolio() {
         />
         <PortfolioItem
           title="Bruno"
-          detailsUrl="https://qrafttech.notion.site/Bruno-120218ed56d780f7818bc1148249adf5"
           image={
             <Image
               src={brunoScreenshot}
