@@ -5,6 +5,7 @@ import dancingStar from "../../public/images/dancing-star.svg";
 import SectionTitle from "./SectionTitle";
 import BlogCard from "./BlogCard";
 
+//This is a placeholder : real article will be fetch from Notion
 const articles = [
   {
     title:
