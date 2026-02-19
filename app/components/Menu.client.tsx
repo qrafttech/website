@@ -11,6 +11,7 @@ const menuItems = [
   { id: "stack", label: "Stack" },
   { id: "team", label: "Équipe" },
   { id: "portfolio", label: "Portfolio" },
+  { id: "blog", label: "Blog" },
 ];
 
 export default function Menu() {

@@ -11,6 +11,7 @@ import Team from "./components/Team";
 import Menu from "./components/Menu.client";
 import Portfolio from "./components/Portfolio";
 import CallToAction from "./components/CallToAction";
+import BlogPreview from "./components/BlogPreview";
 
 export default function Home() {
   return (
@@ -54,6 +55,11 @@ export default function Home() {
       <FluidContainer id="portfolio">
         <div className="pt-16">
           <Portfolio />
+        </div>
+      </FluidContainer>
+      <FluidContainer id="blog">
+        <div className="pt-16">
+          <BlogPreview />
         </div>
       </FluidContainer>
       <FluidContainer className="bg-gradient-to-r from-[#2B0AB1] via-[#324DB1] to-[#4AA7B8]">
