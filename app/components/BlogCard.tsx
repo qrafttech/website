@@ -1,15 +1,15 @@
+import Link from "next/link";
+
 interface BlogCardProps {
   title: string;
   date: string;
-  url: string;
+  slug: string;
 }
 
-export default function BlogCard({ title, date, url }: BlogCardProps) {
+export default function BlogCard({ title, date, slug }: BlogCardProps) {
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noreferrer"
+    <Link
+      href={`/blog/${slug}`}
       className="group flex items-center justify-between border-b border-black/10 py-4 transition-colors hover:border-black/30"
     >
       <div className="min-w-0 flex-1">
@@ -21,6 +21,6 @@ export default function BlogCard({ title, date, url }: BlogCardProps) {
       <span className="ml-4 text-zinc-400 transition-transform group-hover:translate-x-1">
         &rarr;
       </span>
-    </a>
+    </Link>
   );
 }
