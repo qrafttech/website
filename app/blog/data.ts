@@ -89,7 +89,8 @@ export const articles: Article[] = [
   },
   {
     slug: "typescript-strict-mode-migration",
-    title: "Migrer un projet legacy vers TypeScript strict mode sans tout casser",
+    title:
+      "Migrer un projet legacy vers TypeScript strict mode sans tout casser",
     date: "5 jan 2026",
     content:
       "Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.\n\nNullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.",

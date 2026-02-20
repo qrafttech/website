@@ -9,7 +9,7 @@ import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
 
 import PortfolioItem from "./PortofolioItem";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../components/SectionTitle";
 
 export default function Portfolio() {
   return (
@@ -20,7 +20,7 @@ export default function Portfolio() {
           alt="Little star dancing with light rays"
           className="absolute -top-12 -left-32 animate-grow-and-shrink"
         />
-        <SectionTitle className="from-[#e77c40] to-[#f8c618] p-6">
+        <SectionTitle className="from-brand-orange to-brand-gold p-6">
           Nos dernières victoires
         </SectionTitle>
       </div>

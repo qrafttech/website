@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           &larr; Retour aux articles
         </Link>
         <article className="mx-auto max-w-prose pt-12">
-          <h1 className="bg-gradient-to-r from-[#e77c40] to-[#f8c618] bg-clip-text font-serif text-2xl font-bold text-transparent md:text-4xl">
+          <h1 className="bg-gradient-to-r from-brand-orange to-brand-gold bg-clip-text font-serif text-2xl font-bold text-transparent md:text-4xl">
             {article.title}
           </h1>
           <p className="pt-4 text-sm text-zinc-400">{article.date}</p>

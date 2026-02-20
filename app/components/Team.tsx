@@ -7,7 +7,7 @@ import dinosaur from "../../public/images/dinosaur.svg";
 import marseille from "../../public/images/marseille.svg";
 import bubbles from "../../public/images/bubbles.svg";
 import cloud from "../../public/images/cloud.svg";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../components/SectionTitle";
 
 export default function Team() {
   const email = "hello@qraft.tech";

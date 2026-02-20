@@ -1,19 +1,19 @@
 import FluidContainer from "../../components/FluidContainer";
-import SectionTitle from "../components/SectionTitle";
-import BlogArticleCard from "./components/BlogArticleCard";
+import SectionTitle from "../../components/SectionTitle";
+import BlogCard from "../components/BlogCard";
 import Pagination from "./components/Pagination";
 import { articles } from "./data";
 
 const PAGE_SIZE = 10;
 
-export default async function BlogPage({
-  searchParams,
-}: {
+interface BlogPageProps {
   searchParams: Promise<{ page?: string }>;
-}) {
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
   const { page } = await searchParams;
-  const currentPage = Number(page) || 1;
   const totalPages = Math.ceil(articles.length / PAGE_SIZE);
+  const currentPage = Math.max(1, Math.min(Number(page) || 1, totalPages));
   const pageArticles = articles.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
@@ -22,15 +22,23 @@ export default async function BlogPage({
   return (
     <FluidContainer>
       <div className="pt-16 pb-24">
-        <SectionTitle className="from-[#e77c40] to-[#f8c618] p-6 text-center">
+        <SectionTitle className="from-brand-orange to-brand-gold p-6 text-center">
           Nos articles
         </SectionTitle>
         <div className="py-12">
           {pageArticles.map((article) => (
-            <BlogArticleCard key={article.slug} {...article} />
+            <BlogCard
+              key={article.slug}
+              slug={article.slug}
+              title={article.title}
+              date={article.date}
+              preview={article.content.split("\n\n")[0]}
+            />
           ))}
         </div>
-        {totalPages > 1 && <Pagination totalPages={totalPages} />}
+        {totalPages > 1 && (
+          <Pagination totalPages={totalPages} currentPage={currentPage} />
+        )}
       </div>
     </FluidContainer>
   );

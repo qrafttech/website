@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import clsx from "clsx";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/20/solid";
 
 import ContactUs from "./ContactUs";
@@ -25,18 +26,21 @@ export default function Menu({ variant = "dark" }: MenuProps) {
 
   return (
     <div
-      className={
+      className={clsx(
         mobileOpen
-          ? `fixed inset-0 z-50 ${
-              isLight ? "bg-white" : "bg-[#08143f]"
-            } bg-opacity-95 backdrop-blur-sm backdrop-filter`
-          : `${isLight ? "relative" : "absolute"} inset-x-0 z-10`
-      }
+          ? "fixed inset-0 z-50 bg-opacity-95 backdrop-blur-sm backdrop-filter"
+          : "inset-x-0 z-10",
+        mobileOpen && (isLight ? "bg-white" : "bg-[#08143f]"),
+        !mobileOpen && (isLight ? "relative" : "absolute")
+      )}
       onClick={mobileOpen ? () => setMobileOpen(false) : () => {}}
     >
       <div className="max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
         <div
-          className={`flex flex-col ${isLight ? "text-black" : "text-white"}`}
+          className={clsx(
+            "flex flex-col",
+            isLight ? "text-black" : "text-white"
+          )}
         >
           <div className="flex items-center justify-between">
             <Link href="/" className="font-serif text-2xl font-extrabold">
