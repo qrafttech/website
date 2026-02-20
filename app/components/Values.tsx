@@ -5,7 +5,7 @@ import singingFrogWithCloudMobile from "../../public/images/singing-frog-with-cl
 import singingFrog from "../../public/images/singing-frog.svg";
 import rainMovingCloud from "../../public/images/rain-moving-cloud.svg";
 import underline from "../../public/images/underline.svg";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../components/SectionTitle";
 import Value from "./Value";
 
 export default function Values() {

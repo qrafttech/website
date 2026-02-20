@@ -5,6 +5,12 @@ module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          orange: "#e77c40",
+          gold: "#f8c618",
+        },
+      },
       fontSize: {
         sm: ["0.875rem", "1.5rem"],
         lg: ["1.125rem", "2rem"],
