@@ -33,7 +33,7 @@ import gem from "../../public/images/gem.svg";
 import paperCoffeeCup from "../../public/images/paper-coffee-cup.svg";
 import Logo from "../../components/Logo";
 import StackGroup from "./StackGroup";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../components/SectionTitle";
 
 export default function Stack() {
   return (

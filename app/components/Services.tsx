@@ -4,7 +4,7 @@ import shiningStar from "../../public/images/shining-star.svg";
 import devicesDesktop from "../../public/images/devices-desktop.svg";
 import devicesMobile from "../../public/images/devices-mobile.svg";
 import Disclosure from "../../components/Disclosure.client";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../components/SectionTitle";
 
 export default function Services() {
   return (
