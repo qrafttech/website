@@ -6,6 +6,19 @@ export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
+
+  let payload: { type?: string; challenge?: string };
+  try {
+    payload = JSON.parse(body);
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  // Verification handshake happens before signing secret is available
+  if (payload.type === "url_verification") {
+    return NextResponse.json({ challenge: payload.challenge });
+  }
+
   const secret = process.env.NOTION_WEBHOOK_SECRET;
 
   if (!secret) {
@@ -29,17 +42,6 @@ export async function POST(request: NextRequest) {
     !timingSafeEqual(expectedBuf, signatureBuf)
   ) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  }
-
-  let payload: { type?: string; challenge?: string };
-  try {
-    payload = JSON.parse(body);
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  if (payload.type === "url_verification") {
-    return NextResponse.json({ challenge: payload.challenge });
   }
 
   revalidateTag("blog-articles", "max");
