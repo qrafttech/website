@@ -27,6 +27,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ challenge: payload.challenge });
   }
 
-  revalidateTag("blog-articles");
+  revalidateTag("blog-articles", "max");
   return NextResponse.json({ revalidated: true });
 }
