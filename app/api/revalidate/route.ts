@@ -1,6 +1,8 @@
-import crypto from "crypto";
+import { createHmac } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+
+export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -12,10 +14,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing signature" }, { status: 401 });
     }
 
-    const expected = crypto
-      .createHmac("sha256", secret)
-      .update(body)
-      .digest("hex");
+    const expected = createHmac("sha256", secret).update(body).digest("hex");
 
     if (signature !== expected) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
