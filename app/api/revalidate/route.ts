@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (payload.verification_token) {
+    console.log("Notion verification_token:", payload.verification_token);
     return NextResponse.json({ ok: true });
   }
 
