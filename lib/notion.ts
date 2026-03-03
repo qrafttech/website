@@ -15,6 +15,7 @@ const databaseId = process.env.NOTION_DATABASE_ID!;
 const PROP_LANGUAGE = "Language";
 const PROP_DATE = "Date";
 const PROP_AUTHOR = "Author";
+const PROP_SLUG = "Slug";
 
 export interface ArticleMeta {
   id: string;
@@ -138,6 +139,12 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
       const title = extractPlainText(titleProp.title);
       if (!title) return null;
 
+      const slugProp = p.properties[PROP_SLUG];
+      const customSlug =
+        slugProp?.type === "rich_text"
+          ? extractPlainText(slugProp.rich_text).trim()
+          : "";
+
       const dateProp = p.properties[PROP_DATE];
       const dateStr =
         dateProp?.type === "date" && dateProp.date?.start
@@ -176,7 +183,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
       return {
         id: p.id,
-        slug: slugify(title),
+        slug: customSlug || slugify(title),
         title,
         date: dateStr,
         author,

@@ -138,32 +138,6 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
         </div>
       );
 
-    case "image": {
-      const url =
-        block.image.type === "file"
-          ? block.image.file.url
-          : block.image.type === "external"
-          ? block.image.external.url
-          : null;
-      if (!url) return null;
-      const caption = block.image.caption;
-      return (
-        <figure>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={url}
-            alt={caption.length > 0 ? extractPlainText(caption) : ""}
-            className="w-full rounded-lg"
-          />
-          {caption.length > 0 && (
-            <figcaption className="pt-2 text-center text-sm text-zinc-500">
-              <RichText richText={caption} />
-            </figcaption>
-          )}
-        </figure>
-      );
-    }
-
     case "quote":
       return (
         <blockquote className="border-l-4 border-zinc-300 pl-4 italic text-zinc-600">
