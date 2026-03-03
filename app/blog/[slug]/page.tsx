@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   return {
     title: article.title,
-    description: article.preview,
+    description: article.title,
   };
 }
 

@@ -23,7 +23,6 @@ export interface ArticleMeta {
   title: string;
   date: string;
   author: string;
-  preview: string;
 }
 
 export type NotionBlock = BlockObjectResponse & {
@@ -135,26 +134,6 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
           ? formatDateFR(dateProp.date.start)
           : "";
 
-      const firstBlocks = await notion.blocks.children.list({
-        block_id: p.id,
-        page_size: 10,
-      });
-
-      let preview = "";
-      let pastDivider = false;
-      for (const block of firstBlocks.results) {
-        if (!("type" in block)) continue;
-        const typed = block as BlockObjectResponse;
-        if (typed.type === "divider") {
-          pastDivider = true;
-          continue;
-        }
-        if (pastDivider && typed.type === "paragraph") {
-          preview = extractPlainText(typed.paragraph.rich_text);
-          if (preview) break;
-        }
-      }
-
       const authorProp = p.properties[PROP_AUTHOR];
       let author = "";
       if (authorProp?.type === "people" && authorProp.people.length > 0) {
@@ -179,7 +158,6 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
         title,
         date: dateStr,
         author,
-        preview,
       } satisfies ArticleMeta;
     })
   );
