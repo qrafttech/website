@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 
 import Cover from "./components/Cover";
@@ -59,7 +60,9 @@ export default function Home() {
       </FluidContainer>
       <FluidContainer id="blog">
         <div className="pt-16">
-          <BlogPreview />
+          <Suspense>
+            <BlogPreview />
+          </Suspense>
         </div>
       </FluidContainer>
       <FluidContainer className="bg-gradient-to-r from-[#2B0AB1] via-[#324DB1] to-[#4AA7B8]">

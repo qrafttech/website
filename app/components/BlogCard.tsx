@@ -5,6 +5,7 @@ interface BlogCardProps {
   slug: string;
   title: string;
   date: string;
+  author?: string;
   preview?: string;
   compact?: boolean;
 }
@@ -13,6 +14,7 @@ export default function BlogCard({
   slug,
   title,
   date,
+  author,
   preview,
   compact,
 }: BlogCardProps) {
@@ -31,6 +33,7 @@ export default function BlogCard({
         {preview && (
           <p className="line-clamp-2 pt-1 text-sm text-zinc-500">{preview}</p>
         )}
+        {author && <p className="pt-1 text-sm text-zinc-400">{author}</p>}
         <p className="pt-1 text-sm text-zinc-400">{date}</p>
       </div>
       <span className="ml-4 text-zinc-400 transition-transform group-hover:translate-x-1">

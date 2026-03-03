@@ -5,9 +5,11 @@ import dancingStar from "../../public/images/dancing-star.svg";
 
 import SectionTitle from "../../components/SectionTitle";
 import BlogCard from "./BlogCard";
-import { articles } from "../blog/data";
+import { fetchArticles } from "../../lib/notion";
 
-export default function BlogPreview() {
+export default async function BlogPreview() {
+  const articles = await fetchArticles();
+
   return (
     <>
       <div className="relative w-full text-center">

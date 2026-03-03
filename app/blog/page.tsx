@@ -2,9 +2,11 @@ import CoverBackground from "../components/CoverBackground";
 import Menu from "../components/Menu.client";
 import FluidContainer from "../../components/FluidContainer";
 import BlogCard from "../components/BlogCard";
-import { articles } from "./data";
+import { fetchArticles } from "../../lib/notion";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const articles = await fetchArticles();
+
   return (
     <main>
       <div className="relative">
@@ -30,7 +32,8 @@ export default function BlogPage() {
               slug={article.slug}
               title={article.title}
               date={article.date}
-              preview={article.content.split("\n\n")[0]}
+              author={article.author}
+              preview={article.preview}
             />
           ))}
         </div>

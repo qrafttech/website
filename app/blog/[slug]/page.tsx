@@ -3,13 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import FluidContainer from "../../../components/FluidContainer";
-import { articles, getArticleBySlug } from "../data";
+import NotionRenderer from "../../components/NotionRenderer";
+import { fetchArticles, fetchArticleBySlug } from "../../../lib/notion";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const articles = await fetchArticles();
   return articles.map((article) => ({ slug: article.slug }));
 }
 
@@ -17,23 +19,21 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await fetchArticleBySlug(slug);
 
   if (!article) return {};
 
   return {
     title: article.title,
-    description: article.content.split("\n\n")[0],
+    description: article.preview,
   };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await fetchArticleBySlug(slug);
 
   if (!article) notFound();
-
-  const paragraphs = article.content.split("\n\n");
 
   return (
     <FluidContainer>
@@ -49,12 +49,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {article.title}
           </h1>
           <p className="pt-4 text-sm text-zinc-400">{article.date}</p>
-          <div className="space-y-6 pt-8">
-            {paragraphs.map((paragraph, index) => (
-              <p key={index} className="text-base text-zinc-700">
-                {paragraph}
-              </p>
-            ))}
+          <div className="pt-8">
+            <NotionRenderer blocks={article.blocks} />
           </div>
         </article>
       </div>
