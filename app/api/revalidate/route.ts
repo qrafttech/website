@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
   const signature = rawSignature.replace(/^sha256=/, "");
   const expected = createHmac("sha256", secret).update(body).digest("hex");
 
-  const expectedBuf = Buffer.from(expected, "hex");
-  const signatureBuf = Buffer.from(signature, "hex");
+  const expectedBuf = new Uint8Array(Buffer.from(expected, "hex"));
+  const signatureBuf = new Uint8Array(Buffer.from(signature, "hex"));
 
   if (
     expectedBuf.length !== signatureBuf.length ||

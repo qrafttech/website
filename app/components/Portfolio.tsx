@@ -40,16 +40,16 @@ export default function Portfolio() {
           integrations="Ximi, Brevo, Expo (EAS)"
         />
         <PortfolioItem
-          title="Chloe"
+          title="Chloé"
           detailsUrl="https://www.notion.so/qrafttech/Chlo-1f9218ed56d780d891b3e9332b92974a"
           image={
             <Image
               src={chloeScreenshot}
-              alt="Screenshot of Chloe landing page"
+              alt="Screenshot of Chloé landing page"
               placeholder="blur"
             />
           }
-          description="Creation d'une landing page evenementielle, disponible en 7 langues, pour accompagner le lancement digital d'une collection capsule resort de la Maison Chloe."
+          description="Création d'une landing page événementielle, disponible en 7 langues, pour accompagner le lancement digital d'une collection capsule resort de la Maison Chloé."
           stack="Next.js, Tailwind CSS, AWS"
         />
         <PortfolioItem

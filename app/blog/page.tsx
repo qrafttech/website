@@ -15,8 +15,8 @@ export default function BlogPage() {
               Nos articles
             </h1>
             <p className="max-w-xl pt-3 text-white/60">
-              Retours d&#39;experience, guides techniques et bonnes pratiques de
-              notre equipe.
+              Retours d&#39;expérience, guides techniques et bonnes pratiques de
+              notre équipe.
             </p>
           </div>
         </CoverBackground>
