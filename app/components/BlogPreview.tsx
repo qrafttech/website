@@ -24,13 +24,7 @@ export default async function BlogPreview() {
       </div>
       <div className="grid grid-cols-1 gap-x-12 py-12 md:grid-cols-2">
         {articles.slice(0, 6).map((article) => (
-          <BlogCard
-            key={article.slug}
-            title={article.title}
-            date={article.date}
-            slug={article.slug}
-            compact
-          />
+          <BlogCard key={article.slug} article={article} compact />
         ))}
       </div>
       <div className="pb-16 pt-4 text-center">

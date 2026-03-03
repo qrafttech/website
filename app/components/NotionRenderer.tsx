@@ -2,6 +2,14 @@ import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoi
 import type { NotionBlock } from "../../lib/notion";
 import { extractPlainText } from "../../lib/notion";
 
+function getBlockRichText(block: NotionBlock): RichTextItemResponse[] {
+  return (
+    (block as Record<string, unknown>)[block.type] as {
+      rich_text: RichTextItemResponse[];
+    }
+  ).rich_text;
+}
+
 function RichText({ richText }: { richText: RichTextItemResponse[] }) {
   return (
     <>
@@ -71,12 +79,7 @@ function groupBlocks(blocks: NotionBlock[]): GroupedItem[] {
 }
 
 function ListItem({ block }: { block: NotionBlock }) {
-  const richText =
-    block.type === "bulleted_list_item"
-      ? block.bulleted_list_item.rich_text
-      : block.type === "numbered_list_item"
-      ? block.numbered_list_item.rich_text
-      : [];
+  const richText = getBlockRichText(block);
 
   return (
     <li className="text-base text-zinc-700">
@@ -108,12 +111,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
         heading_2: { tag: "h3" as const, size: "text-xl" },
         heading_3: { tag: "h4" as const, size: "text-lg" },
       }[block.type];
-      const richText =
-        block.type === "heading_1"
-          ? block.heading_1.rich_text
-          : block.type === "heading_2"
-          ? block.heading_2.rich_text
-          : block.heading_3.rich_text;
+      const richText = getBlockRichText(block);
       const Tag = config.tag;
       return (
         <Tag className={`font-serif ${config.size} font-bold text-zinc-900`}>

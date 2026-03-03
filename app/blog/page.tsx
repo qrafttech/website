@@ -27,14 +27,7 @@ export default async function BlogPage() {
       <FluidContainer>
         <div className="-mt-8 pb-24">
           {articles.map((article) => (
-            <BlogCard
-              key={article.slug}
-              slug={article.slug}
-              title={article.title}
-              date={article.date}
-              author={article.author}
-              preview={article.preview}
-            />
+            <BlogCard key={article.slug} article={article} />
           ))}
         </div>
       </FluidContainer>

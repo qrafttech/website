@@ -96,22 +96,6 @@ async function fetchAllBlocks(blockId: string): Promise<NotionBlock[]> {
   return blocks;
 }
 
-const userNameCache = new Map<string, string>();
-
-async function getUserName(userId: string): Promise<string> {
-  const cached = userNameCache.get(userId);
-  if (cached !== undefined) return cached;
-  try {
-    const user = await notion.users.retrieve({ user_id: userId });
-    const name = user.name ?? "";
-    userNameCache.set(userId, name);
-    return name;
-  } catch {
-    userNameCache.set(userId, "");
-    return "";
-  }
-}
-
 export async function fetchArticles(): Promise<ArticleMeta[]> {
   "use cache";
   cacheTag("blog-articles");
@@ -175,10 +159,18 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
       let author = "";
       if (authorProp?.type === "people" && authorProp.people.length > 0) {
         const firstAuthor = authorProp.people[0];
-        author =
-          "name" in firstAuthor && firstAuthor.name
-            ? firstAuthor.name
-            : await getUserName(firstAuthor.id);
+        if ("name" in firstAuthor && firstAuthor.name) {
+          author = firstAuthor.name;
+        } else {
+          try {
+            const user = await notion.users.retrieve({
+              user_id: firstAuthor.id,
+            });
+            author = user.name ?? "";
+          } catch {
+            // leave author as empty string
+          }
+        }
       }
 
       return {

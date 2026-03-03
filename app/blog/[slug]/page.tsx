@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,6 +6,8 @@ import { notFound } from "next/navigation";
 import FluidContainer from "../../../components/FluidContainer";
 import NotionRenderer from "../../components/NotionRenderer";
 import { fetchArticles, fetchArticleBySlug } from "../../../lib/notion";
+
+const getArticle = cache(fetchArticleBySlug);
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -23,7 +26,7 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = await fetchArticleBySlug(slug);
+  const article = await getArticle(slug);
 
   if (!article) return {};
 
@@ -35,7 +38,7 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = await fetchArticleBySlug(slug);
+  const article = await getArticle(slug);
 
   if (!article) notFound();
 

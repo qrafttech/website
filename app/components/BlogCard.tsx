@@ -1,23 +1,14 @@
 import clsx from "clsx";
 import Link from "next/link";
+import type { ArticleMeta } from "../../lib/notion";
 
 interface BlogCardProps {
-  slug: string;
-  title: string;
-  date: string;
-  author?: string;
-  preview?: string;
+  article: ArticleMeta;
   compact?: boolean;
 }
 
-export default function BlogCard({
-  slug,
-  title,
-  date,
-  author,
-  preview,
-  compact,
-}: BlogCardProps) {
+export default function BlogCard({ article, compact }: BlogCardProps) {
+  const { slug, title, date, author, preview } = article;
   return (
     <Link
       href={`/blog/${slug}`}
