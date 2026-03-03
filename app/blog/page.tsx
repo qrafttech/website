@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CoverBackground from "../components/CoverBackground";
 import Menu from "../components/Menu.client";
 import FluidContainer from "../../components/FluidContainer";
@@ -7,12 +8,8 @@ import { fetchArticles } from "../../lib/notion";
 
 const ARTICLES_PER_PAGE = 10;
 
-interface BlogPageProps {
-  searchParams: Promise<{ page?: string }>;
-}
-
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const { page: pageParam } = await searchParams;
+async function ArticleList({ page }: { page: Promise<string | undefined> }) {
+  const pageParam = await page;
   const articles = await fetchArticles();
 
   const totalPages = Math.max(
@@ -25,6 +22,21 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     currentPage * ARTICLES_PER_PAGE
   );
 
+  return (
+    <>
+      {paginatedArticles.map((article) => (
+        <BlogCard key={article.slug} article={article} />
+      ))}
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
+    </>
+  );
+}
+
+interface BlogPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <main>
       <div className="relative">
@@ -44,10 +56,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
       <FluidContainer>
         <div className="-mt-8 pb-24">
-          {paginatedArticles.map((article) => (
-            <BlogCard key={article.slug} article={article} />
-          ))}
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
+          <Suspense>
+            <ArticleList page={searchParams.then((sp) => sp.page)} />
+          </Suspense>
         </div>
       </FluidContainer>
     </main>
