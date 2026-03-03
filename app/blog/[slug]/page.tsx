@@ -11,8 +11,12 @@ interface ArticlePageProps {
 }
 
 export async function generateStaticParams() {
-  const articles = await fetchArticles();
-  return articles.map((article) => ({ slug: article.slug }));
+  try {
+    const articles = await fetchArticles();
+    return articles.map((article) => ({ slug: article.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({

@@ -6,7 +6,10 @@ import type {
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  retry: { maxRetries: 3 },
+});
 const databaseId = process.env.NOTION_DATABASE_ID!;
 
 const PROP_LANGUAGE = "Language";
