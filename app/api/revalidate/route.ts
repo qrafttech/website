@@ -47,35 +47,37 @@ export async function POST(request: NextRequest) {
   const entity = payload.entity as Record<string, unknown> | undefined;
   const pageId = typeof entity?.id === "string" ? entity.id : "";
 
+  console.log(`[revalidate] type=${type} pageId=${pageId}`);
+
   const revalidated: string[] = [];
 
   switch (type) {
     case "page.content_updated":
       if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, "max");
+        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
         revalidated.push(`blog-article-${pageId}`);
       }
       break;
 
     case "page.properties_updated":
-      revalidateTag("blog-list", "max");
+      revalidateTag("blog-list", { expire: 0 });
       revalidated.push("blog-list");
       if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, "max");
+        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
         revalidated.push(`blog-article-${pageId}`);
       }
       break;
 
     case "page.created":
-      revalidateTag("blog-list", "max");
+      revalidateTag("blog-list", { expire: 0 });
       revalidated.push("blog-list");
       break;
 
     case "page.deleted":
-      revalidateTag("blog-list", "max");
+      revalidateTag("blog-list", { expire: 0 });
       revalidated.push("blog-list");
       if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, "max");
+        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
         revalidated.push(`blog-article-${pageId}`);
       }
       break;
