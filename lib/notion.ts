@@ -1,4 +1,4 @@
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Client } from "@notionhq/client";
 import type {
   BlockObjectResponse,
@@ -15,7 +15,6 @@ const databaseId = process.env.NOTION_DATABASE_ID!;
 const PROP_LANGUAGE = "Language";
 const PROP_DATE = "Date";
 const PROP_AUTHOR = "Author";
-const PROP_SLUG = "Slug";
 
 export interface ArticleMeta {
   id: string;
@@ -31,15 +30,6 @@ export type NotionBlock = BlockObjectResponse & {
 
 export interface ArticleFull extends ArticleMeta {
   blocks: NotionBlock[];
-}
-
-function slugify(text: string): string {
-  return text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 }
 
 const MONTHS_FR = [
@@ -97,7 +87,8 @@ async function fetchAllBlocks(blockId: string): Promise<NotionBlock[]> {
 
 export async function fetchArticles(): Promise<ArticleMeta[]> {
   "use cache";
-  cacheTag("blog-articles");
+  cacheLife("max");
+  cacheTag("blog-list");
 
   const response = await notion.dataSources.query({
     data_source_id: databaseId,
@@ -121,12 +112,6 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
       const title = extractPlainText(titleProp.title);
       if (!title) return null;
-
-      const slugProp = p.properties[PROP_SLUG];
-      const customSlug =
-        slugProp?.type === "rich_text"
-          ? extractPlainText(slugProp.rich_text).trim()
-          : "";
 
       const dateProp = p.properties[PROP_DATE];
       const dateStr =
@@ -154,7 +139,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
       return {
         id: p.id,
-        slug: customSlug || slugify(title),
+        slug: p.id,
         title,
         date: dateStr,
         author,
@@ -165,16 +150,57 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
   return articles.filter((a): a is ArticleMeta => a !== null);
 }
 
-export async function fetchArticleBySlug(
-  slug: string
+export async function fetchArticleById(
+  id: string
 ): Promise<ArticleFull | null> {
   "use cache";
-  cacheTag("blog-articles");
+  cacheLife("max");
+  cacheTag("blog-article", `blog-article-${id}`);
 
-  const articles = await fetchArticles();
-  const meta = articles.find((a) => a.slug === slug);
-  if (!meta) return null;
+  let page: PageObjectResponse;
+  try {
+    const response = await notion.pages.retrieve({ page_id: id });
+    if (!("properties" in response)) return null;
+    page = response as PageObjectResponse;
+  } catch {
+    return null;
+  }
 
-  const blocks = await fetchAllBlocks(meta.id);
-  return { ...meta, blocks };
+  const langProp = page.properties[PROP_LANGUAGE];
+  if (langProp?.type !== "select" || langProp.select?.name !== "FR") {
+    return null;
+  }
+
+  const titleProp = Object.values(page.properties).find(
+    (prop) => prop.type === "title"
+  );
+  if (!titleProp || titleProp.type !== "title") return null;
+  const title = extractPlainText(titleProp.title);
+  if (!title) return null;
+
+  const dateProp = page.properties[PROP_DATE];
+  const date =
+    dateProp?.type === "date" && dateProp.date?.start
+      ? formatDateFR(dateProp.date.start)
+      : "";
+
+  const authorProp = page.properties[PROP_AUTHOR];
+  let author = "";
+  if (authorProp?.type === "people" && authorProp.people.length > 0) {
+    const firstAuthor = authorProp.people[0];
+    if ("name" in firstAuthor && firstAuthor.name) {
+      author = firstAuthor.name;
+    } else {
+      try {
+        const user = await notion.users.retrieve({ user_id: firstAuthor.id });
+        author = user.name ?? "";
+      } catch {
+        // leave author as empty string
+      }
+    }
+  }
+
+  const blocks = await fetchAllBlocks(id);
+
+  return { id: page.id, slug: page.id, title, date, author, blocks };
 }

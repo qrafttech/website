@@ -43,6 +43,58 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
-  revalidateTag("blog-articles", "max");
-  return NextResponse.json({ revalidated: true });
+  const type = typeof payload.type === "string" ? payload.type : "";
+  const entity = payload.entity as Record<string, unknown> | undefined;
+  const pageId =
+    typeof entity?.id === "string" ? entity.id.replace(/-/g, "") : "";
+  const normalizedPageId = pageId
+    ? [
+        pageId.slice(0, 8),
+        pageId.slice(8, 12),
+        pageId.slice(12, 16),
+        pageId.slice(16, 20),
+        pageId.slice(20),
+      ].join("-")
+    : "";
+
+  const revalidated: string[] = [];
+
+  switch (type) {
+    case "page.content_updated":
+      if (normalizedPageId) {
+        revalidateTag(`blog-article-${normalizedPageId}`, "max");
+        revalidated.push(`blog-article-${normalizedPageId}`);
+      }
+      break;
+
+    case "page.properties_updated":
+      revalidateTag("blog-list", "max");
+      revalidated.push("blog-list");
+      if (normalizedPageId) {
+        revalidateTag(`blog-article-${normalizedPageId}`, "max");
+        revalidated.push(`blog-article-${normalizedPageId}`);
+      }
+      break;
+
+    case "page.created":
+      revalidateTag("blog-list", "max");
+      revalidated.push("blog-list");
+      break;
+
+    case "page.deleted":
+      revalidateTag("blog-list", "max");
+      revalidated.push("blog-list");
+      if (normalizedPageId) {
+        revalidateTag(`blog-article-${normalizedPageId}`, "max");
+        revalidated.push(`blog-article-${normalizedPageId}`);
+      }
+      break;
+
+    default:
+      revalidateTag("blog-list", "max");
+      revalidated.push("blog-list");
+      break;
+  }
+
+  return NextResponse.json({ revalidated });
 }

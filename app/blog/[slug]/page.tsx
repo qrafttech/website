@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 
 import FluidContainer from "../../../components/FluidContainer";
 import NotionRenderer from "../../components/NotionRenderer";
-import { fetchArticles, fetchArticleBySlug } from "../../../lib/notion";
+import { fetchArticles, fetchArticleById } from "../../../lib/notion";
 
-const getArticle = cache(fetchArticleBySlug);
+const getArticle = cache(fetchArticleById);
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
