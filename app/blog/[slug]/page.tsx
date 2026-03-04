@@ -16,7 +16,7 @@ interface ArticlePageProps {
 export async function generateStaticParams() {
   try {
     const articles = await fetchArticles();
-    return articles.map((article) => ({ slug: article.slug }));
+    return articles.map((article) => ({ slug: article.id }));
   } catch {
     return [];
   }

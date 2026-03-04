@@ -18,7 +18,6 @@ const PROP_AUTHOR = "Author";
 
 export interface ArticleMeta {
   id: string;
-  slug: string;
   title: string;
   date: string;
   author: string;
@@ -56,6 +55,45 @@ function formatDateFR(iso: string): string {
 
 export function extractPlainText(richText: RichTextItemResponse[]): string {
   return richText.map((t) => t.plain_text).join("");
+}
+
+function extractPageMeta(
+  page: PageObjectResponse
+): Omit<ArticleMeta, "author"> | null {
+  const titleProp = Object.values(page.properties).find(
+    (prop) => prop.type === "title"
+  );
+  if (!titleProp || titleProp.type !== "title") return null;
+
+  const title = extractPlainText(titleProp.title);
+  if (!title) return null;
+
+  const dateProp = page.properties[PROP_DATE];
+  const date =
+    dateProp?.type === "date" && dateProp.date?.start
+      ? formatDateFR(dateProp.date.start)
+      : "";
+
+  return { id: page.id, title, date };
+}
+
+async function resolveAuthor(page: PageObjectResponse): Promise<string> {
+  const authorProp = page.properties[PROP_AUTHOR];
+  if (authorProp?.type !== "people" || authorProp.people.length === 0) {
+    return "";
+  }
+
+  const firstAuthor = authorProp.people[0];
+  if ("name" in firstAuthor && firstAuthor.name) {
+    return firstAuthor.name;
+  }
+
+  try {
+    const user = await notion.users.retrieve({ user_id: firstAuthor.id });
+    return user.name ?? "";
+  } catch {
+    return "";
+  }
 }
 
 async function fetchAllBlocks(blockId: string): Promise<NotionBlock[]> {
@@ -105,45 +143,10 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
   const articles = await Promise.all(
     pages.map(async (p) => {
-      const titleProp = Object.values(p.properties).find(
-        (prop) => prop.type === "title"
-      );
-      if (!titleProp || titleProp.type !== "title") return null;
-
-      const title = extractPlainText(titleProp.title);
-      if (!title) return null;
-
-      const dateProp = p.properties[PROP_DATE];
-      const dateStr =
-        dateProp?.type === "date" && dateProp.date?.start
-          ? formatDateFR(dateProp.date.start)
-          : "";
-
-      const authorProp = p.properties[PROP_AUTHOR];
-      let author = "";
-      if (authorProp?.type === "people" && authorProp.people.length > 0) {
-        const firstAuthor = authorProp.people[0];
-        if ("name" in firstAuthor && firstAuthor.name) {
-          author = firstAuthor.name;
-        } else {
-          try {
-            const user = await notion.users.retrieve({
-              user_id: firstAuthor.id,
-            });
-            author = user.name ?? "";
-          } catch {
-            // leave author as empty string
-          }
-        }
-      }
-
-      return {
-        id: p.id,
-        slug: p.id,
-        title,
-        date: dateStr,
-        author,
-      } satisfies ArticleMeta;
+      const meta = extractPageMeta(p);
+      if (!meta) return null;
+      const author = await resolveAuthor(p);
+      return { ...meta, author } satisfies ArticleMeta;
     })
   );
 
@@ -171,36 +174,13 @@ export async function fetchArticleById(
     return null;
   }
 
-  const titleProp = Object.values(page.properties).find(
-    (prop) => prop.type === "title"
-  );
-  if (!titleProp || titleProp.type !== "title") return null;
-  const title = extractPlainText(titleProp.title);
-  if (!title) return null;
+  const meta = extractPageMeta(page);
+  if (!meta) return null;
 
-  const dateProp = page.properties[PROP_DATE];
-  const date =
-    dateProp?.type === "date" && dateProp.date?.start
-      ? formatDateFR(dateProp.date.start)
-      : "";
+  const [author, blocks] = await Promise.all([
+    resolveAuthor(page),
+    fetchAllBlocks(id),
+  ]);
 
-  const authorProp = page.properties[PROP_AUTHOR];
-  let author = "";
-  if (authorProp?.type === "people" && authorProp.people.length > 0) {
-    const firstAuthor = authorProp.people[0];
-    if ("name" in firstAuthor && firstAuthor.name) {
-      author = firstAuthor.name;
-    } else {
-      try {
-        const user = await notion.users.retrieve({ user_id: firstAuthor.id });
-        author = user.name ?? "";
-      } catch {
-        // leave author as empty string
-      }
-    }
-  }
-
-  const blocks = await fetchAllBlocks(id);
-
-  return { id: page.id, slug: page.id, title, date, author, blocks };
+  return { ...meta, author, blocks };
 }

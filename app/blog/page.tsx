@@ -9,8 +9,7 @@ import { fetchArticles } from "../../lib/notion";
 const ARTICLES_PER_PAGE = 10;
 
 async function ArticleList({ page }: { page: Promise<string | undefined> }) {
-  const pageParam = await page;
-  const articles = await fetchArticles();
+  const [pageParam, articles] = await Promise.all([page, fetchArticles()]);
 
   const totalPages = Math.max(
     1,
@@ -25,7 +24,7 @@ async function ArticleList({ page }: { page: Promise<string | undefined> }) {
   return (
     <>
       {paginatedArticles.map((article) => (
-        <BlogCard key={article.slug} article={article} />
+        <BlogCard key={article.id} article={article} />
       ))}
       <Pagination currentPage={currentPage} totalPages={totalPages} />
     </>
