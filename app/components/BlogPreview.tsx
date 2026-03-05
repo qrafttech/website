@@ -5,9 +5,11 @@ import dancingStar from "../../public/images/dancing-star.svg";
 
 import SectionTitle from "../../components/SectionTitle";
 import BlogCard from "./BlogCard";
-import { articles } from "../blog/data";
+import { fetchArticles } from "../../lib/notion";
 
-export default function BlogPreview() {
+export default async function BlogPreview() {
+  const articles = await fetchArticles();
+
   return (
     <>
       <div className="relative w-full text-center">
@@ -22,13 +24,7 @@ export default function BlogPreview() {
       </div>
       <div className="grid grid-cols-1 gap-x-12 py-12 md:grid-cols-2">
         {articles.slice(0, 6).map((article) => (
-          <BlogCard
-            key={article.slug}
-            title={article.title}
-            date={article.date}
-            slug={article.slug}
-            compact
-          />
+          <BlogCard key={article.id} article={article} compact />
         ))}
       </div>
       <div className="pb-16 pt-4 text-center">

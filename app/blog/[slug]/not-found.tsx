@@ -8,7 +8,7 @@ export default function ArticleNotFound() {
       <div className="flex flex-col items-center gap-4 pt-16 pb-24 text-center">
         <h2 className="font-serif text-2xl font-bold">Article introuvable</h2>
         <p className="text-zinc-500">
-          Cet article n&apos;existe pas ou a ete supprime.
+          Cet article n&apos;existe pas ou a été supprimé.
         </p>
         <Link
           href="/blog"

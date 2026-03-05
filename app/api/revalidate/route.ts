@@ -2,7 +2,14 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "nodejs";
+const tagsByEvent: Record<string, (pageId: string) => string[]> = {
+  "page.content_updated": (id) => (id ? [`blog-article-${id}`] : []),
+  "page.properties_updated": (id) =>
+    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
+  "page.created": () => ["blog-list"],
+  "page.deleted": (id) =>
+    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
+};
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -12,11 +19,6 @@ export async function POST(request: NextRequest) {
     payload = JSON.parse(body);
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  if (payload.verification_token) {
-    console.log("Notion verification_token:", payload.verification_token);
-    return NextResponse.json({ ok: true });
   }
 
   const secret = process.env.NOTION_WEBHOOK_SECRET;
@@ -45,6 +47,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
-  revalidateTag("blog-articles", "max");
-  return NextResponse.json({ revalidated: true });
+  const type = typeof payload.type === "string" ? payload.type : "";
+  const entity = payload.entity as Record<string, unknown> | undefined;
+  const pageId = typeof entity?.id === "string" ? entity.id : "";
+
+  console.log(`[revalidate] type=${type} pageId=${pageId}`);
+
+  const getTags = tagsByEvent[type];
+  const revalidated = getTags ? getTags(pageId) : [];
+
+  for (const tag of revalidated) {
+    revalidateTag(tag, "max");
+  }
+
+  return NextResponse.json({ revalidated });
 }

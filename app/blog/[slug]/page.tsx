@@ -1,39 +1,58 @@
+import { cache } from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import FluidContainer from "../../../components/FluidContainer";
-import { articles, getArticleBySlug } from "../data";
+import NotionRenderer from "../../components/NotionRenderer";
+import {
+  fetchArticles,
+  fetchArticleById,
+  extractPlainText,
+} from "../../../lib/notion";
+
+const getArticle = cache(fetchArticleById);
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  try {
+    const articles = await fetchArticles();
+    return articles.map((article) => ({ slug: article.id }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticle(slug);
 
   if (!article) return {};
 
+  let description = article.title;
+  for (const block of article.blocks) {
+    if (block.type === "paragraph" && block.paragraph.rich_text.length > 0) {
+      description = extractPlainText(block.paragraph.rich_text).slice(0, 160);
+      break;
+    }
+  }
+
   return {
     title: article.title,
-    description: article.content.split("\n\n")[0],
+    description,
   };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticle(slug);
 
   if (!article) notFound();
-
-  const paragraphs = article.content.split("\n\n");
 
   return (
     <FluidContainer>
@@ -49,12 +68,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {article.title}
           </h1>
           <p className="pt-4 text-sm text-zinc-400">{article.date}</p>
-          <div className="space-y-6 pt-8">
-            {paragraphs.map((paragraph, index) => (
-              <p key={index} className="text-base text-zinc-700">
-                {paragraph}
-              </p>
-            ))}
+          <div className="pt-8">
+            <NotionRenderer blocks={article.blocks} />
           </div>
         </article>
       </div>
