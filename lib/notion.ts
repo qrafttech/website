@@ -10,7 +10,14 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
   retry: { maxRetries: 3 },
 });
-const databaseId = process.env.NOTION_DATABASE_ID!;
+
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`${name} environment variable is required`);
+  return value;
+}
+
+const databaseId = requireEnv("NOTION_DATABASE_ID");
 
 const PROP_LANGUAGE = "Language";
 const PROP_DATE = "Date";
@@ -33,13 +40,13 @@ export interface ArticleFull extends ArticleMeta {
 
 const MONTHS_FR = [
   "jan",
-  "fev",
+  "fév",
   "mar",
   "avr",
   "mai",
   "jun",
   "jul",
-  "aou",
+  "aoû",
   "sep",
   "oct",
   "nov",
@@ -96,7 +103,14 @@ async function resolveAuthor(page: PageObjectResponse): Promise<string> {
   }
 }
 
-async function fetchAllBlocks(blockId: string): Promise<NotionBlock[]> {
+const MAX_BLOCK_DEPTH = 5;
+
+async function fetchAllBlocks(
+  blockId: string,
+  depth = 0
+): Promise<NotionBlock[]> {
+  if (depth >= MAX_BLOCK_DEPTH) return [];
+
   const blocks: NotionBlock[] = [];
   let cursor: string | undefined;
 
@@ -111,7 +125,7 @@ async function fetchAllBlocks(blockId: string): Promise<NotionBlock[]> {
     await Promise.all(
       typed.map(async (block) => {
         if (block.has_children) {
-          block.children = await fetchAllBlocks(block.id);
+          block.children = await fetchAllBlocks(block.id, depth + 1);
         }
       })
     );
@@ -128,29 +142,34 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
   cacheLife("max");
   cacheTag("blog-list");
 
-  const response = await notion.dataSources.query({
-    data_source_id: databaseId,
-    filter: {
-      property: PROP_LANGUAGE,
-      select: { equals: "FR" },
-    },
-    sorts: [{ property: PROP_DATE, direction: "descending" }],
-  });
+  try {
+    const response = await notion.dataSources.query({
+      data_source_id: databaseId,
+      filter: {
+        property: PROP_LANGUAGE,
+        select: { equals: "FR" },
+      },
+      sorts: [{ property: PROP_DATE, direction: "descending" }],
+    });
 
-  const pages = response.results.filter(
-    (r): r is PageObjectResponse => "properties" in r
-  );
+    const pages = response.results.filter(
+      (r): r is PageObjectResponse => "properties" in r
+    );
 
-  const articles = await Promise.all(
-    pages.map(async (p) => {
-      const meta = extractPageMeta(p);
-      if (!meta) return null;
-      const author = await resolveAuthor(p);
-      return { ...meta, author } satisfies ArticleMeta;
-    })
-  );
+    const articles = await Promise.all(
+      pages.map(async (p) => {
+        const meta = extractPageMeta(p);
+        if (!meta) return null;
+        const author = await resolveAuthor(p);
+        return { ...meta, author } satisfies ArticleMeta;
+      })
+    );
 
-  return articles.filter((a): a is ArticleMeta => a !== null);
+    return articles.filter((a): a is ArticleMeta => a !== null);
+  } catch (error) {
+    console.error("[notion] fetchArticles failed:", error);
+    return [];
+  }
 }
 
 export async function fetchArticleById(
@@ -158,7 +177,7 @@ export async function fetchArticleById(
 ): Promise<ArticleFull | null> {
   "use cache";
   cacheLife("max");
-  cacheTag("blog-article", `blog-article-${id}`);
+  cacheTag(`blog-article-${id}`);
 
   let page: PageObjectResponse;
   try {

@@ -5,7 +5,11 @@ import { notFound } from "next/navigation";
 
 import FluidContainer from "../../../components/FluidContainer";
 import NotionRenderer from "../../components/NotionRenderer";
-import { fetchArticles, fetchArticleById } from "../../../lib/notion";
+import {
+  fetchArticles,
+  fetchArticleById,
+  extractPlainText,
+} from "../../../lib/notion";
 
 const getArticle = cache(fetchArticleById);
 
@@ -30,9 +34,17 @@ export async function generateMetadata({
 
   if (!article) return {};
 
+  let description = article.title;
+  for (const block of article.blocks) {
+    if (block.type === "paragraph" && block.paragraph.rich_text.length > 0) {
+      description = extractPlainText(block.paragraph.rich_text).slice(0, 160);
+      break;
+    }
+  }
+
   return {
     title: article.title,
-    description: article.title,
+    description,
   };
 }
 

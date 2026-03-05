@@ -2,12 +2,21 @@ import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoi
 import type { NotionBlock } from "../../lib/notion";
 import { extractPlainText } from "../../lib/notion";
 
-function getBlockRichText(block: NotionBlock): RichTextItemResponse[] {
-  return (
-    (block as Record<string, unknown>)[block.type] as {
-      rich_text: RichTextItemResponse[];
-    }
-  ).rich_text;
+function isSafeHref(href: string): boolean {
+  return href.startsWith("https://") || href.startsWith("http://");
+}
+
+function getBlockRichText(block: NotionBlock): RichTextItemResponse[] | null {
+  const typeData = (block as Record<string, unknown>)[block.type];
+  if (
+    typeof typeData === "object" &&
+    typeData !== null &&
+    "rich_text" in typeData &&
+    Array.isArray((typeData as { rich_text: unknown }).rich_text)
+  ) {
+    return (typeData as { rich_text: RichTextItemResponse[] }).rich_text;
+  }
+  return null;
 }
 
 function RichText({ richText }: { richText: RichTextItemResponse[] }) {
@@ -32,10 +41,11 @@ function RichText({ richText }: { richText: RichTextItemResponse[] }) {
         if (underline) content = <u>{content}</u>;
 
         if (text.href) {
+          const safeHref = isSafeHref(text.href) ? text.href : "#";
           return (
             <a
               key={i}
-              href={text.href}
+              href={safeHref}
               className="text-blue-600 underline hover:text-blue-800"
               target="_blank"
               rel="noopener noreferrer"
@@ -80,6 +90,7 @@ function groupBlocks(blocks: NotionBlock[]): GroupedItem[] {
 
 function ListItem({ block }: { block: NotionBlock }) {
   const richText = getBlockRichText(block);
+  if (!richText) return null;
 
   return (
     <li className="text-base text-zinc-700">
@@ -112,6 +123,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
         heading_3: { tag: "h4" as const, size: "text-lg" },
       }[block.type];
       const richText = getBlockRichText(block);
+      if (!richText) return null;
       const Tag = config.tag;
       return (
         <Tag className={`font-serif ${config.size} font-bold text-zinc-900`}>
@@ -157,6 +169,49 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
 
     case "divider":
       return <hr className="border-zinc-200" />;
+
+    case "image": {
+      const imgUrl =
+        block.image.type === "file"
+          ? block.image.file.url
+          : block.image.external.url;
+      return (
+        <figure>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imgUrl}
+            alt={
+              block.image.caption.length > 0
+                ? extractPlainText(block.image.caption)
+                : ""
+            }
+            className="rounded-lg"
+          />
+          {block.image.caption.length > 0 && (
+            <figcaption className="pt-2 text-center text-sm text-zinc-500">
+              <RichText richText={block.image.caption} />
+            </figcaption>
+          )}
+        </figure>
+      );
+    }
+
+    case "bookmark": {
+      const bookmarkUrl = block.bookmark.url;
+      const safeUrl = isSafeHref(bookmarkUrl) ? bookmarkUrl : "#";
+      return (
+        <a
+          href={safeUrl}
+          className="block rounded-lg border border-zinc-200 p-4 text-sm text-blue-600 underline hover:bg-zinc-50 hover:text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {block.bookmark.caption.length > 0
+            ? extractPlainText(block.bookmark.caption)
+            : bookmarkUrl}
+        </a>
+      );
+    }
 
     default:
       return null;

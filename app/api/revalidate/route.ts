@@ -2,6 +2,15 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
+const tagsByEvent: Record<string, (pageId: string) => string[]> = {
+  "page.content_updated": (id) => (id ? [`blog-article-${id}`] : []),
+  "page.properties_updated": (id) =>
+    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
+  "page.created": () => ["blog-list"],
+  "page.deleted": (id) =>
+    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
+};
+
 export async function POST(request: NextRequest) {
   const body = await request.text();
 
@@ -10,11 +19,6 @@ export async function POST(request: NextRequest) {
     payload = JSON.parse(body);
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  if (payload.verification_token) {
-    console.log("Notion verification_token:", payload.verification_token);
-    return NextResponse.json({ ok: true });
   }
 
   const secret = process.env.NOTION_WEBHOOK_SECRET;
@@ -49,41 +53,11 @@ export async function POST(request: NextRequest) {
 
   console.log(`[revalidate] type=${type} pageId=${pageId}`);
 
-  const revalidated: string[] = [];
+  const getTags = tagsByEvent[type];
+  const revalidated = getTags ? getTags(pageId) : [];
 
-  switch (type) {
-    case "page.content_updated":
-      if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
-        revalidated.push(`blog-article-${pageId}`);
-      }
-      break;
-
-    case "page.properties_updated":
-      revalidateTag("blog-list", { expire: 0 });
-      revalidated.push("blog-list");
-      if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
-        revalidated.push(`blog-article-${pageId}`);
-      }
-      break;
-
-    case "page.created":
-      revalidateTag("blog-list", { expire: 0 });
-      revalidated.push("blog-list");
-      break;
-
-    case "page.deleted":
-      revalidateTag("blog-list", { expire: 0 });
-      revalidated.push("blog-list");
-      if (pageId) {
-        revalidateTag(`blog-article-${pageId}`, { expire: 0 });
-        revalidated.push(`blog-article-${pageId}`);
-      }
-      break;
-
-    default:
-      break;
+  for (const tag of revalidated) {
+    revalidateTag(tag, "max");
   }
 
   return NextResponse.json({ revalidated });

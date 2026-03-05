@@ -6,13 +6,46 @@ interface PaginationProps {
   totalPages: number;
 }
 
+type PageItem = number | "ellipsis";
+
+function getPageNumbers(currentPage: number, totalPages: number): PageItem[] {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  const pages: PageItem[] = [1];
+
+  if (currentPage <= 3) {
+    pages.push(2, 3, 4, "ellipsis", totalPages);
+  } else if (currentPage >= totalPages - 2) {
+    pages.push(
+      "ellipsis",
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages
+    );
+  } else {
+    pages.push(
+      "ellipsis",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "ellipsis",
+      totalPages
+    );
+  }
+
+  return pages;
+}
+
 export default function Pagination({
   currentPage,
   totalPages,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages = getPageNumbers(currentPage, totalPages);
 
   return (
     <nav
@@ -32,20 +65,29 @@ export default function Pagination({
         </span>
       )}
 
-      {pages.map((page) => (
-        <Link
-          key={page}
-          href={page === 1 ? "/blog" : `/blog?page=${page}`}
-          className={clsx(
-            "grid h-10 w-10 place-items-center rounded-2xl border text-sm font-medium",
-            page === currentPage
-              ? "border-black bg-black text-white"
-              : "border-black bg-transparent text-black hover:bg-black/10"
-          )}
-        >
-          {page}
-        </Link>
-      ))}
+      {pages.map((page, i) =>
+        page === "ellipsis" ? (
+          <span
+            key={`ellipsis-${i}`}
+            className="grid h-10 w-10 place-items-center text-sm text-zinc-400"
+          >
+            ...
+          </span>
+        ) : (
+          <Link
+            key={page}
+            href={page === 1 ? "/blog" : `/blog?page=${page}`}
+            className={clsx(
+              "grid h-10 w-10 place-items-center rounded-2xl border text-sm font-medium",
+              page === currentPage
+                ? "border-black bg-black text-white"
+                : "border-black bg-transparent text-black hover:bg-black/10"
+            )}
+          >
+            {page}
+          </Link>
+        )
+      )}
 
       {currentPage < totalPages ? (
         <Link
