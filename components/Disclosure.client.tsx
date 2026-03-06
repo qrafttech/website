@@ -20,7 +20,7 @@ export default function CustomDisclosure({
     <Disclosure {...props}>
       {({ open }) => (
         <div className="mb-6 rounded-md border-[1px] border-black text-zinc-900">
-          <Disclosure.Button className="flex w-full justify-between rounded-md px-4 py-2 text-2xl font-bold">
+          <Disclosure.Button className="flex w-full justify-between rounded-md px-3 py-2 text-lg font-bold md:px-4 md:text-2xl">
             <span className="text-left">{title}</span>
             <ChevronUpIcon
               className={`${open ? "" : "rotate-180 transform"} h-8 w-8`}

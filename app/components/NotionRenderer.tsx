@@ -118,9 +118,9 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
     case "heading_2":
     case "heading_3": {
       const config = {
-        heading_1: { tag: "h2" as const, size: "text-2xl" },
-        heading_2: { tag: "h3" as const, size: "text-xl" },
-        heading_3: { tag: "h4" as const, size: "text-lg" },
+        heading_1: { tag: "h2" as const, size: "text-xl md:text-2xl" },
+        heading_2: { tag: "h3" as const, size: "text-lg md:text-xl" },
+        heading_3: { tag: "h4" as const, size: "text-base md:text-lg" },
       }[block.type];
       const richText = getBlockRichText(block);
       if (!richText) return null;
@@ -140,7 +140,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
               {block.code.language}
             </span>
           )}
-          <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-4">
+          <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-2 md:p-4">
             <code className="text-sm text-zinc-100">
               {extractPlainText(block.code.rich_text)}
             </code>
@@ -185,7 +185,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
                 ? extractPlainText(block.image.caption)
                 : ""
             }
-            className="rounded-lg"
+            className="max-w-full rounded-lg"
           />
           {block.image.caption.length > 0 && (
             <figcaption className="pt-2 text-center text-sm text-zinc-500">

@@ -18,7 +18,7 @@ export default function CoverBackground({ children }: CoverBackgroundProps) {
       }}
     >
       <div
-        className="absolute inset-y-0 right-0 -left-32 -z-10"
+        className="absolute inset-y-0 right-0 left-0 -z-10 md:-left-32"
         style={{
           background:
             "linear-gradient(90deg, #f9fafb1a 1%, transparent 1%) 1px 0, transparent",
@@ -26,7 +26,7 @@ export default function CoverBackground({ children }: CoverBackgroundProps) {
         }}
       />
       <div
-        className="absolute right-0 bottom-0 -top-32 -left-[126px] -z-10"
+        className="absolute right-0 bottom-0 top-0 left-0 -z-10 md:-top-32 md:-left-[126px]"
         style={{
           opacity: 0.1,
           background:

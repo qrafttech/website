@@ -40,7 +40,7 @@ export default function Values() {
         <Image
           src={underline}
           alt="Handrawing of a strike through to mimic an underline"
-          className="absolute -bottom-4"
+          className="absolute -bottom-4 max-md:hidden"
         />
         <h3 className="pb-6 font-serif text-4xl font-bold text-[#0074dd]">
           Nos plus-values
