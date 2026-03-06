@@ -38,7 +38,7 @@ export default function Cover() {
           </div>
         </div>
         <div className="flex flex-[4_4_0%] justify-center">
-          <div className="w-5/6 sm:max-md:h-72 max-sm:h-64 md:pb-32">
+          <div className="h-64 w-5/6 sm:h-72 md:h-auto md:pb-32">
             <Animation src="animations/laughing-smile.riv" />
           </div>
         </div>

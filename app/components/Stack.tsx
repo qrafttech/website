@@ -57,8 +57,8 @@ export default function Stack() {
         De Rails &agrave; l&#39;IA, on ma&icirc;trise la stack qu&#39;il vous
         faut.
       </p>
-      <div className="my-16 grid grid-cols-1 gap-8 md:max-xl:mx-8 xl:grid-cols-[13fr_7fr]">
-        <div className="px-10 pt-10 md:rounded-3xl md:border-[1px] md:border-black xl:col-start-1 xl:row-span-4 xl:grid xl:[grid-template-rows:subgrid]">
+      <div className="my-16 grid grid-cols-1 gap-8 md:mx-8 md:grid-cols-[13fr_7fr] xl:mx-0">
+        <div className="px-4 pt-10 md:rounded-3xl md:border-[1px] md:border-black md:px-10 xl:col-start-1 xl:row-span-4 xl:grid xl:[grid-template-rows:subgrid]">
           <div>
             <h3 className="pb-3 font-serif text-2xl font-bold">
               Notre arsenal favori
@@ -120,7 +120,7 @@ export default function Stack() {
             </StackGroup>
           </div>
         </div>
-        <div className="p-10 md:rounded-3xl md:border-[1px] md:border-black xl:col-start-2 xl:row-span-4 xl:grid xl:[grid-template-rows:subgrid]">
+        <div className="p-4 md:rounded-3xl md:border-[1px] md:border-black md:p-10 xl:col-start-2 xl:row-span-4 xl:grid xl:[grid-template-rows:subgrid]">
           <div>
             <h3 className="pb-3 font-serif text-2xl font-bold">
               Intelligence Artificielle

@@ -31,7 +31,7 @@ export default function Menu({ variant = "dark" }: MenuProps) {
           ? "fixed inset-0 z-50 bg-opacity-95 backdrop-blur-sm backdrop-filter"
           : "inset-x-0 z-10",
         mobileOpen && (isLight ? "bg-white" : "bg-[#08143f]"),
-        !mobileOpen && (isLight ? "relative" : "absolute")
+        !mobileOpen && (isLight ? "relative" : "absolute"),
       )}
       onClick={mobileOpen ? () => setMobileOpen(false) : () => {}}
     >
@@ -39,7 +39,7 @@ export default function Menu({ variant = "dark" }: MenuProps) {
         <div
           className={clsx(
             "flex flex-col",
-            isLight ? "text-black" : "text-white"
+            isLight ? "text-black" : "text-white",
           )}
         >
           <div className="flex items-center justify-between">

@@ -14,11 +14,11 @@ export default function BlogCard({ article, compact }: BlogCardProps) {
       href={`/blog/${id}`}
       className={clsx(
         "group flex items-center justify-between border-b border-black/10 transition-colors hover:border-black/30",
-        compact ? "py-3" : "py-5"
+        compact ? "py-3" : "py-5",
       )}
     >
       <div className="min-w-0 flex-1">
-        <h3 className="font-serif text-lg font-bold transition-transform group-hover:translate-x-1">
+        <h3 className="font-serif text-base font-bold transition-transform group-hover:translate-x-1 md:text-lg">
           {title}
         </h3>
         <p className="pt-1 text-sm text-zinc-400">

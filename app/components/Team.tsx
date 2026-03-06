@@ -85,8 +85,8 @@ export default function Team() {
               src={patioNicolas}
               alt="Picture of Nicolas from above in a the patio with a laptop looking surprised"
               placeholder="blur"
-              className="border-8 border-white object-cover drop-shadow-lg"
-              width={470}
+              className="w-full border-8 border-white object-cover drop-shadow-lg"
+              sizes="(max-width: 768px) 50vw, 470px"
             />
           </div>
           <div className="flex">
@@ -94,8 +94,8 @@ export default function Team() {
               src={officeMehdiNicolas}
               alt="Picture of Mehdi and Nicolas looking at code on a laptop screen in an office"
               placeholder="blur"
-              className="border-8 border-white object-cover"
-              width={470}
+              className="w-full border-8 border-white object-cover"
+              sizes="(max-width: 768px) 50vw, 470px"
             />
           </div>
           <div className="flex">
@@ -103,8 +103,8 @@ export default function Team() {
               src={patioAlexisLili}
               alt="Picture of Alexis and Lili with a laptop smiling in the patio"
               placeholder="blur"
-              className="border-8 border-white object-cover"
-              width={470}
+              className="w-full border-8 border-white object-cover"
+              sizes="(max-width: 768px) 50vw, 470px"
             />
           </div>
         </div>

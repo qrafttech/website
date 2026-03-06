@@ -21,7 +21,7 @@ export default function ContactUs({
         isLight
           ? "border-black text-black hover:bg-black/10"
           : "border-white text-white hover:bg-white/20",
-        className
+        className,
       )}
     >
       Nous contacter

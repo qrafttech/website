@@ -23,7 +23,7 @@ function getPageNumbers(currentPage: number, totalPages: number): PageItem[] {
       totalPages - 3,
       totalPages - 2,
       totalPages - 1,
-      totalPages
+      totalPages,
     );
   } else {
     pages.push(
@@ -32,7 +32,7 @@ function getPageNumbers(currentPage: number, totalPages: number): PageItem[] {
       currentPage,
       currentPage + 1,
       "ellipsis",
-      totalPages
+      totalPages,
     );
   }
 
@@ -81,12 +81,12 @@ export default function Pagination({
               "grid h-10 w-10 place-items-center rounded-2xl border text-sm font-medium",
               page === currentPage
                 ? "border-black bg-black text-white"
-                : "border-black bg-transparent text-black hover:bg-black/10"
+                : "border-black bg-transparent text-black hover:bg-black/10",
             )}
           >
             {page}
           </Link>
-        )
+        ),
       )}
 
       {currentPage < totalPages ? (
