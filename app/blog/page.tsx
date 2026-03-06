@@ -13,12 +13,12 @@ async function ArticleList({ page }: { page: Promise<string | undefined> }) {
 
   const totalPages = Math.max(
     1,
-    Math.ceil(articles.length / ARTICLES_PER_PAGE)
+    Math.ceil(articles.length / ARTICLES_PER_PAGE),
   );
   const currentPage = Math.min(Math.max(1, Number(pageParam) || 1), totalPages);
   const paginatedArticles = articles.slice(
     (currentPage - 1) * ARTICLES_PER_PAGE,
-    currentPage * ARTICLES_PER_PAGE
+    currentPage * ARTICLES_PER_PAGE,
   );
 
   return (

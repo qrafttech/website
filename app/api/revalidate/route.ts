@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (!secret) {
     return NextResponse.json(
       { error: "Webhook not configured" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 

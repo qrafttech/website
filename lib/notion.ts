@@ -65,10 +65,10 @@ export function extractPlainText(richText: RichTextItemResponse[]): string {
 }
 
 function extractPageMeta(
-  page: PageObjectResponse
+  page: PageObjectResponse,
 ): Omit<ArticleMeta, "author"> | null {
   const titleProp = Object.values(page.properties).find(
-    (prop) => prop.type === "title"
+    (prop) => prop.type === "title",
   );
   if (!titleProp || titleProp.type !== "title") return null;
 
@@ -107,7 +107,7 @@ const MAX_BLOCK_DEPTH = 5;
 
 async function fetchAllBlocks(
   blockId: string,
-  depth = 0
+  depth = 0,
 ): Promise<NotionBlock[]> {
   if (depth >= MAX_BLOCK_DEPTH) return [];
 
@@ -127,11 +127,13 @@ async function fetchAllBlocks(
         if (block.has_children) {
           block.children = await fetchAllBlocks(block.id, depth + 1);
         }
-      })
+      }),
     );
     blocks.push(...typed);
 
-    cursor = response.has_more ? response.next_cursor ?? undefined : undefined;
+    cursor = response.has_more
+      ? (response.next_cursor ?? undefined)
+      : undefined;
   } while (cursor);
 
   return blocks;
@@ -153,7 +155,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
     });
 
     const pages = response.results.filter(
-      (r): r is PageObjectResponse => "properties" in r
+      (r): r is PageObjectResponse => "properties" in r,
     );
 
     const articles = await Promise.all(
@@ -162,7 +164,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
         if (!meta) return null;
         const author = await resolveAuthor(p);
         return { ...meta, author } satisfies ArticleMeta;
-      })
+      }),
     );
 
     return articles.filter((a): a is ArticleMeta => a !== null);
@@ -173,7 +175,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 }
 
 export async function fetchArticleById(
-  id: string
+  id: string,
 ): Promise<ArticleFull | null> {
   "use cache";
   cacheLife("max");
