@@ -173,7 +173,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
     case "image": {
       const imgUrl =
         block.image.type === "file"
-          ? block.image.file.url
+          ? `/api/notion-image?blockId=${block.id}`
           : block.image.external.url;
       return (
         <figure>
