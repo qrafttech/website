@@ -12,7 +12,7 @@ export default function FluidContainer({
 }: FluidContainerProps) {
   return (
     <div id={id} className={clsx("flex justify-center", className)}>
-      <div className="max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
+      <div className="w-full max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
         {children}
       </div>
     </div>

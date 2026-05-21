@@ -6,7 +6,7 @@ import type {
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
-const notion = new Client({
+export const notion = new Client({
   auth: process.env.NOTION_API_KEY,
   retry: { maxRetries: 3 },
 });
@@ -16,8 +16,6 @@ function requireEnv(name: string): string {
   if (!value) throw new Error(`${name} environment variable is required`);
   return value;
 }
-
-const databaseId = requireEnv("NOTION_DATABASE_ID");
 
 const PROP_LANGUAGE = "Language";
 const PROP_DATE = "Date";
@@ -144,7 +142,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
   try {
     const response = await notion.dataSources.query({
-      data_source_id: databaseId,
+      data_source_id: requireEnv("NOTION_DATABASE_ID"),
       filter: {
         property: PROP_LANGUAGE,
         select: { equals: "FR" },
