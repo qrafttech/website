@@ -8,10 +8,10 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ article, compact }: BlogCardProps) {
-  const { id, title, date, author } = article;
+  const { slug, title, date, author } = article;
   return (
     <Link
-      href={`/blog/${id}`}
+      href={`/blog/${slug}`}
       className={clsx(
         "group flex items-center justify-between border-b border-black/10 transition-colors hover:border-black/30",
         compact ? "py-3" : "py-5"

@@ -5,13 +5,15 @@ import { notFound } from "next/navigation";
 
 import FluidContainer from "../../../components/FluidContainer";
 import NotionRenderer from "../../components/NotionRenderer";
+import JsonLd from "../../components/JsonLd";
 import {
   fetchArticles,
-  fetchArticleById,
+  fetchArticleBySlug,
   extractPlainText,
 } from "../../../lib/notion";
+import { SITE_URL, SITE_NAME } from "../../../lib/site";
 
-const getArticle = cache(fetchArticleById);
+const getArticle = cache(fetchArticleBySlug);
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -20,7 +22,7 @@ interface ArticlePageProps {
 export async function generateStaticParams() {
   try {
     const articles = await fetchArticles();
-    return articles.map((article) => ({ slug: article.id }));
+    return articles.map((article) => ({ slug: article.slug }));
   } catch {
     return [];
   }
@@ -45,6 +47,14 @@ export async function generateMetadata({
   return {
     title: article.title,
     description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description,
+      url: `/blog/${slug}`,
+    },
+    twitter: { card: "summary_large_image", title: article.title, description },
   };
 }
 
@@ -56,6 +66,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <FluidContainer>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: article.title,
+          datePublished: article.dateISO || undefined,
+          author: article.author
+            ? { "@type": "Person", name: article.author }
+            : undefined,
+          publisher: {
+            "@type": "Organization",
+            name: SITE_NAME,
+            url: SITE_URL,
+          },
+          url: `${SITE_URL}/blog/${slug}`,
+          mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+        }}
+      />
       <div className="pt-8 pb-24">
         <Link
           href="/blog"

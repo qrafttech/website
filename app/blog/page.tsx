@@ -1,10 +1,18 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import CoverBackground from "../components/CoverBackground";
 import Menu from "../components/Menu.client";
 import FluidContainer from "../../components/FluidContainer";
 import BlogCard from "../components/BlogCard";
 import Pagination from "../components/Pagination";
 import { fetchArticles } from "../../lib/notion";
+
+export const metadata: Metadata = {
+  title: "Nos articles",
+  description:
+    "Retours d'expérience, guides techniques et bonnes pratiques de l'équipe Qraft.",
+  alternates: { canonical: "/blog" },
+};
 
 const ARTICLES_PER_PAGE = 10;
 
