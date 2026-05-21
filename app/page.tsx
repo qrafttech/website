@@ -13,10 +13,30 @@ import Menu from "./components/Menu.client";
 import Portfolio from "./components/Portfolio";
 import CallToAction from "./components/CallToAction";
 import BlogPreview from "./components/BlogPreview";
+import JsonLd from "./components/JsonLd";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "../lib/site";
 
 export default function Home() {
   return (
     <main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: SITE_NAME,
+          url: SITE_URL,
+          description: SITE_DESCRIPTION,
+          logo: `${SITE_URL}/favicons/android-chrome-512x512.png`,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE_NAME,
+          url: SITE_URL,
+        }}
+      />
       <div className="relative">
         <Menu />
         <CoverBackground>

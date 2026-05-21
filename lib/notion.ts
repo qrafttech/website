@@ -25,7 +25,18 @@ export interface ArticleMeta {
   id: string;
   title: string;
   date: string;
+  dateISO: string;
   author: string;
+  slug: string;
+}
+
+export function slugify(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 export type NotionBlock = BlockObjectResponse & {
@@ -63,10 +74,10 @@ export function extractPlainText(richText: RichTextItemResponse[]): string {
 }
 
 function extractPageMeta(
-  page: PageObjectResponse
-): Omit<ArticleMeta, "author"> | null {
+  page: PageObjectResponse,
+): Omit<ArticleMeta, "author" | "slug"> | null {
   const titleProp = Object.values(page.properties).find(
-    (prop) => prop.type === "title"
+    (prop) => prop.type === "title",
   );
   if (!titleProp || titleProp.type !== "title") return null;
 
@@ -74,12 +85,13 @@ function extractPageMeta(
   if (!title) return null;
 
   const dateProp = page.properties[PROP_DATE];
-  const date =
+  const dateISO =
     dateProp?.type === "date" && dateProp.date?.start
-      ? formatDateFR(dateProp.date.start)
+      ? dateProp.date.start
       : "";
+  const date = dateISO ? formatDateFR(dateISO) : "";
 
-  return { id: page.id, title, date };
+  return { id: page.id, title, date, dateISO };
 }
 
 async function resolveAuthor(page: PageObjectResponse): Promise<string> {
@@ -105,7 +117,7 @@ const MAX_BLOCK_DEPTH = 5;
 
 async function fetchAllBlocks(
   blockId: string,
-  depth = 0
+  depth = 0,
 ): Promise<NotionBlock[]> {
   if (depth >= MAX_BLOCK_DEPTH) return [];
 
@@ -125,7 +137,7 @@ async function fetchAllBlocks(
         if (block.has_children) {
           block.children = await fetchAllBlocks(block.id, depth + 1);
         }
-      })
+      }),
     );
     blocks.push(...typed);
 
@@ -151,7 +163,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
     });
 
     const pages = response.results.filter(
-      (r): r is PageObjectResponse => "properties" in r
+      (r): r is PageObjectResponse => "properties" in r,
     );
 
     const articles = await Promise.all(
@@ -159,45 +171,40 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
         const meta = extractPageMeta(p);
         if (!meta) return null;
         const author = await resolveAuthor(p);
-        return { ...meta, author } satisfies ArticleMeta;
-      })
+        return { ...meta, author } satisfies Omit<ArticleMeta, "slug">;
+      }),
     );
 
-    return articles.filter((a): a is ArticleMeta => a !== null);
+    const used = new Set<string>();
+    return articles
+      .filter((a): a is Omit<ArticleMeta, "slug"> => a !== null)
+      .map((a) => {
+        const bareId = a.id.replace(/-/g, "");
+        const base = slugify(a.title) || bareId;
+        const slug = used.has(base) ? `${base}-${bareId.slice(0, 6)}` : base;
+        used.add(slug);
+        return { ...a, slug };
+      });
   } catch (error) {
     console.error("[notion] fetchArticles failed:", error);
     return [];
   }
 }
 
-export async function fetchArticleById(
-  id: string
-): Promise<ArticleFull | null> {
+async function fetchArticleBlocks(id: string): Promise<NotionBlock[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`blog-article-${id}`);
+  return fetchAllBlocks(id);
+}
 
-  let page: PageObjectResponse;
-  try {
-    const response = await notion.pages.retrieve({ page_id: id });
-    if (!("properties" in response)) return null;
-    page = response as PageObjectResponse;
-  } catch {
-    return null;
-  }
+export async function fetchArticleBySlug(
+  slug: string,
+): Promise<ArticleFull | null> {
+  const articles = await fetchArticles();
+  const match = articles.find((a) => a.slug === slug);
+  if (!match) return null;
 
-  const langProp = page.properties[PROP_LANGUAGE];
-  if (langProp?.type !== "select" || langProp.select?.name !== "FR") {
-    return null;
-  }
-
-  const meta = extractPageMeta(page);
-  if (!meta) return null;
-
-  const [author, blocks] = await Promise.all([
-    resolveAuthor(page),
-    fetchAllBlocks(id),
-  ]);
-
-  return { ...meta, author, blocks };
+  const blocks = await fetchArticleBlocks(match.id);
+  return { ...match, blocks };
 }
