@@ -14,7 +14,7 @@ export default function BlogCard({ article, compact }: BlogCardProps) {
       href={`/blog/${id}`}
       className={clsx(
         "group flex items-center justify-between border-b border-black/10 transition-colors hover:border-black/30",
-        compact ? "py-3" : "py-5",
+        compact ? "py-3" : "py-5"
       )}
     >
       <div className="min-w-0 flex-1">
