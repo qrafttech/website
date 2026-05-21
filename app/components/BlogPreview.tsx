@@ -16,7 +16,7 @@ export default async function BlogPreview() {
         <Image
           src={dancingStar}
           alt="Little star dancing with light rays"
-          className="absolute -top-12 -right-32 animate-grow-and-shrink"
+          className="absolute -top-12 -right-32 animate-grow-and-shrink max-md:hidden"
         />
         <SectionTitle className="from-brand-orange to-brand-gold p-6">
           Nos derniers articles
