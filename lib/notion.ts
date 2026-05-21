@@ -74,10 +74,10 @@ export function extractPlainText(richText: RichTextItemResponse[]): string {
 }
 
 function extractPageMeta(
-  page: PageObjectResponse,
+  page: PageObjectResponse
 ): Omit<ArticleMeta, "author" | "slug"> | null {
   const titleProp = Object.values(page.properties).find(
-    (prop) => prop.type === "title",
+    (prop) => prop.type === "title"
   );
   if (!titleProp || titleProp.type !== "title") return null;
 
@@ -117,7 +117,7 @@ const MAX_BLOCK_DEPTH = 5;
 
 async function fetchAllBlocks(
   blockId: string,
-  depth = 0,
+  depth = 0
 ): Promise<NotionBlock[]> {
   if (depth >= MAX_BLOCK_DEPTH) return [];
 
@@ -137,7 +137,7 @@ async function fetchAllBlocks(
         if (block.has_children) {
           block.children = await fetchAllBlocks(block.id, depth + 1);
         }
-      }),
+      })
     );
     blocks.push(...typed);
 
@@ -163,7 +163,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
     });
 
     const pages = response.results.filter(
-      (r): r is PageObjectResponse => "properties" in r,
+      (r): r is PageObjectResponse => "properties" in r
     );
 
     const articles = await Promise.all(
@@ -172,7 +172,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
         if (!meta) return null;
         const author = await resolveAuthor(p);
         return { ...meta, author } satisfies Omit<ArticleMeta, "slug">;
-      }),
+      })
     );
 
     const used = new Set<string>();
@@ -199,7 +199,7 @@ async function fetchArticleBlocks(id: string): Promise<NotionBlock[]> {
 }
 
 export async function fetchArticleBySlug(
-  slug: string,
+  slug: string
 ): Promise<ArticleFull | null> {
   const articles = await fetchArticles();
   const match = articles.find((a) => a.slug === slug);
