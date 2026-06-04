@@ -13,10 +13,9 @@ import { SITE_URL } from "../../lib/site";
 import coworkOpenSpace from "../../public/images/cowork_open_space.jpg";
 import coworkMeeting from "../../public/images/cowork_meeting.jpg";
 import coworkMeeting2 from "../../public/images/cowork_meeting2.jpg";
-import coworkCallbox from "../../public/images/cowork_callbox.jpg";
 import coworkKitchen from "../../public/images/cowork_kitchen.jpg";
-import coworkLunch from "../../public/images/cowork_lunch.jpg";
 import coworkBalcon from "../../public/images/cowork_balcon.jpg";
+import coworkLunch2 from "../../public/images/cowork_lunch2.jpg";
 
 const COWORK_DESCRIPTION =
   "Le cowork de Qraft : 150 m² d'espace lumineux au cœur de Marseille, à 2 min du Vieux-Port. 25 postes, salles de réunion, callboxes, accès 24/7.";
@@ -64,11 +63,16 @@ const features = [
 const photos = [
   { src: coworkOpenSpace, alt: "Open space lumineux du cowork de Qraft" },
   { src: coworkMeeting, alt: "Salle de réunion du cowork" },
-  { src: coworkMeeting2, alt: "Seconde salle de réunion" },
-  { src: coworkCallbox, alt: "Callbox pour passer ses appels au calme" },
+  {
+    src: coworkMeeting2,
+    alt: "Salon cosy avec canapé pour une pause au calme",
+  },
   { src: coworkKitchen, alt: "Cuisine équipée du cowork" },
-  { src: coworkLunch, alt: "Espace repas pour le déjeuner" },
   { src: coworkBalcon, alt: "Balcon du cowork de Qraft" },
+  {
+    src: coworkLunch2,
+    alt: "Grande table en bois pour déjeuner ou travailler ensemble",
+  },
 ];
 
 const locationPoints = [

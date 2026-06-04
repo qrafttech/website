@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
@@ -11,39 +11,47 @@ interface Photo {
 }
 
 const GALLERY_SIZES = "(min-width: 1024px) 1100px, 90vw";
+const PER_ROW = 3;
 
 export default function CoworkGallery({ photos }: { photos: Photo[] }) {
   const [active, setActive] = useState<Photo | null>(null);
 
+  const rows: Photo[][] = [];
+  for (let i = 0; i < photos.length; i += PER_ROW) {
+    rows.push(photos.slice(i, i + PER_ROW));
+  }
+
   return (
     <>
-      <div className="mt-8 flex flex-wrap gap-4">
-        {photos.map((photo) => {
-          const ratio = photo.src.width / photo.src.height;
-          return (
-            <button
-              key={photo.alt}
-              type="button"
-              onClick={() => setActive(photo)}
-              aria-label={`Agrandir : ${photo.alt}`}
-              style={{
-                flexGrow: ratio,
-                flexBasis: `${ratio * 18}rem`,
-                aspectRatio: ratio,
-              }}
-              className="group relative overflow-hidden"
-            >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                sizes={GALLERY_SIZES}
-                placeholder="blur"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </button>
-          );
-        })}
+      <div className="mt-8 flex flex-col gap-4">
+        {rows.map((row) => (
+          <div
+            key={row.map((photo) => photo.alt).join("|")}
+            className="flex flex-col gap-4 sm:flex-row"
+          >
+            {row.map((photo) => (
+              <button
+                key={photo.alt}
+                type="button"
+                onClick={() => setActive(photo)}
+                aria-label={`Agrandir : ${photo.alt}`}
+                style={
+                  { "--r": photo.src.width / photo.src.height } as CSSProperties
+                }
+                className="group relative w-full overflow-hidden [aspect-ratio:var(--r)] sm:w-auto sm:[flex-basis:0] sm:[flex-grow:var(--r)]"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={GALLERY_SIZES}
+                  placeholder="blur"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </button>
+            ))}
+          </div>
+        ))}
       </div>
 
       <Dialog
