@@ -1,14 +1,18 @@
 import SectionTitle from "../../components/SectionTitle";
 
-export default function CallToAction() {
+interface CallToActionProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export default function CallToAction({
+  title = "On en discute ?",
+  subtitle = "Reservez un creneau de 30 minutes pour parler de votre projet.",
+}: CallToActionProps) {
   return (
     <div className="flex flex-col items-center gap-8 py-20 text-center">
-      <SectionTitle className="from-white to-white/70">
-        On en discute ?
-      </SectionTitle>
-      <p className="max-w-lg text-lg text-white/80">
-        Reservez un creneau de 30 minutes pour parler de votre projet.
-      </p>
+      <SectionTitle className="from-white to-white/70">{title}</SectionTitle>
+      <p className="max-w-lg text-lg text-white/80">{subtitle}</p>
       <a
         href="https://cal.com/nicolasrouanne/30min"
         target="_blank"

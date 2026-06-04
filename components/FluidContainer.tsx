@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import clsx from "clsx";
 
+import { SITE_CONTAINER } from "../lib/site";
+
 type FluidContainerProps = Partial<Pick<HTMLDivElement, "className" | "id">> & {
   children: ReactNode;
 };
@@ -12,9 +14,7 @@ export default function FluidContainer({
 }: FluidContainerProps) {
   return (
     <div id={id} className={clsx("flex justify-center", className)}>
-      <div className="w-full max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
-        {children}
-      </div>
+      <div className={clsx("w-full pt-6", SITE_CONTAINER)}>{children}</div>
     </div>
   );
 }
