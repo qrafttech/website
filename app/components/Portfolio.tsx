@@ -7,7 +7,7 @@ import easiwareScreenshot from "../../public/images/easiware-screenshot.jpg";
 import billiScreenshot from "../../public/images/billi-screenshot.jpg";
 import brunoScreenshot from "../../public/images/bruno-screenshot.jpg";
 import chloeScreenshot from "../../public/images/chloe-screenshot.jpg";
-import sammScreenshot from "../../public/images/samm.jpg";
+import santeScreenshot from "../../public/images/sante-app.jpg";
 
 import PortfolioItem from "./PortofolioItem";
 import SectionTitle from "../../components/SectionTitle";
@@ -27,11 +27,11 @@ export default function Portfolio() {
       </div>
       <div className="grid grid-cols-1 gap-12 py-28 md:grid-cols-2">
         <PortfolioItem
-          title="SAMM"
+          title="Application mobile Santé"
           image={
             <Image
-              src={sammScreenshot}
-              alt="Screenshot of the SAMM application"
+              src={santeScreenshot}
+              alt="Screenshot of the mobile health application"
               placeholder="blur"
             />
           }
