@@ -10,6 +10,8 @@ interface Photo {
   alt: string;
 }
 
+const GALLERY_SIZES = "(min-width: 1024px) 1100px, 90vw";
+
 export default function CoworkGallery({ photos }: { photos: Photo[] }) {
   const [active, setActive] = useState<Photo | null>(null);
 
@@ -35,7 +37,7 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                sizes="(min-width: 768px) 33vw, 90vw"
+                sizes={GALLERY_SIZES}
                 placeholder="blur"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
@@ -73,8 +75,7 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
                 src={active.src}
                 alt={active.alt}
                 fill
-                sizes="(min-width: 1024px) 1024px, 90vw"
-                placeholder="blur"
+                sizes={GALLERY_SIZES}
                 className="object-cover"
               />
             </Dialog.Panel>
