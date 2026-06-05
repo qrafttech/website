@@ -18,7 +18,7 @@ import coworkBalcon from "../../public/images/cowork_balcon.jpg";
 import coworkLunch2 from "../../public/images/cowork_lunch2.jpg";
 
 const COWORK_DESCRIPTION =
-  "Le cowork de Qraft : 150 m² d'espace lumineux au cœur de Marseille, à 2 min du Vieux-Port. 25 postes, salles de réunion, callboxes, accès 24/7.";
+  "Le cowork de Qraft : 150 m² d'espace lumineux au cœur de Marseille, à 2 min du Vieux-Port. 22 postes, salles de réunion, callboxes, accès 24/7.";
 
 const GRADIENT_BLUE = "from-[#2650e1] to-[#1079f4]";
 const GRADIENT_PURPLE = "from-[#8732c8] to-[#db73ff]";
@@ -34,9 +34,6 @@ const MAPS_QUERY = `${COWORK_ADDRESS.street}, ${COWORK_ADDRESS.postalCode} ${COW
 const MAPS_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(
   MAPS_QUERY
 )}&output=embed`;
-const MAPS_LINK_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  MAPS_QUERY
-)}`;
 
 export const metadata: Metadata = {
   title: "Cowork à Marseille",
@@ -46,7 +43,7 @@ export const metadata: Metadata = {
 
 const stats = [
   { value: "150 m²", label: "d'espace lumineux" },
-  { value: "25", label: "postes de travail" },
+  { value: "22", label: "postes de travail" },
   { value: "2", label: "salles de réunion" },
   { value: "3", label: "callboxes" },
 ];
@@ -54,7 +51,7 @@ const stats = [
 const features = [
   "Accès 24/7, pour s'adapter au rythme de chacun",
   "Équipements pro : écrans partagés, imprimante, casiers personnels",
-  "Fruits frais pour l'énergie quotidienne",
+  "Fruits frais, café et thé à volonté pour l'énergie quotidienne",
   "Salles de réunion disponibles sans réservation",
   "Cuisine 100 % équipée (four, frigo, machine à eau gazeuse...)",
   "Réunions dev chaque mardi matin (optionnelles) : un moment pour partager ses trouvailles tech",
@@ -190,14 +187,6 @@ export default function CoworkPage() {
                 <CheckItem key={point}>{point}</CheckItem>
               ))}
             </ul>
-            <a href={MAPS_LINK_URL} target="_blank" rel="noreferrer">
-              <button
-                type="button"
-                className="rounded-2xl bg-gradient-to-r from-[#2B0AB1] to-[#4AA7B8] px-8 py-3 font-medium text-white hover:opacity-90"
-              >
-                Nous situer sur la carte
-              </button>
-            </a>
           </div>
           <div className="flex-[6_6_0%]">
             <iframe
