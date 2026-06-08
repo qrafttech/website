@@ -5,3 +5,4 @@ export const SITE_DESCRIPTION =
 export const SITE_TITLE =
   "Qraft - Construisons ensemble des applications de qualité";
 export const SITE_OG_IMAGE = "/favicons/thumbnail.png";
+export const SITE_CONTAINER = "max-w-screen-2xl px-4 lg:px-24 xl:px-32";

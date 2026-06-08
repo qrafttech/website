@@ -5,6 +5,8 @@ import Link from "next/link";
 import clsx from "clsx";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/20/solid";
 
+import { SITE_CONTAINER } from "../../lib/site";
+
 import ContactUs from "./ContactUs";
 
 const menuItems = [
@@ -13,6 +15,7 @@ const menuItems = [
   { id: "stack", label: "Stack" },
   { id: "team", label: "Équipe" },
   { id: "portfolio", label: "Portfolio" },
+  { id: "cowork", label: "Cowork", href: "/cowork" },
   { id: "blog", label: "Blog", href: "/blog" },
 ];
 
@@ -35,7 +38,7 @@ export default function Menu({ variant = "dark" }: MenuProps) {
       )}
       onClick={mobileOpen ? () => setMobileOpen(false) : () => {}}
     >
-      <div className="max-w-screen-2xl px-4 pt-6 lg:px-24 xl:px-32">
+      <div className={clsx(SITE_CONTAINER, "pt-6")}>
         <div
           className={clsx(
             "flex flex-col",
