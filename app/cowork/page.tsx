@@ -172,12 +172,12 @@ const amenities: { label: string; icon: ReactNode; body: ReactNode }[] = [
     ),
   },
   {
-    label: "Réunion dev du mardi",
+    label: "Réunion tech du mardi",
     icon: <UsersIcon className="h-6 w-6" />,
     body: (
       <>
-        Et chaque mardi matin, la <strong>réunion dev</strong> (optionnelle) :
-        un moment pour partager ses trouvailles tech.
+        Et chaque mardi matin, la <strong>réunion tech</strong> (optionnelle) :
+        un moment pour partager ses trouvailles.
       </>
     ),
   },
@@ -497,7 +497,7 @@ export default function CoworkPage() {
         decoration={
           <Doodle
             src={machinDoodle}
-            className="right-8 top-6 w-48 animate-bob opacity-50"
+            className="right-20 top-6 w-64 animate-bob opacity-50"
           />
         }
       >
@@ -509,8 +509,9 @@ export default function CoworkPage() {
           <ResidentLink resident={residents[1]} />, l&#39;IA au service des
           professionnels du droit fiscal et social, et de{" "}
           <ResidentLink resident={residents[2]} />, le mouvement éducatif qui
-          révèle le potentiel des jeunes à travers le sport et l&#39;art — ainsi
-          qu&#39;une avocate et une poignée de freelances Product & Tech.
+          révèle le potentiel des jeunes à travers le sport et l&#39;art. Tu
+          croiseras également une poignée de freelances product & tech, avocats,
+          etc.
         </p>
       </Band>
 
@@ -553,7 +554,7 @@ export default function CoworkPage() {
           </p>
           <p className="text-gray-500">H.T. / mois</p>
           <p className="mt-5 text-left text-sm font-medium text-gray-700">
-            Un poste dans l&#39;open space, et tout le reste avec :
+            Une place dans l&#39;open space, et tout le reste avec :
           </p>
           <ul className="mt-3 space-y-2 text-left text-gray-700">
             {pricingIncludes.map((item) => (
@@ -571,6 +572,10 @@ export default function CoworkPage() {
           >
             Réserver une visite
           </a>
+          <p className="mt-4 rounded-xl bg-[#048e33]/10 px-4 py-3 text-sm font-medium text-[#047a2c]">
+            Tu hésites ? <strong>Viens tester une semaine</strong> avant de te
+            décider.
+          </p>
         </div>
       </Band>
 
