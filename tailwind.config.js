@@ -49,12 +49,22 @@ module.exports = {
           from: { transform: "translateX(100%)" },
           to: { transform: "translateX(0%)" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        bob: {
+          "0%, 100%": { transform: "translateY(0) rotate(-3deg)" },
+          "50%": { transform: "translateY(-24px) rotate(3deg)" },
+        },
       },
       animation: {
         "waving-hand": "wave 2s linear infinite",
         "spin-slow": "spin 15s linear infinite",
         "grow-and-shrink": "grow-and-shrink 5s infinite",
         "slide-in": "slide-in 10s",
+        float: "float 6s ease-in-out infinite",
+        bob: "bob 3.5s ease-in-out infinite",
       },
     },
   },

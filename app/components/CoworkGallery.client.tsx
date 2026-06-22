@@ -57,6 +57,7 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
       <Dialog
         open={active !== null}
         onClose={() => setActive(null)}
+        aria-label={active?.alt}
         className="relative z-50"
       >
         <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
