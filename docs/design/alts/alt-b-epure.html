@@ -75,16 +75,6 @@
       .accent {
         color: var(--blue);
       }
-      .tag {
-        font-family: var(--mono);
-        font-size: 11px;
-        text-transform: uppercase;
-        background: var(--chip);
-        color: var(--ink-2);
-        padding: 5px 9px;
-        border-radius: 4px;
-        display: inline-block;
-      }
       .btn {
         font-family: var(--body);
         font-size: 15px;
@@ -610,20 +600,21 @@
         display: flex;
         align-items: center;
         gap: 9px;
-        padding: 13px 22px;
+        padding: 18px 26px;
         font-family: var(--mono);
-        font-size: 11px;
+        font-size: 13px;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--muted);
-        border-right: 1px solid var(--line);
+        color: #fff;
+        background: var(--blue);
         white-space: nowrap;
       }
       .ticker-label::before {
         content: "";
         width: 6px;
         height: 6px;
-        background: var(--blue);
+        background: #fff;
       }
       .ticker-view {
         flex: 1;
@@ -643,8 +634,8 @@
         align-items: center;
         white-space: nowrap;
         color: var(--ink-2);
-        font-size: 15px;
-        padding: 13px 24px;
+        font-size: 17px;
+        padding: 18px 28px;
         border-right: 1px solid var(--line);
       }
       .ticker a:hover {
@@ -717,6 +708,13 @@
         display: flex;
         flex-direction: column;
         z-index: 2;
+        scale: 1;
+        transition: scale 0.35s var(--ease), box-shadow 0.35s var(--ease);
+      }
+      .mk .tile:hover {
+        scale: 1.05;
+        z-index: 3;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
       }
       .mk .t1 {
         grid-column: 1 / span 2;
@@ -733,6 +731,19 @@
       .mk .empty {
         background: var(--tint);
         z-index: 1;
+        opacity: 0.55;
+        transition: opacity 0.3s var(--ease), background-color 0.3s var(--ease);
+        animation: drift 4.5s ease-in-out infinite;
+        animation-delay: calc(var(--i) * -0.9s);
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          translate: 0 0;
+        }
+        50% {
+          translate: 6px -6px;
+        }
       }
       .mk .e1 {
         grid-column: 3;
@@ -750,11 +761,19 @@
         grid-column: 4;
         grid-row: 4;
       }
-      .mk .tile .num {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--blue);
-        margin-bottom: auto;
+      /* hover a tile -> fade the rest, pop the squares that touch it */
+      .mk:has(.tile:hover) .empty {
+        opacity: 0.15;
+      }
+      .mk:has(.t1:hover) .e1,
+      .mk:has(.t1:hover) .e3,
+      .mk:has(.t2:hover) .e1,
+      .mk:has(.t2:hover) .e3,
+      .mk:has(.t2:hover) .e4,
+      .mk:has(.t3:hover) .e2,
+      .mk:has(.t3:hover) .e4 {
+        opacity: 1;
+        background: var(--line);
       }
       .mk .tile h3 {
         font-weight: 700;
@@ -768,17 +787,17 @@
         margin-top: 10px;
         max-width: 34ch;
       }
-      .mk .tile .tagrow {
-        margin-top: auto;
-        padding-top: 18px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
 
-      /* AGENTS — panneau bleu plein */
+      /* AGENTS — panneau gris clair neutre, le bleu en petits soulignés seulement */
       .pill {
         padding: 150px 0;
+        background: #f0f1f4;
+      }
+      .pill h2 .uword {
+        text-decoration: underline;
+        text-decoration-color: var(--blue);
+        text-decoration-thickness: 0.09em;
+        text-underline-offset: 0.14em;
       }
       .pill .g2 {
         display: grid;
@@ -801,62 +820,76 @@
         color: var(--ink-2);
         font-weight: 600;
       }
-      .cards {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .card {
-        border: 1px solid var(--hair);
-        padding: 18px 20px;
-        background: var(--canvas);
-      }
-      .card .k {
-        font-family: var(--mono);
-        font-size: 11px;
-        text-transform: uppercase;
-        color: var(--blue);
-      }
-      .card .v {
-        font-size: 15px;
-        margin-top: 6px;
-        line-height: 1.4;
-        color: var(--ink-2);
-      }
-      .pill-blue {
-        background: var(--blue);
-        color: #fff;
-      }
-      .pill-blue h2 {
-        color: #fff;
-      }
-      .pill-blue .desc {
-        color: #c9d4ff;
-      }
-      .pill-blue .desc b {
-        color: #fff;
-      }
-      .pill-blue .card {
-        border: none;
-        background: #fff;
-      }
-      .pill-blue .card .k {
-        color: var(--blue);
-      }
-      .pill-blue .caps {
-        margin-top: 72px;
-        display: flex;
-        flex-wrap: wrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.35);
-      }
-      .pill-blue .caps span {
+      /* stack — les logos à nu sur le gris, en grand */
+      .stack-label {
+        display: inline-block;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--blue);
         font-family: var(--mono);
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        padding: 14px 22px;
-        border-right: 1px solid rgba(255, 255, 255, 0.35);
-        color: #e6ebff;
+        color: var(--ink-2);
+      }
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 44px 20px;
+        margin-top: 40px;
+      }
+      .stack-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      .stack-item img {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+      }
+      .stack-item .n {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        color: var(--muted);
+      }
+      /* variante en ligne : logos compacts sous le titre (volet agents) */
+      .stack-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 36px;
+        margin-top: 36px;
+      }
+      .stack-row .stack-item {
+        flex-direction: row;
+        gap: 12px;
+      }
+      .stack-row .stack-item img {
+        width: 32px;
+        height: 32px;
+      }
+      /* convictions — clé mono + texte, filets légers, pas de boîtes */
+      .convs .row {
+        padding: 22px 0;
+        border-top: 1px solid #dcdee3;
+      }
+      .convs .row:last-child {
+        border-bottom: 1px solid #dcdee3;
+      }
+      .convs .rk {
+        font-family: var(--mono);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-2);
+      }
+      .convs .rv {
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--muted);
+        margin-top: 6px;
+        max-width: 46ch;
       }
 
       /* bloc rotatif — apps / agents / équipes */
@@ -875,42 +908,61 @@
         flex: 0 0 100%;
         min-width: 100%;
       }
+      /* entrée en douceur du contenu du volet courant */
+      .slide h2,
+      .slide .desc,
+      .slide .stack-label,
+      .slide .stack-grid,
+      .slide .stack-row,
+      .slide .convs .row {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+      }
+      .slide.is-current h2,
+      .slide.is-current .desc,
+      .slide.is-current .stack-label,
+      .slide.is-current .stack-grid,
+      .slide.is-current .stack-row,
+      .slide.is-current .convs .row {
+        opacity: 1;
+        transform: none;
+      }
+      .slide.is-current .desc {
+        transition-delay: 0.1s;
+      }
+      .slide.is-current .stack-grid,
+      .slide.is-current .stack-row {
+        transition-delay: 0.18s;
+      }
+      .slide.is-current .convs .row:nth-child(1) {
+        transition-delay: 0.15s;
+      }
+      .slide.is-current .convs .row:nth-child(2) {
+        transition-delay: 0.25s;
+      }
+      .slide.is-current .convs .row:nth-child(3) {
+        transition-delay: 0.35s;
+      }
+      /* pied : barres de progression (= minuteur) + précédent/suivant */
       .rotor-foot {
         display: flex;
         align-items: center;
         gap: 24px;
         margin-top: 72px;
-        border-top: 1px solid rgba(255, 255, 255, 0.35);
-      }
-      .rotor-foot .caps {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 0;
-        border-top: none;
-        transition: opacity 0.3s var(--ease);
-      }
-      .rotor-ctrl {
-        flex: 0 0 auto;
-        display: flex;
-        align-items: center;
-        gap: 6px;
       }
       .rotor-dots {
         display: flex;
         align-items: center;
-        gap: 7px;
-        margin-right: 14px;
+        gap: 8px;
       }
       .rotor-dot {
         position: relative;
         width: 54px;
-        height: 5px;
+        height: 4px;
         padding: 0;
         border: none;
-        border-radius: 3px;
-        background: rgba(255, 255, 255, 0.28);
+        background: #dcdee3;
         cursor: pointer;
         overflow: hidden;
       }
@@ -918,8 +970,7 @@
         position: absolute;
         inset: 0;
         width: 0;
-        background: #fff;
-        border-radius: 2px;
+        background: var(--blue);
       }
       .rotor-dot.is-active .fill {
         animation: rotorfill 7s linear forwards;
@@ -932,6 +983,12 @@
           width: 100%;
         }
       }
+      .rotor-ctrl {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
       .rotor-nav {
         display: grid;
         place-items: center;
@@ -939,7 +996,7 @@
         height: 52px;
         border: none;
         background: none;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.45);
         cursor: pointer;
         transition: color 0.2s var(--ease);
       }
@@ -948,13 +1005,13 @@
         height: 30px;
       }
       .rotor-nav:hover {
-        color: #fff;
+        color: var(--ink);
       }
       .rotor-nav:focus-visible {
-        outline: 2px solid #fff;
+        outline: 2px solid var(--blue);
         outline-offset: 2px;
       }
-      /* mouvement réduit : pas de défilement ni de remplissage animé */
+      /* mouvement réduit : pas de défilement, remplissage plein, contenu visible */
       .noanim .rotor-track {
         transition: none;
       }
@@ -962,13 +1019,28 @@
         animation: none;
         width: 100%;
       }
+      .noanim .slide h2,
+      .noanim .slide .desc,
+      .noanim .slide .stack-label,
+      .noanim .slide .stack-grid,
+      .noanim .slide .stack-row,
+      .noanim .slide .convs .row {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
       @media (max-width: 760px) {
         .rotor-foot {
           flex-wrap: wrap;
           gap: 16px;
+          margin-top: 56px;
         }
-        .rotor-ctrl {
-          margin-left: auto;
+        .stack-grid {
+          gap: 32px 12px;
+        }
+        .stack-grid .stack-item img {
+          width: 46px;
+          height: 46px;
         }
       }
 
@@ -1168,6 +1240,10 @@
         transform: none !important;
         transition: none !important;
       }
+      .noanim .mk .empty {
+        animation: none !important;
+        transition: none !important;
+      }
       .noanim .lin,
       .noanim .q2 .lead,
       .noanim .q1-sub,
@@ -1303,9 +1379,7 @@
           </div>
         </div>
         <div class="q q2">
-          <p class="lead">
-            On construit vos apps, vos agents, vos équipes.
-          </p>
+          <p class="lead">On construit vos apps, vos agents, vos équipes.</p>
           <div class="cta-col">
             <a class="btn btn-primary" href="#proof">Voir nos réalisations</a>
           </div>
@@ -1390,7 +1464,8 @@
         <h2 class="hl">
           <span class="line"
             ><span class="lin"
-              >Notre ADN reste le <span class="accent">code de qualité</span>.</span
+              >Notre ADN reste le
+              <span class="accent">code de qualité</span>.</span
             ></span
           >
         </h2>
@@ -1401,39 +1476,27 @@
       </div>
       <div class="mk" id="mk">
         <div class="tile t1 as" style="--i: 0">
-          <span class="num">/ 01</span>
-          <h3>On construit vos apps</h3>
+          <h3>Vos apps</h3>
           <p>
-            Des apps qui marchent, qui scalent, qui restent simples. On cadre
-            votre projet d’abord, puis on le construit.
+            Du proto à la production. On cadre votre projet d’abord, puis on le
+            construit. Des apps qui marchent, qui scalent, qui restent simples.
           </p>
-          <div class="tagrow">
-            <span class="tag">Web · Mobile · API</span
-            ><span class="tag">Prod-ready</span>
-          </div>
         </div>
         <div class="empty e1 as" style="--i: 1"></div>
         <div class="tile t2 as" style="--i: 2">
-          <span class="num">/ 02</span>
-          <h3>On construit vos agents</h3>
+          <h3>Vos agents</h3>
           <p>
-            Des agents que vos clients et vos users utilisent vraiment, en
-            production B2B.
+            Des agents IA en production, pas en démo. Dans votre produit (B2C)
+            ou pour vos équipes (B2B) — testés et monitorés comme le reste.
           </p>
-          <div class="tagrow">
-            <span class="tag">MCP</span><span class="tag">RAG</span
-            ><span class="tag">Données métier</span>
-          </div>
         </div>
         <div class="empty e2 as" style="--i: 3"></div>
         <div class="tile t3 as" style="--i: 4">
-          <span class="num">/ 03</span>
-          <h3>On construit vos équipes agentic</h3>
-          <p>Vos équipes autonomes et agentic, adaptées à votre métier.</p>
-          <div class="tagrow">
-            <span class="tag">Agentic engineering</span
-            ><span class="tag">Enablement</span>
-          </div>
+          <h3>Vos équipes</h3>
+          <p>
+            En tant que part time CTO, nous accompagnons vos équipes : on les
+            onboarde sur un workflow IA efficace, ou on vous aide à recruter.
+          </p>
         </div>
         <div class="empty e3 as" style="--i: 5"></div>
         <div class="empty e4 as" style="--i: 6"></div>
@@ -1448,9 +1511,9 @@
       </div>
     </div>
 
-    <!-- DEEP-DIVE : un bloc bleu rotatif, 3 volets (apps / agents / équipes) -->
+    <!-- DEEP-DIVE : un bloc rotatif sur canvas, 3 volets (apps / agents / équipes) -->
     <section
-      class="pill pill-blue"
+      class="pill"
       id="agents"
       aria-roledescription="carrousel"
       aria-label="Nos trois offres"
@@ -1462,60 +1525,128 @@
               <!-- 01 · APPS -->
               <article
                 class="slide"
-                aria-label="On construit vos apps"
-                data-caps="Web|Mobile|API|Prod-ready"
+                id="rpanel-1"
+                role="tabpanel"
+                data-tab="Apps"
+                aria-label="Apps"
               >
                 <div class="g2">
                   <div>
                     <h2>
-                      Des apps qui marchent, qui scalent, qui restent simples.
+                      D’abord le <span class="uword">produit</span>, ensuite le
+                      code.
                     </h2>
                     <p class="desc">
-                      Sortir une démo prend quelques heures ; l’industrialiser —
-                      scalable, sécurisée, maintenable — demande de l’expertise.
+                      Un atelier produit pour cadrer le besoin. Un prototype
+                      pour valider les hypothèses avant d’écrire une ligne. Puis
+                      du code — sous œil senior, sur une stack qui tient :
+                      Rails, Next.js, Postgres, Docker.
                     </p>
                   </div>
-                  <div class="cards">
-                    <div class="card">
-                      <div class="k">Atelier Produits</div>
-                    </div>
-                    <div class="card">
-                      <div class="k">Tests</div>
-                    </div>
-                    <div class="card">
-                      <div class="k">CI-CD</div>
-                    </div>
-                    <div class="card">
-                      <div class="k">Clean Architecture</div>
+                  <div>
+                    <div class="stack-label">Notre arsenal préféré</div>
+                    <div class="stack-grid">
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/rails-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">Rails</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/nextjs-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">Next.js</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/nestjs-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">NestJS</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/posgres-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">Postgres</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/docker-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">Docker</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/typescript-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">TypeScript</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </article>
 
-              <!-- 02 · AGENTS -->
+              <!-- 02 · AGENTIC ENGINEERING -->
               <article
                 class="slide"
-                aria-label="On construit vos agents"
-                data-caps="Agents &amp; chatbots|MCP|RAG|Monitoring|Production B2B"
+                id="rpanel-2"
+                role="tabpanel"
+                data-tab="Agentic engineering"
+                aria-label="Agentic engineering"
               >
                 <div class="g2">
                   <div>
-                    <h2>Des agents que vos clients utilisent vraiment.</h2>
-                    <p class="desc">
-                      L’agentique, c’est une interface de plus — comme une API
-                      ou un frontend. Le bon contexte pour la performance,
-                      <b>testés et monitorés comme le reste</b>.
-                    </p>
+                    <h2>
+                      L’agent exécute. La décision reste
+                      <span class="uword">humaine</span>.
+                    </h2>
+                    <div class="stack-row">
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/langchain-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">LangChain</span>
+                      </div>
+                      <div class="stack-item">
+                        <img
+                          src="../../../public/images/logos/claude-code-logo.svg"
+                          alt=""
+                        />
+                        <span class="n">Claude Code</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="cards">
-                    <div class="card">
-                      <div class="k">Actions métier en langage naturel</div>
+                  <div class="convs">
+                    <div class="row">
+                      <div class="rk">Permissions</div>
+                      <p class="rv">
+                        Un agent qui peut tout faire finit par tout casser. On
+                        verrouille ce qu’il touche — code review, déploiement,
+                        données clients — avant de lui donner les clés.
+                      </p>
                     </div>
-                    <div class="card">
-                      <div class="k">Exposés via MCP ou CLI</div>
+                    <div class="row">
+                      <div class="rk">Contexte</div>
+                      <p class="rv">
+                        Un agent sans contexte invente. On lui donne un vrai
+                        framework IA — doc, historique, contraintes métier
+                        réelles.
+                      </p>
                     </div>
-                    <div class="card">
-                      <div class="k">Maîtrise des coûts</div>
+                    <div class="row">
+                      <div class="rk">Automation</div>
+                      <p class="rv">
+                        On automatise l’exécution, la décision reste humaine sur
+                        ce qui compte.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1524,46 +1655,36 @@
               <!-- 03 · ÉQUIPES -->
               <article
                 class="slide"
-                aria-label="On construit vos équipes agentiques"
-                data-caps="Agentic engineering|Enablement|Tooling|Lead"
+                id="rpanel-3"
+                role="tabpanel"
+                data-tab="Équipes"
+                aria-label="Équipes"
               >
                 <div class="g2">
                   <div>
-                    <h2>Des équipes agentiques qui livrent.</h2>
-                    <p class="desc">
-                      On augmente vos devs en leur donnant le bon framework IA,
-                      et le socle qui rend l’autonomie sûre :
-                      <b
-                        >déterminisme, permissions verrouillées, knowledge base
-                        versionnée</b
-                      >.
-                    </p>
+                    <h2>
+                      Votre CTO. À <span class="uword">temps partagé</span>.
+                    </h2>
                   </div>
-                  <div class="cards">
-                    <div class="card">
-                      <div class="k">Orchestration d’agents</div>
-                    </div>
-                    <div class="card">
-                      <div class="k">Knowledge base vivante</div>
-                    </div>
-                    <div class="card">
-                      <div class="k">Socle d’équipe</div>
-                    </div>
-                  </div>
+                  <p class="desc">
+                    Un CTO senior dans votre équipe, à temps partagé — pour
+                    cadrer les décisions techniques, onboarder vos devs sur un
+                    vrai workflow IA, ou vous aider à recruter la bonne
+                    personne.
+                  </p>
                 </div>
               </article>
             </div>
           </div>
 
           <div class="rotor-foot">
-            <div class="caps" id="rcaps" aria-hidden="true"></div>
+            <div
+              class="rotor-dots"
+              id="rdots"
+              role="tablist"
+              aria-label="Choisir un volet"
+            ></div>
             <div class="rotor-ctrl">
-              <div
-                class="rotor-dots"
-                id="rdots"
-                role="tablist"
-                aria-label="Choisir un volet"
-              ></div>
               <button
                 class="rotor-nav"
                 id="rprev"
@@ -1775,15 +1896,14 @@
         .forEach((el) => io.observe(el));
 
       // bloc rotatif : apps / agents / équipes
-      // la barre de progression EST le minuteur : l'avance se déclenche à la fin
-      // de son animation (7s) — impossible de désynchroniser barre et volet, et
-      // la pause au survol met l'animation (donc l'avance) en pause d'un coup
+      // la barre de progression active EST le minuteur : l'avance se
+      // déclenche à la fin de son animation (7s) — impossible de désynchroniser
+      // barre et volet, et la pause au survol gèle l'animation donc l'avance
       (function () {
         const rotor = document.getElementById("rotor");
         if (!rotor) return;
         const track = document.getElementById("rtrack");
         const slides = [...track.children];
-        const capsBox = document.getElementById("rcaps");
         const dotsBox = document.getElementById("rdots");
         const n = slides.length;
         let idx = 0;
@@ -1793,29 +1913,30 @@
           const b = document.createElement("button");
           b.type = "button";
           b.className = "rotor-dot";
-          b.setAttribute("aria-label", "Aller au volet " + (i + 1));
+          b.setAttribute("role", "tab");
+          b.setAttribute("aria-controls", s.id);
+          b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+          b.setAttribute(
+            "aria-label",
+            "Aller au volet " + (i + 1) + " — " + (s.dataset.tab || "")
+          );
           b.innerHTML = '<span class="fill"></span>';
           b.addEventListener("click", () => goto(i));
           dotsBox.appendChild(b);
           return b;
         });
 
-        function renderCaps() {
-          const caps = (slides[idx].dataset.caps || "").split("|");
-          capsBox.style.opacity = "0";
-          setTimeout(() => {
-            capsBox.innerHTML = caps
-              .map((c) => "<span>" + c + "</span>")
-              .join("");
-            capsBox.style.opacity = "1";
-          }, 160);
-        }
-
         function paint() {
           track.style.transform = "translateX(-" + idx * 100 + "%)";
-          dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
-          renderCaps();
-          // relance le remplissage du point actif depuis 0
+          slides.forEach((s, i) => {
+            s.classList.toggle("is-current", i === idx);
+            s.setAttribute("aria-hidden", i === idx ? "false" : "true");
+          });
+          dots.forEach((d, i) => {
+            d.classList.toggle("is-active", i === idx);
+            d.setAttribute("aria-selected", i === idx ? "true" : "false");
+          });
+          // relance le remplissage de la barre active depuis 0
           const fill = dots[idx].querySelector(".fill");
           fill.style.animation = "none";
           void fill.offsetWidth;
@@ -1855,9 +1976,12 @@
             rotor.classList.remove("is-paused");
         });
 
-        // état initial : volet 1 affiché, sans barre active (pas d'anim hors-vue)
+        // état initial : volet 1 affiché et visible, sans barre active
         track.style.transform = "translateX(0)";
-        renderCaps();
+        slides.forEach((s, i) => {
+          s.classList.toggle("is-current", i === 0);
+          s.setAttribute("aria-hidden", i === 0 ? "false" : "true");
+        });
         // ne démarre qu'au 1er passage à l'écran (sinon la 1re barre se remplit
         // hors-vue et paraît figée)
         const vio = new IntersectionObserver(
