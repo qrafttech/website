@@ -127,16 +127,17 @@
       }
       .brand {
         display: inline-flex;
-        align-items: center;
-        gap: 14px;
+        align-items: baseline;
+        gap: 2px;
         font-family: var(--display);
         font-weight: 700;
         font-size: 20px;
         letter-spacing: -0.02em;
       }
       .brand .q-mark {
-        width: 26px;
+        width: 22px;
         height: auto;
+        align-self: baseline;
         display: block;
       }
       .brand i {
@@ -184,8 +185,8 @@
       }
       .hgrid {
         display: grid;
-        grid-template-columns: 2.3fr 1fr;
-        grid-template-rows: 1.12fr 0.88fr;
+        grid-template-columns: 1.55fr 1fr;
+        grid-template-rows: 0.92fr 1.08fr;
         grid-template-areas: "head support" "visual links";
         min-height: calc(100vh - var(--hh));
       }
@@ -271,6 +272,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        margin-top: clamp(16px, 3vh, 36px);
         opacity: 0;
         animation: fadein 0.8s var(--ease) 1s forwards;
       }
@@ -279,17 +281,17 @@
         grid-area: visual;
         border-right: 1px solid var(--line);
         overflow: hidden;
-        background: #1b212e;
+        background: #f4f3ed;
         display: flex;
         flex-direction: column;
-        --t-txt: #dde3ef;
-        --t-dim: #8b94a8;
-        --t-acc: #6f8cff;
-        --t-ok: #57d38c;
-        --t-add: #57d38c;
-        --t-del: #e5687f;
-        --t-chrome: #232937;
-        --t-hair: #313a4b;
+        --t-txt: #1a1a1a;
+        --t-dim: #7a7a72;
+        --t-acc: #2f4bd0;
+        --t-ok: #1f8f52;
+        --t-add: #1f8f52;
+        --t-del: #c0304a;
+        --t-chrome: #e8e7df;
+        --t-hair: #dcdbd2;
       }
       .term-bar {
         flex: none;
@@ -683,6 +685,12 @@
         font-size: clamp(34px, 5.4vw, 72px);
         line-height: 1.02;
         max-width: 16ch;
+      }
+      .moat-sub {
+        margin-top: 20px;
+        max-width: 46ch;
+        font-size: clamp(16px, 1.5vw, 20px);
+        color: var(--muted);
       }
       .mk {
         position: relative;
@@ -1258,13 +1266,13 @@
   <body>
     <header>
       <div class="nav">
-        <a class="brand" href="#"
+        <a class="brand" href="#" aria-label="Qraft"
           ><img
             class="q-mark"
-            src="../../../public/images/q-logo.png"
+            src="../../../public/images/q_pixel.png"
             alt=""
             aria-hidden="true"
-          />Qraft</a
+          />raft</a
         >
         <ul>
           <li><a href="#offres">Offres</a></li>
@@ -1292,16 +1300,11 @@
                 ></span
               >
             </h1>
-            <p class="q1-sub">
-              Des développeurs seniors, ex-CTO/VP, 10+&nbsp;ans d’expérience,
-              pour vous accompagner dans vos projets.
-            </p>
           </div>
         </div>
         <div class="q q2">
           <p class="lead">
-            On construit vos apps, vos agents, vos équipes.<br />
-            <b>Notre ADN reste le code de qualité.</b>
+            On construit vos apps, vos agents, vos équipes.
           </p>
           <div class="cta-col">
             <a class="btn btn-primary" href="#proof">Voir nos réalisations</a>
@@ -1387,11 +1390,14 @@
         <h2 class="hl">
           <span class="line"
             ><span class="lin"
-              >Du <span class="accent">proto</span> à la
-              <span class="accent">production</span>.</span
+              >Notre ADN reste le <span class="accent">code de qualité</span>.</span
             ></span
           >
         </h2>
+        <p class="moat-sub">
+          Des développeurs seniors, ex-CTO/VP, 10+ ans d’expérience, pour vous
+          accompagner dans vos projets.
+        </p>
       </div>
       <div class="mk" id="mk">
         <div class="tile t1 as" style="--i: 0">
@@ -1737,10 +1743,9 @@
           <span class="brand"
             ><img
               class="q-mark"
-              src="../../../public/images/q-logo.png"
-              alt=""
-              aria-hidden="true"
-            />Qraft</span
+              src="../../../public/images/q_pixel.png"
+              alt="Q"
+            />raft</span
           >
           <div class="foot-meta">
             <span class="accent">Q</span>rafting agentic software<br />© Qraft
