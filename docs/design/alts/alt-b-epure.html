@@ -1090,14 +1090,14 @@
         right: 0;
         bottom: 0;
         padding: 16px;
-        background: linear-gradient(transparent, rgba(8, 20, 63, 0.85));
+        background: linear-gradient(transparent, rgba(9, 9, 11, 0.82));
         color: #fff;
       }
       .story .k {
         font-family: var(--mono);
         font-size: 11px;
         text-transform: uppercase;
-        color: #b9c6ff;
+        color: rgba(255, 255, 255, 0.68);
       }
       .story .t {
         font-family: var(--display);
@@ -1118,19 +1118,19 @@
 
       /* WAYS */
       .ways {
-        background: var(--navy);
-        color: #fafafa;
+        background: #f0f1f4;
+        color: var(--ink);
         padding: 150px 0;
       }
       .ways .cols {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        border-top: 1px solid var(--line);
       }
       .ways .col {
         padding: 32px 32px 8px 0;
-        border-right: 1px solid rgba(255, 255, 255, 0.18);
+        border-right: 1px solid var(--line);
       }
       .ways .col:not(:first-child) {
         padding-left: 32px;
@@ -1153,7 +1153,7 @@
         font-size: 21px;
       }
       .ways .col p {
-        color: #c2cbe8;
+        color: var(--muted);
         font-size: 15px;
         margin-top: 10px;
       }
@@ -1331,7 +1331,7 @@
         }
         .ways .col {
           border-right: none;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          border-bottom: 1px solid var(--line);
           padding: 28px 0;
         }
         .ways .col:not(:first-child) {
