@@ -733,25 +733,10 @@
         z-index: 1;
         opacity: 0.55;
         transition: opacity 0.3s var(--ease), background-color 0.3s var(--ease);
-        animation: drift 4.5s ease-in-out infinite;
-        animation-delay: calc(var(--i) * -0.9s);
-      }
-      @keyframes drift {
-        0%,
-        100% {
-          translate: 0 0;
-        }
-        50% {
-          translate: 6px -6px;
-        }
       }
       .mk .e1 {
         grid-column: 3;
         grid-row: 1;
-      }
-      .mk .e2 {
-        grid-column: 6;
-        grid-row: 2;
       }
       .mk .e3 {
         grid-column: 2;
@@ -760,20 +745,6 @@
       .mk .e4 {
         grid-column: 4;
         grid-row: 4;
-      }
-      /* hover a tile -> fade the rest, pop the squares that touch it */
-      .mk:has(.tile:hover) .empty {
-        opacity: 0.15;
-      }
-      .mk:has(.t1:hover) .e1,
-      .mk:has(.t1:hover) .e3,
-      .mk:has(.t2:hover) .e1,
-      .mk:has(.t2:hover) .e3,
-      .mk:has(.t2:hover) .e4,
-      .mk:has(.t3:hover) .e2,
-      .mk:has(.t3:hover) .e4 {
-        opacity: 1;
-        background: var(--line);
       }
       .mk .tile h3 {
         font-weight: 700;
@@ -786,6 +757,44 @@
         font-size: 15px;
         margin-top: 10px;
         max-width: 34ch;
+      }
+      /* FACES — l'équipe glissée dans les cases vides de la grille */
+      .mk .face {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: #fff;
+      }
+      .mk .face img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1);
+        scale: 1;
+        transition: filter 0.35s var(--ease), scale 0.35s var(--ease);
+      }
+      .mk .face:hover {
+        z-index: 3;
+      }
+      .mk .face:hover img {
+        filter: none;
+        scale: 1.06;
+      }
+      .face-tag {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: 26px 12px 9px;
+        background: linear-gradient(transparent, rgba(10, 12, 16, 0.78));
+        font-size: 11px;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+      }
+      .face-tag strong {
+        font-size: 12px;
+        font-weight: 700;
       }
 
       /* AGENTS — panneau gris clair neutre, le bleu en petits soulignés seulement */
@@ -1241,7 +1250,6 @@
         transition: none !important;
       }
       .noanim .mk .empty {
-        animation: none !important;
         transition: none !important;
       }
       .noanim .lin,
@@ -1306,6 +1314,12 @@
         }
         .mk .empty {
           display: none;
+        }
+        .mk .face {
+          display: block;
+          order: 10;
+          height: 240px;
+          margin-top: 12px;
         }
         .pill .g2,
         .stories,
@@ -1482,7 +1496,20 @@
             construit. Des apps qui marchent, qui scalent, qui restent simples.
           </p>
         </div>
-        <div class="empty e1 as" style="--i: 1"></div>
+        <a
+          class="empty face e1 as"
+          style="--i: 1"
+          href="https://www.linkedin.com/in/nicolasrouanne/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Nicolas Rouanne sur LinkedIn"
+        >
+          <img src="../../../public/images/nicolas.jpeg" alt="Nicolas Rouanne" />
+          <span class="face-tag"
+            ><strong>Nicolas Rouanne ↗</strong>Co-fondateur &amp; CEO — ex-CTO
+            Boaterfly</span
+          >
+        </a>
         <div class="tile t2 as" style="--i: 2">
           <h3>Vos agents</h3>
           <p>
@@ -1490,16 +1517,40 @@
             ou pour vos équipes (B2B) — testés et monitorés comme le reste.
           </p>
         </div>
-        <div class="empty e2 as" style="--i: 3"></div>
-        <div class="tile t3 as" style="--i: 4">
+        <div class="tile t3 as" style="--i: 3">
           <h3>Vos équipes</h3>
           <p>
             En tant que part time CTO, nous accompagnons vos équipes : on les
             onboarde sur un workflow IA efficace, ou on vous aide à recruter.
           </p>
         </div>
-        <div class="empty e3 as" style="--i: 5"></div>
-        <div class="empty e4 as" style="--i: 6"></div>
+        <a
+          class="empty face e3 as"
+          style="--i: 4"
+          href="https://www.linkedin.com/in/alexis-nugon/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Alexis Nugon sur LinkedIn"
+        >
+          <img src="../../../public/images/alexis.jpeg" alt="Alexis Nugon" />
+          <span class="face-tag"
+            ><strong>Alexis Nugon ↗</strong>Co-fondateur — Epitech, 10+ ans de
+            dev</span
+          >
+        </a>
+        <a
+          class="empty face e4 as"
+          style="--i: 5"
+          href="https://www.linkedin.com/in/adrienlupo/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Adrien Lupo sur LinkedIn"
+        >
+          <img src="../../../public/images/adrien.jpeg" alt="Adrien Lupo" />
+          <span class="face-tag"
+            ><strong>Adrien Lupo ↗</strong>Développeur senior</span
+          >
+        </a>
       </div>
     </section>
 
