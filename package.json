@@ -13,8 +13,10 @@
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@notionhq/client": "^5.11.1",
-    "@rive-app/react-canvas": "^3.0.35",
     "clsx": "^1.2.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "motion": "^12.42.2",
     "next": "16.2.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"

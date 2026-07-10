@@ -10,61 +10,81 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          orange: "#e77c40",
-          gold: "#f8c618",
+        canvas: "#fbfbf8",
+        ink: "#000000",
+        ink2: "#09090b",
+        muted: "#3f3f47",
+        navy: "#08143f",
+        hair: "#e4e3de",
+        line: "#cdccc3",
+        chip: "#f5f4ef",
+        tint: "#eceae2",
+        blue: "#2650e1",
+        // Surfaces: hero support panels, ticker band, rotor/ways panel,
+        // and the hairline that reads on top of the panel grey.
+        sand: "#f4f3ed",
+        band: "#f0efe9",
+        panel: "#f0f1f4",
+        rule: "#dcdee3",
+        // Terminal (hero q3): a self-contained palette.
+        term: {
+          txt: "#1a1a1a",
+          dim: "#7a7a72",
+          acc: "#2f4bd0",
+          ok: "#1f8f52",
+          add: "#1f8f52",
+          del: "#c0304a",
+          chrome: "#e8e7df",
+          hair: "#dcdbd2",
+          meta: "#8792a5",
         },
-      },
-      fontSize: {
-        sm: ["0.875rem", "1.5rem"],
-        lg: ["1.125rem", "2rem"],
-        base: ["1rem", "1.75rem"],
-        "2xl": ["1.5rem", "2.25rem"],
-        "4xl": ["2.25rem", "2.75rem"],
-        "5xl": ["3rem", "3.75rem"],
-        "6xl": ["3.75rem", "4.5rem"],
       },
       fontFamily: {
-        sans: ["var(--font-montserrat)", ...fontFamily.sans],
-        serif: ["var(--font-sora)", ...fontFamily.serif],
-        scribble: ["var(--font-scribble)", ...fontFamily.mono],
+        sans: ["var(--font-inter)", ...fontFamily.sans],
+        display: ["var(--font-sora)", ...fontFamily.sans],
+        mono: ["var(--font-space-mono)", ...fontFamily.mono],
+      },
+      transitionTimingFunction: {
+        epure: "cubic-bezier(0.65, 0, 0.15, 0.99)",
       },
       keyframes: {
-        wave: {
-          "0%": { transform: "rotate(0.0deg)" },
-          "10%": { transform: "rotate(14deg)" },
-          "20%": { transform: "rotate(-8deg)" },
-          "30%": { transform: "rotate(14deg)" },
-          "40%": { transform: "rotate(-4deg)" },
-          "50%": { transform: "rotate(10.0deg)" },
-          "60%": { transform: "rotate(0.0deg)" },
-          "100%": { transform: "rotate(0.0deg)" },
+        tick: {
+          to: { transform: "translateX(-50%)" },
         },
-        "grow-and-shrink": {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.5)" },
-          "100%": { transform: "scale(1)" },
+        tpulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.25" },
         },
-        "slide-in": {
-          from: { transform: "translateX(100%)" },
-          to: { transform: "translateX(0%)" },
+        caret: {
+          "50%": { opacity: "0" },
         },
-        float: {
+        scrolldown: {
+          "0%, 100%": { opacity: "0.25" },
+          "50%": { opacity: "1" },
+        },
+        qbob: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-12px)" },
+          "50%": { transform: "translateY(-6px)" },
         },
-        bob: {
-          "0%, 100%": { transform: "translateY(0) rotate(-3deg)" },
-          "50%": { transform: "translateY(-24px) rotate(3deg)" },
+        tpop: {
+          "0%": {
+            color: "#a7ffce",
+            textShadow: "0 0 12px rgba(87, 211, 140, 0.8)",
+          },
+          "100%": { color: "inherit", textShadow: "none" },
+        },
+        rotorfill: {
+          from: { width: "0%" },
+          to: { width: "100%" },
         },
       },
       animation: {
-        "waving-hand": "wave 2s linear infinite",
-        "spin-slow": "spin 15s linear infinite",
-        "grow-and-shrink": "grow-and-shrink 5s infinite",
-        "slide-in": "slide-in 10s",
-        float: "float 6s ease-in-out infinite",
-        bob: "bob 3.5s ease-in-out infinite",
+        tick: "tick 42s linear infinite",
+        tpulse: "tpulse 1.6s ease-in-out infinite",
+        caret: "caret 1.05s steps(1) infinite",
+        scrolldown: "scrolldown 1.5s ease-in-out infinite",
+        qbob: "qbob 3s cubic-bezier(0.65, 0, 0.15, 0.99) infinite",
+        tpop: "tpop 0.5s ease",
       },
     },
   },

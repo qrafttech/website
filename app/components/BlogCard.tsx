@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import type { ArticleMeta } from "../../lib/notion";
+import type { ArticleMeta } from "@/lib/notion";
 
 interface BlogCardProps {
   article: ArticleMeta;
@@ -13,15 +13,15 @@ export default function BlogCard({ article, compact }: BlogCardProps) {
     <Link
       href={`/blog/${slug}`}
       className={clsx(
-        "group flex items-center justify-between border-b border-black/10 transition-colors hover:border-black/30",
+        "group flex items-center justify-between border-b border-hair transition-colors ease-epure hover:border-line",
         compact ? "py-3" : "py-5"
       )}
     >
       <div className="min-w-0 flex-1">
-        <h3 className="font-serif text-base font-bold transition-transform group-hover:translate-x-1 md:text-lg">
+        <h3 className="font-display text-base font-semibold text-ink transition-colors ease-epure group-hover:text-blue md:text-lg">
           {title}
         </h3>
-        <p className="pt-1 text-sm text-zinc-400">
+        <p className="pt-2 font-mono text-xs uppercase tracking-[0.08em] text-muted">
           {date}
           {author && (
             <>
@@ -31,7 +31,7 @@ export default function BlogCard({ article, compact }: BlogCardProps) {
           )}
         </p>
       </div>
-      <span className="ml-4 text-zinc-400 transition-transform group-hover:translate-x-1">
+      <span className="ml-4 text-muted transition-transform ease-epure group-hover:translate-x-1 group-hover:text-blue">
         &rarr;
       </span>
     </Link>

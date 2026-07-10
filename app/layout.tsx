@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Sora } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter, Sora, Space_Mono } from "next/font/google";
 
 import {
   SITE_URL,
@@ -8,7 +7,10 @@ import {
   SITE_TITLE,
   SITE_DESCRIPTION,
   SITE_OG_IMAGE,
-} from "../lib/site";
+} from "@/lib/site";
+import MotionProvider from "@/components/motion/MotionProvider.client";
+import Header from "@/components/Header.client";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,17 +43,12 @@ export const metadata: Metadata = {
   manifest: "/favicons/site.webmanifest",
 };
 
-const montserrat = Montserrat({
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const sora = Sora({ subsets: ["latin"], variable: "--font-sora" });
+const spaceMono = Space_Mono({
   subsets: ["latin"],
-  variable: "--font-montserrat",
-});
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-});
-const scribbleNote = localFont({
-  src: "../public/fonts/scribble-note.ttf",
-  variable: "--font-scribble",
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
 });
 
 export default function RootLayout({
@@ -62,9 +59,13 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body
-        className={`${montserrat.variable} ${sora.variable} ${scribbleNote.variable} font-sans text-base font-medium`}
+        className={`${inter.variable} ${sora.variable} ${spaceMono.variable} bg-canvas font-sans text-base leading-normal text-ink`}
       >
-        {children}
+        <MotionProvider>
+          <Header />
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
