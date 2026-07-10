@@ -1,38 +1,27 @@
 import type { ReactNode } from "react";
-import clsx from "clsx";
 
-import { SITE_CONTAINER } from "../../lib/site";
-
-import Menu from "./Menu.client";
-import CoverBackground from "./CoverBackground";
+import Wrap from "@/components/Wrap";
 
 interface PageHeroProps {
+  eyebrow: string;
   title: string;
   subtitle: ReactNode;
-  menuVariant?: "dark" | "light";
 }
 
-export default function PageHero({
-  title,
-  subtitle,
-  menuVariant,
-}: PageHeroProps) {
+export default function PageHero({ eyebrow, title, subtitle }: PageHeroProps) {
   return (
-    <div className="relative">
-      <Menu variant={menuVariant} />
-      <CoverBackground>
-        <div
-          className={clsx(
-            "w-full pt-28 pb-16 md:pt-32 md:pb-20",
-            SITE_CONTAINER
-          )}
-        >
-          <h1 className="font-serif text-4xl font-bold text-white md:text-5xl">
+    <section className="border-b border-line bg-sand">
+      <Wrap>
+        <div className="py-16 md:py-24">
+          <p className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            {eyebrow}
+          </p>
+          <h1 className="mt-5 text-[clamp(34px,4.8vw,64px)] font-bold leading-[1.02]">
             {title}
           </h1>
-          <p className="max-w-xl pt-3 text-white/60">{subtitle}</p>
+          <p className="mt-5 max-w-[48ch] text-muted">{subtitle}</p>
         </div>
-      </CoverBackground>
-    </div>
+      </Wrap>
+    </section>
   );
 }

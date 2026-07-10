@@ -1,22 +1,25 @@
 import Link from "next/link";
 
-import FluidContainer from "../../../components/FluidContainer";
+import Wrap from "@/components/Wrap";
+import { getDictionary } from "@/lib/i18n";
 
 export default function ArticleNotFound() {
+  const t = getDictionary();
+
   return (
-    <FluidContainer>
+    <Wrap>
       <div className="flex flex-col items-center gap-4 pt-16 pb-24 text-center">
-        <h2 className="font-serif text-2xl font-bold">Article introuvable</h2>
-        <p className="text-zinc-500">
-          Cet article n&apos;existe pas ou a été supprimé.
-        </p>
+        <h2 className="font-display text-2xl font-bold text-ink">
+          {t.blog.notFound.title}
+        </h2>
+        <p className="text-muted">{t.blog.notFound.body}</p>
         <Link
           href="/blog"
-          className="inline-block rounded-2xl border border-black bg-transparent px-8 py-3 font-medium text-black hover:bg-black/10"
+          className="inline-block border border-line px-5 py-3 text-[15px] text-ink transition-colors ease-epure hover:bg-tint"
         >
-          Retour aux articles
+          {t.blog.notFound.cta}
         </Link>
       </div>
-    </FluidContainer>
+    </Wrap>
   );
 }

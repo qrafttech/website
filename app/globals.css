@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    /* clears the sticky header (h-14) when jumping to an anchor */
+    scroll-padding-top: 56px;
+  }
+
+  body {
+    @apply bg-canvas text-ink;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    letter-spacing: -0.03em;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline outline-2 outline-offset-[3px] outline-blue;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

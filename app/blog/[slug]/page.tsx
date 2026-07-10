@@ -3,15 +3,16 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import FluidContainer from "../../../components/FluidContainer";
-import NotionRenderer from "../../components/NotionRenderer";
-import JsonLd from "../../components/JsonLd";
+import NotionRenderer from "@/app/components/NotionRenderer";
+import JsonLd from "@/app/components/JsonLd";
+import Wrap from "@/components/Wrap";
 import {
   fetchArticles,
   fetchArticleBySlug,
   extractPlainText,
-} from "../../../lib/notion";
-import { SITE_URL, SITE_NAME } from "../../../lib/site";
+} from "@/lib/notion";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { getDictionary } from "@/lib/i18n";
 
 const getArticle = cache(fetchArticleBySlug);
 
@@ -64,8 +65,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   if (!article) notFound();
 
+  const t = getDictionary();
+
   return (
-    <FluidContainer>
+    <Wrap>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,20 +90,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <div className="pt-8 pb-24">
         <Link
           href="/blog"
-          className="text-sm text-zinc-500 transition-colors hover:text-zinc-800"
+          className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors ease-epure hover:text-blue"
         >
-          &larr; Retour aux articles
+          &larr; {t.blog.backToArticles}
         </Link>
         <article className="mx-auto max-w-prose pt-12">
-          <h1 className="bg-gradient-to-r from-brand-orange to-brand-gold bg-clip-text font-serif text-2xl font-bold text-transparent md:text-4xl">
+          <h1 className="font-display text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06] text-ink">
             {article.title}
           </h1>
-          <p className="pt-4 text-sm text-zinc-400">{article.date}</p>
+          <p className="pt-4 font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            {article.date}
+          </p>
           <div className="pt-8">
             <NotionRenderer blocks={article.blocks} />
           </div>
         </article>
       </div>
-    </FluidContainer>
+    </Wrap>
   );
 }

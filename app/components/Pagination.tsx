@@ -1,6 +1,8 @@
 import Link from "next/link";
 import clsx from "clsx";
 
+import { getDictionary } from "@/lib/i18n";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -45,23 +47,24 @@ export default function Pagination({
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
+  const t = getDictionary();
   const pages = getPageNumbers(currentPage, totalPages);
 
   return (
     <nav
-      aria-label="Pagination"
+      aria-label={t.blog.pagination.label}
       className="flex items-center justify-center gap-2 pt-12"
     >
       {currentPage > 1 ? (
         <Link
           href={currentPage === 2 ? "/blog" : `/blog?page=${currentPage - 1}`}
-          className="rounded-2xl border border-black bg-transparent px-5 py-2 text-sm font-medium text-black hover:bg-black/10"
+          className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          Précédent
+          {t.blog.pagination.previous}
         </Link>
       ) : (
-        <span className="rounded-2xl border border-black/20 px-5 py-2 text-sm font-medium text-black/30">
-          Précédent
+        <span className="border border-hair px-5 py-2 text-sm text-muted/40">
+          {t.blog.pagination.previous}
         </span>
       )}
 
@@ -69,7 +72,7 @@ export default function Pagination({
         page === "ellipsis" ? (
           <span
             key={`ellipsis-${i}`}
-            className="grid h-10 w-10 place-items-center text-sm text-zinc-400"
+            className="grid h-10 w-10 place-items-center text-sm text-muted"
           >
             ...
           </span>
@@ -78,10 +81,10 @@ export default function Pagination({
             key={page}
             href={page === 1 ? "/blog" : `/blog?page=${page}`}
             className={clsx(
-              "grid h-10 w-10 place-items-center rounded-2xl border text-sm font-medium",
+              "grid h-10 w-10 place-items-center border text-sm transition-colors ease-epure",
               page === currentPage
-                ? "border-black bg-black text-white"
-                : "border-black bg-transparent text-black hover:bg-black/10"
+                ? "border-ink2 bg-ink2 text-canvas"
+                : "border-line text-ink hover:bg-tint"
             )}
           >
             {page}
@@ -92,13 +95,13 @@ export default function Pagination({
       {currentPage < totalPages ? (
         <Link
           href={`/blog?page=${currentPage + 1}`}
-          className="rounded-2xl border border-black bg-transparent px-5 py-2 text-sm font-medium text-black hover:bg-black/10"
+          className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          Suivant
+          {t.blog.pagination.next}
         </Link>
       ) : (
-        <span className="rounded-2xl border border-black/20 px-5 py-2 text-sm font-medium text-black/30">
-          Suivant
+        <span className="border border-hair px-5 py-2 text-sm text-muted/40">
+          {t.blog.pagination.next}
         </span>
       )}
     </nav>

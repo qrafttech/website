@@ -1,15 +1,18 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import PageHero from "../components/PageHero";
-import FluidContainer from "../../components/FluidContainer";
-import BlogCard from "../components/BlogCard";
-import Pagination from "../components/Pagination";
-import { fetchArticles } from "../../lib/notion";
+
+import PageHero from "@/app/components/PageHero";
+import BlogCard from "@/app/components/BlogCard";
+import Pagination from "@/app/components/Pagination";
+import Wrap from "@/components/Wrap";
+import { fetchArticles } from "@/lib/notion";
+import { getDictionary } from "@/lib/i18n";
+
+const t = getDictionary();
 
 export const metadata: Metadata = {
-  title: "Nos articles",
-  description:
-    "Retours d'expérience, guides techniques et bonnes pratiques de l'équipe Qraft.",
+  title: t.blog.title,
+  description: t.blog.metaDescription,
   alternates: { canonical: "/blog" },
 };
 
@@ -46,22 +49,18 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <main>
       <PageHero
-        title="Nos articles"
-        subtitle={
-          <>
-            Retours d&#39;expérience, guides techniques et bonnes pratiques de
-            notre équipe.
-          </>
-        }
+        eyebrow={t.blog.eyebrow}
+        title={t.blog.title}
+        subtitle={t.blog.subtitle}
       />
 
-      <FluidContainer>
-        <div className="-mt-8 pb-24">
+      <Wrap>
+        <div className="py-16 md:py-24">
           <Suspense>
             <ArticleList page={searchParams.then((sp) => sp.page)} />
           </Suspense>
         </div>
-      </FluidContainer>
+      </Wrap>
     </main>
   );
 }
