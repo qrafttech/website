@@ -66,11 +66,11 @@ export const offres = {
     { text: "." },
   ] as RichText,
   subtitle:
-    "Des développeurs seniors, ex-CTO/VP, 10+ ans d’expérience, pour vous accompagner dans vos projets.",
+    "Des développeurs seniors, ex-CTO/VP, 10+ ans d’expérience — qui cadrent le bon problème, pensent l’architecture, et livrent de la conception à la prod.",
   tiles: [
     {
       title: "Vos apps",
-      body: "Du proto à la production. On cadre votre projet d’abord, puis on le construit. Des apps qui marchent, qui scalent, qui restent simples.",
+      body: "On cadre le bon problème d’abord, puis on le construit — bout en bout, du proto à la production. Des apps qui marchent, qui scalent, qui restent simples.",
     },
     {
       title: "Vos agents",
@@ -78,7 +78,7 @@ export const offres = {
     },
     {
       title: "Vos équipes",
-      body: "En tant que part time CTO, nous accompagnons vos équipes : on les onboarde sur un workflow IA efficace, ou on vous aide à recruter.",
+      body: "En tant que part time CTO, on élève le niveau de vos équipes : workflow IA efficace, code reviews exigeantes, mentoring — ou on vous aide à recruter.",
     },
   ],
   team: [
@@ -168,7 +168,7 @@ export const rotor = {
         { text: "temps partagé", underline: true },
         { text: "." },
       ] as RichText,
-      desc: "Un CTO senior dans votre équipe, à temps partagé — pour cadrer les décisions techniques, onboarder vos devs sur un vrai workflow IA, ou vous aider à recruter la bonne personne.",
+      desc: "Un CTO senior dans votre équipe, à temps partagé — pour cadrer les décisions techniques, élever le niveau de vos devs sur un vrai workflow IA, ou recruter la bonne personne.",
     },
   ],
 } as const;
