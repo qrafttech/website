@@ -24,13 +24,6 @@ export const footer = {
   ] as RichText,
   columns: [
     {
-      title: "Offres",
-      links: [
-        { label: "Apps", href: "/#offres" },
-        { label: "Équipes agentic", href: "/#offres" },
-      ],
-    },
-    {
       title: "Qraft",
       links: [
         { label: "Réalisations", href: "/#proof" },

@@ -30,7 +30,7 @@ export interface ArticleMeta {
   slug: string;
 }
 
-export function slugify(input: string): string {
+function slugify(input: string): string {
   return input
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")

@@ -2,8 +2,12 @@ import Link from "next/link";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-const BASE =
-  "bg-blue text-[#fafafa] transition-colors ease-epure hover:bg-ink2";
+const BASE = "transition-colors ease-epure";
+
+const TONES = {
+  blue: "bg-blue text-[#fafafa] hover:bg-ink2",
+  ink: "border border-ink bg-ink text-canvas hover:bg-transparent hover:text-ink",
+} as const;
 
 const SIZES = {
   md: "inline-block px-5 py-3 text-[0.9375rem]",
@@ -14,6 +18,7 @@ const SIZES = {
 interface CtaLinkProps {
   href: string;
   children: ReactNode;
+  tone?: keyof typeof TONES;
   size?: keyof typeof SIZES;
   className?: string;
 }
@@ -21,10 +26,11 @@ interface CtaLinkProps {
 export default function CtaLink({
   href,
   children,
+  tone = "blue",
   size = "md",
   className,
 }: CtaLinkProps) {
-  const cls = clsx(BASE, SIZES[size], className);
+  const cls = clsx(BASE, TONES[tone], SIZES[size], className);
 
   if (href.startsWith("http")) {
     return (

@@ -5,8 +5,7 @@ import type { StaticImageData } from "next/image";
 import Image from "next/image";
 import clsx from "clsx";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
-import { m, useInView, useReducedMotion } from "motion/react";
+import { m, useInView } from "motion/react";
 
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
@@ -97,10 +96,10 @@ function ArrowButton({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="text-black/45 grid h-[3.25rem] w-[3.25rem] place-items-center transition-colors duration-200 ease-epure hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      className="grid h-[4rem] w-[4rem] place-items-center border border-line text-ink transition-colors duration-200 ease-epure hover:border-ink hover:bg-ink hover:text-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
     >
       <svg
-        className="h-[1.875rem] w-[1.875rem]"
+        className="h-[2.25rem] w-[2.25rem]"
         viewBox="0 0 16 16"
         fill="none"
         stroke="currentColor"
@@ -117,71 +116,34 @@ function ArrowButton({
 
 export default function Rotor() {
   const slides = rotor.slides;
-  const reduceMotion = useReducedMotion() ?? false;
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({
-      delay: 7000,
-      playOnInit: false,
-      stopOnMouseEnter: true,
-      stopOnFocusIn: true,
-      stopOnInteraction: false,
-      rootNode: (emblaRoot) => emblaRoot.parentElement,
-    }),
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.2 });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [started, setStarted] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [fillKey, setFillKey] = useState(0);
 
   useEffect(() => {
     if (!emblaApi) return;
 
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
-    const onTimerSet = () => {
-      setStarted(true);
-      setPaused(false);
-      setFillKey((k) => k + 1);
-    };
-    const onTimerStopped = () => setPaused(true);
 
     onSelect();
     emblaApi.on("select", onSelect).on("reInit", onSelect);
-    emblaApi.on("autoplay:timerset", onTimerSet);
-    emblaApi.on("autoplay:timerstopped", onTimerStopped);
 
     return () => {
       emblaApi.off("select", onSelect).off("reInit", onSelect);
-      emblaApi.off("autoplay:timerset", onTimerSet);
-      emblaApi.off("autoplay:timerstopped", onTimerStopped);
     };
   }, [emblaApi]);
 
-  useEffect(() => {
-    if (!inView || reduceMotion) return;
-    emblaApi?.plugins().autoplay?.play();
-  }, [inView, reduceMotion, emblaApi]);
-
   const scroll = useCallback(
-    (target: number | "prev" | "next") => {
+    (direction: "prev" | "next") => {
       if (!emblaApi) return;
-      if (target === "prev") emblaApi.scrollPrev();
-      else if (target === "next") emblaApi.scrollNext();
-      else emblaApi.scrollTo(target);
-      emblaApi.plugins().autoplay?.reset();
+      if (direction === "prev") emblaApi.scrollPrev();
+      else emblaApi.scrollNext();
     },
     [emblaApi]
   );
-
-  function fillClassName(isActive: boolean) {
-    if (!isActive) return "w-0";
-    if (reduceMotion) return "w-full";
-    if (!started) return "w-0";
-    return "w-0 animate-[rotorfill_7s_linear_forwards]";
-  }
 
   return (
     <section
@@ -202,8 +164,8 @@ export default function Rotor() {
                   return (
                     <article
                       key={slide.key}
-                      role="tabpanel"
-                      id={`rpanel-${slide.key}`}
+                      role="group"
+                      aria-roledescription="slide"
                       aria-label={slide.tab}
                       aria-hidden={i !== selectedIndex}
                       className="min-w-0 flex-[0_0_100%]"
@@ -290,61 +252,17 @@ export default function Rotor() {
               </div>
             </div>
 
-            <div className="mt-[4.5rem] flex items-center gap-6 max-nav:mt-12 max-nav:flex-wrap max-nav:gap-4">
-              <div
-                className="flex items-center gap-2"
-                role="tablist"
-                aria-label={rotor.tablistLabel}
-              >
-                {slides.map((slide, i) => {
-                  const isActive = i === selectedIndex;
-
-                  return (
-                    <button
-                      key={slide.key}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      aria-controls={`rpanel-${slide.key}`}
-                      aria-label={`${rotor.goTo} ${i + 1} — ${slide.tab}`}
-                      onClick={() => scroll(i)}
-                      className="flex h-6 w-[3.375rem] items-center"
-                    >
-                      <span className="relative h-1 w-full overflow-hidden bg-rule">
-                        <span
-                          key={isActive ? fillKey : "idle"}
-                          className={clsx(
-                            "absolute inset-0 bg-blue",
-                            fillClassName(isActive)
-                          )}
-                          style={
-                            isActive && started && !reduceMotion
-                              ? {
-                                  animationPlayState: paused
-                                    ? "paused"
-                                    : "running",
-                                }
-                              : undefined
-                          }
-                        />
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="ml-auto flex items-center gap-1.5">
-                <ArrowButton
-                  direction="prev"
-                  label={rotor.prev}
-                  onClick={() => scroll("prev")}
-                />
-                <ArrowButton
-                  direction="next"
-                  label={rotor.next}
-                  onClick={() => scroll("next")}
-                />
-              </div>
+            <div className="mt-[4.5rem] flex items-center justify-center gap-1.5 max-nav:mt-12">
+              <ArrowButton
+                direction="prev"
+                label={rotor.prev}
+                onClick={() => scroll("prev")}
+              />
+              <ArrowButton
+                direction="next"
+                label={rotor.next}
+                onClick={() => scroll("next")}
+              />
             </div>
           </div>
         </Reveal>

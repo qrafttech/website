@@ -1,12 +1,12 @@
 import { cache } from "react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import NotionRenderer from "@/app/components/NotionRenderer";
 import JsonLd from "@/app/components/JsonLd";
 import Wrap from "@/components/Wrap";
 import Eyebrow from "@/components/Eyebrow";
+import MonoLink from "@/components/MonoLink";
 import {
   fetchArticles,
   fetchArticleBySlug,
@@ -88,12 +88,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
       <Wrap>
         <div className="pt-8 pb-24">
-          <Link
-            href="/blog"
-            className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors ease-epure hover:text-blue"
-          >
+          <MonoLink href="/blog" className="text-muted">
             &larr; {blog.backToArticles}
-          </Link>
+          </MonoLink>
           <article className="mx-auto max-w-prose pt-12">
             <h1 className="font-display text-section font-bold text-ink">
               {article.title}

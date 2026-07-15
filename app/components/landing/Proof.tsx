@@ -1,20 +1,11 @@
-import type { StaticImageData } from "next/image";
-import Image from "next/image";
+import Link from "next/link";
 
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
 import { proof } from "@/lib/i18n/fr/landing";
-import cevidentiaShot from "@/public/images/cevidentia-screenshot.jpg";
-import easiwareShot from "@/public/images/easiware-screenshot.jpg";
-import embarqShot from "@/public/images/embarq-screenshot.jpg";
-
-const IMAGES: Record<typeof proof.stories[number]["key"], StaticImageData> = {
-  cevidentia: cevidentiaShot,
-  easiware: easiwareShot,
-  embarq: embarqShot,
-};
+import { clients } from "@/lib/i18n/fr/clients";
 
 export default function Proof() {
   return (
@@ -24,44 +15,37 @@ export default function Proof() {
     >
       <Wrap>
         <h2 className="text-[clamp(2rem,5.4vw,4.25rem)] font-bold leading-[1.02]">
-          <RiseLine trigger="view">{proof.title}</RiseLine>
+          <RiseLine trigger="view">
+            <Rich content={proof.title} />
+          </RiseLine>
         </h2>
 
-        <Reveal className="mt-12 grid grid-cols-1 gap-[1.375rem] nav:mt-[4.5rem] nav:grid-cols-3">
-          {proof.stories.map((story) => (
-            <a
-              key={story.key}
-              href={story.href}
-              target="_blank"
-              rel="noopener"
-              className="group relative aspect-[4/3] overflow-hidden border border-hair"
-            >
-              <Image
-                src={IMAGES[story.key]}
-                alt={story.alt}
-                placeholder="blur"
-                sizes="(min-width: 900px) 33vw, 100vw"
-                className="h-full w-full object-cover transition-transform duration-[800ms] ease-epure group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,9,11,0.82)] to-transparent p-4 text-white">
-                <div className="font-mono text-[0.6875rem] uppercase text-white/[0.68]">
-                  {story.kind}
-                </div>
-                <div className="mt-[0.1875rem] font-display text-lg font-semibold">
-                  {story.name}
-                </div>
-              </div>
-            </a>
-          ))}
-        </Reveal>
-
-        <Reveal>
-          <p className="mt-9 max-w-[64ch] text-[1.0625rem] text-ink2">
-            <Rich
-              content={proof.proofline}
-              strongClassName="font-medium text-blue"
-            />
-          </p>
+        <Reveal className="mt-12 nav:mt-[4.5rem]">
+          <ul className="divide-y divide-hair">
+            {clients.map((client) => (
+              <li key={client.slug}>
+                <Link
+                  href={`/realisations/${client.slug}`}
+                  className="group flex items-center justify-between gap-6 py-6 transition-colors ease-epure"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-display text-xl font-semibold leading-tight transition-colors ease-epure group-hover:text-blue nav:text-[1.75rem]">
+                      {client.name}
+                    </span>
+                    <span className="mt-1.5 block font-mono text-xs uppercase tracking-[0.08em] text-muted">
+                      {client.sector}
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 font-mono text-lg text-muted transition-all ease-epure group-hover:translate-x-1 group-hover:text-blue"
+                  >
+                    →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </Wrap>
     </section>

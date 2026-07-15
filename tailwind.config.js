@@ -78,10 +78,6 @@ module.exports = {
           },
           "100%": { color: "inherit", textShadow: "none" },
         },
-        rotorfill: {
-          from: { width: "0%" },
-          to: { width: "100%" },
-        },
       },
       animation: {
         tick: "tick 42s linear infinite",

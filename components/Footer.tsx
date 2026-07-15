@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-hair pt-16">
       <Wrap>
-        <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 max-nav:grid-cols-2">
+        <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-8 max-nav:grid-cols-2">
           <div>
             <p className="max-w-[30ch] text-sm leading-normal text-muted">
               <Rich content={footer.tagline} />

@@ -109,10 +109,8 @@ export const offres = {
 export const rotor = {
   ariaLabel: "Nos trois offres",
   roleDescription: "carrousel",
-  tablistLabel: "Choisir un volet",
   prev: "Volet précédent",
   next: "Volet suivant",
-  goTo: "Aller au volet",
   slides: [
     {
       key: "apps",
@@ -174,38 +172,10 @@ export const rotor = {
 } as const;
 
 export const proof = {
-  title: "On accélère ceux qui livrent.",
-  stories: [
-    {
-      key: "cevidentia",
-      kind: "Agent IA · Production",
-      name: "C’Evidentia",
-      alt: "Capture d’écran de C’Evidentia",
-      href: "https://qrafttech.notion.site/C-Evidentia-113218ed56d78053a1e2f7759ed2e8f8",
-    },
-    {
-      key: "easiware",
-      kind: "Plateforme · B2B",
-      name: "easiware",
-      alt: "Capture d’écran d’easiware",
-      href: "https://qrafttech.notion.site/easiware-119218ed56d7800b8a3de88b12da2619",
-    },
-    {
-      key: "embarq",
-      kind: "Application · Prod-ready",
-      name: "Embarq",
-      alt: "Capture d’écran d’Embarq",
-      href: "https://qrafttech.notion.site/Embarq-118218ed56d780e19285de1f8de1d95f",
-    },
-  ],
-  proofline: [
-    { text: "Agents en production — " },
-    { text: "C’Evidentia", strong: true },
-    { text: ", " },
-    { text: "Episto", strong: true },
-    { text: ", un agent " },
-    { text: "LangGraph chez Smartbox", strong: true },
-    { text: " — et des équipes rendues agentic." },
+  title: [
+    { text: "On " },
+    { text: "accélère", accent: true },
+    { text: " ceux qui livrent." },
   ] as RichText,
 } as const;
 
