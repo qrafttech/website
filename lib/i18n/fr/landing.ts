@@ -1,4 +1,35 @@
-import type { RichText } from "@/lib/i18n/types";
+import type { RichText, TermStep } from "@/lib/i18n/types";
+import { CONTACT_EMAIL } from "@/lib/site";
+
+const terminalSteps: readonly TermStep[] = [
+  {
+    label: "lecture du contexte",
+    status: "✓",
+    detail: "14 fichiers · 2 outils MCP",
+  },
+  {
+    label: "plan",
+    status: "4 étapes",
+    detail: "analyser → coder → tester → livrer",
+  },
+  {
+    label: "appel MCP · base clients",
+    status: "✓",
+    detail: "128 enregistrements",
+  },
+  { label: "écriture · src/agent.ts", status: "✓", detail: "+182 −47" },
+  { label: "tests unitaires", status: "12 ✓", progress: true },
+  {
+    label: "revue de code",
+    status: "✓",
+    detail: "2 remarques · corrigées",
+  },
+  {
+    label: "déploiement · production",
+    status: "✓",
+    detail: "v2.4.1 en ligne",
+  },
+];
 
 export const hero = {
   titleLine1: "La qualité,",
@@ -20,35 +51,7 @@ export const hero = {
     doneLabel: "session complète",
     doneTokens: "3 480",
     doneClock: "00:12",
-    steps: [
-      {
-        label: "lecture du contexte",
-        status: "✓",
-        detail: "14 fichiers · 2 outils MCP",
-      },
-      {
-        label: "plan",
-        status: "4 étapes",
-        detail: "analyser → coder → tester → livrer",
-      },
-      {
-        label: "appel MCP · base clients",
-        status: "✓",
-        detail: "128 enregistrements",
-      },
-      { label: "écriture · src/agent.ts", status: "✓", detail: "+182 −47" },
-      { label: "tests unitaires", status: "12 ✓", progress: true },
-      {
-        label: "revue de code",
-        status: "✓",
-        detail: "2 remarques · corrigées",
-      },
-      {
-        label: "déploiement · production",
-        status: "✓",
-        detail: "v2.4.1 en ligne",
-      },
-    ],
+    steps: terminalSteps,
   },
 } as const;
 
@@ -227,5 +230,5 @@ export const final = {
   titleLine1: "Construisons",
   titleLine2: "ensemble.",
   lead: "Vos apps, vos agents, vos équipes. Parlons-en.",
-  cta: { label: "Discutons de votre projet", href: "mailto:hello@qraft.tech" },
+  cta: { label: "Discutons de votre projet", href: `mailto:${CONTACT_EMAIL}` },
 } as const;

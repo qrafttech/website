@@ -13,7 +13,7 @@ import {
   extractPlainText,
 } from "@/lib/notion";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
-import { getDictionary } from "@/lib/i18n";
+import { blog } from "@/lib/i18n/fr/blog";
 
 const getArticle = cache(fetchArticleBySlug);
 
@@ -66,8 +66,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   if (!article) notFound();
 
-  const t = getDictionary();
-
   return (
     <main>
       <JsonLd
@@ -94,10 +92,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             href="/blog"
             className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors ease-epure hover:text-blue"
           >
-            &larr; {t.blog.backToArticles}
+            &larr; {blog.backToArticles}
           </Link>
           <article className="mx-auto max-w-prose pt-12">
-            <h1 className="font-display text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06] text-ink">
+            <h1 className="font-display text-section font-bold text-ink">
               {article.title}
             </h1>
             <Eyebrow className="pt-4">

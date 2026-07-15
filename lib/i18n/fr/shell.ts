@@ -1,4 +1,5 @@
 import type { RichText } from "@/lib/i18n/types";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const nav = {
   brandLabel: "Qraft",
@@ -41,7 +42,7 @@ export const footer = {
     },
     {
       title: "Contact",
-      links: [{ label: "hello@qraft.tech", href: "mailto:hello@qraft.tech" }],
+      links: [{ label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` }],
     },
   ],
   meta: [

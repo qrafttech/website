@@ -17,7 +17,7 @@ import Wrap from "@/components/Wrap";
 import Rich from "@/components/Rich";
 import Eyebrow from "@/components/Eyebrow";
 import CtaLink from "@/components/CtaLink";
-import { getDictionary } from "@/lib/i18n";
+import { cowork as t } from "@/lib/i18n/fr/cowork";
 import { SITE_URL } from "@/lib/site";
 
 import coworkOpenSpace from "@/public/images/cowork_open_space.jpg";
@@ -30,8 +30,6 @@ import coworkBabyfoot from "@/public/images/cowork_babyfoot.jpg";
 import coworkBalcon from "@/public/images/cowork_balcon.jpg";
 import coworkBureauDebout from "@/public/images/cowork_bureau_debout.jpg";
 import coworkLunch2 from "@/public/images/cowork_lunch2.jpg";
-
-const t = getDictionary().cowork;
 
 export const metadata: Metadata = {
   title: t.metaTitle,
@@ -61,35 +59,39 @@ function CoffeeIcon({ className }: { className?: string }) {
   );
 }
 
-const TILE_IMAGES: Record<string, StaticImageData> = {
+type TileKey = typeof t.spaces.tiles[number]["key"];
+type AmenityKey = typeof t.amenities.items[number]["key"];
+type GalleryKey = typeof t.gallery.photos[number]["key"];
+
+const TILE_IMAGES: Record<TileKey, StaticImageData> = {
   openSpace: coworkOpenSpace,
   kitchen: coworkKitchen,
   meeting: coworkMeeting,
   callbox: coworkCallbox2,
 };
 
-const TILE_OBJECT_POSITION: Record<string, string> = {
+const TILE_OBJECT_POSITION: Record<TileKey, string> = {
   openSpace: "center 50%",
   kitchen: "center 62%",
   meeting: "center 62%",
   callbox: "center 62%",
 };
 
-const TILE_ICON: Record<string, ReactNode> = {
+const TILE_ICON: Record<TileKey, ReactNode> = {
   openSpace: <ComputerDesktopIcon className="h-5 w-5" />,
   kitchen: <CoffeeIcon className="h-5 w-5" />,
   meeting: <UsersIcon className="h-5 w-5" />,
   callbox: <PhoneIcon className="h-5 w-5" />,
 };
 
-const AMENITY_ICON: Record<string, ReactNode> = {
+const AMENITY_ICON: Record<AmenityKey, ReactNode> = {
   access: <ClockIcon className="h-6 w-6" />,
   coffee: <CoffeeIcon className="h-6 w-6" />,
   desks: <ComputerDesktopIcon className="h-6 w-6" />,
   techMeeting: <UsersIcon className="h-6 w-6" />,
 };
 
-const GALLERY_IMAGES: Record<string, StaticImageData> = {
+const GALLERY_IMAGES: Record<GalleryKey, StaticImageData> = {
   meeting2: coworkMeeting2,
   babyfoot: coworkBabyfoot,
   balcon: coworkBalcon,
@@ -102,9 +104,7 @@ function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-10">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-4 text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06]">
-        {title}
-      </h2>
+      <h2 className="mt-4 text-section font-bold">{title}</h2>
     </div>
   );
 }
@@ -327,9 +327,7 @@ export default function CoworkPage() {
 
       <section className="py-32 text-center">
         <Wrap>
-          <h2 className="text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06]">
-            {t.final.title}
-          </h2>
+          <h2 className="text-section font-bold">{t.final.title}</h2>
           <p className="mx-auto mb-9 mt-5 max-w-[44ch] text-muted">
             {t.final.lead}
           </p>

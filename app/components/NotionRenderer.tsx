@@ -1,4 +1,6 @@
 import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
+
+import Eyebrow from "@/components/Eyebrow";
 import type { NotionBlock } from "@/lib/notion";
 import { extractPlainText } from "@/lib/notion";
 
@@ -136,9 +138,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
       return (
         <div>
           {block.code.language && (
-            <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
-              {block.code.language}
-            </span>
+            <Eyebrow as="span">{block.code.language}</Eyebrow>
           )}
           <pre className="overflow-x-auto bg-chip p-2 md:p-4">
             <code className="font-mono text-sm text-ink2">
@@ -190,9 +190,9 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
             className="max-w-full"
           />
           {block.image.caption.length > 0 && (
-            <figcaption className="pt-2 text-center font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            <Eyebrow as="figcaption" className="pt-2 text-center">
               <RichText richText={block.image.caption} />
-            </figcaption>
+            </Eyebrow>
           )}
         </figure>
       );

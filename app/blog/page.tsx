@@ -6,13 +6,11 @@ import BlogCard from "@/app/components/BlogCard";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
 import { fetchArticles } from "@/lib/notion";
-import { getDictionary } from "@/lib/i18n";
-
-const t = getDictionary();
+import { blog } from "@/lib/i18n/fr/blog";
 
 export const metadata: Metadata = {
-  title: t.blog.title,
-  description: t.blog.metaDescription,
+  title: blog.title,
+  description: blog.metaDescription,
   alternates: { canonical: "/blog" },
 };
 
@@ -34,7 +32,7 @@ async function ArticleList({ page }: { page: Promise<string | undefined> }) {
   if (paginatedArticles.length === 0) {
     return (
       <p role="status" className="py-12 text-center text-muted">
-        {t.blog.empty}
+        {blog.empty}
       </p>
     );
   }
@@ -57,9 +55,9 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <main>
       <PageHero
-        eyebrow={t.blog.eyebrow}
-        title={t.blog.title}
-        subtitle={t.blog.subtitle}
+        eyebrow={blog.eyebrow}
+        title={blog.title}
+        subtitle={blog.subtitle}
       />
 
       <Wrap>

@@ -5,29 +5,27 @@ import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
-import { getDictionary } from "@/lib/i18n";
+import { proof } from "@/lib/i18n/fr/landing";
 import cevidentiaShot from "@/public/images/cevidentia-screenshot.jpg";
 import easiwareShot from "@/public/images/easiware-screenshot.jpg";
 import embarqShot from "@/public/images/embarq-screenshot.jpg";
 
-const IMAGES: Record<string, StaticImageData> = {
+const IMAGES: Record<typeof proof.stories[number]["key"], StaticImageData> = {
   cevidentia: cevidentiaShot,
   easiware: easiwareShot,
   embarq: embarqShot,
 };
 
 export default function Proof() {
-  const t = getDictionary();
-
   return (
     <section id="proof" className="border-t border-hair py-[150px]">
       <Wrap>
         <h2 className="text-[clamp(32px,5.4vw,68px)] font-bold leading-[1.02]">
-          <RiseLine trigger="view">{t.proof.title}</RiseLine>
+          <RiseLine trigger="view">{proof.title}</RiseLine>
         </h2>
 
-        <Reveal className="mt-[72px] grid grid-cols-1 gap-[22px] min-[900px]:grid-cols-3">
-          {t.proof.stories.map((story) => (
+        <Reveal className="mt-[72px] grid grid-cols-1 gap-[22px] nav:grid-cols-3">
+          {proof.stories.map((story) => (
             <a
               key={story.key}
               href={story.href}
@@ -57,7 +55,7 @@ export default function Proof() {
         <Reveal>
           <p className="mt-9 max-w-[64ch] text-[17px] text-ink2">
             <Rich
-              content={t.proof.proofline}
+              content={proof.proofline}
               strongClassName="font-medium text-blue"
             />
           </p>

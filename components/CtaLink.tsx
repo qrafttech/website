@@ -16,7 +16,6 @@ interface CtaLinkProps {
   children: ReactNode;
   size?: keyof typeof SIZES;
   className?: string;
-  onClick?: () => void;
 }
 
 export default function CtaLink({
@@ -24,19 +23,12 @@ export default function CtaLink({
   children,
   size = "md",
   className,
-  onClick,
 }: CtaLinkProps) {
   const cls = clsx(BASE, SIZES[size], className);
 
   if (href.startsWith("http")) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cls}
-        onClick={onClick}
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
         {children}
       </a>
     );
@@ -44,14 +36,14 @@ export default function CtaLink({
 
   if (href.startsWith("#") || href.startsWith("mailto:")) {
     return (
-      <a href={href} className={cls} onClick={onClick}>
+      <a href={href} className={cls}>
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={cls} onClick={onClick}>
+    <Link href={href} className={cls}>
       {children}
     </Link>
   );

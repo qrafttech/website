@@ -7,12 +7,14 @@ import { EASE, VIEWPORT_ONCE } from "@/lib/motion";
 
 interface RevealProps {
   children: ReactNode;
+  trigger?: "mount" | "view";
   className?: string;
   delay?: number;
 }
 
 export default function Reveal({
   children,
+  trigger = "view",
   className,
   delay = 0,
 }: RevealProps) {
@@ -20,6 +22,19 @@ export default function Reveal({
 
   if (reduced) {
     return <div className={className}>{children}</div>;
+  }
+
+  if (trigger === "mount") {
+    return (
+      <m.div
+        className={className}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: EASE, delay }}
+      >
+        {children}
+      </m.div>
+    );
   }
 
   return (

@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --header-h: 56px;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
-    scroll-padding-top: 56px;
+    scroll-padding-top: var(--header-h);
   }
 
   body {

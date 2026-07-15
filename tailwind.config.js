@@ -1,5 +1,7 @@
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
+const EASE = "cubic-bezier(0.65, 0, 0.15, 0.99)";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,12 +11,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        nav: "900px",
+      },
       colors: {
         canvas: "#fbfbf8",
         ink: "#000000",
         ink2: "#09090b",
         muted: "#3f3f47",
-        navy: "#08143f",
         hair: "#e4e3de",
         line: "#cdccc3",
         chip: "#f5f4ef",
@@ -41,8 +45,11 @@ module.exports = {
         display: ["var(--font-sora)", ...fontFamily.sans],
         mono: ["var(--font-space-mono)", ...fontFamily.mono],
       },
+      fontSize: {
+        section: ["clamp(28px,3.4vw,44px)", { lineHeight: "1.06" }],
+      },
       transitionTimingFunction: {
-        epure: "cubic-bezier(0.65, 0, 0.15, 0.99)",
+        epure: EASE,
       },
       keyframes: {
         tick: {
@@ -80,7 +87,7 @@ module.exports = {
         tpulse: "tpulse 1.6s ease-in-out infinite",
         caret: "caret 1.05s steps(1) infinite",
         scrolldown: "scrolldown 1.5s ease-in-out infinite",
-        qbob: "qbob 3s cubic-bezier(0.65, 0, 0.15, 0.99) infinite",
+        qbob: `qbob 3s ${EASE} infinite`,
         tpop: "tpop 0.5s ease",
       },
     },

@@ -7,3 +7,10 @@ export interface RichSegment {
 }
 
 export type RichText = readonly RichSegment[];
+
+export interface TermStep {
+  label: string;
+  status: string;
+  detail?: string;
+  progress?: boolean;
+}

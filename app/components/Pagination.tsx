@@ -1,7 +1,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-import { getDictionary } from "@/lib/i18n";
+import { blog } from "@/lib/i18n/fr/blog";
 
 interface PaginationProps {
   currentPage: number;
@@ -47,12 +47,11 @@ export default function Pagination({
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  const t = getDictionary();
   const pages = getPageNumbers(currentPage, totalPages);
 
   return (
     <nav
-      aria-label={t.blog.pagination.label}
+      aria-label={blog.pagination.label}
       className="flex items-center justify-center gap-2 pt-12"
     >
       {currentPage > 1 ? (
@@ -60,11 +59,11 @@ export default function Pagination({
           href={currentPage === 2 ? "/blog" : `/blog?page=${currentPage - 1}`}
           className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          {t.blog.pagination.previous}
+          {blog.pagination.previous}
         </Link>
       ) : (
         <span className="border border-hair px-5 py-2 text-sm text-muted/40">
-          {t.blog.pagination.previous}
+          {blog.pagination.previous}
         </span>
       )}
 
@@ -98,11 +97,11 @@ export default function Pagination({
           href={`/blog?page=${currentPage + 1}`}
           className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          {t.blog.pagination.next}
+          {blog.pagination.next}
         </Link>
       ) : (
         <span className="border border-hair px-5 py-2 text-sm text-muted/40">
-          {t.blog.pagination.next}
+          {blog.pagination.next}
         </span>
       )}
     </nav>

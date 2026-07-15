@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-hair bg-canvas">
-      <nav className="flex h-14 items-center gap-9 px-6">
+      <nav className="flex h-[var(--header-h)] items-center gap-9 px-6">
         <Link
           href="/"
           aria-label={nav.brandLabel}
@@ -37,11 +37,14 @@ export default function Header() {
           <Brand priority />
         </Link>
 
-        <ul className="flex items-center max-[900px]:hidden">
+        <ul className="flex items-center max-nav:hidden">
           {nav.links.map((link, index) => (
             <li key={link.href} className="flex items-center">
               {index > 0 ? (
-                <span aria-hidden className="mx-5 h-14 w-px bg-line" />
+                <span
+                  aria-hidden
+                  className="mx-5 h-[var(--header-h)] w-px bg-line"
+                />
               ) : null}
               <Link
                 href={link.href}
@@ -64,7 +67,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls={open ? MENU_ID : undefined}
             onClick={() => setOpen((value) => !value)}
-            className="-mr-1 inline-flex items-center justify-center p-1 text-ink2 hover:text-blue min-[900px]:hidden"
+            className="-mr-1 inline-flex items-center justify-center p-1 text-ink2 hover:text-blue nav:hidden"
           >
             {open ? (
               <XMarkIcon className="w-6" />
@@ -78,7 +81,7 @@ export default function Header() {
       {open ? (
         <div
           id={MENU_ID}
-          className="absolute inset-x-0 top-full border-b border-hair bg-canvas min-[900px]:hidden"
+          className="absolute inset-x-0 top-full border-b border-hair bg-canvas nav:hidden"
         >
           <ul className="divide-y divide-hair">
             {nav.links.map((link) => (

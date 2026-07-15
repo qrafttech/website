@@ -1,61 +1,56 @@
 import Link from "next/link";
 
 import Brand from "@/components/Brand";
+import Eyebrow from "@/components/Eyebrow";
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
-import { getDictionary } from "@/lib/i18n";
+import { footer } from "@/lib/i18n/fr/shell";
 
 export default function Footer() {
-  const t = getDictionary();
-
   return (
     <footer className="border-t border-hair pt-16">
       <Wrap>
-        <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 max-[900px]:grid-cols-2">
+        <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 max-nav:grid-cols-2">
           <div>
             <p className="max-w-[30ch] text-sm leading-normal text-muted">
-              <Rich content={t.footer.tagline} />
+              <Rich content={footer.tagline} />
             </p>
           </div>
-          {t.footer.columns.map((column) => (
+          {footer.columns.map((column) => (
             <div key={column.title}>
-              <h4 className="mb-3.5 font-mono text-xs font-normal uppercase leading-normal text-muted">
+              <Eyebrow as="h4" className="mb-3.5 font-normal">
                 {column.title}
-              </h4>
+              </Eyebrow>
               <ul className="flex flex-col gap-2">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    {link.href.startsWith("mailto:") ? (
-                      <a
+                {column.links.map((link) => {
+                  const LinkComponent = link.href.startsWith("mailto:")
+                    ? "a"
+                    : Link;
+                  return (
+                    <li key={link.label}>
+                      <LinkComponent
                         href={link.href}
                         className="text-[15px] text-ink2 hover:text-blue"
                       >
                         {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-[15px] text-ink2 hover:text-blue"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
+                      </LinkComponent>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 flex items-end justify-between gap-6 border-t border-hair pb-7 pt-8 max-[900px]:flex-col max-[900px]:items-start">
+        <div className="mt-16 flex items-end justify-between gap-6 border-t border-hair pb-7 pt-8 max-nav:flex-col max-nav:items-start">
           <Brand
             className="text-[clamp(28px,4vw,44px)]"
             markClassName="w-[clamp(34px,5vw,52px)]"
           />
-          <div className="text-right font-mono text-[11px] uppercase tracking-[0.08em] text-muted max-[900px]:text-left">
-            <Rich content={t.footer.meta} />
+          <div className="text-right font-mono text-[11px] uppercase tracking-[0.08em] text-muted max-nav:text-left">
+            <Rich content={footer.meta} />
             <br />
-            {t.footer.copyright}
+            {footer.copyright}
           </div>
         </div>
       </Wrap>

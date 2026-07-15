@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${sora.variable} ${spaceMono.variable} bg-canvas font-sans text-base leading-normal text-ink`}
+        className={`${inter.variable} ${sora.variable} ${spaceMono.variable} font-sans text-base leading-normal`}
       >
         <MotionProvider>
           <Header />

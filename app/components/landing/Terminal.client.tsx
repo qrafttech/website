@@ -1,17 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { useReducedMotion } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 
-import { getDictionary } from "@/lib/i18n";
+import { hero } from "@/lib/i18n/fr/landing";
 
-interface TermStep {
-  label: string;
-  status: string;
-  detail?: string;
-  progress?: boolean;
-}
+const term = hero.terminal;
+const steps = term.steps;
 
 type Line =
   | { id: number; kind: "sess"; n: number }
@@ -64,12 +60,9 @@ const DIVIDER =
   "before:content-[''] before:absolute before:left-0 before:top-[5px] before:bottom-[5px] before:w-px before:bg-term-hair";
 
 export default function Terminal() {
-  const t = getDictionary();
-  const term = t.hero.terminal;
-  const steps = term.steps as readonly TermStep[];
   const reduced = useReducedMotion();
-
-  const [onDesktop, setOnDesktop] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(bodyRef, { once: true });
 
   const [lines, setLines] = useState<Line[]>([]);
   const [footer, setFooter] = useState<{
@@ -85,15 +78,7 @@ export default function Terminal() {
   });
 
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 900px)");
-    const sync = () => setOnDesktop(query.matches);
-    sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
-    if (!onDesktop) return;
+    if (!inView) return;
 
     if (reduced) {
       setFooter({
@@ -261,9 +246,12 @@ export default function Terminal() {
       });
       timers.clear();
     };
-  }, [onDesktop, reduced, term, steps]);
+  }, [inView, reduced]);
 
-  const dimUntil = lines.length - 4;
+  const renderedLines = useMemo(() => {
+    const dimUntil = lines.length - 4;
+    return lines.map((line, i) => renderLine(line, !reduced && i < dimUntil));
+  }, [lines, reduced]);
 
   return (
     <>
@@ -284,12 +272,11 @@ export default function Terminal() {
       </div>
 
       <div
+        ref={bodyRef}
         aria-hidden
         className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-[clamp(18px,2.2vw,30px)] py-4 font-mono text-[15px] leading-[1.85]"
       >
-        {lines.map((line, i) =>
-          renderLine(line, !reduced && i < dimUntil, term)
-        )}
+        {renderedLines}
       </div>
 
       <div
@@ -314,11 +301,7 @@ export default function Terminal() {
   );
 }
 
-function renderLine(
-  line: Line,
-  dim: boolean,
-  term: ReturnType<typeof getDictionary>["hero"]["terminal"]
-) {
+function renderLine(line: Line, dim: boolean) {
   const dimCls = dim ? "opacity-30" : "";
 
   if (line.kind === "sess") {

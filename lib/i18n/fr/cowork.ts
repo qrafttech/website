@@ -1,4 +1,10 @@
 import type { RichText } from "@/lib/i18n/types";
+import { BOOKING_URL } from "@/lib/site";
+
+const street = "36 rue Sainte";
+const postalCode = "13001";
+const city = "Marseille";
+const address = `${street}, ${postalCode} ${city}`;
 
 export const cowork = {
   eyebrow: "Cowork · Marseille",
@@ -134,15 +140,15 @@ export const cowork = {
   },
   location: {
     title: "On est où ?",
-    street: "36 rue Sainte",
-    postalCode: "13001",
-    city: "Marseille",
+    street,
+    postalCode,
+    city,
     points: [
-      "36 rue Sainte, 13001 Marseille",
+      address,
       "Métro Vieux-Port à 2 min à pied",
       "Restaurants & cafés à proximité",
     ],
-    mapTitle: "Carte du cowork de Qraft, 36 rue Sainte, Marseille",
+    mapTitle: `Carte du cowork de Qraft, ${street}, ${city}`,
   },
   pricing: {
     badge: "sans engagement",
@@ -156,7 +162,7 @@ export const cowork = {
       "Café, thé et fruits frais",
     ],
     cta: "Réserver une visite",
-    ctaHref: "https://cal.com/nicolasrouanne/30min",
+    ctaHref: BOOKING_URL,
     nudge: [
       { text: "Tu hésites ? " },
       { text: "Viens tester une semaine", strong: true },
@@ -168,7 +174,7 @@ export const cowork = {
     lead: "Viens visiter le cowork de Qraft.",
     cta: {
       label: "Réserver une visite",
-      href: "https://cal.com/nicolasrouanne/30min",
+      href: BOOKING_URL,
     },
   },
 } as const;
