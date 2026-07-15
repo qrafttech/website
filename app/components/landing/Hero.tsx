@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import Rich from "@/components/Rich";
+import CtaLink from "@/components/CtaLink";
 import FadeIn from "@/components/motion/FadeIn.client";
 import RiseLine from "@/components/motion/RiseLine.client";
 import Terminal from "@/app/components/landing/Terminal.client";
@@ -44,12 +45,7 @@ export default function Hero() {
             delay={1}
             className="mt-[clamp(16px,3vh,36px)] flex flex-col items-start gap-2.5"
           >
-            <a
-              href={t.hero.cta.href}
-              className="inline-block rounded-none bg-blue px-5 py-3 font-sans text-[15px] text-[#fafafa] hover:bg-ink2"
-            >
-              {t.hero.cta.label}
-            </a>
+            <CtaLink href={t.hero.cta.href}>{t.hero.cta.label}</CtaLink>
           </FadeIn>
         </div>
 
@@ -67,7 +63,6 @@ export default function Hero() {
               src={qLogo}
               alt=""
               aria-hidden
-              priority
               sizes="92px"
               className="mb-2.5 h-auto w-[clamp(56px,6vw,92px)] animate-qbob"
             />

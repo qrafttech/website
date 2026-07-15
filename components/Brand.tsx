@@ -6,10 +6,14 @@ import qPixel from "@/public/images/q_pixel.png";
 interface BrandProps {
   className?: string;
   markClassName?: string;
+  priority?: boolean;
 }
 
-/** The pixel Q standing in for the initial: `Q` + `raft`, baseline-aligned. */
-export default function Brand({ className, markClassName }: BrandProps) {
+export default function Brand({
+  className,
+  markClassName,
+  priority = false,
+}: BrandProps) {
   return (
     <span
       className={clsx(
@@ -17,11 +21,13 @@ export default function Brand({ className, markClassName }: BrandProps) {
         className
       )}
     >
+      <span className="sr-only">Q</span>
       <Image
         src={qPixel}
         alt=""
         aria-hidden
-        priority
+        priority={priority}
+        sizes="52px"
         className={clsx("h-auto self-baseline", markClassName ?? "w-[22px]")}
       />
       raft

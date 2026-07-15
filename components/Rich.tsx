@@ -4,7 +4,6 @@ import type { RichText } from "@/lib/i18n/types";
 
 interface RichProps {
   content: RichText;
-  /** Styling of `strong` segments varies per section (blue, ink, bold). */
   strongClassName?: string;
 }
 

@@ -72,7 +72,7 @@ function Face({ face }: FaceProps) {
       target="_blank"
       rel="noopener"
       aria-label={face.linkLabel}
-      className={`group relative z-[1] block overflow-hidden bg-tint text-white opacity-[0.55] hover:z-[3] max-[900px]:order-10 max-[900px]:mt-3 max-[900px]:block max-[900px]:h-60 ${
+      className={`group relative z-[1] block overflow-hidden bg-tint text-white hover:z-[3] max-[900px]:order-10 max-[900px]:mt-3 max-[900px]:block max-[900px]:h-60 ${
         FACE_PLACEMENT[face.key]
       }`}
     >

@@ -39,6 +39,7 @@ export default function Proof() {
                 src={IMAGES[story.key]}
                 alt={story.alt}
                 placeholder="blur"
+                sizes="(min-width: 900px) 33vw, 100vw"
                 className="h-full w-full object-cover transition-transform duration-[800ms] ease-epure group-hover:scale-[1.04]"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,9,11,0.82)] to-transparent p-4 text-white">

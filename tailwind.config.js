@@ -20,13 +20,10 @@ module.exports = {
         chip: "#f5f4ef",
         tint: "#eceae2",
         blue: "#2650e1",
-        // Surfaces: hero support panels, ticker band, rotor/ways panel,
-        // and the hairline that reads on top of the panel grey.
         sand: "#f4f3ed",
         band: "#f0efe9",
         panel: "#f0f1f4",
         rule: "#dcdee3",
-        // Terminal (hero q3): a self-contained palette.
         term: {
           txt: "#1a1a1a",
           dim: "#7a7a72",

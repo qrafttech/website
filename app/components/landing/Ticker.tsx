@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
 import { fetchArticles } from "@/lib/notion";
 
-/** Titles shown in the mobile list; the desktop marquee shows all of them. */
 const MOBILE_ARTICLES = 3;
 
 export default async function Ticker() {
@@ -42,7 +41,7 @@ export default async function Ticker() {
       </ul>
 
       <div className="group hidden flex-1 overflow-hidden motion-reduce:overflow-x-auto min-[900px]:block">
-        <div className="flex w-max animate-tick items-stretch group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+        <div className="flex w-max animate-tick items-stretch group-focus-within:[animation-play-state:paused] group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {links.map((link) => (
             <Link key={link.key} href={link.href} className={marqueeLinkClass}>
               {link.title}

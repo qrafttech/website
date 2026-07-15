@@ -17,7 +17,6 @@ export const hero = {
     starting: "démarrage",
     sessionPrefix: "session",
     tokenSuffix: "tok",
-    // Reduced-motion snapshot: the finished session, frozen.
     doneLabel: "session complète",
     doneTokens: "3 480",
     doneClock: "00:12",

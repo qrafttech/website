@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { m } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 
 import { EASE } from "@/lib/motion";
 
@@ -11,12 +11,17 @@ interface FadeInProps {
   delay?: number;
 }
 
-/** Above-the-fold entrance: fades in on mount, no viewport trigger. */
 export default function FadeIn({
   children,
   className,
   delay = 0,
 }: FadeInProps) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <m.div
       className={className}

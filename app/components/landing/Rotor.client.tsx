@@ -41,7 +41,6 @@ const CONV_DELAYS = [0.15, 0.25, 0.35] as const;
 const HIDDEN = { opacity: 0, y: 14 } as const;
 const SHOWN = { opacity: 1, y: 0 } as const;
 
-/** Fade+rise a slide's content in only once it is both current and in view. */
 function reveal(show: boolean, delay: number) {
   return {
     initial: HIDDEN,
@@ -96,6 +95,7 @@ export default function Rotor() {
       stopOnMouseEnter: true,
       stopOnFocusIn: true,
       stopOnInteraction: false,
+      rootNode: (emblaRoot) => emblaRoot.parentElement,
     }),
   ]);
 
@@ -104,8 +104,6 @@ export default function Rotor() {
   const [revealed, setRevealed] = useState(false);
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
-  // Remounting the active fill restarts its 7s animation, kept in lockstep
-  // with the autoplay timer (bumped on every `autoplay:timerset`).
   const [fillKey, setFillKey] = useState(0);
 
   useEffect(() => {

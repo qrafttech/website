@@ -15,6 +15,8 @@ import JsonLd from "@/app/components/JsonLd";
 import CoworkGallery from "@/app/components/CoworkGallery.client";
 import Wrap from "@/components/Wrap";
 import Rich from "@/components/Rich";
+import Eyebrow from "@/components/Eyebrow";
+import CtaLink from "@/components/CtaLink";
 import { getDictionary } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 
@@ -59,7 +61,6 @@ function CoffeeIcon({ className }: { className?: string }) {
   );
 }
 
-// Static imports and per-tile framing keyed by the dictionary `key` field.
 const TILE_IMAGES: Record<string, StaticImageData> = {
   openSpace: coworkOpenSpace,
   kitchen: coworkKitchen,
@@ -100,9 +101,7 @@ const GALLERY_IMAGES: Record<string, StaticImageData> = {
 function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-10">
-      <p className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
-        {eyebrow}
-      </p>
+      <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="mt-4 text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06]">
         {title}
       </h2>
@@ -258,9 +257,9 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <p className="mb-5 font-mono text-xs uppercase tracking-[0.08em] text-muted">
+          <Eyebrow as="h2" className="mb-5">
             {t.residents.title}
-          </p>
+          </Eyebrow>
           <div className="max-w-4xl border border-hair bg-canvas p-8 text-lg leading-relaxed text-muted">
             <Rich content={t.residents.body} />
           </div>
@@ -269,9 +268,9 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <p className="mb-5 font-mono text-xs uppercase tracking-[0.08em] text-muted">
+          <Eyebrow as="h2" className="mb-5">
             {t.location.title}
-          </p>
+          </Eyebrow>
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <ul className="space-y-3 text-lg text-ink2">
               {t.location.points.map((point) => (
@@ -295,9 +294,9 @@ export default function CoworkPage() {
       <Wrap>
         <div className="py-16">
           <div className="mx-auto max-w-md border border-hair bg-canvas p-8">
-            <span className="inline-block bg-tint px-3 py-1 font-mono text-xs uppercase tracking-[0.08em] text-muted">
+            <Eyebrow as="span" className="inline-block bg-tint px-3 py-1">
               {t.pricing.badge}
-            </span>
+            </Eyebrow>
             <p className="mt-4 font-display text-6xl font-bold text-ink2">
               {t.pricing.price}
             </p>
@@ -313,14 +312,9 @@ export default function CoworkPage() {
                 </li>
               ))}
             </ul>
-            <a
-              href={t.pricing.ctaHref}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-7 block bg-blue py-3 text-center text-[15px] text-[#fafafa] transition hover:bg-ink2"
-            >
+            <CtaLink href={t.pricing.ctaHref} size="block" className="mt-7">
               {t.pricing.cta}
-            </a>
+            </CtaLink>
             <p className="mt-4 bg-tint px-4 py-3 text-sm text-ink2">
               <Rich
                 content={t.pricing.nudge}
@@ -339,14 +333,7 @@ export default function CoworkPage() {
           <p className="mx-auto mb-9 mt-5 max-w-[44ch] text-muted">
             {t.final.lead}
           </p>
-          <a
-            href={t.final.cta.href}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block bg-blue px-5 py-3 text-[15px] text-[#fafafa] hover:bg-ink2"
-          >
-            {t.final.cta.label}
-          </a>
+          <CtaLink href={t.final.cta.href}>{t.final.cta.label}</CtaLink>
         </Wrap>
       </section>
     </main>

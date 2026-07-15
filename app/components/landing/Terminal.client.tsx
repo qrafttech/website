@@ -35,7 +35,6 @@ const pad2 = (n: number) => String(n).padStart(2, "0");
 
 function parseDetail(detail: string): { text: string; cls?: string }[] {
   const parts: { text: string; cls?: string }[] = [];
-  // U+2212 MINUS SIGN, as stored in the dictionary.
   const re = /([+−])(\d+)/g;
   let last = 0;
   let match: RegExpExecArray | null;
@@ -70,8 +69,6 @@ export default function Terminal() {
   const steps = term.steps as readonly TermStep[];
   const reduced = useReducedMotion();
 
-  // The hero hides the terminal below 900px; without this the session loop
-  // would still tick behind `display: none`.
   const [onDesktop, setOnDesktop] = useState(false);
 
   const [lines, setLines] = useState<Line[]>([]);

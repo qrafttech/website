@@ -26,10 +26,6 @@ const fr = {
   cowork,
 } as const;
 
-/**
- * `fr` is the reference shape. A future `en.ts` must satisfy `Dictionary`,
- * so a missing key is a type error rather than a missing string at runtime.
- */
 export type Dictionary = typeof fr;
 
 export const LOCALES = ["fr"] as const;

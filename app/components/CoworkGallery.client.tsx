@@ -10,7 +10,8 @@ interface Photo {
   alt: string;
 }
 
-const GALLERY_SIZES = "(min-width: 1024px) 1100px, 90vw";
+const GRID_SIZES = "(min-width: 640px) 33vw, 100vw";
+const LIGHTBOX_SIZES = "90vw";
 const PER_ROW = 3;
 
 interface CoworkGalleryProps {
@@ -54,7 +55,7 @@ export default function CoworkGallery({
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes={GALLERY_SIZES}
+                  sizes={GRID_SIZES}
                   placeholder="blur"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -94,7 +95,8 @@ export default function CoworkGallery({
                 src={active.src}
                 alt={active.alt}
                 fill
-                sizes={GALLERY_SIZES}
+                sizes={LIGHTBOX_SIZES}
+                placeholder="blur"
                 className="object-cover"
               />
             </Dialog.Panel>

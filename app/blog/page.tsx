@@ -31,6 +31,14 @@ async function ArticleList({ page }: { page: Promise<string | undefined> }) {
     currentPage * ARTICLES_PER_PAGE
   );
 
+  if (paginatedArticles.length === 0) {
+    return (
+      <p role="status" className="py-12 text-center text-muted">
+        {t.blog.empty}
+      </p>
+    );
+  }
+
   return (
     <>
       {paginatedArticles.map((article) => (

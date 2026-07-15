@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import NotionRenderer from "@/app/components/NotionRenderer";
 import JsonLd from "@/app/components/JsonLd";
 import Wrap from "@/components/Wrap";
+import Eyebrow from "@/components/Eyebrow";
 import {
   fetchArticles,
   fetchArticleBySlug,
@@ -68,7 +69,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const t = getDictionary();
 
   return (
-    <Wrap>
+    <main>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,25 +88,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
         }}
       />
-      <div className="pt-8 pb-24">
-        <Link
-          href="/blog"
-          className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors ease-epure hover:text-blue"
-        >
-          &larr; {t.blog.backToArticles}
-        </Link>
-        <article className="mx-auto max-w-prose pt-12">
-          <h1 className="font-display text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06] text-ink">
-            {article.title}
-          </h1>
-          <p className="pt-4 font-mono text-xs uppercase tracking-[0.08em] text-muted">
-            {article.date}
-          </p>
-          <div className="pt-8">
-            <NotionRenderer blocks={article.blocks} />
-          </div>
-        </article>
-      </div>
-    </Wrap>
+      <Wrap>
+        <div className="pt-8 pb-24">
+          <Link
+            href="/blog"
+            className="font-mono text-xs uppercase tracking-[0.08em] text-muted transition-colors ease-epure hover:text-blue"
+          >
+            &larr; {t.blog.backToArticles}
+          </Link>
+          <article className="mx-auto max-w-prose pt-12">
+            <h1 className="font-display text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.06] text-ink">
+              {article.title}
+            </h1>
+            <Eyebrow className="pt-4">
+              {article.dateISO ? (
+                <time dateTime={article.dateISO}>{article.date}</time>
+              ) : (
+                article.date
+              )}
+            </Eyebrow>
+            <div className="pt-8">
+              <NotionRenderer blocks={article.blocks} />
+            </div>
+          </article>
+        </div>
+      </Wrap>
+    </main>
   );
 }

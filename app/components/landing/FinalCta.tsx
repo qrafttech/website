@@ -1,3 +1,4 @@
+import CtaLink from "@/components/CtaLink";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
 import Wrap from "@/components/Wrap";
@@ -21,12 +22,7 @@ export default function FinalCta() {
           </p>
         </Reveal>
         <Reveal>
-          <a
-            href={t.final.cta.href}
-            className="inline-block bg-blue px-5 py-3 font-sans text-[15px] text-[#fafafa] hover:bg-ink2"
-          >
-            {t.final.cta.label}
-          </a>
+          <CtaLink href={t.final.cta.href}>{t.final.cta.label}</CtaLink>
         </Reveal>
       </Wrap>
     </section>

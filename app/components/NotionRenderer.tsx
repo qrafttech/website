@@ -185,6 +185,8 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
                 ? extractPlainText(block.image.caption)
                 : ""
             }
+            loading="lazy"
+            decoding="async"
             className="max-w-full"
           />
           {block.image.caption.length > 0 && (

@@ -8,7 +8,6 @@ import { EASE, VIEWPORT_ONCE } from "@/lib/motion";
 
 interface RiseLineProps {
   children: ReactNode;
-  /** `mount` for the hero (above the fold), `view` for section titles. */
   trigger?: "mount" | "view";
   delay?: number;
   duration?: number;
@@ -20,15 +19,6 @@ const lineVariants: Variants = {
   show: { y: "0%" },
 };
 
-/**
- * A masked line of a display heading: the inner span starts pushed below its
- * clipping box and rises into place. The negative margin cancels the padding
- * that keeps descenders from being clipped.
- *
- * The viewport trigger lives on the mask, not on the span it clips: an
- * IntersectionObserver measures its target after ancestor clipping, so a span
- * parked below its own `overflow:hidden` parent never reports as visible.
- */
 export default function RiseLine({
   children,
   trigger = "view",

@@ -80,6 +80,7 @@ export default function Pagination({
           <Link
             key={page}
             href={page === 1 ? "/blog" : `/blog?page=${page}`}
+            aria-current={page === currentPage ? "page" : undefined}
             className={clsx(
               "grid h-10 w-10 place-items-center border text-sm transition-colors ease-epure",
               page === currentPage

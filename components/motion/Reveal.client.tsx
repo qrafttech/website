@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { m } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 
 import { EASE, VIEWPORT_ONCE } from "@/lib/motion";
 
@@ -11,12 +11,17 @@ interface RevealProps {
   delay?: number;
 }
 
-/** Reveal-once on scroll: fade up, no scrub, no rebound. */
 export default function Reveal({
   children,
   className,
   delay = 0,
 }: RevealProps) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <m.div
       className={className}

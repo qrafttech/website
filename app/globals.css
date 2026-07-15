@@ -5,7 +5,6 @@
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
-    /* clears the sticky header (h-14) when jumping to an anchor */
     scroll-padding-top: 56px;
   }
 
