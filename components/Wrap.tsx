@@ -8,7 +8,7 @@ interface WrapProps {
 
 export default function Wrap({ className, children }: WrapProps) {
   return (
-    <div className={clsx("mx-auto max-w-[1200px] px-6", className)}>
+    <div className={clsx("mx-auto max-w-[75rem] px-6", className)}>
       {children}
     </div>
   );

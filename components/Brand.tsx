@@ -17,7 +17,7 @@ export default function Brand({
   return (
     <span
       className={clsx(
-        "inline-flex items-baseline gap-[2px] font-display font-bold tracking-[-0.02em]",
+        "inline-flex items-baseline gap-0.5 font-display font-bold tracking-[-0.02em]",
         className
       )}
     >
@@ -28,7 +28,10 @@ export default function Brand({
         aria-hidden
         priority={priority}
         sizes="52px"
-        className={clsx("h-auto self-baseline", markClassName ?? "w-[22px]")}
+        className={clsx(
+          "h-auto self-baseline",
+          markClassName ?? "w-[1.375rem]"
+        )}
       />
       raft
     </span>

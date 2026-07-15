@@ -6,9 +6,9 @@ const BASE =
   "bg-blue text-[#fafafa] transition-colors ease-epure hover:bg-ink2";
 
 const SIZES = {
-  md: "inline-block px-5 py-3 text-[15px]",
-  sm: "inline-block px-[18px] py-[9px] text-sm",
-  block: "block py-3 text-center text-[15px]",
+  md: "inline-block px-5 py-3 text-[0.9375rem]",
+  sm: "inline-block px-[1.125rem] py-[0.5625rem] text-sm",
+  block: "block py-3 text-center text-[0.9375rem]",
 } as const;
 
 interface CtaLinkProps {

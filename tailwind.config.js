@@ -1,6 +1,7 @@
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const EASE = "cubic-bezier(0.65, 0, 0.15, 0.99)";
+const TERM_GREEN = "#1f8f52";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,8 +33,8 @@ module.exports = {
           txt: "#1a1a1a",
           dim: "#7a7a72",
           acc: "#2f4bd0",
-          ok: "#1f8f52",
-          add: "#1f8f52",
+          ok: TERM_GREEN,
+          add: TERM_GREEN,
           del: "#c0304a",
           chrome: "#e8e7df",
           hair: "#dcdbd2",
@@ -46,7 +47,7 @@ module.exports = {
         mono: ["var(--font-space-mono)", ...fontFamily.mono],
       },
       fontSize: {
-        section: ["clamp(28px,3.4vw,44px)", { lineHeight: "1.06" }],
+        section: ["clamp(1.75rem,3.4vw,2.75rem)", { lineHeight: "1.06" }],
       },
       transitionTimingFunction: {
         epure: EASE,

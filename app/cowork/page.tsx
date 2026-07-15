@@ -109,28 +109,28 @@ function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-function PhotoTile({ tileKey }: { tileKey: typeof t.spaces.tiles[number] }) {
+function PhotoTile({ tile }: { tile: typeof t.spaces.tiles[number] }) {
   return (
-    <div className="relative min-h-[300px] overflow-hidden border border-hair md:row-span-2">
+    <div className="relative min-h-[18.75rem] overflow-hidden border border-hair md:row-span-2">
       <Image
-        src={TILE_IMAGES[tileKey.key]}
-        alt={tileKey.alt}
+        src={TILE_IMAGES[tile.key]}
+        alt={tile.alt}
         fill
         placeholder="blur"
         sizes="(min-width: 768px) 50vw, 100vw"
         className="object-cover"
-        style={{ objectPosition: TILE_OBJECT_POSITION[tileKey.key] }}
+        style={{ objectPosition: TILE_OBJECT_POSITION[tile.key] }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-6">
         <div className="bg-white/15 mb-2 inline-flex p-2 text-white backdrop-blur">
-          {TILE_ICON[tileKey.key]}
+          {TILE_ICON[tile.key]}
         </div>
         <h3 className="font-display text-xl font-bold text-white">
-          {tileKey.title}
+          {tile.title}
         </h3>
         <p className="mt-1 text-sm leading-relaxed text-white/90">
-          {tileKey.body}
+          {tile.body}
         </p>
       </div>
     </div>
@@ -163,11 +163,10 @@ export default function CoworkPage() {
           },
           makesOffer: {
             "@type": "Offer",
-            name: "Poste en open space",
-            price: "240",
+            name: t.pricing.offerName,
+            price: t.pricing.priceAmount,
             priceCurrency: "EUR",
-            description:
-              "Poste de travail en open space, tout inclus, sans engagement. 240 € H.T. par mois.",
+            description: t.pricing.offerDescription,
           },
           openingHoursSpecification: {
             "@type": "OpeningHoursSpecification",
@@ -206,9 +205,9 @@ export default function CoworkPage() {
       <Wrap>
         <div className="py-16">
           <SectionHead eyebrow={t.spaces.eyebrow} title={t.spaces.title} />
-          <div className="grid grid-cols-1 gap-4 md:auto-rows-[220px] md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:auto-rows-[13.75rem] md:grid-cols-2">
             {t.spaces.tiles.map((tile) => (
-              <PhotoTile key={tile.key} tileKey={tile} />
+              <PhotoTile key={tile.key} tile={tile} />
             ))}
           </div>
         </div>

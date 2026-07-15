@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { fetchArticles } from "../lib/notion";
-import { SITE_URL } from "../lib/site";
+import { fetchArticles } from "@/lib/notion";
+import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await fetchArticles();

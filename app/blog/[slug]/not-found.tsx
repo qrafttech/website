@@ -14,7 +14,7 @@ export default function ArticleNotFound() {
           <p className="text-muted">{blog.notFound.body}</p>
           <Link
             href="/blog"
-            className="inline-block border border-line px-5 py-3 text-[15px] text-ink transition-colors ease-epure hover:bg-tint"
+            className="inline-block border border-line px-5 py-3 text-[0.9375rem] text-ink transition-colors ease-epure hover:bg-tint"
           >
             {blog.notFound.cta}
           </Link>

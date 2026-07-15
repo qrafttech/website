@@ -30,7 +30,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <LinkComponent
                         href={link.href}
-                        className="text-[15px] text-ink2 hover:text-blue"
+                        className="text-[0.9375rem] text-ink2 hover:text-blue"
                       >
                         {link.label}
                       </LinkComponent>
@@ -44,10 +44,10 @@ export default function Footer() {
 
         <div className="mt-16 flex items-end justify-between gap-6 border-t border-hair pb-7 pt-8 max-nav:flex-col max-nav:items-start">
           <Brand
-            className="text-[clamp(28px,4vw,44px)]"
-            markClassName="w-[clamp(34px,5vw,52px)]"
+            className="text-[clamp(1.75rem,4vw,2.75rem)]"
+            markClassName="w-[clamp(2.125rem,5vw,3.25rem)]"
           />
-          <div className="text-right font-mono text-[11px] uppercase tracking-[0.08em] text-muted max-nav:text-left">
+          <div className="text-right font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted max-nav:text-left">
             <Rich content={footer.meta} />
             <br />
             {footer.copyright}

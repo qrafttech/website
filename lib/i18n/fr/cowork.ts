@@ -153,7 +153,11 @@ export const cowork = {
   pricing: {
     badge: "sans engagement",
     price: "240 €",
+    priceAmount: "240",
     period: "H.T. / mois",
+    offerName: "Poste en open space",
+    offerDescription:
+      "Poste de travail en open space, tout inclus, sans engagement. 240 € H.T. par mois.",
     intro: "Une place dans l’open space, et tout le reste avec :",
     includes: [
       "Accès 24/7",

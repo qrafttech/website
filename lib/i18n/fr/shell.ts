@@ -9,7 +9,6 @@ export const nav = {
   ctaHref: "/#contact",
   links: [
     { label: "Offres", href: "/#offres" },
-    { label: "Agents", href: "/#agents" },
     { label: "Réalisations", href: "/#proof" },
     { label: "Blog", href: "/blog" },
     { label: "Cowork", href: "/cowork" },
@@ -28,7 +27,6 @@ export const footer = {
       title: "Offres",
       links: [
         { label: "Apps", href: "/#offres" },
-        { label: "Agents", href: "/#agents" },
         { label: "Équipes agentic", href: "/#offres" },
       ],
     },

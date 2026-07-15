@@ -9,7 +9,7 @@ export default function NotFound() {
       <Wrap>
         <div className="flex flex-col items-center py-32 text-center md:py-40">
           <Eyebrow>{notFound.eyebrow}</Eyebrow>
-          <h1 className="mt-5 text-[clamp(40px,6vw,80px)] font-bold leading-[1.02] text-ink">
+          <h1 className="mt-5 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.02] text-ink">
             {notFound.title}
           </h1>
           <p className="mt-5 max-w-[42ch] text-muted">{notFound.body}</p>

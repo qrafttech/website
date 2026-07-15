@@ -31,7 +31,7 @@ export default function Header() {
         <Link
           href="/"
           aria-label={nav.brandLabel}
-          className="text-[20px]"
+          className="text-[1.25rem]"
           onClick={() => setOpen(false)}
         >
           <Brand priority />
@@ -48,7 +48,7 @@ export default function Header() {
               ) : null}
               <Link
                 href={link.href}
-                className="text-[15px] text-ink2 hover:text-blue"
+                className="text-[0.9375rem] text-ink2 hover:text-blue"
               >
                 {link.label}
               </Link>
