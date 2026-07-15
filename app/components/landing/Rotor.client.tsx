@@ -33,9 +33,9 @@ const LOGOS: Record<string, { src: StaticImageData; name: string }> = {
   "claude-code": { src: claudeCodeLogo, name: "Claude Code" },
 };
 
-const H2_CLASS = "font-bold text-[clamp(28px,3.8vw,48px)] leading-[1.06]";
-const DESC_CLASS = "mt-5 max-w-[46ch] text-[17px] text-muted";
-const N_CLASS = "font-mono text-[11px] tracking-[0.03em] text-muted";
+const H2_CLASS = "font-bold text-[clamp(1.75rem,3.8vw,3rem)] leading-[1.06]";
+const DESC_CLASS = "mt-5 max-w-[46ch] text-[1.0625rem] text-muted";
+const N_CLASS = "font-mono text-[0.6875rem] tracking-[0.03em] text-muted";
 const CONV_DELAYS = [0.15, 0.25, 0.35] as const;
 
 const HIDDEN = { opacity: 0, y: 14 } as const;
@@ -57,26 +57,21 @@ function StackItem({
   variant: "grid" | "row";
 }) {
   const logo = LOGOS[logoKey];
-
-  if (variant === "row") {
-    return (
-      <div className="flex flex-row items-center gap-3">
-        <Image
-          src={logo.src}
-          alt=""
-          className="h-[32px] w-[32px] object-contain"
-        />
-        <span className={N_CLASS}>{logo.name}</span>
-      </div>
-    );
-  }
+  const row = variant === "row";
 
   return (
-    <div className="flex flex-col items-center gap-3.5">
+    <div
+      className={clsx("flex items-center", row ? "gap-3" : "flex-col gap-3.5")}
+    >
       <Image
         src={logo.src}
         alt=""
-        className="h-[58px] w-[58px] object-contain max-[760px]:h-[46px] max-[760px]:w-[46px]"
+        className={clsx(
+          "object-contain",
+          row
+            ? "h-8 w-8"
+            : "h-[3.625rem] w-[3.625rem] max-nav:h-[2.875rem] max-nav:w-[2.875rem]"
+        )}
       />
       <span className={N_CLASS}>{logo.name}</span>
     </div>
@@ -102,10 +97,10 @@ function ArrowButton({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="text-black/45 grid h-[52px] w-[52px] place-items-center transition-colors duration-200 ease-epure hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      className="text-black/45 grid h-[3.25rem] w-[3.25rem] place-items-center transition-colors duration-200 ease-epure hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
     >
       <svg
-        className="h-[30px] w-[30px]"
+        className="h-[1.875rem] w-[1.875rem]"
         viewBox="0 0 16 16"
         fill="none"
         stroke="currentColor"
@@ -192,7 +187,7 @@ export default function Rotor() {
     <section
       ref={sectionRef}
       id="agents"
-      className="bg-panel py-[150px]"
+      className="bg-panel py-24 nav:py-[9.375rem]"
       aria-roledescription={rotor.roleDescription}
       aria-label={rotor.ariaLabel}
     >
@@ -228,7 +223,7 @@ export default function Rotor() {
                           {slide.key === "agentic" && (
                             <m.div
                               {...reveal(show, 0.18)}
-                              className="mt-9 flex flex-wrap gap-y-[18px] gap-x-9"
+                              className="mt-9 flex flex-wrap gap-y-[1.125rem] gap-x-9"
                             >
                               {slide.stackRow.map((logoKey) => (
                                 <StackItem
@@ -245,13 +240,13 @@ export default function Rotor() {
                           <div>
                             <m.div
                               {...reveal(show, 0)}
-                              className="inline-block border-b-2 border-blue pb-2 font-mono text-[11px] uppercase tracking-[0.05em] text-ink2"
+                              className="inline-block border-b-2 border-blue pb-2 font-mono text-[0.6875rem] uppercase tracking-[0.05em] text-ink2"
                             >
                               {slide.stackLabel}
                             </m.div>
                             <m.div
                               {...reveal(show, 0.18)}
-                              className="mt-10 grid grid-cols-3 gap-y-11 gap-x-5 max-[760px]:gap-y-8 max-[760px]:gap-x-3"
+                              className="mt-10 grid grid-cols-3 gap-y-11 gap-x-5 max-nav:gap-y-8 max-nav:gap-x-3"
                             >
                               {slide.stack.map((logoKey) => (
                                 <StackItem
@@ -270,12 +265,12 @@ export default function Rotor() {
                               <m.div
                                 key={conviction.key}
                                 {...reveal(show, CONV_DELAYS[ri] ?? 0.35)}
-                                className="border-t border-rule py-[22px] last:border-b"
+                                className="border-t border-rule py-[1.375rem] last:border-b"
                               >
-                                <div className="font-mono text-[11px] uppercase tracking-[0.05em] text-ink2">
+                                <div className="font-mono text-[0.6875rem] uppercase tracking-[0.05em] text-ink2">
                                   {conviction.key}
                                 </div>
-                                <p className="mt-1.5 max-w-[46ch] text-[15px] leading-normal text-muted">
+                                <p className="mt-1.5 max-w-[46ch] text-[0.9375rem] leading-normal text-muted">
                                   {conviction.value}
                                 </p>
                               </m.div>
@@ -295,7 +290,7 @@ export default function Rotor() {
               </div>
             </div>
 
-            <div className="mt-[72px] flex items-center gap-6 max-[760px]:mt-14 max-[760px]:flex-wrap max-[760px]:gap-4">
+            <div className="mt-[4.5rem] flex items-center gap-6 max-nav:mt-12 max-nav:flex-wrap max-nav:gap-4">
               <div
                 className="flex items-center gap-2"
                 role="tablist"
@@ -313,24 +308,26 @@ export default function Rotor() {
                       aria-controls={`rpanel-${slide.key}`}
                       aria-label={`${rotor.goTo} ${i + 1} — ${slide.tab}`}
                       onClick={() => scroll(i)}
-                      className="relative h-1 w-[54px] overflow-hidden bg-rule"
+                      className="flex h-6 w-[3.375rem] items-center"
                     >
-                      <span
-                        key={isActive ? fillKey : "idle"}
-                        className={clsx(
-                          "absolute inset-0 bg-blue",
-                          fillClassName(isActive)
-                        )}
-                        style={
-                          isActive && started && !reduceMotion
-                            ? {
-                                animationPlayState: paused
-                                  ? "paused"
-                                  : "running",
-                              }
-                            : undefined
-                        }
-                      />
+                      <span className="relative h-1 w-full overflow-hidden bg-rule">
+                        <span
+                          key={isActive ? fillKey : "idle"}
+                          className={clsx(
+                            "absolute inset-0 bg-blue",
+                            fillClassName(isActive)
+                          )}
+                          style={
+                            isActive && started && !reduceMotion
+                              ? {
+                                  animationPlayState: paused
+                                    ? "paused"
+                                    : "running",
+                                }
+                              : undefined
+                          }
+                        />
+                      </span>
                     </button>
                   );
                 })}

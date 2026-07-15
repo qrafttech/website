@@ -19,10 +19,10 @@ const CUES = [
 export default function Hero() {
   return (
     <section className="border-b border-line">
-      <div className="grid grid-cols-1 nav:min-h-[calc(100vh-var(--header-h))] nav:grid-cols-[1.55fr_1fr] nav:grid-rows-[0.92fr_1.08fr]">
-        <div className="relative flex min-h-[46vh] flex-col border-b border-line p-[clamp(28px,4.5vh,56px)_clamp(24px,3.2vw,52px)] nav:col-start-1 nav:row-start-1 nav:min-h-0 nav:border-r">
+      <div className="grid grid-cols-1 max-nav:min-h-[calc(100svh-var(--header-h)-2px)] max-nav:grid-rows-[auto_auto_1fr] nav:min-h-[calc(100vh-var(--header-h))] nav:grid-cols-[1.55fr_1fr] nav:grid-rows-[0.92fr_1.08fr]">
+        <div className="relative flex flex-col border-line p-[clamp(1.75rem,4.5vh,3.5rem)_clamp(1.5rem,3.2vw,3.25rem)] max-nav:pb-4 max-nav:pt-14 nav:col-start-1 nav:row-start-1 nav:border-b nav:border-r">
           <div className="my-auto">
-            <h1 className="text-[clamp(34px,4.8vw,74px)] font-bold leading-none">
+            <h1 className="text-[clamp(2.125rem,4.8vw,4.625rem)] font-bold leading-none">
               <RiseLine trigger="mount" duration={0.9}>
                 {hero.titleLine1}
               </RiseLine>
@@ -33,22 +33,22 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative flex flex-col justify-center gap-5 border-b border-line bg-sand p-[clamp(24px,3vh,44px)_clamp(20px,2vw,36px)] nav:col-start-2 nav:row-start-1">
+        <div className="relative flex flex-col justify-center gap-5 border-b border-line p-[clamp(1.5rem,3vh,2.75rem)_clamp(1.25rem,2vw,2.25rem)] max-nav:px-6 max-nav:pb-12 max-nav:pt-0 nav:col-start-2 nav:row-start-1 nav:bg-sand">
           <Reveal trigger="mount" delay={0.7}>
-            <p className="max-w-[26ch] font-display text-[clamp(17px,1.5vw,22px)] font-semibold leading-[1.3] tracking-[-0.02em]">
+            <p className="max-w-[26ch] font-display text-[clamp(1.0625rem,1.5vw,1.375rem)] font-semibold leading-[1.3] tracking-[-0.02em]">
               {hero.lead}
             </p>
           </Reveal>
           <Reveal
             trigger="mount"
             delay={1}
-            className="mt-[clamp(16px,3vh,36px)] flex flex-col items-start gap-2.5"
+            className="mt-[clamp(1rem,3vh,2.25rem)] flex flex-col items-start gap-2.5"
           >
             <CtaLink href={hero.cta.href}>{hero.cta.label}</CtaLink>
           </Reveal>
         </div>
 
-        <div className="relative hidden flex-col overflow-hidden bg-sand nav:col-start-1 nav:row-start-2 nav:flex nav:border-r nav:border-line">
+        <div className="max-nav:min-h-56 relative flex flex-col overflow-hidden bg-sand nav:col-start-1 nav:row-start-2 nav:border-r nav:border-line">
           <Terminal />
         </div>
 
@@ -63,13 +63,11 @@ export default function Hero() {
               alt=""
               aria-hidden
               sizes="92px"
-              className="mb-2.5 h-auto w-[clamp(56px,6vw,92px)] animate-qbob"
+              className="mb-2.5 h-auto w-[clamp(3.5rem,6vw,5.75rem)] animate-qbob"
             />
             {CUES.map((cue, index) => (
               <svg
                 key={index}
-                width="16"
-                height="16"
                 viewBox="0 0 16 16"
                 fill="none"
                 stroke="currentColor"
@@ -77,7 +75,7 @@ export default function Hero() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden
-                className={`block h-[18px] w-[18px] animate-scrolldown ${cue.opacity} ${cue.delay}`}
+                className={`block h-[1.125rem] w-[1.125rem] animate-scrolldown ${cue.opacity} ${cue.delay}`}
               >
                 <path d={CHEVRON_PATH} />
               </svg>

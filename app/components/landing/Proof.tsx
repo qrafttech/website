@@ -18,13 +18,16 @@ const IMAGES: Record<typeof proof.stories[number]["key"], StaticImageData> = {
 
 export default function Proof() {
   return (
-    <section id="proof" className="border-t border-hair py-[150px]">
+    <section
+      id="proof"
+      className="border-t border-hair py-24 nav:py-[9.375rem]"
+    >
       <Wrap>
-        <h2 className="text-[clamp(32px,5.4vw,68px)] font-bold leading-[1.02]">
+        <h2 className="text-[clamp(2rem,5.4vw,4.25rem)] font-bold leading-[1.02]">
           <RiseLine trigger="view">{proof.title}</RiseLine>
         </h2>
 
-        <Reveal className="mt-[72px] grid grid-cols-1 gap-[22px] nav:grid-cols-3">
+        <Reveal className="mt-12 grid grid-cols-1 gap-[1.375rem] nav:mt-[4.5rem] nav:grid-cols-3">
           {proof.stories.map((story) => (
             <a
               key={story.key}
@@ -41,10 +44,10 @@ export default function Proof() {
                 className="h-full w-full object-cover transition-transform duration-[800ms] ease-epure group-hover:scale-[1.04]"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,9,11,0.82)] to-transparent p-4 text-white">
-                <div className="font-mono text-[11px] uppercase text-white/[0.68]">
+                <div className="font-mono text-[0.6875rem] uppercase text-white/[0.68]">
                   {story.kind}
                 </div>
-                <div className="mt-[3px] font-display text-lg font-semibold">
+                <div className="mt-[0.1875rem] font-display text-lg font-semibold">
                   {story.name}
                 </div>
               </div>
@@ -53,7 +56,7 @@ export default function Proof() {
         </Reveal>
 
         <Reveal>
-          <p className="mt-9 max-w-[64ch] text-[17px] text-ink2">
+          <p className="mt-9 max-w-[64ch] text-[1.0625rem] text-ink2">
             <Rich
               content={proof.proofline}
               strongClassName="font-medium text-blue"

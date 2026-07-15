@@ -6,16 +6,16 @@ import { final } from "@/lib/i18n/fr/landing";
 
 export default function FinalCta() {
   return (
-    <section id="contact" className="py-[200px] text-center">
+    <section id="contact" className="py-28 text-center nav:py-[12.5rem]">
       <Wrap>
-        <h2 className="text-[clamp(38px,6.6vw,96px)] font-bold leading-none tracking-[-0.035em]">
+        <h2 className="text-[clamp(2.375rem,6.6vw,6rem)] font-bold leading-none tracking-[-0.035em]">
           <RiseLine trigger="view">{final.titleLine1}</RiseLine>
           <RiseLine trigger="view" className="text-blue">
             {final.titleLine2}
           </RiseLine>
         </h2>
         <Reveal>
-          <p className="mx-auto mb-9 mt-[26px] max-w-[44ch] text-[19px] text-muted">
+          <p className="mx-auto mb-9 mt-[1.625rem] max-w-[44ch] text-[1.0625rem] text-muted nav:text-[1.1875rem]">
             {final.lead}
           </p>
         </Reveal>

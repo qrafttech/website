@@ -85,7 +85,7 @@ export const offres = {
     {
       key: "nicolas",
       name: "Nicolas Rouanne",
-      role: "Co-fondateur & CEO — ex-CTO Boaterfly",
+      role: "Co-fondateur & CEO — ex-CTO ou VP (Nomad Education, Boaterfly, Bruno)",
       href: "https://www.linkedin.com/in/nicolasrouanne/",
       linkLabel: "Nicolas Rouanne sur LinkedIn",
     },

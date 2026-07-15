@@ -17,12 +17,12 @@ export default async function Ticker() {
   }));
 
   const marqueeLinkClass =
-    "flex items-center whitespace-nowrap border-r border-line px-7 py-[18px] text-[17px] text-ink2 hover:text-blue";
+    "flex items-center whitespace-nowrap border-r border-line px-7 py-[1.125rem] text-[1.0625rem] text-ink2 hover:text-blue";
 
   return (
     <div className="border-b border-line bg-band nav:flex nav:items-stretch">
-      <span className="flex items-center gap-[9px] bg-blue px-[26px] py-[18px] font-mono text-[13px] font-bold uppercase tracking-[0.05em] text-white nav:flex-none nav:whitespace-nowrap">
-        <span aria-hidden className="h-[6px] w-[6px] bg-white" />
+      <span className="flex items-center gap-[0.5625rem] bg-blue px-[1.625rem] py-[1.125rem] font-mono text-[0.8125rem] font-bold uppercase tracking-[0.05em] text-white nav:flex-none nav:whitespace-nowrap">
+        <span aria-hidden className="h-1.5 w-1.5 bg-white" />
         {ticker.label}
       </span>
 
@@ -31,7 +31,7 @@ export default async function Ticker() {
           <li key={link.key} className="border-t border-line first:border-t-0">
             <Link
               href={link.href}
-              className="block truncate px-6 py-4 text-[15px] text-ink2 hover:text-blue"
+              className="block truncate px-6 py-4 text-[0.9375rem] text-ink2 hover:text-blue"
             >
               {link.title}
             </Link>

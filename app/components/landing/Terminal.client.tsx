@@ -49,15 +49,17 @@ function parseDetail(detail: string): { text: string; cls?: string }[] {
 
 function Caret() {
   return (
-    <span className="inline-block h-[1.02em] w-[7px] animate-caret bg-term-acc align-[-2px] shadow-[0_0_10px_1px_#2f4bd0]" />
+    <span className="inline-block h-[1.02em] w-[0.4375rem] animate-caret bg-term-acc align-[-0.125rem] shadow-[0_0_10px_1px_theme(colors.term.acc)]" />
   );
 }
 
 const LINE_BASE =
   "flex items-baseline whitespace-nowrap text-term-txt transition-opacity duration-500 ease-epure";
+const GUTTER = "w-[4.5ch] flex-none text-term-dim";
+const CONTENT = "min-w-0 flex-1 overflow-hidden text-ellipsis";
 const SEG = "relative flex items-center gap-1.5 px-3";
 const DIVIDER =
-  "before:content-[''] before:absolute before:left-0 before:top-[5px] before:bottom-[5px] before:w-px before:bg-term-hair";
+  "before:content-[''] before:absolute before:left-0 before:top-[0.3125rem] before:bottom-[0.3125rem] before:w-px before:bg-term-hair";
 
 export default function Terminal() {
   const reduced = useReducedMotion();
@@ -257,16 +259,16 @@ export default function Terminal() {
     <>
       <div
         aria-hidden
-        className="flex h-10 flex-none items-center gap-2 border-b border-term-hair bg-term-chrome px-[18px] font-mono text-[11px] uppercase tracking-[0.05em] text-term-dim"
+        className="flex h-10 flex-none items-center gap-2 border-b border-term-hair bg-term-chrome px-[1.125rem] font-mono text-[0.6875rem] uppercase tracking-[0.05em] text-term-dim"
       >
-        <div className="flex gap-[7px]">
-          <i className="h-[11px] w-[11px] rounded-full bg-[#e05561]" />
-          <i className="h-[11px] w-[11px] rounded-full bg-[#d9a441]" />
-          <i className="h-[11px] w-[11px] rounded-full bg-[#4fb96a]" />
+        <div className="flex gap-[0.4375rem]">
+          <i className="h-[0.6875rem] w-[0.6875rem] rounded-full bg-[#e05561]" />
+          <i className="h-[0.6875rem] w-[0.6875rem] rounded-full bg-[#d9a441]" />
+          <i className="h-[0.6875rem] w-[0.6875rem] rounded-full bg-[#4fb96a]" />
         </div>
-        <span className="ml-1.5">{term.title}</span>
-        <span className="ml-auto flex items-center gap-1.5 text-term-meta">
-          <b className="h-[6px] w-[6px] animate-tpulse rounded-full bg-[#4fb96a] shadow-[0_0_8px_1px_#4fb96a]" />
+        <span className="ml-1.5 min-w-0 truncate">{term.title}</span>
+        <span className="ml-auto flex flex-none items-center gap-1.5 text-term-meta">
+          <b className="h-1.5 w-1.5 animate-tpulse rounded-full bg-[#4fb96a] shadow-[0_0_8px_1px_#4fb96a]" />
           {term.live}
         </span>
       </div>
@@ -274,26 +276,30 @@ export default function Terminal() {
       <div
         ref={bodyRef}
         aria-hidden
-        className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-[clamp(18px,2.2vw,30px)] py-4 font-mono text-[15px] leading-[1.85]"
+        className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-[clamp(1.125rem,2.2vw,1.875rem)] py-4 font-mono text-[0.9375rem] leading-[1.85]"
       >
         {renderedLines}
       </div>
 
       <div
         aria-hidden
-        className="flex h-[26px] flex-none items-center border-t border-term-hair bg-term-chrome px-3 font-mono text-[11px] text-term-dim"
+        className="flex h-[1.625rem] flex-none items-center border-t border-term-hair bg-term-chrome px-3 font-mono text-[0.6875rem] text-term-dim"
       >
-        <span className={SEG}>
-          <span className="inline-block w-[1ch] text-term-acc">
+        <span className={clsx(SEG, "min-w-0")}>
+          <span className="inline-block w-[1ch] flex-none text-term-acc">
             {footer.sp}
           </span>
-          <span className="text-term-meta">{footer.act}</span>
+          <span className="truncate text-term-meta">{footer.act}</span>
         </span>
-        <span className={clsx(SEG, "ml-auto", DIVIDER)}>{footer.clock}</span>
-        <span className={clsx(SEG, DIVIDER)}>
+        <span
+          className={clsx(SEG, "ml-auto flex-none whitespace-nowrap", DIVIDER)}
+        >
+          {footer.clock}
+        </span>
+        <span className={clsx(SEG, "flex-none whitespace-nowrap", DIVIDER)}>
           <span className="text-term-meta">{footer.tok}</span>
         </span>
-        <span className={clsx(SEG, DIVIDER)}>
+        <span className={clsx(SEG, "flex-none whitespace-nowrap", DIVIDER)}>
           <span className="text-term-ok">{term.branch}</span>
         </span>
       </div>
@@ -309,11 +315,11 @@ function renderLine(line: Line, dim: boolean) {
       <div
         key={line.id}
         className={clsx(
-          "mb-0.5 flex items-center gap-[9px] text-xs uppercase tracking-[0.05em] text-term-dim transition-opacity duration-500 ease-epure",
+          "mb-0.5 flex items-center gap-[0.5625rem] text-xs uppercase tracking-[0.05em] text-term-dim transition-opacity duration-500 ease-epure",
           dimCls
         )}
       >
-        <span className="block h-[6px] w-[6px] bg-term-acc" />
+        <span className="block h-1.5 w-1.5 bg-term-acc" />
         {`${term.sessionPrefix} ${String(line.n).padStart(3, "0")}`}
       </div>
     );
@@ -322,10 +328,8 @@ function renderLine(line: Line, dim: boolean) {
   if (line.kind === "cmd") {
     return (
       <div key={line.id} className={clsx(LINE_BASE, dimCls)}>
-        <span className="w-[4.5ch] flex-none text-term-dim">
-          / 0{line.index + 1}
-        </span>
-        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis">
+        <span className={GUTTER}>/ 0{line.index + 1}</span>
+        <span className={CONTENT}>
           {line.text}
           {line.running && <Caret />}
         </span>
@@ -347,18 +351,14 @@ function renderLine(line: Line, dim: boolean) {
   if (line.kind === "sub") {
     return (
       <div key={line.id} className={clsx(LINE_BASE, dimCls)}>
-        <span className="w-[4.5ch] flex-none text-term-dim" />
-        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis text-term-dim">
+        <span className={GUTTER} />
+        <span className={clsx(CONTENT, "text-term-dim")}>
           {"└ "}
-          {parseDetail(line.detail).map((p, i) =>
-            p.cls ? (
-              <span key={i} className={p.cls}>
-                {p.text}
-              </span>
-            ) : (
-              <span key={i}>{p.text}</span>
-            )
-          )}
+          {parseDetail(line.detail).map((p, i) => (
+            <span key={i} className={p.cls}>
+              {p.text}
+            </span>
+          ))}
         </span>
       </div>
     );
@@ -367,15 +367,15 @@ function renderLine(line: Line, dim: boolean) {
   if (line.kind === "bar") {
     return (
       <div key={line.id} className={clsx(LINE_BASE, dimCls)}>
-        <span className="w-[4.5ch] flex-none text-term-dim" />
-        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis text-term-dim">
+        <span className={GUTTER} />
+        <span className={clsx(CONTENT, "text-term-dim")}>
           {"└ "}
-          <span className="inline-flex gap-[3px] text-term-acc">
+          <span className="inline-flex gap-[0.1875rem] text-term-acc">
             {Array.from({ length: 12 }).map((_, k) => (
               <i
                 key={k}
                 className={clsx(
-                  "h-[11px] w-[7px] rounded-[1px] bg-current transition-opacity duration-200",
+                  "h-[0.6875rem] w-[0.4375rem] rounded-[1px] bg-current transition-opacity duration-200",
                   k < line.filled ? "opacity-100" : "opacity-[0.22]"
                 )}
               />
@@ -389,8 +389,8 @@ function renderLine(line: Line, dim: boolean) {
 
   return (
     <div key={line.id} className={clsx(LINE_BASE, dimCls)}>
-      <span className="w-[4.5ch] flex-none text-term-dim" />
-      <span className="min-w-0 flex-1 overflow-hidden text-ellipsis text-term-acc">
+      <span className={GUTTER} />
+      <span className={clsx(CONTENT, "text-term-acc")}>
         {"❯ "}
         <Caret />
       </span>
