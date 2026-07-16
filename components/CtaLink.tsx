@@ -12,6 +12,7 @@ const TONES = {
 const SIZES = {
   md: "inline-block px-5 py-3 text-[0.9375rem]",
   sm: "inline-block px-[1.125rem] py-[0.5625rem] text-sm",
+  lg: "inline-block px-7 py-4 text-[1.0625rem]",
   block: "block py-3 text-center text-[0.9375rem]",
 } as const;
 

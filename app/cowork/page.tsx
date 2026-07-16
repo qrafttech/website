@@ -100,13 +100,8 @@ const GALLERY_IMAGES: Record<GalleryKey, StaticImageData> = {
   lunch2: coworkLunch2,
 };
 
-function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
-  return (
-    <div className="mb-10">
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-4 text-section font-bold">{title}</h2>
-    </div>
-  );
+function SectionHead({ title }: { title: string }) {
+  return <h2 className="mb-10 max-w-[24ch] text-section font-bold">{title}</h2>;
 }
 
 function PhotoTile({ tile }: { tile: typeof t.spaces.tiles[number] }) {
@@ -185,7 +180,7 @@ export default function CoworkPage() {
         }}
       />
 
-      <PageHero eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} />
+      <PageHero title={t.title} subtitle={t.subtitle} />
 
       <Wrap>
         <div className="py-16">
@@ -204,7 +199,7 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <SectionHead eyebrow={t.spaces.eyebrow} title={t.spaces.title} />
+          <SectionHead title={t.spaces.title} />
           <div className="grid grid-cols-1 gap-4 md:auto-rows-[13.75rem] md:grid-cols-2">
             {t.spaces.tiles.map((tile) => (
               <PhotoTile key={tile.key} tile={tile} />
@@ -215,10 +210,7 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <SectionHead
-            eyebrow={t.amenities.eyebrow}
-            title={t.amenities.title}
-          />
+          <SectionHead title={t.amenities.title} />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {t.amenities.items.map((amenity) => (
               <div
@@ -245,7 +237,7 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <SectionHead eyebrow={t.gallery.eyebrow} title={t.gallery.title} />
+          <SectionHead title={t.gallery.title} />
           <CoworkGallery
             photos={galleryPhotos}
             zoomLabel={t.gallery.zoomLabel}
@@ -256,9 +248,7 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <Eyebrow as="h2" className="mb-5">
-            {t.residents.title}
-          </Eyebrow>
+          <SectionHead title={t.residents.title} />
           <div className="max-w-4xl border border-hair bg-canvas p-8 text-lg leading-relaxed text-muted">
             <Rich content={t.residents.body} />
           </div>
@@ -267,9 +257,7 @@ export default function CoworkPage() {
 
       <Wrap>
         <div className="py-16">
-          <Eyebrow as="h2" className="mb-5">
-            {t.location.title}
-          </Eyebrow>
+          <SectionHead title={t.location.title} />
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <ul className="space-y-3 text-lg text-ink2">
               {t.location.points.map((point) => (

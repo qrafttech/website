@@ -1,33 +1,58 @@
-import type { RichText, TermStep } from "@/lib/i18n/types";
+import type { RichText, StreamSession } from "@/lib/i18n/types";
 import { CONTACT_EMAIL } from "@/lib/site";
 
-const terminalSteps: readonly TermStep[] = [
+const streamSessions: readonly StreamSession[] = [
   {
-    label: "lecture du contexte",
-    status: "✓",
-    detail: "14 fichiers · 2 outils MCP",
+    label: "session 11",
+    rows: [
+      { ix: "/ 01", text: "lecture du contexte", status: "✓" },
+      { ix: "/ 02", text: "plan", status: "4 étapes" },
+      { ix: "/ 03", text: "écriture · src/agent.ts", status: "✓" },
+      { ix: "/ 04", text: "tests unitaires", status: "12 ✓" },
+      { ix: "/ 05", text: "déploiement · production", status: "✓" },
+    ],
   },
   {
-    label: "plan",
-    status: "4 étapes",
-    detail: "analyser → coder → tester → livrer",
-  },
-  {
-    label: "appel MCP · base clients",
-    status: "✓",
-    detail: "128 enregistrements",
-  },
-  { label: "écriture · src/agent.ts", status: "✓", detail: "+182 −47" },
-  { label: "tests unitaires", status: "12 ✓", progress: true },
-  {
-    label: "revue de code",
-    status: "✓",
-    detail: "2 remarques · corrigées",
-  },
-  {
-    label: "déploiement · production",
-    status: "✓",
-    detail: "v2.4.1 en ligne",
+    label: "session 12",
+    rows: [
+      {
+        ix: "/ 01",
+        text: "lecture du contexte",
+        status: "✓",
+        sub: "14 fichiers · 2 outils MCP",
+      },
+      {
+        ix: "/ 02",
+        text: "plan",
+        status: "4 étapes",
+        sub: "analyser → coder → tester → livrer",
+      },
+      {
+        ix: "/ 03",
+        text: "appel MCP · base clients",
+        status: "✓",
+        sub: "128 enregistrements",
+      },
+      {
+        ix: "/ 04",
+        text: "écriture · src/agent.ts",
+        status: "✓",
+        sub: "+182 −47",
+      },
+      { ix: "/ 05", text: "tests unitaires", status: "12 ✓" },
+      {
+        ix: "/ 06",
+        text: "revue de code",
+        status: "✓",
+        sub: "2 remarques · corrigées",
+      },
+      {
+        ix: "/ 07",
+        text: "déploiement · production",
+        status: "✓",
+        sub: "v2.4.1 en ligne",
+      },
+    ],
   },
 ];
 
@@ -39,19 +64,37 @@ export const hero = {
   ] as RichText,
   lead: "On construit vos apps, vos agents, vos équipes.",
   cta: { label: "Voir nos réalisations", href: "#proof" },
-  scrollCue: "Défiler vers le bas",
-  terminal: {
-    title: "agent · qraft/website — ⌘",
-    live: "live",
-    branch: "⎇ main",
-    idle: "idle",
-    starting: "démarrage",
-    sessionPrefix: "session",
-    tokenSuffix: "tok",
-    doneLabel: "session complète",
-    doneTokens: "3 480",
-    doneClock: "00:12",
-    steps: terminalSteps,
+  topline: {
+    agent: "agent",
+    path: " · qraft/website",
+    live: " — live",
+    cta: { label: "Discutons", href: "/#contact" },
+  },
+  team: [
+    {
+      key: "nicolas",
+      name: "Nicolas Rouanne",
+      role: "Co-fondateur & CEO — ex-CTO ou VP (Nomad Education, Boaterfly, Bruno)",
+      href: "https://www.linkedin.com/in/nicolasrouanne/",
+      linkLabel: "Nicolas Rouanne sur LinkedIn",
+    },
+    {
+      key: "alexis",
+      name: "Alexis Nugon",
+      role: "Co-fondateur — Epitech, 10+ ans de dev",
+      href: "https://www.linkedin.com/in/alexis-nugon/",
+      linkLabel: "Alexis Nugon sur LinkedIn",
+    },
+    {
+      key: "adrien",
+      name: "Adrien Lupo",
+      role: "Développeur intermédiaire (3 ans de dev)",
+      href: "https://www.linkedin.com/in/adrienlupo/",
+      linkLabel: "Adrien Lupo sur LinkedIn",
+    },
+  ],
+  stream: {
+    sessions: streamSessions,
   },
 } as const;
 
@@ -79,29 +122,6 @@ export const offres = {
     {
       title: "Vos équipes",
       body: "En tant que part time CTO, on élève le niveau de vos équipes : workflow IA efficace, code reviews exigeantes, mentoring — ou on vous aide à recruter.",
-    },
-  ],
-  team: [
-    {
-      key: "nicolas",
-      name: "Nicolas Rouanne",
-      role: "Co-fondateur & CEO — ex-CTO ou VP (Nomad Education, Boaterfly, Bruno)",
-      href: "https://www.linkedin.com/in/nicolasrouanne/",
-      linkLabel: "Nicolas Rouanne sur LinkedIn",
-    },
-    {
-      key: "alexis",
-      name: "Alexis Nugon",
-      role: "Co-fondateur — Epitech, 10+ ans de dev",
-      href: "https://www.linkedin.com/in/alexis-nugon/",
-      linkLabel: "Alexis Nugon sur LinkedIn",
-    },
-    {
-      key: "adrien",
-      name: "Adrien Lupo",
-      role: "Développeur senior",
-      href: "https://www.linkedin.com/in/adrienlupo/",
-      linkLabel: "Adrien Lupo sur LinkedIn",
     },
   ],
 } as const;

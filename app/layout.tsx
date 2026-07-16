@@ -9,7 +9,7 @@ import {
   SITE_OG_IMAGE,
 } from "@/lib/site";
 import MotionProvider from "@/components/motion/MotionProvider.client";
-import Header from "@/components/Header.client";
+import Rail from "@/components/Rail";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -62,9 +62,13 @@ export default function RootLayout({
         className={`${inter.variable} ${sora.variable} ${spaceMono.variable} font-sans text-base leading-normal`}
       >
         <MotionProvider>
-          <Header />
-          {children}
-          <Footer />
+          <div className="grid min-h-[100svh] grid-cols-1 nav:grid-cols-[5.75rem_minmax(0,1fr)]">
+            <Rail />
+            <div className="flex min-w-0 flex-col">
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
+          </div>
         </MotionProvider>
       </body>
     </html>

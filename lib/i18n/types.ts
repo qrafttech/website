@@ -8,9 +8,14 @@ export interface RichSegment {
 
 export type RichText = readonly RichSegment[];
 
-export interface TermStep {
-  label: string;
+export interface StreamRow {
+  ix: string;
+  text: string;
   status: string;
-  detail?: string;
-  progress?: boolean;
+  sub?: string;
+}
+
+export interface StreamSession {
+  label: string;
+  rows: readonly StreamRow[];
 }

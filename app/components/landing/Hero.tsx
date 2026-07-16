@@ -1,86 +1,108 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 
 import Rich from "@/components/Rich";
 import CtaLink from "@/components/CtaLink";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
-import Terminal from "@/app/components/landing/Terminal.client";
+import Stream from "@/app/components/landing/Stream";
 import { hero } from "@/lib/i18n/fr/landing";
-import qLogo from "@/public/images/q-logo.png";
 
-const CHEVRON_PATH = "M8 1v10M3.5 8 8 12.5 12.5 8";
+import nicolasImg from "@/public/images/nicolas.jpeg";
+import alexisImg from "@/public/images/alexis.jpeg";
+import adrienImg from "@/public/images/adrien.jpeg";
 
-const CUES = [
-  { opacity: "opacity-30", delay: "" },
-  { opacity: "opacity-[0.55]", delay: "[animation-delay:0.18s]" },
-  { opacity: "opacity-[0.85]", delay: "[animation-delay:0.36s]" },
-];
+type FaceKey = typeof hero.team[number]["key"];
+
+const FACE_IMAGES: Record<FaceKey, StaticImageData> = {
+  nicolas: nicolasImg,
+  alexis: alexisImg,
+  adrien: adrienImg,
+};
+
+function Face({ face }: { face: typeof hero.team[number] }) {
+  return (
+    <a
+      href={face.href}
+      target="_blank"
+      rel="noopener"
+      aria-label={face.linkLabel}
+      className="group flex items-center gap-[1.125rem]"
+    >
+      <span className="relative block h-16 w-16 flex-none overflow-hidden bg-tint">
+        <Image
+          src={FACE_IMAGES[face.key]}
+          alt={face.name}
+          fill
+          sizes="64px"
+          className="object-cover grayscale transition-[filter] duration-[350ms] ease-epure group-hover:grayscale-0"
+        />
+      </span>
+      <span className="flex min-w-0 flex-col text-[0.8125rem] leading-[1.45] text-muted">
+        <strong className="mb-0.5 text-[0.9375rem] font-bold text-ink">
+          {face.name} ↗
+        </strong>
+        {face.role}
+      </span>
+    </a>
+  );
+}
 
 export default function Hero() {
   return (
-    <section className="border-b border-line">
-      <div className="grid grid-cols-1 max-nav:min-h-[calc(100svh-var(--header-h)-2px)] max-nav:grid-rows-[auto_auto_1fr] nav:min-h-[calc(100vh-var(--header-h))] nav:grid-cols-[1.55fr_1fr] nav:grid-rows-[0.92fr_1.08fr]">
-        <div className="relative flex flex-col border-line p-[clamp(1.75rem,4.5vh,3.5rem)_clamp(1.5rem,3.2vw,3.25rem)] max-nav:pb-4 max-nav:pt-14 nav:col-start-1 nav:row-start-1 nav:border-b nav:border-r">
-          <div className="my-auto">
-            <h1 className="text-[clamp(2.125rem,4.8vw,4.625rem)] font-bold leading-none">
-              <RiseLine trigger="mount" duration={0.9}>
-                {hero.titleLine1}
-              </RiseLine>
-              <RiseLine trigger="mount" delay={0.12} duration={0.9}>
-                <Rich content={hero.titleLine2} />
-              </RiseLine>
-            </h1>
-          </div>
+    <section className="relative flex min-h-[calc(100svh-3.375rem)] flex-col overflow-hidden bg-panel px-[clamp(1.5rem,3.6vw,3.75rem)] pb-[clamp(2.75rem,7vh,4.75rem)] pt-[clamp(1.25rem,3.5vh,2.5rem)] text-ink nav:min-h-[100svh]">
+      <Stream />
+
+      <div className="relative z-[1] flex flex-1 flex-col">
+        <div className="flex items-center justify-between gap-6 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted">
+          <span className="inline-flex items-center gap-2">
+            <b className="h-1.5 w-1.5 flex-none animate-tpulse rounded-full bg-term-ok" />
+            <span>
+              {hero.topline.agent}
+              <span className="max-nav:hidden">{hero.topline.path}</span>
+              {hero.topline.live}
+            </span>
+          </span>
+          <CtaLink
+            href={hero.topline.cta.href}
+            size="sm"
+            className="normal-case tracking-normal"
+          >
+            {hero.topline.cta.label}
+          </CtaLink>
         </div>
 
-        <div className="relative flex flex-col justify-center gap-5 border-b border-line p-[clamp(1.5rem,3vh,2.75rem)_clamp(1.25rem,2vw,2.25rem)] max-nav:px-6 max-nav:pb-12 max-nav:pt-0 nav:col-start-2 nav:row-start-1 nav:bg-sand">
-          <Reveal trigger="mount" delay={0.7}>
-            <p className="max-w-[26ch] font-display text-[clamp(1.0625rem,1.5vw,1.375rem)] font-semibold leading-[1.3] tracking-[-0.02em]">
-              {hero.lead}
-            </p>
-          </Reveal>
+        <div className="my-auto flex flex-col py-[clamp(1.75rem,5vh,3.5rem)]">
+          <h1 className="text-[clamp(2.75rem,6.3vw,6.875rem)] font-bold leading-[0.98] tracking-[-0.035em]">
+            <RiseLine trigger="mount" duration={0.9}>
+              {hero.titleLine1}
+            </RiseLine>
+            <RiseLine trigger="mount" delay={0.12} duration={0.9}>
+              <Rich content={hero.titleLine2} />
+            </RiseLine>
+          </h1>
+
           <Reveal
             trigger="mount"
-            delay={1}
-            className="mt-[clamp(1rem,3vh,2.25rem)] flex flex-col items-start gap-2.5"
+            delay={0.5}
+            className="mt-[clamp(2rem,6vh,4.5rem)] flex max-w-[30rem] flex-col gap-[clamp(0.875rem,2.2vh,1.375rem)]"
           >
-            <CtaLink href={hero.cta.href}>{hero.cta.label}</CtaLink>
-          </Reveal>
-        </div>
-
-        <div className="max-nav:min-h-56 relative flex flex-col overflow-hidden bg-sand nav:col-start-1 nav:row-start-2 nav:border-r nav:border-line">
-          <Terminal />
-        </div>
-
-        <div className="relative flex flex-col justify-center nav:col-start-2 nav:row-start-2">
-          <a
-            href="#offres"
-            aria-label={hero.scrollCue}
-            className="hidden flex-col items-center gap-1 text-ink2 hover:text-blue nav:flex"
-          >
-            <Image
-              src={qLogo}
-              alt=""
-              aria-hidden
-              sizes="92px"
-              className="mb-2.5 h-auto w-[clamp(3.5rem,6vw,5.75rem)] animate-qbob"
-            />
-            {CUES.map((cue, index) => (
-              <svg
-                key={index}
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-                className={`block h-[1.125rem] w-[1.125rem] animate-scrolldown ${cue.opacity} ${cue.delay}`}
-              >
-                <path d={CHEVRON_PATH} />
-              </svg>
+            {hero.team.map((face) => (
+              <Face key={face.key} face={face} />
             ))}
-          </a>
+          </Reveal>
+
+          <Reveal
+            trigger="mount"
+            delay={0.7}
+            className="mt-[clamp(2.5rem,9vh,6.875rem)] flex flex-col items-start gap-[clamp(1.25rem,3vh,1.875rem)]"
+          >
+            <p className="max-w-[22ch] font-display text-[clamp(1.25rem,2.1vw,1.9375rem)] font-bold leading-[1.25] tracking-[-0.02em]">
+              {hero.lead}
+            </p>
+            <CtaLink href={hero.cta.href} size="lg">
+              {hero.cta.label}
+            </CtaLink>
+          </Reveal>
         </div>
       </div>
     </section>

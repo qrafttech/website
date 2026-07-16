@@ -1,12 +1,8 @@
 import type { RichText } from "@/lib/i18n/types";
-import { CONTACT_EMAIL } from "@/lib/site";
 
 export const nav = {
   brandLabel: "Qraft",
-  openMenu: "Ouvrir le menu",
-  closeMenu: "Fermer le menu",
-  cta: "Discutons",
-  ctaHref: "/#contact",
+  railLabel: "Navigation principale",
   links: [
     { label: "Offres", href: "/#offres" },
     { label: "Réalisations", href: "/#proof" },
@@ -22,23 +18,7 @@ export const footer = {
       text: "rafting agentic software. La qualité, augmentée par l’IA.",
     },
   ] as RichText,
-  columns: [
-    {
-      title: "Qraft",
-      links: [
-        { label: "Réalisations", href: "/#proof" },
-        { label: "Blog", href: "/blog" },
-        { label: "Cowork", href: "/cowork" },
-      ],
-    },
-    {
-      title: "Contact",
-      links: [{ label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` }],
-    },
-  ],
-  meta: [
-    { text: "Q", accent: true },
-    { text: "rafting agentic software" },
-  ] as RichText,
+  colophon:
+    "Composé en Sora, Inter et Space Mono. Construit avec Next.js. Écrivez-nous :",
   copyright: "© Qraft 2026",
 } as const;

@@ -4,7 +4,6 @@ export const blog = {
     "Retours d’expérience, guides techniques et bonnes pratiques de notre équipe.",
   metaDescription:
     "Retours d’expérience, guides techniques et bonnes pratiques de l’équipe Qraft.",
-  eyebrow: "Blog",
   backToArticles: "Retour aux articles",
   empty: "Aucun article pour le moment. Revenez bientôt.",
   pagination: {

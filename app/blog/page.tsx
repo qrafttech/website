@@ -54,11 +54,7 @@ interface BlogPageProps {
 export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <main>
-      <PageHero
-        eyebrow={blog.eyebrow}
-        title={blog.title}
-        subtitle={blog.subtitle}
-      />
+      <PageHero title={blog.title} subtitle={blog.subtitle} />
 
       <Wrap>
         <div className="py-16 md:py-24">

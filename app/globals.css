@@ -1,20 +1,32 @@
+/* Hallmark · genre: editorial · macrostructure: Split Studio · theme: épure (locked identity)
+ * design-system: design.md · designed-as-app · nav: N3 side-rail · footer: Ft4 dense colophon
+ * hero: full-viewport panel · background terminal stream (no window chrome) · ink headline overlay
+ * retained identity exceptions: ink #000 (gate 7)
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --header-h: 56px;
+    --header-h: 3.375rem;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
     scroll-padding-top: var(--header-h);
+    overflow-x: clip;
+  }
+
+  @media (min-width: 900px) {
+    html {
+      scroll-padding-top: 0;
+    }
   }
 
   body {
     @apply bg-canvas text-ink;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1,
@@ -22,6 +34,8 @@
   h3 {
     @apply font-display;
     letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
 
   a:focus-visible,
