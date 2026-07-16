@@ -15,6 +15,10 @@ module.exports = {
       screens: {
         nav: "900px",
       },
+      spacing: {
+        gutter: "clamp(1.5rem,3.6vw,3.75rem)",
+        "hero-b": "clamp(1.75rem,4.5vh,3.5rem)",
+      },
       colors: {
         canvas: "#fbfbf8",
         ink: "#000000",

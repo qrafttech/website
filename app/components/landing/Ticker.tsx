@@ -19,6 +19,9 @@ export default async function Ticker() {
   const marqueeLinkClass =
     "flex items-center whitespace-nowrap border-r border-line px-7 py-[1.125rem] text-[1.0625rem] text-ink2 hover:text-blue";
 
+  const mobileLinkClass =
+    "block px-6 py-4 text-[0.9375rem] text-ink2 hover:text-blue";
+
   return (
     <div className="border-b border-line bg-band nav:flex nav:items-stretch">
       <span className="flex items-center gap-[0.5625rem] bg-blue px-[1.625rem] py-[1.125rem] font-mono text-[0.8125rem] font-bold uppercase tracking-[0.05em] text-white nav:flex-none nav:whitespace-nowrap">
@@ -29,14 +32,19 @@ export default async function Ticker() {
       <ul className="nav:hidden">
         {links.slice(0, MOBILE_ARTICLES).map((link) => (
           <li key={link.key} className="border-t border-line first:border-t-0">
-            <Link
-              href={link.href}
-              className="block truncate px-6 py-4 text-[0.9375rem] text-ink2 hover:text-blue"
-            >
+            <Link href={link.href} className={`${mobileLinkClass} truncate`}>
               {link.title}
             </Link>
           </li>
         ))}
+        <li className="border-t border-line">
+          <Link
+            href={ticker.more.href}
+            className={`${mobileLinkClass} font-bold`}
+          >
+            {ticker.more.label}
+          </Link>
+        </li>
       </ul>
 
       <div className="group hidden flex-1 overflow-hidden motion-reduce:overflow-x-auto nav:block">

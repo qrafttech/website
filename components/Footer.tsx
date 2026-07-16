@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="border-t border-hair pb-10 pt-7">
           <p className="max-w-[64ch] font-mono text-xs leading-[1.9] text-muted">
             <Rich content={footer.tagline} strongClassName="font-normal" />{" "}
-            {footer.colophon}{" "}
+            {footer.contact}{" "}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="text-ink2 underline decoration-hair underline-offset-4 transition-colors ease-epure hover:text-blue"

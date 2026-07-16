@@ -109,6 +109,35 @@ Kept and reskinned: BlogCard, Pagination, NotionRenderer, PageHero,
 CoworkGallery.client, JsonLd, Disclosure.client, Logo, FluidContainer as
 needed.
 
+## Hero fold revision (settled 2026-07-16)
+
+Feedback on the fold-E2 hero: first screen overflows the viewport (CTA below
+the fold), terminal must end at the fold, and the stream needs real motion.
+Decisions from the grilling session:
+
+- **Fit strategy — shrink to fit.** Keep `min-h-[100svh]`; compress the
+  content so the full stack (topline, h1, team, lead, CTA) fits any viewport
+  ≥ ~650px tall. Cap the h1 with a vh term (`min()` of the current 6.3vw and
+  a svh-based ceiling) and tighten the vh-driven margins. Below ~650px,
+  scrolling is acceptable; clipping never is. The stream is pinned to the
+  section bottom, so fixing the section height also lands the prompt line on
+  the fold.
+- **Stream motion — live replay loop.** Rows type char-by-char (~35ms/char)
+  behind the caret; each status resolves (⏳ → ✓) ~600ms after its row lands;
+  next row starts after a short pause (~2–3s cadence). Content pushes up
+  inside the absolutely-positioned container (never scrolls the page).
+- **Loop cycling — increment session numbers.** After session 12, "session
+  13" begins, alternating the two sessions' row content. Labels never
+  visibly repeat. Rows scrolled past the top fade are pruned from the DOM.
+- **Initial state — build up from empty, fast boot.** Stream starts blank;
+  session 11 replays at ~4× speed (fills in ~3–4s, in step with the
+  headline/team reveal), then settles to normal live pace from session 12.
+- **Fallback — static pre-filled.** SSR/no-JS/`prefers-reduced-motion` get
+  today's full static stream; JS clears it and starts the boot only when
+  motion is allowed.
+- **Mobile — stream stays hidden below 900px.** Replay loop is desktop-only;
+  mobile hero remains typography-only. No auto-scroll risk on phones.
+
 ## Rollout
 
 Fresh branch `feat/epure-redesign` off `main`, one PR, reviewable commits:

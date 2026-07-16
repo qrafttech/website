@@ -16,6 +16,6 @@ export interface StreamRow {
 }
 
 export interface StreamSession {
-  label: string;
+  number: number;
   rows: readonly StreamRow[];
 }

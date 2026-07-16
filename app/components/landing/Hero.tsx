@@ -4,7 +4,7 @@ import Rich from "@/components/Rich";
 import CtaLink from "@/components/CtaLink";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
-import Stream from "@/app/components/landing/Stream";
+import Stream from "@/app/components/landing/Stream.client";
 import { hero } from "@/lib/i18n/fr/landing";
 
 import nicolasImg from "@/public/images/nicolas.jpeg";
@@ -49,7 +49,7 @@ function Face({ face }: { face: typeof hero.team[number] }) {
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100svh-3.375rem)] flex-col overflow-hidden bg-panel px-[clamp(1.5rem,3.6vw,3.75rem)] pb-[clamp(2.75rem,7vh,4.75rem)] pt-[clamp(1.25rem,3.5vh,2.5rem)] text-ink nav:min-h-[100svh]">
+    <section className="relative flex min-h-[calc(100svh-3.375rem)] flex-col overflow-hidden bg-panel px-gutter pb-hero-b pt-[clamp(1.25rem,3vh,2.25rem)] text-ink nav:min-h-[100svh]">
       <Stream />
 
       <div className="relative z-[1] flex flex-1 flex-col">
@@ -71,8 +71,8 @@ export default function Hero() {
           </CtaLink>
         </div>
 
-        <div className="my-auto flex flex-col py-[clamp(1.75rem,5vh,3.5rem)]">
-          <h1 className="text-[clamp(2.75rem,6.3vw,6.875rem)] font-bold leading-[0.98] tracking-[-0.035em]">
+        <div className="flex flex-1 flex-col py-[clamp(1rem,2.8vh,2.5rem)]">
+          <h1 className="mt-auto text-[clamp(2.5rem,min(4.9vw,8.5svh),5rem)] font-bold leading-[0.98] tracking-[-0.035em]">
             <RiseLine trigger="mount" duration={0.9}>
               {hero.titleLine1}
             </RiseLine>
@@ -84,7 +84,7 @@ export default function Hero() {
           <Reveal
             trigger="mount"
             delay={0.5}
-            className="mt-[clamp(2rem,6vh,4.5rem)] flex max-w-[30rem] flex-col gap-[clamp(0.875rem,2.2vh,1.375rem)]"
+            className="mt-auto flex max-w-[30rem] flex-col gap-[clamp(0.75rem,1.8vh,1.25rem)] pt-[clamp(1.25rem,4vh,3.25rem)]"
           >
             {hero.team.map((face) => (
               <Face key={face.key} face={face} />
@@ -94,9 +94,9 @@ export default function Hero() {
           <Reveal
             trigger="mount"
             delay={0.7}
-            className="mt-[clamp(2.5rem,9vh,6.875rem)] flex flex-col items-start gap-[clamp(1.25rem,3vh,1.875rem)]"
+            className="mt-[clamp(1.5rem,5.5vh,4.5rem)] flex flex-col items-start gap-[clamp(0.875rem,2.2vh,1.75rem)]"
           >
-            <p className="max-w-[22ch] font-display text-[clamp(1.25rem,2.1vw,1.9375rem)] font-bold leading-[1.25] tracking-[-0.02em]">
+            <p className="max-w-[22ch] font-display text-[clamp(1.25rem,min(2.1vw,3.6svh),1.9375rem)] font-bold leading-[1.25] tracking-[-0.02em]">
               {hero.lead}
             </p>
             <CtaLink href={hero.cta.href} size="lg">

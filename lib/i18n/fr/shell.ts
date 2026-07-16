@@ -18,7 +18,6 @@ export const footer = {
       text: "rafting agentic software. La qualité, augmentée par l’IA.",
     },
   ] as RichText,
-  colophon:
-    "Composé en Sora, Inter et Space Mono. Construit avec Next.js. Écrivez-nous :",
+  contact: "Écrivez-nous :",
   copyright: "© Qraft 2026",
 } as const;

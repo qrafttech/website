@@ -3,7 +3,7 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 const streamSessions: readonly StreamSession[] = [
   {
-    label: "session 11",
+    number: 11,
     rows: [
       { ix: "/ 01", text: "lecture du contexte", status: "✓" },
       { ix: "/ 02", text: "plan", status: "4 étapes" },
@@ -13,7 +13,7 @@ const streamSessions: readonly StreamSession[] = [
     ],
   },
   {
-    label: "session 12",
+    number: 12,
     rows: [
       {
         ix: "/ 01",
@@ -88,18 +88,20 @@ export const hero = {
     {
       key: "adrien",
       name: "Adrien Lupo",
-      role: "Développeur intermédiaire (3 ans de dev)",
+      role: "Développeur intermédiaire — 3+ ans de dev",
       href: "https://www.linkedin.com/in/adrienlupo/",
       linkLabel: "Adrien Lupo sur LinkedIn",
     },
   ],
   stream: {
+    labelPrefix: "session ",
     sessions: streamSessions,
   },
 } as const;
 
 export const ticker = {
   label: "Notre blog",
+  more: { label: "Voir plus →", href: "/blog" },
 } as const;
 
 export const offres = {

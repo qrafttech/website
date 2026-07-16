@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 
 import { EASE, VIEWPORT_ONCE } from "@/lib/motion";
 
@@ -18,12 +18,6 @@ export default function Reveal({
   className,
   delay = 0,
 }: RevealProps) {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
-
   if (trigger === "mount") {
     return (
       <m.div
