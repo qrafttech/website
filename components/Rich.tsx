@@ -40,19 +40,11 @@ export default function Rich({ content, strongClassName }: RichProps) {
           );
         }
 
-        if (accent) {
-          return (
-            <span key={index} className="text-blue">
-              {text}
-            </span>
-          );
-        }
-
-        if (underline) {
+        if (accent || underline) {
           return (
             <span
               key={index}
-              className="underline decoration-blue decoration-[0.09em] underline-offset-[0.14em]"
+              className="bg-brand bg-clip-text text-transparent"
             >
               {text}
             </span>

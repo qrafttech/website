@@ -11,7 +11,10 @@ export default function FinalCta() {
         <div className="grid gap-x-16 gap-y-10 nav:grid-cols-[1.45fr_1fr] nav:items-end">
           <h2 className="text-[clamp(2.375rem,6.2vw,5.5rem)] font-bold leading-none tracking-[-0.035em]">
             <RiseLine trigger="view">{final.titleLine1}</RiseLine>
-            <RiseLine trigger="view" className="text-blue">
+            <RiseLine
+              trigger="view"
+              className="bg-brand bg-clip-text text-transparent"
+            >
               {final.titleLine2}
             </RiseLine>
           </h2>

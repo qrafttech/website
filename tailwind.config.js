@@ -42,6 +42,9 @@ module.exports = {
           dim: "#b8b9b4",
         },
       },
+      backgroundImage: {
+        brand: "linear-gradient(135deg, #6710b0 0%, #2650e1 50%, #07b6e4 100%)",
+      },
       fontFamily: {
         sans: ["var(--font-inter)", ...fontFamily.sans],
         display: ["var(--font-sora)", ...fontFamily.sans],
