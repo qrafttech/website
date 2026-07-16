@@ -266,7 +266,7 @@ export default function Stream() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-y-0 right-0 left-[42%] hidden flex-col justify-end overflow-hidden px-gutter pb-hero-b font-mono text-[clamp(0.8125rem,1.1vw,0.9375rem)] leading-[2.15] text-stream-txt opacity-60 [-webkit-mask-image:linear-gradient(180deg,transparent_26%,#000_58%)] [mask-image:linear-gradient(180deg,transparent_26%,#000_58%)] nav:flex"
+      className="pointer-events-none absolute inset-y-0 right-0 left-[42%] hidden flex-col justify-end overflow-hidden px-gutter pb-hero-b font-mono text-[clamp(0.9375rem,1.3vw,1.125rem)] leading-[2.15] text-stream-txt opacity-80 [overflow-anchor:none] [-webkit-mask-image:linear-gradient(180deg,transparent_26%,#000_58%)] [mask-image:linear-gradient(180deg,transparent_26%,#000_58%)] nav:flex"
     >
       {(reduced ? STATIC_LINES : lines ?? STATIC_LINES).map((line) => (
         <StreamLine key={line.id} line={line} />
