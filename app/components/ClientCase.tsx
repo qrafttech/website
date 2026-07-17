@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import StackIcon from "@/app/components/StackIcon";
 import Wrap from "@/components/Wrap";
 import Eyebrow from "@/components/Eyebrow";
@@ -6,6 +8,8 @@ import CtaLink from "@/components/CtaLink";
 import Rich from "@/components/Rich";
 import { caseUi, type Client, type StackItem } from "@/lib/i18n/fr/clients";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { clientLogos } from "@/lib/client-logos";
+import { clientScreenshots } from "@/lib/client-screenshots";
 
 const H1 =
   "font-display text-[clamp(2.125rem,4.8vw,4rem)] font-bold leading-[1.02]";
@@ -57,11 +61,64 @@ function ClientHero({ client }: { client: Client }) {
           </div>
           {client.anonymous ? null : (
             <div className="flex aspect-[4/3] items-center justify-center border border-line bg-canvas p-8">
-              <span className="text-center font-display text-2xl font-bold leading-tight">
-                {client.name}
-              </span>
+              {clientLogos[client.slug] ? (
+                <Image
+                  src={clientLogos[client.slug]}
+                  alt={client.name}
+                  className="h-full w-full object-contain"
+                />
+              ) : (
+                <span className="text-center font-display text-2xl font-bold leading-tight">
+                  {client.name}
+                </span>
+              )}
             </div>
           )}
+        </div>
+      </Wrap>
+    </section>
+  );
+}
+
+function ClientScreenshots({ client }: { client: Client }) {
+  const images = clientScreenshots[client.slug];
+  if (!images || images.length === 0) return null;
+
+  const alt = `Capture d’écran du projet ${client.name}`;
+
+  return (
+    <section className="border-b border-line bg-canvas">
+      <Wrap className="py-12 nav:py-16">
+        <div
+          className={
+            images.length === 1
+              ? ""
+              : `grid gap-4 ${
+                  images.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"
+                }`
+          }
+        >
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="relative aspect-[16/10] overflow-hidden border border-line"
+            >
+              <Image
+                src={image}
+                alt={alt}
+                fill
+                placeholder="blur"
+                sizes={
+                  images.length === 1
+                    ? "100vw"
+                    : `(min-width: 1024px) ${Math.round(
+                        100 / images.length
+                      )}vw, 100vw`
+                }
+                className="object-cover object-top"
+              />
+            </div>
+          ))}
         </div>
       </Wrap>
     </section>
@@ -106,6 +163,7 @@ export default function ClientCase({ client }: { client: Client }) {
   return (
     <main>
       <ClientHero client={client} />
+      <ClientScreenshots client={client} />
 
       <section className="py-16 nav:py-24">
         <Wrap>

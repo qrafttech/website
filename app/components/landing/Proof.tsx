@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import Rich from "@/components/Rich";
@@ -5,6 +6,7 @@ import Wrap from "@/components/Wrap";
 import RiseLine from "@/components/motion/RiseLine.client";
 import { proof } from "@/lib/i18n/fr/landing";
 import { clients } from "@/lib/i18n/fr/clients";
+import { clientLogos } from "@/lib/client-logos";
 
 export default function Proof() {
   return (
@@ -24,13 +26,22 @@ export default function Proof() {
                   href={`/realisations/${client.slug}`}
                   className="group flex items-center justify-between gap-6 py-6 transition-colors ease-epure"
                 >
-                  <span className="min-w-0">
-                    <span className="block font-display text-xl font-semibold leading-tight transition-colors ease-epure group-hover:text-blue nav:text-[1.625rem]">
-                      {client.name}
+                  <span className="flex min-w-0 items-center gap-4">
+                    <span className="min-w-0">
+                      <span className="block font-display text-xl font-semibold leading-tight transition-colors ease-epure group-hover:text-blue nav:text-[1.625rem]">
+                        {client.name}
+                      </span>
+                      <span className="mt-1.5 block font-mono text-xs uppercase tracking-[0.08em] text-muted">
+                        {client.sector}
+                      </span>
                     </span>
-                    <span className="mt-1.5 block font-mono text-xs uppercase tracking-[0.08em] text-muted">
-                      {client.sector}
-                    </span>
+                    {clientLogos[client.slug] ? (
+                      <Image
+                        src={clientLogos[client.slug]}
+                        alt=""
+                        className="h-8 w-auto max-w-[6rem] shrink-0 object-contain"
+                      />
+                    ) : null}
                   </span>
                   <span
                     aria-hidden="true"
