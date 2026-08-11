@@ -161,7 +161,7 @@ export const offre = {
     {
       key: "mentorat",
       title: "Mentorat et revue de code",
-      body: "Vos développeur.euse.s nous font relire leur code, nous montons avec eux un workflow IA qui tient debout et nous restons joignables pour les décisions difficiles, à un rythme qui se décide avec vous et qui change souvent en cours de route.",
+      body: "Vos développeur.euse.s nous font relire leur code, nous montons avec eux un workflow IA qui tient debout et nous restons joignables pour les décisions difficiles. Le rythme se décide avec vous, et il change souvent en cours de route.",
     },
   ],
 } as const;
@@ -419,7 +419,7 @@ export const victoires = {
     {
       slug: "billi",
       what: "Billi automatise l’administratif des agences qui gèrent des freelances.",
-      note: "Chaque mois, le compte rendu d’activité part en signature chez le client, et sa validation déclenche la facture. Derrière, grover et Puppeteer tournent dans un Chromium headless, orchestrés par des workers Sidekiq. Tout le monde facture le même jour, et des dizaines de PDF partent d’un coup.",
+      note: "Chaque mois, le compte rendu d’activité part en signature chez le client, et sa validation déclenche la facture. Derrière, grover et Puppeteer tournent dans un Chromium headless, orchestrés par des workers Sidekiq, parce que tout le monde facture le même jour et que des dizaines de PDF partent d’un coup.",
     },
     {
       slug: "sante",
