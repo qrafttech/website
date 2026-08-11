@@ -39,7 +39,11 @@ export default function Footer({
           </ul>
         </div>
 
-        <div className="border-t border-hair pb-10 pt-7">
+        {/* No second rule inside the footer. The one at the top separates the
+            footer from the page, which nothing else does; between the link row
+            and the colophon there are 56px and a jump from Inter to Space
+            Mono, which is already two signals. */}
+        <div className="pb-10 pt-7">
           <p className="max-w-[64ch] font-mono text-xs leading-[1.9] text-muted">
             <Rich content={footer.tagline} strongClassName="font-normal" />{" "}
             {footer.contact}{" "}

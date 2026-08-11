@@ -27,9 +27,12 @@ export default function Valeurs({
         <h3 className="mt-[clamp(2.5rem,6vh,4rem)] font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted">
           {valeurs.valuesLabel}
         </h3>
-        <dl className="mt-6 grid gap-x-[clamp(2rem,4vw,4rem)] border-t border-rule nav:grid-cols-2">
+        {/* The rule under the label opens the list; the values are not divided
+            from one another, because the grid gap and the display headings do
+            that already and four ruled rows read as a statement of account. */}
+        <dl className="mt-6 grid gap-x-[clamp(2rem,4vw,4rem)] gap-y-4 border-t border-rule nav:grid-cols-2">
           {valeurs.values.map((value) => (
-            <div key={value.key} className="border-b border-rule py-7">
+            <div key={value.key} className="py-7">
               <dt className="font-display text-[1.3125rem] font-bold leading-[1.2]">
                 {value.title}
               </dt>

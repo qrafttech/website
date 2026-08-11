@@ -12,12 +12,6 @@ const BANDS = {
   panel: "bg-panel",
 } as const;
 
-const RULES = {
-  none: "",
-  top: "border-t border-line",
-  bottom: "border-b border-line",
-} as const;
-
 const RHYTHM = "py-24 nav:py-[9.375rem]";
 
 const CONTAINERS = {
@@ -32,7 +26,6 @@ interface SectionProps {
   children: ReactNode;
   id?: string;
   band?: Band;
-  rule?: keyof typeof RULES;
   /** Vertical rhythm utilities. Replaces the default rather than adding to it,
    *  so an override cannot collide with it. design.md:59 — the final CTA and
    *  404 deliberately run larger. */
@@ -49,16 +42,17 @@ export default function Section({
   children,
   id,
   band = "canvas",
-  rule = "none",
   rhythm = RHYTHM,
   contain = "measure",
   className,
 }: SectionProps) {
   return (
-    <section
-      id={id}
-      className={clsx(BANDS[band], RULES[rule], rhythm, className)}
-    >
+    /* No section-boundary rule. Every boundary on the page is carried by the
+     * band change and the `py-24` / `nav:py-[9.375rem]` rhythm; the one section
+     * that also ruled its bottom edge was the outlier, and a rule saying what
+     * the surface and the air already say is the kind of separator this design
+     * was asked to stop using. */
+    <section id={id} className={clsx(BANDS[band], rhythm, className)}>
       {contain === "measure" ? (
         <Wrap>{children}</Wrap>
       ) : (

@@ -49,8 +49,8 @@ function buildCases(
  * The identifying mark for one case, opening the metadata block underneath the
  * prose. design.md:116-126 permits a client logo as a proof tier and still
  * forbids logo walls, so the mark is deliberately placed where it can never be
- * read on its own: after the sentences, on the same hairline as `Stack :` and
- * at the height of one of those lines. Greyscale, because seven brand palettes
+ * read on its own: after the sentences, in the same block as `Stack :` and at
+ * the height of one of those lines. Greyscale, because seven brand palettes
  * would overrun a page whose only colour is a ≤5% blue rule.
  *
  * The mark is NOT decorative, so it takes the client's name as its `alt`. An
@@ -132,13 +132,15 @@ export default function Victoires({
       </p>
 
       {/* Paired rather than stacked: four cases in one tall column left the
-          half beside them blank for most of the section, and a run of rows
-          with right-aligned metadata over dividers reads as a statement of
-          account. Two columns break that grammar and halve the height. */}
+          half beside them blank for most of the section. Two columns halve the
+          height — and the dividers that used to close each row are gone with
+          them, because rows of metadata over hairlines are the visual grammar
+          of a statement of account, which is the one thing this page cannot
+          read as. One rule opens the list; the case names carry the rest. */}
       <Reveal>
-        <ul className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] border-t border-line nav:grid-cols-2">
+        <ul className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] gap-y-6 border-t border-line nav:grid-cols-2">
           {cases.map((entry) => (
-            <li key={entry.slug} className="border-b border-line py-7">
+            <li key={entry.slug} className="py-7">
               <div className="flex items-baseline justify-between gap-6">
                 <h3 className="font-display text-[1.5rem] font-semibold leading-tight">
                   <Link
@@ -175,7 +177,11 @@ export default function Victoires({
               <p className="mt-2.5 max-w-[62ch] text-[0.9375rem] leading-[1.7] text-muted">
                 {entry.note}
               </p>
-              <div className="mt-4 flex flex-col items-start gap-1 border-t border-hair pt-3.5">
+              {/* Space, not a rule. The mark is a greyscale image and the two
+                  lines under it are mono at 12px against Inter prose — the
+                  register change already says the block has turned from
+                  argument into record. */}
+              <div className="mt-7 flex flex-col items-start gap-1">
                 <Mark logo={entry.logo} nda={entry.nda} name={entry.name} />
                 <Meta label={victoires.stackLabel} items={entry.stack} />
                 <Meta
