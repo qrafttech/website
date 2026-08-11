@@ -3,20 +3,33 @@ import Link from "next/link";
 import Brand from "@/components/Brand";
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
-import { nav, footer } from "@/lib/i18n/fr/shell";
+import { type Locale, hasBlog, localeHref } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/types";
 import { CONTACT_EMAIL } from "@/lib/site";
 
-export default function Footer() {
+export default function Footer({
+  lang,
+  nav,
+  footer,
+}: {
+  lang: Locale;
+  nav: Dictionary["nav"];
+  footer: Dictionary["footer"];
+}) {
+  const links = nav.links.filter(
+    (link) => link.key !== "blog" || hasBlog(lang)
+  );
+
   return (
     <footer className="border-t border-line">
       <Wrap>
         <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-5 pb-7 pt-9">
           <Brand className="text-[1.5rem]" markClassName="w-[1.625rem]" />
           <ul className="flex flex-wrap items-baseline gap-x-8 gap-y-2.5">
-            {nav.links.map((link) => (
-              <li key={link.href}>
+            {links.map((link) => (
+              <li key={link.key}>
                 <Link
-                  href={link.href}
+                  href={localeHref(lang, link.href)}
                   className="whitespace-nowrap font-mono text-xs uppercase tracking-[0.08em] text-ink2 transition-colors ease-epure hover:text-blue"
                 >
                   {link.label}

@@ -2,10 +2,14 @@ import Rich from "@/components/Rich";
 import Section from "@/components/Section";
 import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
 import Reveal from "@/components/motion/Reveal.client";
-import { valeurs } from "@/lib/i18n/fr/landing";
+import type { Dictionary } from "@/lib/i18n/types";
 
 /** Header over a full-measure pair of columns — see `Offre.tsx`. */
-export default function Valeurs() {
+export default function Valeurs({
+  valeurs,
+}: {
+  valeurs: Dictionary["valeurs"];
+}) {
   return (
     <Section band="band">
       <SectionTitle size={MARGINAL} className="max-w-[20ch]">

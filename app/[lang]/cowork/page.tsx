@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { notFound } from "next/navigation";
 import Image, { StaticImageData } from "next/image";
 import {
   CheckIcon,
@@ -17,7 +18,15 @@ import Wrap from "@/components/Wrap";
 import Rich from "@/components/Rich";
 import Eyebrow from "@/components/Eyebrow";
 import CtaLink from "@/components/CtaLink";
-import { cowork as t } from "@/lib/i18n/fr/cowork";
+import { isLocale, localePath } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localeAlternates } from "@/lib/i18n/metadata";
+import type {
+  CoworkAmenityKey,
+  CoworkGalleryKey,
+  CoworkTileKey,
+  Dictionary,
+} from "@/lib/i18n/types";
 import { SITE_URL } from "@/lib/site";
 
 import coworkOpenSpace from "@/public/images/cowork_open_space.jpg";
@@ -31,16 +40,31 @@ import coworkBalcon from "@/public/images/cowork_balcon.jpg";
 import coworkBureauDebout from "@/public/images/cowork_bureau_debout.jpg";
 import coworkLunch2 from "@/public/images/cowork_lunch2.jpg";
 
-export const metadata: Metadata = {
-  title: t.metaTitle,
-  description: t.description,
-  alternates: { canonical: "/cowork" },
-};
+type Cowork = Dictionary["cowork"];
 
-const MAPS_QUERY = `${t.location.street}, ${t.location.postalCode} ${t.location.city}`;
-const MAPS_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(
-  MAPS_QUERY
-)}&output=embed`;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const t = (await getDictionary(lang)).cowork;
+
+  return {
+    title: t.metaTitle,
+    description: t.description,
+    alternates: localeAlternates(lang, "/cowork"),
+  };
+}
+
+function mapsEmbedUrl(location: Cowork["location"]): string {
+  const query = `${location.street}, ${location.postalCode} ${location.city}`;
+  return `https://www.google.com/maps?q=${encodeURIComponent(
+    query
+  )}&output=embed`;
+}
 
 function CoffeeIcon({ className }: { className?: string }) {
   return (
@@ -59,39 +83,37 @@ function CoffeeIcon({ className }: { className?: string }) {
   );
 }
 
-type TileKey = typeof t.spaces.tiles[number]["key"];
-type AmenityKey = typeof t.amenities.items[number]["key"];
-type GalleryKey = typeof t.gallery.photos[number]["key"];
+type Tile = Cowork["spaces"]["tiles"][number];
 
-const TILE_IMAGES: Record<TileKey, StaticImageData> = {
+const TILE_IMAGES: Record<CoworkTileKey, StaticImageData> = {
   openSpace: coworkOpenSpace,
   kitchen: coworkKitchen,
   meeting: coworkMeeting,
   callbox: coworkCallbox2,
 };
 
-const TILE_OBJECT_POSITION: Record<TileKey, string> = {
+const TILE_OBJECT_POSITION: Record<CoworkTileKey, string> = {
   openSpace: "center 50%",
   kitchen: "center 62%",
   meeting: "center 62%",
   callbox: "center 62%",
 };
 
-const TILE_ICON: Record<TileKey, ReactNode> = {
+const TILE_ICON: Record<CoworkTileKey, ReactNode> = {
   openSpace: <ComputerDesktopIcon className="h-5 w-5" />,
   kitchen: <CoffeeIcon className="h-5 w-5" />,
   meeting: <UsersIcon className="h-5 w-5" />,
   callbox: <PhoneIcon className="h-5 w-5" />,
 };
 
-const AMENITY_ICON: Record<AmenityKey, ReactNode> = {
+const AMENITY_ICON: Record<CoworkAmenityKey, ReactNode> = {
   access: <ClockIcon className="h-6 w-6" />,
   coffee: <CoffeeIcon className="h-6 w-6" />,
   desks: <ComputerDesktopIcon className="h-6 w-6" />,
   techMeeting: <UsersIcon className="h-6 w-6" />,
 };
 
-const GALLERY_IMAGES: Record<GalleryKey, StaticImageData> = {
+const GALLERY_IMAGES: Record<CoworkGalleryKey, StaticImageData> = {
   meeting2: coworkMeeting2,
   babyfoot: coworkBabyfoot,
   balcon: coworkBalcon,
@@ -104,7 +126,7 @@ function SectionHead({ title }: { title: string }) {
   return <h2 className="mb-10 max-w-[24ch] text-section font-bold">{title}</h2>;
 }
 
-function PhotoTile({ tile }: { tile: typeof t.spaces.tiles[number] }) {
+function PhotoTile({ tile }: { tile: Tile }) {
   return (
     <div className="relative min-h-[18.75rem] overflow-hidden border border-hair md:row-span-2">
       <Image
@@ -132,7 +154,16 @@ function PhotoTile({ tile }: { tile: typeof t.spaces.tiles[number] }) {
   );
 }
 
-export default function CoworkPage() {
+export default async function CoworkPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+
+  const t = (await getDictionary(lang)).cowork;
+
   const galleryPhotos = t.gallery.photos.map((photo) => ({
     src: GALLERY_IMAGES[photo.key],
     alt: photo.alt,
@@ -146,7 +177,7 @@ export default function CoworkPage() {
           "@type": "LocalBusiness",
           name: t.title,
           description: t.description,
-          url: `${SITE_URL}/cowork`,
+          url: `${SITE_URL}${localePath(lang, "/cowork")}`,
           image: `${SITE_URL}/images/cowork_open_space.jpg`,
           priceRange: `${t.pricing.price} ${t.pricing.period}`,
           address: {
@@ -268,7 +299,7 @@ export default function CoworkPage() {
               ))}
             </ul>
             <iframe
-              src={MAPS_EMBED_URL}
+              src={mapsEmbedUrl(t.location)}
               title={t.location.mapTitle}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

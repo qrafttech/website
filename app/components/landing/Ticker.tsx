@@ -1,11 +1,18 @@
 import Link from "next/link";
 
-import { ticker } from "@/lib/i18n/fr/landing";
+import { type Locale, localeHref, localePath } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/types";
 import { fetchArticles } from "@/lib/notion";
 
 const MOBILE_ARTICLES = 3;
 
-export default async function Ticker() {
+export default async function Ticker({
+  lang,
+  ticker,
+}: {
+  lang: Locale;
+  ticker: Dictionary["ticker"];
+}) {
   const articles = (await fetchArticles()).slice(0, 6);
 
   if (articles.length === 0) return null;
@@ -14,7 +21,7 @@ export default async function Ticker() {
      title is content. */
   const links = articles.map((article) => ({
     key: article.id,
-    href: `/blog/${article.slug}`,
+    href: localePath(lang, `/blog/${article.slug}`),
     title: article.title,
     meta: [
       article.author ? `${ticker.bylinePrefix}${article.author}` : "",
@@ -54,7 +61,7 @@ export default async function Ticker() {
         ))}
         <li className="border-t border-line">
           <Link
-            href={ticker.more.href}
+            href={localeHref(lang, ticker.more.href)}
             className={`${mobileLinkClass} font-bold hover:text-blue`}
           >
             {ticker.more.label}

@@ -4,21 +4,20 @@ import Rich from "@/components/Rich";
 import CtaLink from "@/components/CtaLink";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
-import { hero } from "@/lib/i18n/fr/landing";
+import { type Locale, localeHref } from "@/lib/i18n/config";
+import type { Dictionary, TeamKey, TeamMember } from "@/lib/i18n/types";
 
 import nicolasImg from "@/public/images/nicolas.jpeg";
 import alexisImg from "@/public/images/alexis.jpeg";
 import adrienImg from "@/public/images/adrien.jpeg";
 
-type FaceKey = typeof hero.team[number]["key"];
-
-const FACE_IMAGES: Record<FaceKey, StaticImageData> = {
+const FACE_IMAGES: Record<TeamKey, StaticImageData> = {
   nicolas: nicolasImg,
   alexis: alexisImg,
   adrien: adrienImg,
 };
 
-function Face({ face }: { face: typeof hero.team[number] }) {
+function Face({ face }: { face: TeamMember }) {
   return (
     <a
       href={face.href}
@@ -51,7 +50,13 @@ function Face({ face }: { face: typeof hero.team[number] }) {
   );
 }
 
-export default function Hero() {
+export default function Hero({
+  lang,
+  hero,
+}: {
+  lang: Locale;
+  hero: Dictionary["hero"];
+}) {
   return (
     <section className="relative flex min-h-[calc(100svh-3.375rem)] flex-col overflow-hidden bg-panel px-gutter pb-hero-b pt-[clamp(1.25rem,3vh,2.25rem)] text-ink nav:min-h-[100svh]">
       <div className="relative z-[1] flex flex-1 flex-col">
@@ -60,7 +65,7 @@ export default function Hero() {
             so the row survives carrying only the CTA. */}
         <div className="flex items-center justify-end">
           <CtaLink
-            href={hero.contactCta.href}
+            href={localeHref(lang, hero.contactCta.href)}
             size="sm"
             className="normal-case tracking-normal"
           >
@@ -115,7 +120,7 @@ export default function Hero() {
               <p className="max-w-[52ch] text-[clamp(0.9375rem,min(1.1vw,1.9svh),1.0625rem)] leading-[1.7] text-ink2">
                 {hero.lead}
               </p>
-              <CtaLink href={hero.cta.href} size="lg">
+              <CtaLink href={localeHref(lang, hero.cta.href)} size="lg">
                 {hero.cta.label}
               </CtaLink>
             </Reveal>

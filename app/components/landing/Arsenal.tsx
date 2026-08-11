@@ -3,9 +3,13 @@ import Section from "@/components/Section";
 import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import Reveal from "@/components/motion/Reveal.client";
-import { arsenal } from "@/lib/i18n/fr/landing";
+import type { Dictionary } from "@/lib/i18n/types";
 
-export default function Arsenal() {
+export default function Arsenal({
+  arsenal,
+}: {
+  arsenal: Dictionary["arsenal"];
+}) {
   return (
     <Section band="band">
       <Diptych

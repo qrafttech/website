@@ -13,27 +13,51 @@ import {
   extractPlainText,
 } from "@/lib/notion";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
-import { blog } from "@/lib/i18n/fr/blog";
+import { hasBlog, isLocale, localePath } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 const getArticle = cache(fetchArticleBySlug);
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }
 
-export async function generateStaticParams() {
+/**
+ * Articles are French-only. For any other locale this returns a single
+ * placeholder slug rather than the real list, so `/en/blog/<slug>` costs one
+ * prerendered 404 instead of thirty-odd, and every other English article URL
+ * is resolved on demand — where the page's own guard 404s it too.
+ *
+ * It cannot simply return `[]`: with Cache Components enabled, Next requires
+ * every `generateStaticParams` to yield at least one result so it can prove at
+ * build time that the route has no unguarded dynamic access.
+ */
+const NO_SUCH_ARTICLE = "_";
+
+export async function generateStaticParams({
+  params,
+}: {
+  params: { lang: string };
+}) {
+  if (!isLocale(params.lang) || !hasBlog(params.lang)) {
+    return [{ slug: NO_SUCH_ARTICLE }];
+  }
+
   try {
     const articles = await fetchArticles();
     return articles.map((article) => ({ slug: article.slug }));
   } catch {
-    return [];
+    return [{ slug: NO_SUCH_ARTICLE }];
   }
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { lang, slug } = await params;
+  if (!isLocale(lang) || !hasBlog(lang)) return {};
+
   const article = await getArticle(slug);
 
   if (!article) return {};
@@ -49,22 +73,29 @@ export async function generateMetadata({
   return {
     title: article.title,
     description,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: localeAlternates(lang, `/blog/${slug}`),
     openGraph: {
       type: "article",
       title: article.title,
       description,
-      url: `/blog/${slug}`,
+      url: localePath(lang, `/blog/${slug}`),
     },
     twitter: { card: "summary_large_image", title: article.title, description },
   };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params;
-  const article = await getArticle(slug);
+  const { lang, slug } = await params;
+  if (!isLocale(lang) || !hasBlog(lang)) notFound();
+
+  const [article, t] = await Promise.all([
+    getArticle(slug),
+    getDictionary(lang),
+  ]);
 
   if (!article) notFound();
+
+  const path = localePath(lang, `/blog/${slug}`);
 
   return (
     <main>
@@ -82,14 +113,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             name: SITE_NAME,
             url: SITE_URL,
           },
-          url: `${SITE_URL}/blog/${slug}`,
-          mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+          url: `${SITE_URL}${path}`,
+          mainEntityOfPage: `${SITE_URL}${path}`,
+          inLanguage: "fr",
         }}
       />
       <Wrap>
         <div className="pt-8 pb-24">
-          <MonoLink href="/blog" className="text-muted">
-            &larr; {blog.backToArticles}
+          <MonoLink href={localePath(lang, "/blog")} className="text-muted">
+            &larr; {t.blog.backToArticles}
           </MonoLink>
           <article className="mx-auto max-w-prose pt-12">
             <h1 className="font-display text-section font-bold text-ink">

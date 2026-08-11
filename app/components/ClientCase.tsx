@@ -6,7 +6,8 @@ import Eyebrow from "@/components/Eyebrow";
 import MonoLink from "@/components/MonoLink";
 import CtaLink from "@/components/CtaLink";
 import Rich from "@/components/Rich";
-import { caseUi, type Client, type StackItem } from "@/lib/i18n/fr/clients";
+import { type Locale, localeHref } from "@/lib/i18n/config";
+import type { Client, Dictionary, StackItem } from "@/lib/i18n/types";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { clientLogos } from "@/lib/client-logos";
 import { clientScreenshots } from "@/lib/client-screenshots";
@@ -80,11 +81,17 @@ function ClientHero({ client }: { client: Client }) {
   );
 }
 
-function ClientScreenshots({ client }: { client: Client }) {
+function ClientScreenshots({
+  client,
+  altTemplate,
+}: {
+  client: Client;
+  altTemplate: string;
+}) {
   const images = clientScreenshots[client.slug];
   if (!images || images.length === 0) return null;
 
-  const alt = `Capture d’écran du projet ${client.name}`;
+  const alt = altTemplate.replace("%s", client.name);
 
   return (
     <section className="border-b border-line bg-canvas">
@@ -125,7 +132,13 @@ function ClientScreenshots({ client }: { client: Client }) {
   );
 }
 
-function ClientAside({ client }: { client: Client }) {
+function ClientAside({
+  client,
+  caseUi,
+}: {
+  client: Client;
+  caseUi: Dictionary["caseUi"];
+}) {
   return (
     <aside className="space-y-10 self-start nav:sticky nav:top-24 nav:order-2">
       {client.stack ? (
@@ -157,17 +170,25 @@ function ClientAside({ client }: { client: Client }) {
   );
 }
 
-export default function ClientCase({ client }: { client: Client }) {
+export default function ClientCase({
+  lang,
+  client,
+  caseUi,
+}: {
+  lang: Locale;
+  client: Client;
+  caseUi: Dictionary["caseUi"];
+}) {
   const hasAside = Boolean(client.stack || client.integrations);
 
   return (
     <main>
       <ClientHero client={client} />
-      <ClientScreenshots client={client} />
+      <ClientScreenshots client={client} altTemplate={caseUi.screenshotAlt} />
 
       <section className="py-16 nav:py-24">
         <Wrap>
-          <MonoLink href="/#proof" className="text-muted">
+          <MonoLink href={localeHref(lang, "/#proof")} className="text-muted">
             &larr; {caseUi.backToClients}
           </MonoLink>
 
@@ -205,7 +226,7 @@ export default function ClientCase({ client }: { client: Client }) {
               </p>
             </article>
 
-            {hasAside ? <ClientAside client={client} /> : null}
+            {hasAside ? <ClientAside client={client} caseUi={caseUi} /> : null}
           </div>
         </Wrap>
       </section>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { StaticImageData } from "next/image";
 
 import Rich from "@/components/Rich";
@@ -7,12 +6,10 @@ import SectionTitle, { ANCHOR } from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
 import Reveal from "@/components/motion/Reveal.client";
-import { origine } from "@/lib/i18n/fr/landing";
+import type { Dictionary, OriginePhotoKey } from "@/lib/i18n/types";
 
 import openSpaceImg from "@/public/images/scene-open-space.jpg";
 import revueDeCodeImg from "@/public/images/scene-revue-de-code.jpg";
-
-type PhotoKey = typeof origine.photos[number]["key"];
 
 /**
  * One anchor scene plus at most two supporting frames across the whole page —
@@ -24,12 +21,12 @@ type PhotoKey = typeof origine.photos[number]["key"];
  * and moment rather than the roster, and a code review shows work happening in
  * a way a portrait cannot.
  */
-const PHOTOS: Partial<Record<PhotoKey, StaticImageData>> = {
+const PHOTOS: Partial<Record<OriginePhotoKey, StaticImageData>> = {
   openSpace: openSpaceImg,
   revueDeCode: revueDeCodeImg,
 };
 
-function photo(key: PhotoKey) {
+function photo(origine: Dictionary["origine"], key: OriginePhotoKey) {
   const meta = origine.photos.find((p) => p.key === key);
   const src = PHOTOS[key];
   if (!meta || !src) return null;
@@ -41,9 +38,13 @@ function photo(key: PhotoKey) {
  *  it was dense. */
 const HALF = "px-gutter py-14 nav:py-[5.5rem]";
 
-export default function Origine() {
-  const anchor = photo("openSpace");
-  const supporting = [photo("revueDeCode")].filter(
+export default function Origine({
+  origine,
+}: {
+  origine: Dictionary["origine"];
+}) {
+  const anchor = photo(origine, "openSpace");
+  const supporting = [photo(origine, "revueDeCode")].filter(
     (p): p is NonNullable<typeof p> => p !== null
   );
 

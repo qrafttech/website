@@ -1,11 +1,14 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-import { blog } from "@/lib/i18n/fr/blog";
+import { type Locale, localePath } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/types";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  lang: Locale;
+  copy: Dictionary["blog"]["pagination"];
 }
 
 type PageItem = number | "ellipsis";
@@ -44,26 +47,31 @@ function getPageNumbers(currentPage: number, totalPages: number): PageItem[] {
 export default function Pagination({
   currentPage,
   totalPages,
+  lang,
+  copy,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageNumbers(currentPage, totalPages);
+  const index = localePath(lang, "/blog");
+  const pageHref = (page: number) =>
+    page === 1 ? index : `${index}?page=${page}`;
 
   return (
     <nav
-      aria-label={blog.pagination.label}
+      aria-label={copy.label}
       className="flex items-center justify-center gap-2 pt-12"
     >
       {currentPage > 1 ? (
         <Link
-          href={currentPage === 2 ? "/blog" : `/blog?page=${currentPage - 1}`}
+          href={pageHref(currentPage - 1)}
           className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          {blog.pagination.previous}
+          {copy.previous}
         </Link>
       ) : (
         <span className="border border-hair px-5 py-2 text-sm text-muted/40">
-          {blog.pagination.previous}
+          {copy.previous}
         </span>
       )}
 
@@ -78,7 +86,7 @@ export default function Pagination({
         ) : (
           <Link
             key={page}
-            href={page === 1 ? "/blog" : `/blog?page=${page}`}
+            href={pageHref(page)}
             aria-current={page === currentPage ? "page" : undefined}
             className={clsx(
               "grid h-10 w-10 place-items-center border text-sm transition-colors ease-epure",
@@ -94,14 +102,14 @@ export default function Pagination({
 
       {currentPage < totalPages ? (
         <Link
-          href={`/blog?page=${currentPage + 1}`}
+          href={pageHref(currentPage + 1)}
           className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          {blog.pagination.next}
+          {copy.next}
         </Link>
       ) : (
         <span className="border border-hair px-5 py-2 text-sm text-muted/40">
-          {blog.pagination.next}
+          {copy.next}
         </span>
       )}
     </nav>

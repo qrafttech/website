@@ -5,13 +5,22 @@ import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
 import Reveal from "@/components/motion/Reveal.client";
 import RiseLine from "@/components/motion/RiseLine.client";
-import { origine, invitation } from "@/lib/i18n/fr/landing";
+import { type Locale, localeHref } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/types";
 
 import balconImg from "@/public/images/scene-balcon.jpg";
 
-const BALCON = origine.photos.find((photo) => photo.key === "balcon");
+export default function Invitation({
+  lang,
+  invitation,
+  origine,
+}: {
+  lang: Locale;
+  invitation: Dictionary["invitation"];
+  origine: Dictionary["origine"];
+}) {
+  const balcon = origine.photos.find((photo) => photo.key === "balcon");
 
-export default function Invitation() {
   return (
     <Section
       id={invitation.id}
@@ -37,11 +46,14 @@ export default function Invitation() {
               {invitation.lead}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <CtaLink href={invitation.cta.href} size="lg">
+              <CtaLink href={localeHref(lang, invitation.cta.href)} size="lg">
                 {invitation.cta.label}
               </CtaLink>
               {/* M7 — there is a real door, and almost no agency can say this. */}
-              <MonoLink href={invitation.secondary.href} className="text-ink2">
+              <MonoLink
+                href={localeHref(lang, invitation.secondary.href)}
+                className="text-ink2"
+              >
                 {invitation.secondary.label}
               </MonoLink>
             </div>
@@ -52,11 +64,11 @@ export default function Invitation() {
         }
         proof={
           <Reveal className="flex flex-col items-start gap-8">
-            {BALCON ? (
+            {balcon ? (
               <Figure
                 src={balconImg}
-                alt={BALCON.alt}
-                caption={BALCON.caption}
+                alt={balcon.alt}
+                caption={balcon.caption}
                 size="small"
                 className="w-[15rem] max-nav:w-[11rem]"
               />

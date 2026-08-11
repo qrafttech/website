@@ -5,13 +5,15 @@ import type { ArticleMeta } from "@/lib/notion";
 
 interface BlogCardProps {
   article: ArticleMeta;
+  /** Locale-prefixed by the caller — the card does not know its locale. */
+  href: string;
 }
 
-export default function BlogCard({ article }: BlogCardProps) {
-  const { slug, title, date, dateISO, author } = article;
+export default function BlogCard({ article, href }: BlogCardProps) {
+  const { title, date, dateISO, author } = article;
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={href}
       className="group flex items-center justify-between border-b border-hair py-5 transition-colors ease-epure hover:border-line"
     >
       <div className="min-w-0 flex-1">

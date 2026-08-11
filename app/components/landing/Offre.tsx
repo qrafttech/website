@@ -2,7 +2,7 @@ import Rich from "@/components/Rich";
 import Section from "@/components/Section";
 import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
 import Reveal from "@/components/motion/Reveal.client";
-import { offre } from "@/lib/i18n/fr/landing";
+import type { Dictionary } from "@/lib/i18n/types";
 
 /**
  * Header over a full-measure pair of columns, not a diptych.
@@ -18,7 +18,7 @@ import { offre } from "@/lib/i18n/fr/landing";
  * origin pivot needs two steps — so the boundary between them is carried by a
  * hairline instead of a band change.
  */
-export default function Offre() {
+export default function Offre({ offre }: { offre: Dictionary["offre"] }) {
   return (
     <Section id={offre.id} band="sand" rule="bottom">
       <SectionTitle size={MARGINAL} className="max-w-[16ch]">

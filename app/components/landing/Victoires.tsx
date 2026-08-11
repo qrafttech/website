@@ -8,8 +8,9 @@ import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
 
 import Reveal from "@/components/motion/Reveal.client";
 import { clientLogos } from "@/lib/client-logos";
-import { victoires } from "@/lib/i18n/fr/landing";
-import { getClient } from "@/lib/i18n/fr/clients";
+import { getClient } from "@/lib/i18n/dictionaries";
+import { type Locale, localePath } from "@/lib/i18n/config";
+import type { Client, Dictionary } from "@/lib/i18n/types";
 
 /**
  * `victoires.cases` carries the narrative (what was built, why it mattered);
@@ -17,27 +18,32 @@ import { getClient } from "@/lib/i18n/fr/clients";
  * by the same slug. Join them here: the labels must never render without their
  * data, so a case that cannot be resolved is dropped rather than shown bare.
  */
-const CASES = victoires.cases.flatMap((entry) => {
-  const client = getClient(entry.slug);
-  if (!client) return [];
+function buildCases(
+  victoires: Dictionary["victoires"],
+  clients: readonly Client[]
+) {
+  return victoires.cases.flatMap((entry) => {
+    const client = getClient(clients, entry.slug);
+    if (!client) return [];
 
-  return [
-    {
-      ...entry,
-      name: client.name,
-      sector: client.sector,
-      stack: client.stack?.map((item) => item.label) ?? [],
-      integrations: client.integrations ?? [],
-      // The durability claim is only checkable if the reader can go and touch
-      // the thing. Absent for the NDA case, which has no public address.
-      website: client.website,
-      logo: clientLogos[entry.slug],
-      // The santé case has no mark and never will. `ndaMention` is the
-      // existing, client-approved sentence for saying so.
-      nda: client.anonymous ? client.ndaMention : undefined,
-    },
-  ];
-});
+    return [
+      {
+        ...entry,
+        name: client.name,
+        sector: client.sector,
+        stack: client.stack?.map((item) => item.label) ?? [],
+        integrations: client.integrations ?? [],
+        // The durability claim is only checkable if the reader can go and touch
+        // the thing. Absent for the NDA case, which has no public address.
+        website: client.website,
+        logo: clientLogos[entry.slug],
+        // The santé case has no mark and never will. `ndaMention` is the
+        // existing, client-approved sentence for saying so.
+        nda: client.anonymous ? client.ndaMention : undefined,
+      },
+    ];
+  });
+}
 
 /**
  * The identifying mark for one case, opening the metadata block underneath the
@@ -105,7 +111,17 @@ function Meta({ label, items }: { label: string; items: readonly string[] }) {
   );
 }
 
-export default function Victoires() {
+export default function Victoires({
+  lang,
+  victoires,
+  clients,
+}: {
+  lang: Locale;
+  victoires: Dictionary["victoires"];
+  clients: readonly Client[];
+}) {
+  const cases = buildCases(victoires, clients);
+
   return (
     <Section id={victoires.id} band="sand">
       <SectionTitle size={MARGINAL} className="max-w-[15ch]">
@@ -121,12 +137,12 @@ export default function Victoires() {
           account. Two columns break that grammar and halve the height. */}
       <Reveal>
         <ul className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] border-t border-line nav:grid-cols-2">
-          {CASES.map((entry) => (
+          {cases.map((entry) => (
             <li key={entry.slug} className="border-b border-line py-7">
               <div className="flex items-baseline justify-between gap-6">
                 <h3 className="font-display text-[1.5rem] font-semibold leading-tight">
                   <Link
-                    href={`/realisations/${entry.slug}`}
+                    href={localePath(lang, `/realisations/${entry.slug}`)}
                     className="group transition-colors ease-epure hover:text-blue"
                   >
                     {entry.name}
