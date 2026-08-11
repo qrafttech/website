@@ -36,7 +36,7 @@ export const clients: readonly Client[] = [
     project:
       "Episto est une plateforme d’études de marché fondée en 2018 : conception, programmation, lancement et analyse d’études quantitatives et qualitatives sur une seule plateforme. Les répondants sont recrutés en mode conversationnel via les réseaux sociaux (social sampling), dans plus de 100 pays, et l’analyse est augmentée par l’IA. Plus de 400 clients — retail, beauté, agro-alimentaire, banque et assurance, luxe, instituts d’études —, 2 500 études et 1,2 million de répondants.",
     role: [
-      { text: "Qraft accompagne " },
+      { text: "Qraft travaille avec " },
       { text: "l’équipe produit et technique", strong: true },
       { text: " d’Episto." },
     ],

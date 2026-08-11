@@ -10,17 +10,26 @@ export default async function Ticker() {
 
   if (articles.length === 0) return null;
 
+  /* M5 — a signed, dated article is a person thinking in public; an unsigned
+     title is content. */
   const links = articles.map((article) => ({
     key: article.id,
     href: `/blog/${article.slug}`,
     title: article.title,
+    meta: [
+      article.author ? `${ticker.bylinePrefix}${article.author}` : "",
+      article.date,
+    ]
+      .filter(Boolean)
+      .join(ticker.metaSeparator),
   }));
 
   const marqueeLinkClass =
-    "flex items-center whitespace-nowrap border-r border-line px-7 py-[1.125rem] text-[1.0625rem] text-ink2 hover:text-blue";
+    "flex flex-col justify-center whitespace-nowrap border-r border-line px-7 py-[0.875rem] text-[1.0625rem] text-ink2 hover:text-blue";
 
-  const mobileLinkClass =
-    "block px-6 py-4 text-[0.9375rem] text-ink2 hover:text-blue";
+  const mobileLinkClass = "block px-6 py-4 text-[0.9375rem] text-ink2";
+
+  const metaClass = "font-mono text-[0.6875rem] text-muted";
 
   return (
     <div className="border-b border-line bg-band nav:flex nav:items-stretch">
@@ -32,15 +41,21 @@ export default async function Ticker() {
       <ul className="nav:hidden">
         {links.slice(0, MOBILE_ARTICLES).map((link) => (
           <li key={link.key} className="border-t border-line first:border-t-0">
-            <Link href={link.href} className={`${mobileLinkClass} truncate`}>
-              {link.title}
+            <Link
+              href={link.href}
+              className={`${mobileLinkClass} hover:text-blue`}
+            >
+              <span className="block truncate">{link.title}</span>
+              {link.meta ? (
+                <span className={`mt-1 block ${metaClass}`}>{link.meta}</span>
+              ) : null}
             </Link>
           </li>
         ))}
         <li className="border-t border-line">
           <Link
             href={ticker.more.href}
-            className={`${mobileLinkClass} font-bold`}
+            className={`${mobileLinkClass} font-bold hover:text-blue`}
           >
             {ticker.more.label}
           </Link>
@@ -51,7 +66,10 @@ export default async function Ticker() {
         <div className="flex w-max animate-tick items-stretch group-focus-within:[animation-play-state:paused] group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {links.map((link) => (
             <Link key={link.key} href={link.href} className={marqueeLinkClass}>
-              {link.title}
+              <span>{link.title}</span>
+              {link.meta ? (
+                <span className={`mt-0.5 ${metaClass}`}>{link.meta}</span>
+              ) : null}
             </Link>
           ))}
           {links.map((link) => (
@@ -62,7 +80,10 @@ export default async function Ticker() {
               tabIndex={-1}
               className={marqueeLinkClass}
             >
-              {link.title}
+              <span>{link.title}</span>
+              {link.meta ? (
+                <span className={`mt-0.5 ${metaClass}`}>{link.meta}</span>
+              ) : null}
             </Link>
           ))}
         </div>

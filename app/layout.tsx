@@ -70,6 +70,9 @@ export default function RootLayout({
             </div>
           </div>
         </MotionProvider>
+        {/* Paper grain — site-wide, fixed, 0 KB JS. See `.paper-grain`
+            in globals.css and scripts/gen-grain.mjs. */}
+        <div className="paper-grain" aria-hidden="true" />
       </body>
     </html>
   );

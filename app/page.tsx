@@ -2,12 +2,13 @@ import { Suspense } from "react";
 
 import JsonLd from "@/app/components/JsonLd";
 import Hero from "@/app/components/landing/Hero";
-import Offres from "@/app/components/landing/Offres";
 import Ticker from "@/app/components/landing/Ticker";
-import Rotor from "@/app/components/landing/Rotor.client";
-import Proof from "@/app/components/landing/Proof";
-import Ways from "@/app/components/landing/Ways";
-import FinalCta from "@/app/components/landing/FinalCta";
+import Offre from "@/app/components/landing/Offre";
+import Valeurs from "@/app/components/landing/Valeurs";
+import Arsenal from "@/app/components/landing/Arsenal";
+import Origine from "@/app/components/landing/Origine";
+import Victoires from "@/app/components/landing/Victoires";
+import Invitation from "@/app/components/landing/Invitation";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 
 export default function Home() {
@@ -31,15 +32,22 @@ export default function Home() {
           url: SITE_URL,
         }}
       />
+      {/* promesse → blog → offre → constat → valeurs → origine (le pivot) →
+          arsenal → victoires → invitation. See .claude/work/arc.md.
+
+          `origine` sits before `arsenal`, not after: the arsenal is a stack
+          table and puts the reader into spec-scanning mode, which the origin
+          story cannot break out of once it follows. */}
       <Hero />
-      <Offres />
       <Suspense>
         <Ticker />
       </Suspense>
-      <Rotor />
-      <Proof />
-      <Ways />
-      <FinalCta />
+      <Offre />
+      <Valeurs />
+      <Origine />
+      <Arsenal />
+      <Victoires />
+      <Invitation />
     </main>
   );
 }

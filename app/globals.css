@@ -1,6 +1,6 @@
 /* Hallmark · genre: editorial · macrostructure: Split Studio · theme: épure (locked identity)
  * design-system: design.md · designed-as-app · nav: N3 side-rail · footer: Ft4 dense colophon
- * hero: full-viewport panel · background terminal stream (no window chrome) · ink headline overlay
+ * hero: full-viewport panel · symmetric two-over-three composition · ink headline
  * retained identity exceptions: ink #000 (gate 7)
  */
 @tailwind base;
@@ -41,6 +41,50 @@
   a:focus-visible,
   button:focus-visible {
     @apply outline outline-2 outline-offset-[3px] outline-blue;
+  }
+}
+
+@layer components {
+  /* Paper grain — site-wide identity signature. One fixed, never-moving,
+   * never-interactive overlay carrying a committed 128x128 feTurbulence tile
+   * (scripts/gen-grain.mjs). 0 KB of JavaScript. Because it never animates it
+   * cannot violate prefers-reduced-motion. */
+  .paper-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    background-image: url("/images/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+  }
+
+  @media print {
+    .paper-grain {
+      display: none;
+    }
+  }
+
+  /* Halftone — the optional Figure treatment. A fixed paper-coloured dot
+   * screen punched through the ink: invisible in the highlights, visible as
+   * paper showing through the shadows, which is how a photograph looks when
+   * it has been printed rather than displayed. */
+  .figure-halftone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle at center,
+      rgba(251, 251, 248, 0.4) 0 26%,
+      transparent 40%
+    );
+    background-size: 3px 3px;
+    mix-blend-mode: screen;
   }
 }
 

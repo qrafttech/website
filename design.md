@@ -27,6 +27,7 @@ editorial
   excluded from structural rotation.
 - Utility pages (`/cowork`, 404): follow the content-page voice; the cowork
   photo-labels bento is a separate future project.
+- A pull-quote may cross the diptych rule at most once per page.
 
 ## Theme
 
@@ -47,8 +48,8 @@ Tailwind tokens (hex, locked — do not convert or retune):
 - Display: Sora (`font-display`), weight 600–700, roman only — never italic
   headers; letter-spacing −0.03em (set globally on h1–h3)
 - Body: Inter (`font-sans`), weight 400
-- Mono: Space Mono (`font-mono`) — labels, colophon, terminal; uppercase
-  tracking 0.08em for labels
+- Mono: Space Mono (`font-mono`) — labels, captions, colophon, terminal;
+  uppercase tracking 0.08em for labels
 - Section display anchor: `clamp(2rem, 5vw, 4rem)`; hero anchor
   `clamp(2.125rem, 4.8vw, 4.625rem)`
 
@@ -112,8 +113,14 @@ inline mono link row above it. No link columns, no social icon row.
 
 ## Per-page allowances
 
-- Marketing pages MAY use the terminal, portraits, and stack icons as proof
-  panels. No new enrichment tiers without amending this file.
+- Marketing pages MAY use the terminal, portraits and documentary photographs,
+  stack icons and client logos as proof panels. No new enrichment tiers without
+  amending this file.
+- A client logo is a mark on the case it belongs to: greyscale, at label
+  height, subordinate to the prose and the stack lines it sits with. Never
+  sized or grouped so the marks read on their own — that is a wall, and the
+  clause below still forbids it. A named case with no usable mark keeps the
+  slot and says why.
 - Content pages: typography only.
 - No invented metrics, no testimonials that don't exist, no logo walls beyond
   the clients actually named in `lib/i18n/fr/clients.ts`.
