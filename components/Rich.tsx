@@ -5,9 +5,17 @@ import type { RichText } from "@/lib/i18n/types";
 interface RichProps {
   content: RichText;
   strongClassName?: string;
+  /** Overrides the body-copy link treatment. A display heading needs the link
+   *  to inherit its own size and weight — the default 2px underline set for
+   *  17px prose reads as a scar at 4.5rem. */
+  linkClassName?: string;
 }
 
-export default function Rich({ content, strongClassName }: RichProps) {
+export default function Rich({
+  content,
+  strongClassName,
+  linkClassName,
+}: RichProps) {
   return (
     <>
       {content.map((segment, index) => {
@@ -19,7 +27,10 @@ export default function Rich({ content, strongClassName }: RichProps) {
             <a
               key={index}
               href={href}
-              className="font-display font-semibold text-blue underline decoration-2 underline-offset-4 hover:text-ink2"
+              className={clsx(
+                linkClassName ??
+                  "font-display font-semibold text-blue underline decoration-2 underline-offset-4 hover:text-ink2"
+              )}
               {...(external
                 ? { target: "_blank", rel: "noreferrer" }
                 : undefined)}

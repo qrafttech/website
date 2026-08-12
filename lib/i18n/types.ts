@@ -196,10 +196,15 @@ export interface Dictionary {
     title: RichText;
     subtitle: string;
     note: string;
+    /** `items` reuses `StackItem`, so the arsenal and the case-study stacks
+     *  draw their marks from one icon set. `icon` is optional on purpose: a
+     *  brand with no official single-path SVG (AWS, Heroku, OpenAI, Scalingo,
+     *  pgvector, RSpec, Llama) renders as a label-only chip rather than being
+     *  dropped from the list or given an invented mark. */
     groups: readonly {
       key: string;
       title: string;
-      items: readonly string[];
+      items: readonly StackItem[];
     }[];
   };
 
@@ -229,9 +234,13 @@ export interface Dictionary {
     id: string;
     titleLine1: string;
     titleLine2: string;
+    /** The third line carries the only link in a display heading on this site —
+     *  the word « cowork » itself points at `/cowork`. It replaced a separate
+     *  secondary CTA that said « Passez nous voir » one line below a heading
+     *  already inviting the reader in. */
+    titleLine3: RichText;
     lead: string;
     cta: CtaCopy;
-    secondary: CtaCopy;
     secondaryNote: string;
   };
 

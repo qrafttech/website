@@ -2,7 +2,7 @@ import type { StaticImageData } from "next/image";
 
 import Rich from "@/components/Rich";
 import Section from "@/components/Section";
-import SectionTitle, { ANCHOR } from "@/components/SectionTitle";
+import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
 import Reveal from "@/components/motion/Reveal.client";
@@ -54,10 +54,12 @@ export default function Origine({
         gutter="0rem"
         text={
           <div className={HALF}>
-            {/* M4 — the dateline itself, at the full section display anchor
-                rather than the marginal step: this half is wide, and the
-                pivot should carry more weight than the sections around it. */}
-            <SectionTitle size={ANCHOR}>
+            {/* M4 — the dateline, stepped down from `ANCHOR` to `MARGINAL` when
+                « Marseille, 2020. » became « Tout a commencé à Marseille, en
+                2020. » Six words where there were two: at the section display
+                anchor the line ran to three lines and shouted over the section
+                it opens, which is a paragraph of prose and not a claim. */}
+            <SectionTitle size={MARGINAL} className="max-w-[18ch]">
               <Rich content={origine.dateline} />
             </SectionTitle>
             <div className="mt-8 flex max-w-[52ch] flex-col gap-5 text-[1.0625rem] leading-[1.7] text-muted">

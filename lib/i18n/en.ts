@@ -1,4 +1,5 @@
 import type { Client, Dictionary, RichText } from "@/lib/i18n/types";
+import { ARSENAL_ITEMS } from "@/lib/i18n/arsenal-items";
 import { BOOKING_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 
 /* ===========================================================================
@@ -165,7 +166,12 @@ export const hero = {
      · the recruiting stance, which the French carries typographically, has to
        be carried by a SENTENCE in English. It is, in `origine`'s fifth
        paragraph: women and men, the two named routes in, and the reason. */
-  lead: "We’re three developers in Marseille, and the code we sell you is code we write ourselves. Web and mobile apps, APIs, AI agents in production: we have been shipping since 2020, and everything we ship has to survive us.",
+  /* Mirrors the French cut: the « code we sell you is code we write ourselves »
+     clause is gone, and so is the horizon. « Built to last » is the plain
+     English of « pensé pour durer » and lands on the same verb the headline
+     accents; « has to survive us » was the old, more literary version of the
+     same claim and would now be the only reach in a paragraph of three facts. */
+  lead: "We’re three developers in Marseille. Web and mobile apps, APIs, AI agents in production: since 2020 we have been shipping code that is robust, stable and built to last.",
   cta: { label: "See what we’ve built", href: "#proof" },
   contactCta: { label: "Let’s talk", href: "/#contact" },
   team: [
@@ -184,13 +190,14 @@ export const hero = {
       linkLabel: "Alexis Nugon on LinkedIn",
     },
     {
-      /* Ruling F6. « Développeur intermédiaire » is "mid-level developer" in
-         English and nothing else. "Intermediate developer" is a Gallicism, and
-         "Senior" would be a lie that also breaks the "no junior alone on a
-         project" line three sections further down. */
+      /* Ruling F6's "mid-level developer" is dropped with the French « développeur
+         intermédiaire »: the line now names the route in rather than the rung,
+         which is what `origine` goes on to explain. "Career changer" is the
+         neutral English for « reconversion » — "retrained" implies a scheme,
+         "self-taught" would be false. */
       key: "adrien",
       name: "Adrien Lupo",
-      role: "Mid-level developer · 3+ years writing code",
+      role: "Developer · career changer, 4 years writing code",
       href: "https://www.linkedin.com/in/adrienlupo/",
       linkLabel: "Adrien Lupo on LinkedIn",
     },
@@ -236,24 +243,25 @@ export const offre = {
   /* Ruling D3, inverted away from Yield Studio: the first clause concedes the
      tool and claims it, so the argument never saws off the product being sold.
      Written as a conviction, with no client attached (ruling F1). */
-  lead: "AI made the prototype free, and we use it every day. The work starts after that: the edge cases, the data migrations, the traffic spikes and whoever reopens the project in two years. That is what ten years in the job is for. We will build your application from nothing, and we will gladly take over one that is already taking on water.",
+  lead: "AI has changed the game: prototypes and MVPs are close to free now, and the amount of code in the world is going up. The work starts after that: the edge cases, the data migrations, the traffic spikes and whoever reopens the project in two years. That is what ten years in the job is for. We will build your application from nothing, and we will gladly take over one that is already taking on water.",
   blocks: [
     {
       key: "apps",
       title: "Web and mobile apps",
       /* The bilingual pivot, kept in both languages per rule 7: the "when"
-         clause is what makes it an argument instead of a slogan. */
-      body: "We write APIs in Rails, NestJS or FastAPI, plus interfaces in Next.js and mobile apps in React Native that ship to both stores. No microservices when a well-structured monolith will do, and no oversized infrastructure when a plain architecture does the job. We don’t do UX or UI either, and you’ll hear that from us before you see a quote.",
+         clause is what makes it an argument instead of a slogan. Kept once —
+         the "no oversized infrastructure" half went with the French trim. */
+      body: "We write APIs in Rails, NestJS or FastAPI, plus interfaces in Next.js and mobile apps in React Native that ship to both stores. No microservices when a well-structured monolith will do. We don’t do UX or UI, and you’ll hear that from us before you see a quote.",
     },
     {
-      /* Still the longest block, because it carries the one sentence on the
-         page where a named person is the subject of a verb. That sentence is
-         translated straight. « Sans ça, il invente » becomes "the agent makes
-         things up", which is what an English-speaking developer says where a
-         vendor would say "hallucinates". */
+      /* Cut to match the French: the permissions passage and the self-hosting
+         sentence are gone, the latter to `valeurs.sovereignty`, which now makes
+         that claim once. « Sans ça, il invente » stays "the agent makes things
+         up", which is what an English-speaking developer says where a vendor
+         would say "hallucinates". */
       key: "agents",
       title: "Agents and AI in production",
-      body: "A LangGraph agent runs at Smartbox, and we are building others inside our clients’ products. Most of the project goes into giving that agent something to work with, which means everything your team knows and has never written down. Without it, the agent makes things up. We also lock down what it is allowed to touch: on this site it wrote the code and opened the review, then it stopped there. Nicolas pushed the release live himself, because no agent has write access to our production. When your data cannot leave your building, we move to open-weight models you host yourselves, with a private RAG.",
+      body: "A LangGraph agent runs at Smartbox, and we are building others inside our clients’ products. Most of the project goes into giving that agent something to work with, which means everything your team knows and has never written down. Without it, the agent makes things up.",
     },
     {
       /* « Direction technique » → "Technical leadership". Deliberately not
@@ -262,7 +270,7 @@ export const offre = {
          the same cliché with an English accent would be the same mistake. */
       key: "direction",
       title: "Technical leadership",
-      body: "When the team already exists but velocity has collapsed, we take over technical leadership for as long as it takes. We arbitrate the architecture, we run the reviews and we say no to the projects that will not land. We keep writing code while we do it, otherwise we would stop knowing what we are talking about.",
+      body: "When the team already exists but velocity has collapsed, we take over technical leadership for as long as it takes. We arbitrate the architecture, run the reviews and say no to the projects that will not land. We keep writing code while we do it, otherwise we would stop knowing what we are talking about.",
     },
     {
       key: "mentorat",
@@ -288,8 +296,9 @@ export const valeurs = {
     { text: "." },
   ] as RichText,
   /* Ruling F8's duration, as a plain statement of what is typical. No month
-     count, no percentage — the underlying fact is qualitative (F9). */
-  lead: "We are proud of the code we ship, today and in three years. An engagement usually runs a year or more, which is long enough to live with the architecture we chose. And long enough to fix it on the day it proves us wrong.",
+     count, no percentage — the underlying fact is qualitative (F9). The opening
+     is now the preference rather than the pride, matching the French. */
+  lead: "We would rather take on work that lasts. An engagement usually runs a year or more, which is long enough to live with the architecture we chose — and long enough to fix it on the day it proves us wrong.",
   /* « Nos plus-values » is a house double meaning: added value, and the plural
      of a value. Under the sober ruling the English does not chase it — an
      earlier draft used "Our better qualities", which is a joke about having
@@ -331,11 +340,17 @@ export const valeurs = {
       body: "Things break on a Friday night, which is when nobody is around to fix them. They have to be fixable in ten minutes, without waiting for Monday’s meeting. Everything else follows from that: code reviews, continuous deployment, reversible migrations, monitoring…",
     },
     {
-      /* « Sobriété » is NOT "Sobriety", which in English is about not drinking.
-         "Restraint" is the value the French word actually names. */
-      key: "sobriete",
-      title: "Restraint",
-      body: "Code spends most of its life being read. So we bring the simplest thing that solves the problem, built with technologies whose flaws we already know. On AI we take the cheapest model that does the job, and we move to self-hosted when the volume makes that the cheaper option.",
+      /* Replaces « Restraint » / « Sobriété » at the client's instruction, in
+         its slot rather than beside it — five values would break the 2×2 grid.
+         The cost clause is deliberately gone in both languages: sovereignty is
+         a reason to self-host, and pricing it invites the reader to hear the
+         principle as a saving.
+         "Sovereignty" is the term of art in European procurement and is used
+         straight; the French PaaS is named because for a non-French reader
+         « Scalingo » alone carries none of the argument. */
+      key: "souverainete",
+      title: "Sovereignty",
+      body: "Your data stays in France. We host on Scalingo, a French PaaS, and when your data cannot leave your building at all, we move to open-weight models you host yourselves, with a private RAG.",
     },
   ],
 } as const;
@@ -351,80 +366,34 @@ export const arsenal = {
   title: [{ text: "The stacks " }, { text: "we know", accent: true }],
   subtitle: "From Rails to LLMs, we know the stack your project needs.",
   note: "If you already have a stack, we work in it. Otherwise these are the ones we pull off the shelf. They are the ones we have watched break.",
+  /* Titles here, items in `arsenal-items.ts` — the group names translate, the
+     product names do not. */
   groups: [
-    {
-      key: "backend",
-      title: "Backend",
-      items: [
-        "Rails",
-        "NestJS",
-        "FastAPI",
-        "Node.js",
-        "Sidekiq",
-        "GraphQL",
-        "RSpec",
-        "Rubocop",
-      ],
-    },
-    {
-      key: "data",
-      title: "Databases",
-      items: ["PostgreSQL", "Redis", "pgvector"],
-    },
-    {
-      key: "frontend",
-      title: "Frontend",
-      items: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "MUI",
-        "shadcn/ui",
-      ],
-    },
-    {
-      key: "mobile",
-      title: "Mobile apps",
-      items: ["React Native", "Expo"],
-    },
-    {
-      key: "infra",
-      title: "Hosting & infra",
-      items: [
-        "Scalingo",
-        "Heroku",
-        "Vercel",
-        "AWS",
-        "Docker",
-        "GitHub Actions",
-      ],
-    },
-    {
-      key: "llms",
-      title: "LLMs",
-      items: ["OpenAI", "Anthropic", "Mistral", "Llama"],
-    },
+    { key: "backend", title: "Backend", items: ARSENAL_ITEMS.backend },
+    { key: "data", title: "Databases", items: ARSENAL_ITEMS.data },
+    { key: "frontend", title: "Frontend", items: ARSENAL_ITEMS.frontend },
+    { key: "mobile", title: "Mobile apps", items: ARSENAL_ITEMS.mobile },
+    { key: "infra", title: "Hosting & infra", items: ARSENAL_ITEMS.infra },
+    { key: "llms", title: "LLMs", items: ARSENAL_ITEMS.llms },
     {
       key: "orchestration",
       title: "Orchestration & RAG",
-      items: ["LangChain", "LangGraph", "pgvector"],
+      items: ARSENAL_ITEMS.orchestration,
     },
-    {
-      key: "devtools",
-      title: "Dev tools",
-      items: ["Claude Code", "Cursor", "MCP"],
-    },
+    { key: "devtools", title: "Dev tools", items: ARSENAL_ITEMS.devtools },
   ],
 } as const;
 
 /* --- S6 · WHO WE ARE — the pivot ------------------------------------------ */
 
 export const origine = {
-  /** Identical in both languages. A dateline is a fact, and facts travel. */
+  /** No longer a dateline, in either language: it now opens the story rather
+   *  than captioning it. Rendered one step down from the section display anchor
+   *  — see the note in `Origine.tsx`. */
   dateline: [
+    { text: "It all started in " },
     { text: "Marseille", accent: true },
-    { text: ", 2020." },
+    { text: ", in 2020." },
   ] as RichText,
   paragraphs: [
     [
@@ -441,35 +410,31 @@ export const origine = {
         text: "They wanted a workshop of their own: to pick the projects, to pick how those projects get built and to pick the people who write them. Six years on, there are three of us, and we have not changed our minds.",
       },
     ] as RichText,
-    /* Ruling F3. Exactly three exclusions, all client-confirmed. « Pas
-       d'offshore » was never confirmed, is not written, and is not gestured at
-       — which matters more in English than in French, because "no offshore" is
-       the line every anglophone agency reaches for and its absence here is
-       therefore louder. One sentence, so the three cannot be read as three
-       separate asides, and the cost of the choice is stated in the same breath. */
-    [
-      {
-        text: "No subcontracting, no junior left alone on a project, everyone in Marseille: the person who walks you through the architecture in the first meeting is the person who writes the first commit, and that puts a hard ceiling on how much we can take on at once.",
-      },
-    ] as RichText,
-    /* PARTIE 8 classifies the gentilé as untranslatable-but-unchanged, and notes
-       it reads BETTER in English (Qraft + -ers) than it does in French. */
-    [
-      {
-        text: "Among ourselves we say Qrafters, a house word that means nothing to anyone else, which is why we use it.",
-      },
-    ] as RichText,
-    /* This is where the inclusive-writing position lands in English. The French
-       carries it typographically (`formé.e.s`, `ingénieur.e.s`); English has no
-       such device, so the stance is stated in words instead — women and men, the
-       two named routes in, and the reason it matters. Losing the midpoint form
-       was unavoidable; losing the position would not have been. */
+    /* Two paragraphs deleted at the client's instruction, mirroring the French:
+       ruling F3's exclusions, and the « Qrafters » gentilé PARTIE 8 rated as
+       reading better in English than in French. Both are gone in both
+       languages — an English page carrying a paragraph the French one dropped
+       would be a second, unreviewed site.
+
+       This is also where the inclusive-writing position lands in English. The
+       French carries it typographically (`formé.e.s`, `ingénieur.e.s`); English
+       has no such device, so the stance is stated in words instead — women and
+       men, the two named routes in, and the reason it matters.
+
+       Adrien arrives as an aside inside that sentence rather than in a
+       paragraph of his own: he is the proof of the first named route, and one
+       associate of three should not get a biography the other two are not
+       given. « École de commerce » → "business school", which is what the
+       institution is called in English; « reconversion » is already carried by
+       "came to code from another career" in the opening clause. */
     [
       {
         text: "We hire women and men who came to code from another career, trained at bootcamps like ",
       },
       { text: "Le Wagon", href: "https://www.lewagon.com/" },
-      { text: ", alongside engineers out of specialised schools like " },
+      {
+        text: " — Adrien came through it after business school and a few years in marketing — alongside engineers out of specialised schools like ",
+      },
       { text: "Epitech", href: "https://www.epitech.eu/" },
       {
         text: ". A team that looks too much alike ends up being wrong together.",
@@ -552,6 +517,15 @@ export const invitation = {
   id: "contact",
   titleLine1: "Our door is open,",
   titleLine2: "at 36 rue Sainte.",
+  /* The invitation moves into the heading and « cowork » is the link, replacing
+     the "Come and see us →" secondary CTA one line below that said the same
+     thing twice. "Come and see us at the cowork" keeps the old CTA's wording,
+     which was already the warmest line in the section. */
+  titleLine3: [
+    { text: "Come and see us at the " },
+    { text: "cowork", href: "/cowork" },
+    { text: "." },
+  ] as RichText,
   /* BearStudio's lesson applied: « Expliquez-nous votre problème » is neither
      "Explain us your problem" (the francophone error) nor "Explain your problem
      to us" (the literal one) but "Tell us about…". Same move here — the English
@@ -561,7 +535,6 @@ export const invitation = {
     label: "Let’s talk about your project",
     href: `mailto:${CONTACT_EMAIL}`,
   },
-  secondary: { label: "Come and see us →", href: "/cowork" },
   /* The register floor, and the warmest CTA in the researched corpus. It stays
      because there is a real door and real coffee behind it. */
   secondaryNote:

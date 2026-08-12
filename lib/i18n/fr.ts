@@ -1,4 +1,5 @@
 import type { Client, Dictionary, RichText } from "@/lib/i18n/types";
+import { ARSENAL_ITEMS } from "@/lib/i18n/arsenal-items";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
@@ -127,7 +128,12 @@ export const hero = {
      sentence names are all men, so the midpoint form would describe a team
      that does not exist. The inclusive forms are kept where the referent is
      genuinely mixed — the client's own developers, and who Qraft recruits. */
-  lead: "Nous sommes trois développeurs à Marseille, et le code que nous vous vendons, c’est nous qui l’écrivons. Applications web et mobile, API, agents en production : depuis 2020, nous livrons des logiciels qui doivent encore tourner dans trois ans.",
+  /* « et le code que nous vous vendons, c'est nous qui l'écrivons » is cut at
+     the client's instruction, and the three-year horizon with it: a promise
+     with a number attached invites the reader to start counting. « robuste,
+     stable, pensé pour durer » says the same thing without a deadline, and
+     « durer » is the verb the headline already accents. */
+  lead: "Nous sommes trois développeurs à Marseille. Applications web et mobile, API, agents en production : depuis 2020, nous livrons du code robuste, stable, pensé pour durer.",
   cta: { label: "Voir nos réalisations", href: "#proof" },
   /* The terminal is deleted and took its topline with it, but `design.md:90-91`
      puts « Discutons » in the hero rather than the nav, so it stays — it is the
@@ -151,7 +157,7 @@ export const hero = {
     {
       key: "adrien",
       name: "Adrien Lupo",
-      role: "Développeur intermédiaire · 3+ ans de dev",
+      role: "Développeur · reconversion, 4 ans de dev",
       href: "https://www.linkedin.com/in/adrienlupo/",
       linkLabel: "Adrien Lupo sur LinkedIn",
     },
@@ -182,7 +188,7 @@ export const offre = {
     { text: "front", accent: true },
     { text: ", comme sur le " },
     { text: "back", accent: true },
-    { text: " !" },
+    { text: "." },
   ] as RichText,
   /* Ruling D3 opens the section rather than sitting in a manifesto: the claim
      is what justifies the price of everything listed below it, so it belongs
@@ -200,7 +206,7 @@ export const offre = {
      travail commence après » extends the first sentence instead of mirroring
      it — the prototype is step zero, and the project starts on the far side of
      it. Ruling D3 is intact and no longer needs the word « coûte » to land. */
-  lead: "L’IA a rendu le prototype gratuit, et nous nous en servons tous les jours. Le travail commence après : les cas limites, les migrations de données, les montées de charge et la personne qui rouvrira le projet dans deux ans. Dix ans de métier ne servent qu’à ça. Nous construisons votre application à partir de zéro, et nous reprenons volontiers celle qui a déjà pris l’eau.",
+  lead: "L’IA change la donne : elle rend le prototypage et le MVP quasi gratuits, et la quantité de code augmente. Le travail commence après : les cas limites, les migrations de données, les montées de charge et la personne qui rouvrira le projet dans deux ans. Dix ans de métier ne servent qu’à ça. Nous construisons votre application à partir de zéro, et nous reprenons volontiers celle qui a déjà pris l’eau.",
   blocks: [
     {
       /* « Notre philosophie tient en une ligne : » is gone. A developer says
@@ -212,24 +218,24 @@ export const offre = {
          run of negations the old-site sentence already opened. */
       key: "apps",
       title: "Applications web et mobile",
-      body: "Nous écrivons des API en Rails, NestJS ou FastAPI, des interfaces en Next.js et des applications React Native publiées sur les deux stores. Pas de micro-services quand un monolithe bien structuré suffit, pas d’infrastructure sur-dimensionnée quand une architecture classique fait le travail. Nous ne faisons pas d’UX/UI non plus, et nous vous le disons avant le devis.",
+      /* « pas d'infrastructure sur-dimensionnée quand une architecture
+         classique fait le travail » went with the trim: it was the second half
+         of a « pas de X quand Y suffit » mirror, and one instance of the mould
+         makes the point that two instances only decorate. */
+      body: "Nous écrivons des API en Rails, NestJS ou FastAPI, des interfaces en Next.js et des applications React Native publiées sur les deux stores. Pas de micro-services quand un monolithe bien structuré suffit. Nous ne faisons pas d’UX/UI, et nous vous le disons avant le devis.",
     },
     {
-      /* Still the longest block, because it carries the only sentence in which
-         a named person is the subject of a verb — rescued out of the hero
-         terminal at the client's prompting, and now the last copy of that
-         moment anywhere on the site. Those two sentences are untouched.
-         Everything around them lost weight: it read as an essay paragraph in
-         seven moves. Cut — « Brancher le modèle est la partie facile ; » (a
-         two-beat), « parce qu'un agent qui peut tout faire finit par tout
-         casser » (the « qui … finit par … » frame, which `origine` uses
-         better), « dans le produit de nos clients comme pour leurs équipes »
-         (another two-beat), and the sector list, which `victoires.lead`
-         already names. « Sans ça, il invente. » is four words and does the
-         work the deleted thesis title used to do. */
+      /* Was 110 words against 40 in the block beside it, which is what made the
+         2×2 grid read as lopsided. Cut at the client's instruction: the
+         permissions passage — « sur ce site, l'agent a écrit le code et ouvert
+         la revue », « Nicolas a fait la mise en ligne lui-même » — and the
+         self-hosting sentence, which `valeurs.souverainete` now owns outright
+         rather than saying twice two screens apart. What survives is the claim
+         only this house can make in the first person, and the four words that
+         explain why context work is most of the project. */
       key: "agents",
       title: "Agents et IA en production",
-      body: "Un agent LangGraph tourne chez Smartbox, et nous en construisons d’autres chez nos clients. Nous passons l’essentiel du projet à lui donner de quoi travailler, c’est-à-dire tout ce que votre équipe sait sans l’avoir jamais écrit. Sans ça, il invente. Nous verrouillons aussi ce qu’il a le droit de toucher : sur ce site, l’agent a écrit le code et ouvert la revue, puis il s’est arrêté là. Nicolas a fait la mise en ligne lui-même, parce qu’aucun agent n’a d’accès en écriture sur notre production. Quand vos données ne peuvent pas sortir de chez vous, nous passons sur des modèles ouverts auto-hébergés, avec un RAG privé.",
+      body: "Un agent LangGraph tourne chez Smartbox, et nous en construisons d’autres chez nos clients. L’essentiel du projet consiste à lui donner de quoi travailler : tout ce que votre équipe sait sans l’avoir jamais écrit. Sans ça, il invente.",
     },
     {
       /* The easiware anecdote is gone from here. It was told twice, two
@@ -241,7 +247,7 @@ export const offre = {
          stays there alone. This block now describes the service. */
       key: "direction",
       title: "Direction technique",
-      body: "Quand l’équipe existe déjà mais que la vélocité s’effondre, nous prenons la direction technique le temps qu’il faut. Nous arbitrons l’architecture, nous tenons les revues et nous disons non aux chantiers qui n’aboutiront pas. Nous continuons à écrire du code pendant ce temps-là, sinon nous ne saurions plus de quoi nous parlons.",
+      body: "Quand l’équipe existe déjà mais que la vélocité s’effondre, nous prenons la direction technique le temps qu’il faut. Nous arbitrons l’architecture, tenons les revues et disons non aux chantiers qui n’aboutiront pas. Nous continuons à écrire du code pendant ce temps-là, sinon nous ne saurions plus de quoi nous parlons.",
     },
     {
       key: "mentorat",
@@ -268,7 +274,7 @@ export const valeurs = {
      days. Here it is the warrant for « aujourd'hui comme dans trois ans » —
      they stay long enough to live with their own architecture. No month count,
      no percentage: the underlying fact is qualitative. */
-  lead: "Nous sommes fiers du code que nous livrons, aujourd’hui comme dans trois ans. Une mission dure en général un an ou plus. C’est assez pour vivre avec l’architecture que nous avons choisie et pour la corriger quand elle nous donne tort.",
+  lead: "Nous préférons les missions qui s’inscrivent dans le temps. Une mission dure en général un an ou plus : c’est assez pour vivre avec l’architecture que nous avons choisie, et pour la corriger quand elle nous donne tort.",
   /* The old site set « Nos plus-values » over these four, and the slot has been
      empty since the rebuild. It is one of the two double meanings this house
      coined for itself, so it comes back rather than being paraphrased. */
@@ -305,15 +311,20 @@ export const valeurs = {
       body: "Les pépins tombent toujours un vendredi soir. Ils doivent se réparer en dix minutes, sans attendre la réunion du lundi, et tout le reste en découle : revues de code, déploiement continu, migrations réversibles, monitoring…",
     },
     {
-      /* The one fragment of thesis 04 worth keeping beyond its duration: it is
-         the reason simplicity is a value and not a taste, so it opens the block
-         it justifies. Phrased « passe l'essentiel de sa vie à être lu » rather
-         than « se lit plus souvent qu'il ne s'écrit » to spend one fewer
-         two-beat. This block is now the only place « la solution la plus
-         simple » is declared. */
-      key: "sobriete",
-      title: "Sobriété",
-      body: "Un code passe l’essentiel de sa vie à être lu. Nous apportons donc la solution la plus simple à un problème donné, avec des technologies dont nous connaissons déjà les défauts, et sur l’IA nous prenons le modèle le moins cher qui fait le travail, quitte à basculer en auto-hébergé quand le volume le justifie.",
+      /* Replaces « Sobriété » at the client's instruction, and inherits its
+         slot rather than being added beside it — five values would break the
+         2×2 grid this section is built on. « La solution la plus simple » is
+         not rehoused: `offre.apps` already refuses micro-services in the
+         concrete, which is where the argument is checkable.
+         No cost framing. « Le modèle le moins cher qui fait le travail » was
+         the old block's closing clause and is deliberately gone: sovereignty is
+         a reason to self-host, and pricing it invites the reader to read the
+         principle as a saving. This is the only place on the page that names
+         where the data sits — `offre.agents` gave the claim up so it would be
+         made once. */
+      key: "souverainete",
+      title: "Souveraineté",
+      body: "Vos données restent en France. Nous hébergeons chez Scalingo, un PaaS français, et quand elles ne peuvent pas sortir de chez vous, nous passons sur des modèles ouverts auto-hébergés, avec un RAG privé.",
     },
   ],
 } as const;
@@ -330,81 +341,37 @@ export const arsenal = {
      two-beat, and the page was carrying eleven. « Sinon » replaces the second
      « Quand… », so the two branches stop mirroring each other. */
   note: "Quand vous avez déjà une stack, nous nous y adaptons. Sinon, nous sortons celles-ci du placard. Ce sont celles que nous avons déjà vues casser.",
+  /* Titles here, items in `arsenal-items.ts` — the group names translate, the
+     product names do not. */
   groups: [
-    {
-      key: "backend",
-      title: "Backend",
-      items: [
-        "Rails",
-        "NestJS",
-        "FastAPI",
-        "Node.js",
-        "Sidekiq",
-        "GraphQL",
-        "RSpec",
-        "Rubocop",
-      ],
-    },
-    {
-      key: "data",
-      title: "Base de données",
-      items: ["PostgreSQL", "Redis", "pgvector"],
-    },
-    {
-      key: "frontend",
-      title: "Frontend",
-      items: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "MUI",
-        "shadcn/ui",
-      ],
-    },
-    {
-      key: "mobile",
-      title: "Apps mobile",
-      items: ["React Native", "Expo"],
-    },
-    {
-      key: "infra",
-      title: "Hosting & infra",
-      items: [
-        "Scalingo",
-        "Heroku",
-        "Vercel",
-        "AWS",
-        "Docker",
-        "GitHub Actions",
-      ],
-    },
-    {
-      key: "llms",
-      title: "LLMs",
-      items: ["OpenAI", "Anthropic", "Mistral", "Llama"],
-    },
+    { key: "backend", title: "Backend", items: ARSENAL_ITEMS.backend },
+    { key: "data", title: "Base de données", items: ARSENAL_ITEMS.data },
+    { key: "frontend", title: "Frontend", items: ARSENAL_ITEMS.frontend },
+    { key: "mobile", title: "Apps mobile", items: ARSENAL_ITEMS.mobile },
+    { key: "infra", title: "Hosting & infra", items: ARSENAL_ITEMS.infra },
+    { key: "llms", title: "LLMs", items: ARSENAL_ITEMS.llms },
     {
       key: "orchestration",
       title: "Orchestration & RAG",
-      items: ["LangChain", "LangGraph", "pgvector"],
+      items: ARSENAL_ITEMS.orchestration,
     },
-    {
-      key: "devtools",
-      title: "Dev tools",
-      items: ["Claude Code", "Cursor", "MCP"],
-    },
+    { key: "devtools", title: "Dev tools", items: ARSENAL_ITEMS.devtools },
   ],
 } as const;
 
 /* --- S6 · QUI NOUS SOMMES — le pivot ------------------------------------- */
 
 export const origine = {
-  /** Same words, now segmented so the place carries the accent every other
-   *  section heading carries. Set at the section display anchor (M4). */
+  /** « Marseille, 2020. » read as a caption rather than as the opening of a
+   *  story, so the line now says what it is. Marseille keeps the accent every
+   *  other section heading carries. Rendered one step down from the section
+   *  display anchor (`MARGINAL`, not `ANCHOR`): this is six words where it was
+   *  two, and at 4rem it wrapped to three lines and outweighed the section it
+   *  introduces. */
   dateline: [
+    { text: "Tout a commencé à " },
     { text: "Marseille", accent: true },
-    { text: ", 2020." },
+    { text: ", en 2020." },
   ] as RichText,
   paragraphs: [
     [
@@ -417,29 +384,25 @@ export const origine = {
         text: "Ils voulaient leur propre atelier : choisir les projets, choisir la façon de les construire et choisir les gens qui les écrivent. Six ans plus tard, nous sommes trois, et nous n’avons pas changé d’avis.",
       },
     ] as RichText,
-    /* Ruling F3's three exclusions — « pas d'offshore » was never confirmed and
-       is not gestured at. One sentence, so they cannot be read as three
-       separate asides, and placed here rather than in `valeurs.honnetete`
-       because the sentence directly above has just said « choisir les gens qui
-       les écrivent » and this is what that choice costs. « toujours à
-       Marseille » left the paragraph above so the place is claimed once.
-       The address moved to the invitation heading, where there is a door. */
-    [
-      {
-        text: "Pas de sous-traitance, pas de junior seul sur un projet, tout le monde à Marseille : la personne qui vous explique l’architecture au premier rendez-vous est celle qui écrira le premier commit, et ça limite ce que nous pouvons prendre à la fois.",
-      },
-    ] as RichText,
-    [
-      {
-        text: "Entre nous, on dit « les Qrafters », un mot de maison qui ne veut rien dire ailleurs et auquel on tient précisément pour ça.",
-      },
-    ] as RichText,
+    /* Two paragraphs deleted at the client's instruction: the F3 exclusions
+       (« Pas de sous-traitance, pas de junior seul sur un projet, tout le monde
+       à Marseille… ») and « Entre nous, on dit les Qrafters ». The section is
+       three paragraphs now, and the recruitment paragraph closes it.
+       Adrien arrives inside that paragraph rather than in one of his own: the
+       sentence already claims Qraft hires both reconversions and engineers, and
+       he is the proof of the first half standing three faces up in the hero. As
+       an aside, so the paragraph still ends on the reason the policy exists —
+       and so one associate of three does not get a biography the other two are
+       not given. Le Wagon was already linked here; his route hangs off it
+       without adding a link. */
     [
       {
         text: "Nous recrutons aussi bien des femmes et des hommes en reconversion, formé.e.s dans des bootcamps comme ",
       },
       { text: "Le Wagon", href: "https://www.lewagon.com/fr" },
-      { text: ", que des ingénieur.e.s issu.e.s d’écoles spécialisées comme " },
+      {
+        text: " — Adrien y est passé après une école de commerce et quelques années en marketing —, que des ingénieur.e.s issu.e.s d’écoles spécialisées comme ",
+      },
       { text: "Epitech", href: "https://www.epitech.eu/" },
       {
         text: ". Une équipe qui se ressemble trop finit par se tromper ensemble.",
@@ -529,12 +492,20 @@ export const invitation = {
      about to be said twice in the same section. */
   titleLine1: "Notre porte est ouverte,",
   titleLine2: "au 36 rue Sainte.",
+  /* The invitation itself moves into the heading, and « cowork » is the link —
+     so the sentence that invites the reader and the door it opens are the same
+     object. It replaces the « Passez nous voir → » secondary CTA that used to
+     sit one line below, which said the same four words a second time. */
+  titleLine3: [
+    { text: "Passez nous voir au " },
+    { text: "cowork", href: "/cowork" },
+    { text: "." },
+  ] as RichText,
   /* « si nous sommes les bonnes personnes, et si nous ne le sommes pas » was a
      mirrored two-beat. « même quand la réponse est non » concedes in one
      direction instead, which is what the sentence actually means. */
   lead: "Racontez-nous ce que vous voulez construire, ou ce qui s’est cassé. Trente minutes suffisent pour savoir si nous sommes les bonnes personnes, et nous vous le dirons même quand la réponse est non.",
   cta: { label: "Discutons de votre projet", href: `mailto:${CONTACT_EMAIL}` },
-  secondary: { label: "Passez nous voir →", href: "/cowork" },
   secondaryNote: "Le cowork est à deux minutes du Vieux-Port. Le café est bon.",
 } as const;
 

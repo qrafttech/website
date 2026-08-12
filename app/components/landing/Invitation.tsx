@@ -1,5 +1,5 @@
 import CtaLink from "@/components/CtaLink";
-import MonoLink from "@/components/MonoLink";
+import Rich from "@/components/Rich";
 import Section from "@/components/Section";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
@@ -21,6 +21,16 @@ export default function Invitation({
 }) {
   const balcon = origine.photos.find((photo) => photo.key === "balcon");
 
+  /* The dictionaries store locale-relative hrefs and every other link on the
+     page is prefixed by `localeHref` at its call site. This is the one link
+     that arrives inside a `RichText`, so it is resolved here rather than
+     teaching `Rich` about locales. */
+  const titleLine3 = invitation.titleLine3.map((segment) =>
+    segment.href
+      ? { ...segment, href: localeHref(lang, segment.href) }
+      : segment
+  );
+
   return (
     <Section
       id={invitation.id}
@@ -41,21 +51,28 @@ export default function Invitation({
               >
                 {invitation.titleLine2}
               </RiseLine>
+              {/* The third line is the invitation, and « cowork » is the door.
+                  Underlined rather than coloured: the gradient above is already
+                  spending the heading's one accent, and a second colour would
+                  make the two lines compete. */}
+              <RiseLine trigger="view">
+                <Rich
+                  content={titleLine3}
+                  linkClassName="underline decoration-[0.035em] underline-offset-[0.09em] transition-colors hover:text-blue"
+                />
+              </RiseLine>
             </h2>
             <p className="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.65] text-muted nav:text-[1.1875rem]">
               {invitation.lead}
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {/* The « Passez nous voir → » secondary link is gone: the heading
+                above now carries those words and the link to /cowork, and the
+                row was saying them twice. One CTA left, so the row is no
+                longer a row. */}
+            <div className="mt-9">
               <CtaLink href={localeHref(lang, invitation.cta.href)} size="lg">
                 {invitation.cta.label}
               </CtaLink>
-              {/* M7 — there is a real door, and almost no agency can say this. */}
-              <MonoLink
-                href={localeHref(lang, invitation.secondary.href)}
-                className="text-ink2"
-              >
-                {invitation.secondary.label}
-              </MonoLink>
             </div>
             <p className="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-muted">
               {invitation.secondaryNote}

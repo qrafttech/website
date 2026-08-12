@@ -92,10 +92,17 @@ export default function Hero({
             stack put all the air above the headline, which is an asymmetry of
             its own on a tall viewport. */}
         <div className="flex flex-1 flex-col justify-center gap-8 py-2 nav:gap-[clamp(2rem,6.5vh,4.5rem)] nav:py-[clamp(0.75rem,2.2vh,2.5rem)]">
-          {/* `items-end`: the headline's last line and the CTA sit on one
-              shared baseline, which is what makes two halves of unequal
-              content read as a pair rather than as two loose blocks. */}
-          <div className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-[clamp(1.5rem,4vh,2.5rem)] nav:grid-cols-2 nav:items-end">
+          {/* `items-start`, not `items-end`. Sharing a bottom edge aligned the
+              two halves on a line that is only implied — the headline's last
+              baseline against the CTA's box — while the two things a reader
+              actually scans, the first line of the headline and the first line
+              of the paragraph, started four lines apart. Aligning the tops puts
+              the shared edge where the eye already is.
+
+              The gutter roughly doubles with it: at ~52px the paragraph read as
+              a continuation of the headline's measure rather than as the second
+              of two columns, and top-aligning made that reading stronger. */}
+          <div className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-[clamp(1.5rem,4vh,2.5rem)] nav:grid-cols-2 nav:items-start nav:gap-x-[clamp(3.25rem,6.6vw,6rem)]">
             {/* Two clamps, because the floor means opposite things on either
                 side of 900px. Stacked, the headline owns the full measure and
                 2.25rem is the smallest it should ever be. Split into halves it
