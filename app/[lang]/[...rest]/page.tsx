@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
  * that matches nothing arrives here as `/fr/<whatever>` rather than as an
  * unmatched request. Without this segment those would fall through to Next's
  * built-in 404 — the site's root layout lives under `[lang]`, so there is no
- * layout above to give an unmatched URL the rail, the footer or `<html lang>`.
+ * layout above to give an unmatched URL the nav bar, the footer or `<html lang>`.
  * Catching them here puts the branded `app/[lang]/not-found.tsx` inside the
  * real chrome, and keeps the 404 status.
  */

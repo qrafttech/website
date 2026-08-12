@@ -21,7 +21,8 @@ export type FigureSize = "bleed" | "inline" | "small";
  * `sizes` must describe the slot the frame actually occupies, because the
  * browser picks a srcset candidate from it before layout exists. Every default
  * below assumes the shipped case — the frame sits in ONE HALF of a diptych,
- * inside the page column, which is the viewport minus the 5.75rem rail. An
+ * inside the page column, which since N4 (top bar, no side rail) is the full
+ * viewport width. An
  * over-stated `sizes` is not a rounding error: claiming the full column for a
  * half-column slot doubles the computed need and jumps the browser two
  * candidates up the srcset. Measured at a 1440 viewport, alongside the box each
@@ -31,11 +32,11 @@ const SIZES: Record<FigureSize, { frame: string; sizes: string }> = {
   /** Full-bleed to the hairline, 60–80vh. The anchor scene. The section that
    *  holds it must drop `Wrap`/`px-gutter` on this half; the caption re-applies
    *  the gutter itself so it never touches the edge.
-   *  Box: 674px at 1440 — exactly half the page column, the diptych gutter
+   *  Box: 720px at 1440 — exactly half the page column, the diptych gutter
    *  being 0 for a bleed frame. Full width once the halves stack. */
   bleed: {
     frame: "h-[clamp(19rem,56vh,26rem)] nav:h-[clamp(30rem,72vh,46rem)]",
-    sizes: "(min-width: 900px) calc((100vw - 5.75rem) / 2), 100vw",
+    sizes: "(min-width: 900px) 50vw, 100vw",
   },
   /** A supporting frame inside a diptych half or a `Wrap`.
    *  Box: 568px at 1440 — half the page column, less the `px-gutter` its half

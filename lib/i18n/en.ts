@@ -83,11 +83,11 @@ export const meta = {
     "Three developers in Marseille. We write the code we sell you ourselves: web and mobile apps, APIs and AI agents built to still be running in three years.",
 } as const;
 
-/* --- The rail and the footer ---------------------------------------------- */
+/* --- The nav bar and the footer ------------------------------------------- */
 
 export const nav = {
   brandLabel: "Qraft",
-  railLabel: "Main navigation",
+  label: "Main navigation",
   /* The blog entry is carried, not deleted: `hasBlog()` drops it on `/en` at
      render time, and keeping the key here means the two dictionaries stay the
      same shape. Hrefs are locale-relative and identical to the French ones —
@@ -100,6 +100,11 @@ export const nav = {
     { key: "blog", label: "Blog", href: "/blog" },
     { key: "cowork", label: "Cowork", href: "/cowork" },
   ],
+  /* A verb, per the CTA voice, and the same one the hero topline used to carry
+     before N4 moved it into the bar where it survives a scroll. */
+  cta: { label: "Let’s talk", href: "/#contact" },
+  menuOpen: "Open menu",
+  menuClose: "Close menu",
 } as const;
 
 /**
@@ -173,7 +178,6 @@ export const hero = {
      same claim and would now be the only reach in a paragraph of three facts. */
   lead: "We’re three developers in Marseille. Web and mobile apps, APIs, AI agents in production: since 2020 we have been shipping code that is robust, stable and built to last.",
   cta: { label: "See what we’ve built", href: "#proof" },
-  contactCta: { label: "Let’s talk", href: "/#contact" },
   team: [
     {
       key: "nicolas",
@@ -190,14 +194,14 @@ export const hero = {
       linkLabel: "Alexis Nugon on LinkedIn",
     },
     {
-      /* Ruling F6's "mid-level developer" is dropped with the French « développeur
-         intermédiaire »: the line now names the route in rather than the rung,
-         which is what `origine` goes on to explain. "Career changer" is the
-         neutral English for « reconversion » — "retrained" implies a scheme,
-         "self-taught" would be false. */
+      /* Ruling F6's "mid-level developer" is dropped with the French
+         « développeur intermédiaire ». "Career changer" goes too, with
+         « reconversion » on the French side and for the same reason: the years
+         are the fact, and `origine` carries the route in as a stance instead of
+         as a caveat on one name. */
       key: "adrien",
       name: "Adrien Lupo",
-      role: "Developer · career changer, 4 years writing code",
+      role: "Developer · 4 years writing code",
       href: "https://www.linkedin.com/in/adrienlupo/",
       linkLabel: "Adrien Lupo on LinkedIn",
     },
@@ -243,7 +247,11 @@ export const offre = {
   /* Ruling D3, inverted away from Yield Studio: the first clause concedes the
      tool and claims it, so the argument never saws off the product being sold.
      Written as a conviction, with no client attached (ruling F1). */
-  lead: "AI has changed the game: prototypes and MVPs are close to free now, and the amount of code in the world is going up. The work starts after that: the edge cases, the data migrations, the traffic spikes and whoever reopens the project in two years. That is what ten years in the job is for. We will build your application from nothing, and we will gladly take over one that is already taking on water.",
+  /* Follows the French cut exactly: three sentences, no list of what the work
+     really is, and the value claim stated once. Rule 2 (rewrite the sentence,
+     not the words) does the work — "our expertise, with AI as the lever" would
+     be a calque, and English says leverage without the article. */
+  lead: "AI has changed the game, and this is only the beginning: prototyping is close to free now, and writing a lot of code costs almost nothing. What we sell is engineering expertise, with AI as leverage. We will build your application from nothing, and we will gladly take over one that is already taking on water.",
   blocks: [
     {
       key: "apps",
@@ -251,7 +259,11 @@ export const offre = {
       /* The bilingual pivot, kept in both languages per rule 7: the "when"
          clause is what makes it an argument instead of a slogan. Kept once —
          the "no oversized infrastructure" half went with the French trim. */
-      body: "We write APIs in Rails, NestJS or FastAPI, plus interfaces in Next.js and mobile apps in React Native that ship to both stores. No microservices when a well-structured monolith will do. We don’t do UX or UI, and you’ll hear that from us before you see a quote.",
+      /* Same ruling as the French: the refusal states what happens instead.
+         "Product" joins UX and UI, and the framing workshops are named — with
+         specialists, before the quote, which is the fact that keeps the "no"
+         from reading as a door closing. */
+      body: "We write APIs in Rails, NestJS or FastAPI, plus interfaces in Next.js and mobile apps in React Native that ship to both stores. No microservices when a well-structured monolith will do. We don’t do UX, UI or product, and you’ll hear that from us before you see a quote: to frame the project we run workshops up front, with specialists.",
     },
     {
       /* Cut to match the French: the permissions passage and the self-hosting
@@ -261,7 +273,12 @@ export const offre = {
          would say "hallucinates". */
       key: "agents",
       title: "Agents and AI in production",
-      body: "A LangGraph agent runs at Smartbox, and we are building others inside our clients’ products. Most of the project goes into giving that agent something to work with, which means everything your team knows and has never written down. Without it, the agent makes things up.",
+      /* Same ruling as the French: the context passage is replaced by the
+         stack. It costs this file its model sentence — "Without it, the agent
+         makes things up" was the register floor quoted in the header above —
+         and the header now points at `apps` instead. Named tools in system
+         order is the plainest thing a reader can check. */
+      body: "A LangGraph agent runs at Smartbox, and we are building others at C’Evidentia and Episto. LangChain and LangGraph for orchestration, pgvector inside Postgres for retrieval, MCP to plug in your own tools, and OpenAI, Anthropic or Mistral for the model — picked per project, and replaceable.",
     },
     {
       /* « Direction technique » → "Technical leadership". Deliberately not
@@ -517,11 +534,12 @@ export const invitation = {
   id: "contact",
   titleLine1: "Our door is open,",
   titleLine2: "at 36 rue Sainte.",
-  /* The invitation moves into the heading and « cowork » is the link, replacing
-     the "Come and see us →" secondary CTA one line below that said the same
-     thing twice. "Come and see us at the cowork" keeps the old CTA's wording,
-     which was already the warmest line in the section. */
-  titleLine3: [
+  /* The invitation, carrying « cowork » as the link and replacing the "Come and
+     see us →" secondary CTA one line below that said the same thing twice. It
+     sits under the heading as a subtitle, not inside it — same ruling as the
+     French. "Come and see us at the cowork" keeps the old CTA's wording, which
+     was already the warmest line in the section. */
+  subtitle: [
     { text: "Come and see us at the " },
     { text: "cowork", href: "/cowork" },
     { text: "." },

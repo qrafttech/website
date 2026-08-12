@@ -22,6 +22,9 @@ interface CtaLinkProps {
   tone?: keyof typeof TONES;
   size?: keyof typeof SIZES;
   className?: string;
+  /** For a caller that has UI to dismiss on activation — the mobile nav panel,
+   *  whose anchor CTA never changes the pathname it could listen to. */
+  onClick?: () => void;
 }
 
 export default function CtaLink({
@@ -30,12 +33,19 @@ export default function CtaLink({
   tone = "blue",
   size = "md",
   className,
+  onClick,
 }: CtaLinkProps) {
   const cls = clsx(BASE, TONES[tone], SIZES[size], className);
 
   if (href.startsWith("http")) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cls}
+        onClick={onClick}
+      >
         {children}
       </a>
     );
@@ -43,14 +53,14 @@ export default function CtaLink({
 
   if (href.startsWith("#") || href.startsWith("mailto:")) {
     return (
-      <a href={href} className={cls}>
+      <a href={href} className={cls} onClick={onClick}>
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={cls}>
+    <Link href={href} className={cls} onClick={onClick}>
       {children}
     </Link>
   );

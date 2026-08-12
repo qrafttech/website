@@ -13,8 +13,11 @@ import {
 import type { Dictionary } from "@/lib/i18n/types";
 
 /**
- * The language switcher, in the N3 rail's own register: Space Mono, uppercase,
- * vertical above the nav breakpoint, exactly like the nav links beside it.
+ * The language switcher, in the N4 bar's own register: Space Mono, uppercase,
+ * horizontal at every width, exactly like the nav links beside it. The two
+ * locales are separated by a hairline slash rather than by air — at the right
+ * end of a bar that also holds a CTA, two loose mono words read as two more
+ * nav items.
  *
  * A client component for one reason — it needs the CURRENT path, so that
  * `/cowork` switches to `/en/cowork` rather than dumping the reader on the
@@ -38,19 +41,24 @@ export default function LangSwitcher({
   const pathname = usePathname() ?? "/";
 
   return (
-    <ul
-      aria-label={copy.label}
-      className="flex items-center gap-[0.5rem] nav:flex-col nav:gap-[0.5rem]"
-    >
-      {LOCALES.map((locale) => {
+    <ul aria-label={copy.label} className="flex items-center">
+      {LOCALES.map((locale, index) => {
         const current = locale === lang;
 
         return (
-          <li key={locale}>
+          <li key={locale} className="flex items-center">
+            {index > 0 && (
+              <span
+                aria-hidden="true"
+                className="px-1.5 text-[0.6875rem] text-line"
+              >
+                /
+              </span>
+            )}
             {current ? (
               <span
                 aria-current="true"
-                className="block font-mono text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink nav:text-[0.75rem] nav:tracking-[0.14em] nav:[writing-mode:vertical-rl]"
+                className="block font-mono text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink"
               >
                 {LOCALE_SHORT_LABEL[locale]}
               </span>
@@ -60,8 +68,8 @@ export default function LangSwitcher({
                 hrefLang={locale}
                 aria-label={copy.toLocale[locale]}
                 className={clsx(
-                  "block font-mono text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-muted transition-colors ease-epure hover:text-blue",
-                  "nav:text-[0.75rem] nav:tracking-[0.14em] nav:[writing-mode:vertical-rl]"
+                  "block font-mono text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-muted",
+                  "transition-colors ease-epure hover:text-blue"
                 )}
               >
                 {LOCALE_SHORT_LABEL[locale]}

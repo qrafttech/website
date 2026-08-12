@@ -25,7 +25,7 @@ export default function Invitation({
      page is prefixed by `localeHref` at its call site. This is the one link
      that arrives inside a `RichText`, so it is resolved here rather than
      teaching `Rich` about locales. */
-  const titleLine3 = invitation.titleLine3.map((segment) =>
+  const subtitle = invitation.subtitle.map((segment) =>
     segment.href
       ? { ...segment, href: localeHref(lang, segment.href) }
       : segment
@@ -43,7 +43,11 @@ export default function Invitation({
         emphasis="text"
         text={
           <div>
-            <h2 className="text-[clamp(2.25rem,5.4vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.035em]">
+            {/* Two lines, not three, and on the section anchor's scale rather
+                than above it. At 4.5rem over three lines the address block was
+                the largest object on the site by a wide margin — a heading that
+                loud makes the invitation under it read as fine print. */}
+            <h2 className="text-[clamp(2rem,4.6vw,3.5rem)] font-bold leading-[1.03] tracking-[-0.035em]">
               <RiseLine trigger="view">{invitation.titleLine1}</RiseLine>
               <RiseLine
                 trigger="view"
@@ -51,17 +55,19 @@ export default function Invitation({
               >
                 {invitation.titleLine2}
               </RiseLine>
-              {/* The third line is the invitation, and « cowork » is the door.
-                  Underlined rather than coloured: the gradient above is already
-                  spending the heading's one accent, and a second colour would
-                  make the two lines compete. */}
-              <RiseLine trigger="view">
-                <Rich
-                  content={titleLine3}
-                  linkClassName="underline decoration-[0.035em] underline-offset-[0.09em] transition-colors hover:text-blue"
-                />
-              </RiseLine>
             </h2>
+
+            {/* The invitation itself, demoted out of the heading into a
+                subtitle: it is a sentence a person says, not a display line,
+                and it still carries « cowork » as the door. Underlined rather
+                than coloured — the gradient above spends this block's one
+                accent. */}
+            <p className="mt-5 max-w-[24ch] text-[clamp(1.25rem,1.9vw,1.5rem)] font-medium leading-[1.35] tracking-[-0.01em] text-ink2">
+              <Rich
+                content={subtitle}
+                linkClassName="underline decoration-[0.05em] underline-offset-[0.14em] transition-colors ease-epure hover:text-blue"
+              />
+            </p>
             <p className="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.65] text-muted nav:text-[1.1875rem]">
               {invitation.lead}
             </p>

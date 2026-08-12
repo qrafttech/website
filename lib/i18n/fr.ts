@@ -39,11 +39,11 @@ export const meta = {
   description: SITE_DESCRIPTION,
 } as const;
 
-/* --- Le rail et le pied de page ------------------------------------------ */
+/* --- La barre de navigation et le pied de page ---------------------------- */
 
 export const nav = {
   brandLabel: "Qraft",
-  railLabel: "Navigation principale",
+  label: "Navigation principale",
   // `key` addresses an entry without matching on its label or its href, which
   // is what lets the rail drop the French-only blog on `/en` (`hasBlog()`).
   // `href` is locale-relative: `localeHref()` prefixes it at render time, so
@@ -57,6 +57,12 @@ export const nav = {
     { key: "blog", label: "Blog", href: "/blog" },
     { key: "cowork", label: "Cowork", href: "/cowork" },
   ],
+  /* « Discutons » vit dans la barre depuis N4, plus dans le topline du hero :
+     c'est le seul CTA de contact de la page, et dans le hero il quittait
+     l'écran au premier scroll. */
+  cta: { label: "Discutons", href: "/#contact" },
+  menuOpen: "Ouvrir le menu",
+  menuClose: "Fermer le menu",
 } as const;
 
 /**
@@ -135,10 +141,6 @@ export const hero = {
      « durer » is the verb the headline already accents. */
   lead: "Nous sommes trois développeurs à Marseille. Applications web et mobile, API, agents en production : depuis 2020, nous livrons du code robuste, stable, pensé pour durer.",
   cta: { label: "Voir nos réalisations", href: "#proof" },
-  /* The terminal is deleted and took its topline with it, but `design.md:90-91`
-     puts « Discutons » in the hero rather than the nav, so it stays — it is the
-     only contact CTA above the fold. */
-  contactCta: { label: "Discutons", href: "/#contact" },
   team: [
     {
       key: "nicolas",
@@ -157,7 +159,13 @@ export const hero = {
     {
       key: "adrien",
       name: "Adrien Lupo",
-      role: "Développeur · reconversion, 4 ans de dev",
+      /* CLIENT RULING: « reconversion » drops from the hero. Ruling F6 asked
+         that Adrien be labelled honestly, and « 4 ans de dev » still does that
+         — it is the fact a reader is actually weighing. The route in is not
+         hidden either: `origine` says in full that the house recruits from
+         bootcamps as well as from engineering schools, which is the paragraph
+         where it is a stance rather than a caveat attached to one name. */
+      role: "Développeur · 4 ans de dev",
       href: "https://www.linkedin.com/in/adrienlupo/",
       linkLabel: "Adrien Lupo sur LinkedIn",
     },
@@ -182,12 +190,24 @@ export const offre = {
      on being on the front line at once, and tells a reader in four words that
      these are people worth sitting next to. It sits here, over the section
      describing what they actually build, because « Marseille, 2020. » now owns
-     the heading slot it used to occupy. */
+     the heading slot it used to occupy.
+
+     CLIENT RULING: the paragraph under it is about AI, and a heading that only
+     named front and back left the section's actual subject unannounced. « Les
+     devs » drops with it — the two prepositions carry the same claim in half
+     the words. The parenthesis « (…et avec l'IA) » was tried and dropped: an
+     aside is the one shape that says « this matters less », which is the
+     opposite of what the section argues. « accompagné par l'IA » is a third
+     clause of the same rank, and it takes the same accent as the two before
+     it — front · back · IA is a triad, and a triad with one member in another
+     colour is not one. */
   title: [
-    { text: "Les devs sur le " },
+    { text: "Sur le " },
     { text: "front", accent: true },
-    { text: ", comme sur le " },
+    { text: ", sur le " },
     { text: "back", accent: true },
+    { text: ", accompagné par l’" },
+    { text: "IA", accent: true },
     { text: "." },
   ] as RichText,
   /* Ruling D3 opens the section rather than sitting in a manifesto: the claim
@@ -195,18 +215,30 @@ export const offre = {
      over the offer and nowhere else. Written as a conviction, with no client
      attached (ruling F1), and never in the register of « avec l'IA, coder n'a
      plus de valeur » — the first clause admits the tool and claims it.
-     The 47-word second sentence is broken: the semicolon pivot and the
-     « parce que » tail on a closing cadence were the most written-to-be-
-     admired thing on the page, and they sat third from the top. « Dix ans de
-     métier ne servent qu'à ça. » says the same in eight words a person would
-     actually say out loud. The argument is untouched.
-     « Ce qui coûte encore, ce sont… » was the last standalone two-beat: it
-     answered « gratuit » with its lexical opposite, in the first two sentences
-     a reader meets after the hero, which is where a tic costs most. « Le
-     travail commence après » extends the first sentence instead of mirroring
-     it — the prototype is step zero, and the project starts on the far side of
-     it. Ruling D3 is intact and no longer needs the word « coûte » to land. */
-  lead: "L’IA change la donne : elle rend le prototypage et le MVP quasi gratuits, et la quantité de code augmente. Le travail commence après : les cas limites, les migrations de données, les montées de charge et la personne qui rouvrira le projet dans deux ans. Dix ans de métier ne servent qu’à ça. Nous construisons votre application à partir de zéro, et nous reprenons volontiers celle qui a déjà pris l’eau.",
+     CLIENT REWRITE, in two passes, and it is now three sentences instead of
+     five. What the client kept, cut and added:
+       · « a changé » and « ce n'est que le début » are theirs. They are right:
+         the present tense made the shift sound like news, and this page is
+         written by people who have been living in it for two years.
+       · « et la quantité de code augmente » and the whole « Le travail commence
+         après : les cas limites, les migrations de données, les montées de
+         charge et la personne qui rouvrira le projet dans deux ans » are cut at
+         their instruction. FLAGGED, because those four nouns were the only
+         checkable thing in the paragraph and « notre expertise » is exactly the
+         abstraction five review rounds spent their time removing. The concrete
+         version of the same claim survives one screen down, in `blocks.apps`
+         and `blocks.agents`, which is the argument for letting the lead be
+         short: the proof is under it rather than in it.
+       · « La valeur pour nous c'est notre expertise en développement » is
+         theirs, and « en développement » is the second pass: « notre expertise »
+         alone could have been an expertise in anything. The tail is set as
+         « avec l'IA comme levier » — « levier » is the client's own word from
+         the first pass, and it avoids repeating « accompagné par l'IA » eight
+         centimetres under the heading that now ends on those exact four words.
+       · « Dix ans de métier ne servent qu'à ça » goes with the cut it referred
+         to. Nothing replaces it; the credential is already in the hero, where
+         Alexis carries « 10+ ans de dev ». */
+  lead: "L’IA a changé la donne, et ce n’est que le début : prototyper est devenu quasi gratuit, et écrire beaucoup de code ne coûte presque plus rien. Notre valeur, c’est notre expertise en développement, avec l’IA comme levier. Nous construisons votre application à partir de zéro, et nous reprenons volontiers celle qui a déjà pris l’eau.",
   blocks: [
     {
       /* « Notre philosophie tient en une ligne : » is gone. A developer says
@@ -222,7 +254,13 @@ export const offre = {
          classique fait le travail » went with the trim: it was the second half
          of a « pas de X quand Y suffit » mirror, and one instance of the mould
          makes the point that two instances only decorate. */
-      body: "Nous écrivons des API en Rails, NestJS ou FastAPI, des interfaces en Next.js et des applications React Native publiées sur les deux stores. Pas de micro-services quand un monolithe bien structuré suffit. Nous ne faisons pas d’UX/UI, et nous vous le disons avant le devis.",
+      /* CLIENT RULING: the refusal now carries what happens instead. « Nous ne
+         faisons pas d'UX/UI » alone left a reader with an unanswered question
+         at the exact moment they were told no — and the honest answer is that
+         the framing workshops happen, with specialists, before the quote. The
+         « ni de produit » is the client's own addition: the refusal was
+         narrower on the page than it is in the room. */
+      body: "Nous écrivons des API en Rails, NestJS ou FastAPI, des interfaces en Next.js et des applications React Native publiées sur les deux stores. Pas de micro-services quand un monolithe bien structuré suffit. Nous ne faisons pas d’UX/UI ni de produit, et nous vous le disons avant le devis : pour cadrer le projet, nous organisons des ateliers en amont avec des spécialistes.",
     },
     {
       /* Was 110 words against 40 in the block beside it, which is what made the
@@ -230,12 +268,25 @@ export const offre = {
          permissions passage — « sur ce site, l'agent a écrit le code et ouvert
          la revue », « Nicolas a fait la mise en ligne lui-même » — and the
          self-hosting sentence, which `valeurs.souverainete` now owns outright
-         rather than saying twice two screens apart. What survives is the claim
-         only this house can make in the first person, and the four words that
-         explain why context work is most of the project. */
+         rather than saying twice two screens apart.
+
+         CLIENT RULING: the context passage goes too — « tout ce que votre
+         équipe sait sans l'avoir jamais écrit. Sans ça, il invente. » was an
+         argument about the buyer's own documentation debt, in the block where
+         a reader is trying to find out what we actually run. The stack takes
+         its place, and it is the same move as `apps` two cells over: named
+         tools, in the order they sit in the system. The blue « choisi par
+         projet » tail is the only claim left, and it is checkable — the
+         arsenal below lists all four model providers.
+
+         « chez nos clients » is named at the client's instruction — C'Evidentia
+         and Episto, both of which have a case of their own further down the
+         page. Ruling F1 stands where it was written (the AI CONVICTION in
+         `lead` still carries no client); this is the block that says what runs
+         where, and an unnamed « nos clients » was the vaguest sentence in it. */
       key: "agents",
       title: "Agents et IA en production",
-      body: "Un agent LangGraph tourne chez Smartbox, et nous en construisons d’autres chez nos clients. L’essentiel du projet consiste à lui donner de quoi travailler : tout ce que votre équipe sait sans l’avoir jamais écrit. Sans ça, il invente.",
+      body: "Un agent LangGraph tourne chez Smartbox, et nous en construisons d’autres chez C’Evidentia et Episto. LangChain et LangGraph pour l’orchestration, pgvector dans Postgres pour la recherche, MCP pour brancher vos outils, et OpenAI, Anthropic ou Mistral pour le modèle — choisi par projet, et remplaçable.",
     },
     {
       /* The easiware anecdote is gone from here. It was told twice, two
@@ -492,11 +543,13 @@ export const invitation = {
      about to be said twice in the same section. */
   titleLine1: "Notre porte est ouverte,",
   titleLine2: "au 36 rue Sainte.",
-  /* The invitation itself moves into the heading, and « cowork » is the link —
-     so the sentence that invites the reader and the door it opens are the same
-     object. It replaces the « Passez nous voir → » secondary CTA that used to
-     sit one line below, which said the same four words a second time. */
-  titleLine3: [
+  /* The invitation itself, and « cowork » is the link — the sentence that
+     invites the reader and the door it opens are the same object. It replaces
+     the « Passez nous voir → » secondary CTA that used to sit one line below,
+     which said the same four words a second time. CLIENT RULING: it is a
+     subtitle, not the heading's third line — at display size the three lines
+     together were the largest block on the site. */
+  subtitle: [
     { text: "Passez nous voir au " },
     { text: "cowork", href: "/cowork" },
     { text: "." },

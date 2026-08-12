@@ -13,7 +13,7 @@ import {
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
 import MotionProvider from "@/components/motion/MotionProvider.client";
-import Rail from "@/components/Rail";
+import Nav from "@/components/Nav.client";
 import Footer from "@/components/Footer";
 import "../globals.css";
 
@@ -107,12 +107,12 @@ export default async function RootLayout({
         className={`${inter.variable} ${sora.variable} ${spaceMono.variable} font-sans text-base leading-normal`}
       >
         <MotionProvider>
-          <div className="grid min-h-[100svh] grid-cols-1 nav:grid-cols-[5.75rem_minmax(0,1fr)]">
-            <Rail lang={lang} nav={t.nav} langSwitcher={t.langSwitcher} />
-            <div className="flex min-w-0 flex-col">
-              <div className="flex-1">{children}</div>
-              <Footer lang={lang} nav={t.nav} footer={t.footer} />
-            </div>
+          {/* One column at every width since N4: the navigation is a sticky
+              top bar, so the shell no longer has to reserve a rail track. */}
+          <div className="flex min-h-[100svh] min-w-0 flex-col">
+            <Nav lang={lang} nav={t.nav} langSwitcher={t.langSwitcher} />
+            <div className="flex-1">{children}</div>
+            <Footer lang={lang} nav={t.nav} footer={t.footer} />
           </div>
         </MotionProvider>
         {/* Paper grain — site-wide, fixed, 0 KB JS. See `.paper-grain`

@@ -143,8 +143,14 @@ export interface Dictionary {
 
   nav: {
     brandLabel: string;
-    railLabel: string;
+    /** `aria-label` on the bar's link list, and on the mobile panel's. */
+    label: string;
     links: readonly NavLink[];
+    /** The one CTA in the bar. Persistent, which is why it left the hero. */
+    cta: CtaCopy;
+    /** `aria-label` on the mobile toggle, per state. */
+    menuOpen: string;
+    menuClose: string;
   };
 
   langSwitcher: {
@@ -165,7 +171,6 @@ export interface Dictionary {
     titleLine2: RichText;
     lead: string;
     cta: CtaCopy;
-    contactCta: CtaCopy;
     team: readonly TeamMember[];
   };
 
@@ -234,11 +239,11 @@ export interface Dictionary {
     id: string;
     titleLine1: string;
     titleLine2: string;
-    /** The third line carries the only link in a display heading on this site —
+    /** The line under the heading, carrying the section's only inline link —
      *  the word « cowork » itself points at `/cowork`. It replaced a separate
      *  secondary CTA that said « Passez nous voir » one line below a heading
      *  already inviting the reader in. */
-    titleLine3: RichText;
+    subtitle: RichText;
     lead: string;
     cta: CtaCopy;
     secondaryNote: string;

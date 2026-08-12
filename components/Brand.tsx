@@ -5,9 +5,31 @@ import qPixel from "@/public/images/q_pixel.png";
 
 interface BrandProps {
   className?: string;
+  /** Width of the mark. Defaults to the lockup below — override only with a
+   *  value in `em`, or the Q stops tracking the wordmark it sits in. */
   markClassName?: string;
   priority?: boolean;
 }
+
+/**
+ * The lockup, and why both numbers are what they are.
+ *
+ * `q_pixel.png` is a tight square: the glyph touches all four edges, and the
+ * bottom 6.8 % of it is the Q's tail alone — the bowl ends at 93.2 % of the
+ * file's height. Two things follow, and getting either wrong is what makes the
+ * mark read as pasted next to the word rather than set with it.
+ *
+ * 1. WIDTH. Sora's cap height is 0.751 em, so a bowl of that height needs a
+ *    mark of 0.751 / 0.932 = 0.806 em. 0.82 em adds the ~2 % overshoot a round
+ *    letter takes against flat-topped neighbours. At 1.08 em — what the footer
+ *    carried — the bowl stood 19 % taller than the « ft » ascenders beside it.
+ * 2. BASELINE. `align-self: baseline` puts the image's BOTTOM edge on the text
+ *    baseline, which is the tail's bottom, so the bowl floated a pixel and a
+ *    half above the line. Pushing the mark down by its own tail (6.8 %) sits
+ *    the bowl on the baseline and lets the tail descend below it, which is
+ *    where a Q's tail belongs. A transform, so nothing in the row moves.
+ */
+const MARK_WIDTH = "w-[0.82em]";
 
 export default function Brand({
   className,
@@ -27,10 +49,10 @@ export default function Brand({
         alt=""
         aria-hidden
         priority={priority}
-        sizes="52px"
+        sizes="32px"
         className={clsx(
-          "h-auto self-baseline",
-          markClassName ?? "w-[1.375rem]"
+          "h-auto translate-y-[6.8%] self-baseline",
+          markClassName ?? MARK_WIDTH
         )}
       />
       raft

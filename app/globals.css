@@ -1,5 +1,5 @@
 /* Hallmark · genre: editorial · macrostructure: Split Studio · theme: épure (locked identity)
- * design-system: design.md · designed-as-app · nav: N3 side-rail · footer: Ft4 dense colophon
+ * design-system: design.md · designed-as-app · nav: N4 top bar · footer: Ft4 dense colophon
  * hero: full-viewport panel · symmetric two-over-three composition · ink headline
  * retained identity exceptions: ink #000 (gate 7)
  */
@@ -9,19 +9,21 @@
 
 @layer base {
   :root {
-    --header-h: 3.375rem;
+    --header-h: 3.5rem;
+  }
+
+  @media (min-width: 900px) {
+    :root {
+      --header-h: 4.5rem;
+    }
   }
 
   html {
     -webkit-font-smoothing: antialiased;
+    /* The bar is sticky at every width now, so every anchor target has to clear
+     * it — no `scroll-padding-top: 0` above 900px any more. */
     scroll-padding-top: var(--header-h);
     overflow-x: clip;
-  }
-
-  @media (min-width: 900px) {
-    html {
-      scroll-padding-top: 0;
-    }
   }
 
   body {

@@ -82,14 +82,21 @@ Rhythm is deliberately uneven — the final CTA and 404 run larger.
 - Secondary/inline: `MonoLink` / typographic `→` link. `→` = internal,
   `↗` = external (locked semantics).
 
-## Nav — N3 side-rail (fold E2, 2026-07-16)
+## Nav — N4 top bar (supersedes the N3 side-rail, 2026-08-12)
 
-Sticky full-height left rail (5.75rem, canvas bg, hairline right rule):
-q_pixel glyph on top, vertical-rl mono links centered via auto margins, blue
-8px square dot pinned at the bottom. Mobile: single sticky top bar (glyph
-left, inline mono links right, no hamburger, no dot). Links: Offres ·
-Réalisations · Blog · Cowork. The « Discutons » CTA lives in the hero
-topline, not the nav.
+Sticky top bar at every width (`--header-h`: 3.5rem, 4.5rem ≥900px), canvas at
+85 % with a backdrop blur, hairline bottom rule. Wordmark (`Brand`) left, mono
+uppercase links right of centre, then FR/EN and the « Discutons » CTA. Links:
+Offres · Équipe · Réalisations · Blog · Cowork.
+
+- The current page and the section under the reader carry a 2px blue underline
+  (`aria-current` with it — never colour alone). Sections are tracked by one
+  IntersectionObserver, home page only.
+- Hover stays one signal: colour. The underline is state, never hover.
+- Below 900px: wordmark left, FR/EN + hamburger right; the panel is mounted
+  only when open and holds the links, then the CTA full-width.
+- The « Discutons » CTA lives in the bar, not the hero topline — it is the only
+  contact CTA on the page and it has to survive a scroll.
 
 ## Footer — Ft4 dense colophon
 

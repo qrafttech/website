@@ -24,7 +24,10 @@ export default function Footer({
     <footer className="border-t border-line">
       <Wrap>
         <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-5 pb-7 pt-9">
-          <Brand className="text-[1.5rem]" markClassName="w-[1.625rem]" />
+          {/* No `markClassName`: the lockup's proportion is `Brand`'s to keep,
+              and the 1.625rem override here is what made the footer's Q stand
+              a fifth taller than the word it belongs to. */}
+          <Brand className="text-[1.5rem]" />
           <ul className="flex flex-wrap items-baseline gap-x-8 gap-y-2.5">
             {links.map((link) => (
               <li key={link.key}>

@@ -12,7 +12,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
  * `[lang]` is a ROOT dynamic segment (this app has no layout above it), so its
  * value is readable from any Server Component in the tree, including this one.
  * A 404 reached through `/en/…` therefore answers in English, inside the same
- * rail and footer as every other English page.
+ * nav bar and footer as every other English page.
  */
 export default async function NotFound() {
   const raw = await rootLang();

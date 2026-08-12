@@ -58,20 +58,12 @@ export default function Hero({
   hero: Dictionary["hero"];
 }) {
   return (
-    <section className="relative flex min-h-[calc(100svh-3.375rem)] flex-col overflow-hidden bg-panel px-gutter pb-hero-b pt-[clamp(1.25rem,3vh,2.25rem)] text-ink nav:min-h-[100svh]">
+    <section className="relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-hidden bg-panel px-gutter pb-hero-b pt-[clamp(1.25rem,3vh,2.25rem)] text-ink">
       <div className="relative z-[1] flex flex-1 flex-col">
-        {/* The terminal and its « agent · qraft/website » caption are gone, but
-            design.md:90-91 keeps « Discutons » in the hero rather than the nav,
-            so the row survives carrying only the CTA. */}
-        <div className="flex items-center justify-end">
-          <CtaLink
-            href={localeHref(lang, hero.contactCta.href)}
-            size="sm"
-            className="normal-case tracking-normal"
-          >
-            {hero.contactCta.label}
-          </CtaLink>
-        </div>
+        {/* The topline is gone with the terminal that used to fill it. It ended
+            up holding « Discutons » alone, and N4 carries that CTA in the bar
+            at every scroll depth — two identical blue buttons 40px apart is not
+            a stronger contact path, it is the same one said twice. */}
 
         {/* Two over three, on one axis — the client asked for « plus de
             symétrie » and the terminal's deletion is what makes it possible.
@@ -133,14 +125,18 @@ export default function Hero({
             </Reveal>
           </div>
 
-          {/* Three equal cells over one hairline — the page's own ledger
-              grammar, and the most symmetric thing the hero has. Stacked below
-              900px, where three cells of 114px cannot hold a portrait and a
-              name side by side. */}
+          {/* Three equal cells, stacked below 900px where three cells of 114px
+              cannot hold a portrait and a name side by side.
+
+              CLIENT RULING: no rule above them. Three portraits in a row on a
+              band of their own already read as a separate register from the
+              headline; the hairline was drawing a boundary the composition had
+              drawn for it, which is exactly the separator habit the redesign
+              set out to lose. The air stays. */}
           <Reveal
             trigger="mount"
             delay={0.7}
-            className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-4 border-t border-line pt-6 nav:grid-cols-3 nav:gap-y-[clamp(1rem,2.4vh,1.5rem)] nav:pt-[clamp(1.25rem,3vh,2.25rem)]"
+            className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-4 pt-6 nav:grid-cols-3 nav:gap-y-[clamp(1rem,2.4vh,1.5rem)] nav:pt-[clamp(1.25rem,3vh,2.25rem)]"
           >
             {hero.team.map((face) => (
               <Face key={face.key} face={face} />
