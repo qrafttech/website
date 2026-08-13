@@ -46,8 +46,14 @@ export default async function Home({ params }: HomeProps) {
           inLanguage: lang,
         }}
       />
-      {/* promesse → blog → offre → constat → valeurs → origine (le pivot) →
-          arsenal → victoires → invitation. See .claude/work/arc.md.
+      {/* promesse → blog → offre → victoires → valeurs → origine (le pivot) →
+          arsenal → invitation. See .claude/work/arc.md.
+
+          CLIENT RULING: `victoires` moves up, directly under the offer. The
+          offer's four blocks are claims; the eight clients are the receipt, and
+          a reader who has just been told what we sell asks who bought it — not
+          what we believe. `valeurs` keeps its slot in the argument, but it now
+          reads as the terms of an engagement the proof has already earned.
 
           `origine` sits before `arsenal`, not after: the arsenal is a stack
           table and puts the reader into spec-scanning mode, which the origin
@@ -63,10 +69,10 @@ export default async function Home({ params }: HomeProps) {
         </Suspense>
       ) : null}
       <Offre offre={t.offre} />
+      <Victoires lang={lang} victoires={t.victoires} clients={t.clients} />
       <Valeurs valeurs={t.valeurs} />
       <Origine origine={t.origine} />
       <Arsenal arsenal={t.arsenal} />
-      <Victoires lang={lang} victoires={t.victoires} clients={t.clients} />
       <Invitation lang={lang} invitation={t.invitation} origine={t.origine} />
     </main>
   );

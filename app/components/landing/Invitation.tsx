@@ -30,7 +30,11 @@ export default function Invitation({
   );
 
   return (
-    <Section id={invitation.id} rhythm="py-24 nav:py-[10.5rem]">
+    /* `sand` rather than the default canvas: with `victoires` moved up, the
+       page descends panel → band → sand into the footer, and a canvas section
+       here would have jumped two steps of the surface scale. The footer's own
+       canvas is the step after it, so the last band change still lands. */
+    <Section id={invitation.id} band="sand" rhythm="py-24 nav:py-[10.5rem]">
       <Diptych
         side="left"
         emphasis="text"

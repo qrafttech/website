@@ -17,10 +17,19 @@ import type { Dictionary } from "@/lib/i18n/types";
  *
  * The rule that opens the ledger is doing work nothing else does — it is the
  * line between the argument and the list of what we sell.
+ *
+ * On `canvas` since `victoires` moved up behind it. design.md:110 allows one
+ * step of the surface scale between neighbours, and the landing now walks an
+ * arch: canvas · sand · band · panel · band · sand, rising to the origin story
+ * and descending to the invitation. This section holds the base note so the
+ * walk has somewhere to climb from. The two steps between the ticker's `band`
+ * and this `canvas` are the one place the scale jumps, and the ticker carries
+ * its own `border-b` — the same hairline that lets the footer sit on canvas
+ * under a canvas section.
  */
 export default function Offre({ offre }: { offre: Dictionary["offre"] }) {
   return (
-    <Section id={offre.id} band="sand">
+    <Section id={offre.id} band="canvas">
       <SectionTitle className="max-w-[16ch]">
         <Rich content={offre.title} />
       </SectionTitle>
