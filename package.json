@@ -15,7 +15,6 @@
     "@heroicons/react": "^2.0.13",
     "@notionhq/client": "^5.11.1",
     "clsx": "^1.2.1",
-    "motion": "^12.42.2",
     "next": "16.2.11",
     "react": "18.2.0",
     "react-dom": "18.2.0"

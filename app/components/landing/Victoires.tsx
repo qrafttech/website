@@ -8,7 +8,6 @@ import Section from "@/components/Section";
 import SectionLead from "@/components/SectionLead";
 import SectionTitle from "@/components/SectionTitle";
 
-import Reveal from "@/components/motion/Reveal.client";
 import { clientLogos } from "@/lib/client-logos";
 import { getClient } from "@/lib/i18n/dictionaries";
 import { type Locale, localePath } from "@/lib/i18n/config";
@@ -137,63 +136,61 @@ export default function Victoires({
           them, because rows of metadata over hairlines are the visual grammar
           of a statement of account, which is the one thing this page cannot
           read as. One rule opens the list; the case names carry the rest. */}
-      <Reveal>
-        <ul className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] gap-y-6 border-t border-line nav:grid-cols-2">
-          {cases.map((entry) => (
-            <li key={entry.slug} className="py-7">
-              <div className="flex items-baseline justify-between gap-6">
-                <h3 className="font-display text-[1.5rem] font-semibold leading-tight">
-                  <Link
-                    href={localePath(lang, `/realisations/${entry.slug}`)}
-                    className="group transition-colors ease-epure hover:text-blue"
+      <ul className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] gap-y-6 border-t border-line nav:grid-cols-2">
+        {cases.map((entry) => (
+          <li key={entry.slug} className="py-7">
+            <div className="flex items-baseline justify-between gap-6">
+              <h3 className="font-display text-[1.5rem] font-semibold leading-tight">
+                <Link
+                  href={localePath(lang, `/realisations/${entry.slug}`)}
+                  className="group transition-colors ease-epure hover:text-blue"
+                >
+                  {entry.name}
+                  <span
+                    aria-hidden="true"
+                    className="ml-3 inline-block font-mono text-lg text-muted transition-transform ease-epure group-hover:translate-x-1"
                   >
-                    {entry.name}
-                    <span
-                      aria-hidden="true"
-                      className="ml-3 inline-block font-mono text-lg text-muted transition-transform ease-epure group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </Link>
-                </h3>
-                {/* design.md:81-82 — `→` internal, `↗` external. */}
-                {entry.website ? (
-                  <a
-                    href={`https://${entry.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 font-mono text-xs tracking-[0.04em] text-muted transition-colors ease-epure hover:text-blue"
-                  >
-                    {entry.website} ↗
-                  </a>
-                ) : null}
-              </div>
-              <Eyebrow className="mt-1.5">{entry.sector}</Eyebrow>
-              <p className="mt-4 max-w-[62ch] text-[1rem] leading-[1.6] text-ink2">
-                {entry.what}
-              </p>
-              <p className="mt-2.5 max-w-[62ch] text-[0.9375rem] leading-[1.7] text-muted">
-                {entry.note}
-              </p>
-              {/* Space, not a rule. The mark is a greyscale image and the two
+                    →
+                  </span>
+                </Link>
+              </h3>
+              {/* design.md:81-82 — `→` internal, `↗` external. */}
+              {entry.website ? (
+                <a
+                  href={`https://${entry.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 font-mono text-xs tracking-[0.04em] text-muted transition-colors ease-epure hover:text-blue"
+                >
+                  {entry.website} ↗
+                </a>
+              ) : null}
+            </div>
+            <Eyebrow className="mt-1.5">{entry.sector}</Eyebrow>
+            <p className="mt-4 max-w-[62ch] text-[1rem] leading-[1.6] text-ink2">
+              {entry.what}
+            </p>
+            <p className="mt-2.5 max-w-[62ch] text-[0.9375rem] leading-[1.7] text-muted">
+              {entry.note}
+            </p>
+            {/* Space, not a rule. The mark is a greyscale image and the two
                   lines under it are mono at 12px against Inter prose — the
                   register change already says the block has turned from
                   argument into record. */}
-              <div className="mt-7 flex flex-col items-start gap-1">
-                <Mark logo={entry.logo} nda={entry.nda} name={entry.name} />
-                <Meta label={victoires.stackLabel} items={entry.stack} />
-                <Meta
-                  label={victoires.integrationsLabel}
-                  items={entry.integrations}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-7 max-w-[62ch] text-[0.9375rem] leading-[1.7] text-muted">
-          {victoires.others}
-        </p>
-      </Reveal>
+            <div className="mt-7 flex flex-col items-start gap-1">
+              <Mark logo={entry.logo} nda={entry.nda} name={entry.name} />
+              <Meta label={victoires.stackLabel} items={entry.stack} />
+              <Meta
+                label={victoires.integrationsLabel}
+                items={entry.integrations}
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-7 max-w-[62ch] text-[0.9375rem] leading-[1.7] text-muted">
+        {victoires.others}
+      </p>
     </Section>
   );
 }

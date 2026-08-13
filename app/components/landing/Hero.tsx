@@ -2,8 +2,6 @@ import Image, { type StaticImageData } from "next/image";
 
 import Rich from "@/components/Rich";
 import CtaLink from "@/components/CtaLink";
-import Reveal from "@/components/motion/Reveal.client";
-import RiseLine from "@/components/motion/RiseLine.client";
 import { type Locale, localeHref } from "@/lib/i18n/config";
 import type { Dictionary, TeamKey, TeamMember } from "@/lib/i18n/types";
 
@@ -102,26 +100,20 @@ export default function Hero({
               runs to five lines. The ceiling is set the same way: above
               3.25rem line one wraps at 1440 and the hero stops fitting 711. */}
           <h1 className="max-w-[19ch] text-[clamp(2.25rem,min(3.35vw,6.2svh),3.25rem)] font-bold leading-[1.0] tracking-[-0.035em] [text-wrap:balance] nav:text-[clamp(2rem,min(3.35vw,6.2svh),3.25rem)]">
-            <RiseLine trigger="mount" duration={0.9}>
-              {hero.titleLine1}
-            </RiseLine>
-            <RiseLine trigger="mount" delay={0.12} duration={0.9}>
+            <span className="block">{hero.titleLine1}</span>
+            <span className="block">
               <Rich content={hero.titleLine2} />
-            </RiseLine>
+            </span>
           </h1>
 
-          <Reveal
-            trigger="mount"
-            delay={0.5}
-            className="flex flex-col items-start gap-[clamp(0.875rem,2vh,1.5rem)]"
-          >
+          <div className="flex flex-col items-start gap-[clamp(0.875rem,2vh,1.5rem)]">
             <p className="max-w-[52ch] text-[clamp(0.9375rem,min(1.1vw,1.9svh),1.0625rem)] leading-[1.7] text-ink2">
               {hero.lead}
             </p>
             <CtaLink href={localeHref(lang, hero.cta.href)} size="lg">
               {hero.cta.label}
             </CtaLink>
-          </Reveal>
+          </div>
         </div>
 
         {/* Three equal cells, stacked below 900px where three cells of 114px
@@ -132,15 +124,11 @@ export default function Hero({
             headline; the hairline was drawing a boundary the composition had
             drawn for it, which is exactly the separator habit the redesign
             set out to lose. The air stays. */}
-        <Reveal
-          trigger="mount"
-          delay={0.7}
-          className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-4 pt-6 nav:grid-cols-3 nav:gap-y-[clamp(1rem,2.4vh,1.5rem)] nav:pt-[clamp(1.25rem,3vh,2.25rem)]"
-        >
+        <div className="grid gap-x-[clamp(1.5rem,3.2vw,3.25rem)] gap-y-4 pt-6 nav:grid-cols-3 nav:gap-y-[clamp(1rem,2.4vh,1.5rem)] nav:pt-[clamp(1.25rem,3vh,2.25rem)]">
           {hero.team.map((face) => (
             <Face key={face.key} face={face} />
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );

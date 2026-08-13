@@ -6,7 +6,6 @@ import { SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 import { LOCALES, OG_LOCALE, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
-import MotionProvider from "@/components/motion/MotionProvider.client";
 import Nav from "@/components/Nav.client";
 import Footer from "@/components/Footer";
 import "../globals.css";
@@ -100,15 +99,13 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${sora.variable} ${spaceMono.variable} font-sans text-base leading-normal`}
       >
-        <MotionProvider>
-          {/* One column at every width since N4: the navigation is a sticky
-              top bar, so the shell no longer has to reserve a rail track. */}
-          <div className="flex min-h-[100svh] min-w-0 flex-col">
-            <Nav lang={lang} nav={t.nav} langSwitcher={t.langSwitcher} />
-            <div className="flex-1">{children}</div>
-            <Footer lang={lang} nav={t.nav} footer={t.footer} />
-          </div>
-        </MotionProvider>
+        {/* One column at every width since N4: the navigation is a sticky
+            top bar, so the shell no longer has to reserve a rail track. */}
+        <div className="flex min-h-[100svh] min-w-0 flex-col">
+          <Nav lang={lang} nav={t.nav} langSwitcher={t.langSwitcher} />
+          <div className="flex-1">{children}</div>
+          <Footer lang={lang} nav={t.nav} footer={t.footer} />
+        </div>
         {/* Paper grain — site-wide, fixed, 0 KB JS. See `.paper-grain`
             in globals.css and scripts/gen-grain.mjs. */}
         <div className="paper-grain" aria-hidden="true" />

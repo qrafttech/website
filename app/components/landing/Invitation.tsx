@@ -3,8 +3,6 @@ import Rich from "@/components/Rich";
 import Section from "@/components/Section";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
-import Reveal from "@/components/motion/Reveal.client";
-import RiseLine from "@/components/motion/RiseLine.client";
 import { type Locale, localeHref } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
 
@@ -43,10 +41,10 @@ export default function Invitation({
                 the largest object on the site by a wide margin — a heading that
                 loud makes the invitation under it read as fine print. */}
             <h2 className="text-[clamp(2rem,4.6vw,3.5rem)] font-bold leading-[1.03] tracking-[-0.035em]">
-              <RiseLine>{invitation.titleLine1}</RiseLine>
-              <RiseLine className="bg-brand bg-clip-text text-transparent">
+              <span className="block">{invitation.titleLine1}</span>
+              <span className="block bg-brand bg-clip-text text-transparent">
                 {invitation.titleLine2}
-              </RiseLine>
+              </span>
             </h2>
 
             {/* The invitation itself, demoted out of the heading into a
@@ -78,7 +76,7 @@ export default function Invitation({
           </div>
         }
         proof={
-          <Reveal className="flex flex-col items-start gap-8">
+          <div className="flex flex-col items-start gap-8">
             {balcon ? (
               <Figure
                 src={balconImg}
@@ -88,7 +86,7 @@ export default function Invitation({
                 className="w-[15rem] max-nav:w-[11rem]"
               />
             ) : null}
-          </Reveal>
+          </div>
         }
       />
     </Section>

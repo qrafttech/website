@@ -183,14 +183,14 @@ export interface Dictionary {
     /** Anchor id. Shared across locales — the nav hrefs point at it. */
     id: string;
     title: RichText;
-    lead: string;
+    /** Two beats: the argument, then what we sell. Rendered as one `<p>` each. */
+    lead: readonly string[];
     blocks: readonly LedgerBlock[];
   };
 
   valeurs: {
     title: RichText;
     lead: string;
-    valuesLabel: string;
     values: readonly LedgerBlock[];
   };
 

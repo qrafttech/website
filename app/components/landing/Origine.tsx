@@ -5,7 +5,6 @@ import Section from "@/components/Section";
 import SectionTitle from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
-import Reveal from "@/components/motion/Reveal.client";
 import type { Dictionary, OriginePhotoKey } from "@/lib/i18n/types";
 
 import openSpaceImg from "@/public/images/scene-open-space.jpg";
@@ -100,7 +99,7 @@ export default function Origine({
           </div>
         }
         proof={
-          <Reveal className={HALF}>
+          <div className={HALF}>
             {supporting ? (
               <Figure
                 src={supporting.src}
@@ -108,7 +107,7 @@ export default function Origine({
                 caption={supporting.caption}
               />
             ) : null}
-          </Reveal>
+          </div>
         }
       />
     </Section>

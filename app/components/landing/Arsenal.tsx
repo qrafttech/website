@@ -3,7 +3,6 @@ import Section from "@/components/Section";
 import SectionTitle from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import StackIcon from "@/app/components/StackIcon";
-import Reveal from "@/components/motion/Reveal.client";
 import type { Dictionary } from "@/lib/i18n/types";
 
 export default function Arsenal({
@@ -30,7 +29,7 @@ export default function Arsenal({
           </div>
         }
         proof={
-          <Reveal>
+          <>
             {/* Was eight runs of « Rails · NestJS · FastAPI » set in muted grey
                 — a list of forty words with nothing to look at, on the one
                 screen whose whole job is to be looked at. Each item is a chip
@@ -70,7 +69,7 @@ export default function Arsenal({
                 </div>
               ))}
             </dl>
-          </Reveal>
+          </>
         }
       />
     </Section>

@@ -251,7 +251,20 @@ const offre = {
      really is, and the value claim stated once. Rule 2 (rewrite the sentence,
      not the words) does the work — "our expertise, with AI as the lever" would
      be a calque, and English says leverage without the article. */
-  lead: "AI has changed the game, and this is only the beginning: prototyping is close to free now, and writing a lot of code costs almost nothing. What we sell is engineering expertise, with AI as leverage. We will build your application from nothing, and we will gladly take over one that is already taking on water.",
+  /* Follows the French second pass: the value claim is no longer left bare, and
+     the contrast under it is rewritten rather than translated (rule 2). "Anyone
+     can write code now" is the English sentence — a calque of « écrire du code
+     devient accessible à tous » would arrive as a noun phrase and lose the
+     concession. "Another job entirely" says « c'est un métier »: English has no
+     one-word « métier », and the trade is named by contrast instead.
+     Same break as the French — the state of the world, then us in it — and the
+     "we will build it from nothing / we will take over the one taking on water"
+     sentence is cut with it: the two blocks under the lead already are those
+     two offers. */
+  lead: [
+    "AI has changed the game, and this is only the beginning: prototyping is close to free now, and writing a lot of code costs almost nothing.",
+    "What we sell is engineering expertise, with AI as leverage. Anyone can write code now; turning it into a product that is scalable and still standing in five years is another job entirely.",
+  ],
   blocks: [
     {
       key: "apps",
@@ -312,18 +325,16 @@ const valeurs = {
     { text: "outlives the contract", accent: true },
     { text: "." },
   ] as RichText,
-  /* Ruling F8's duration, as a plain statement of what is typical. No month
-     count, no percentage — the underlying fact is qualitative (F9). The opening
-     is now the preference rather than the pride, matching the French. */
-  lead: "We would rather take on work that lasts. An engagement usually runs a year or more, which is long enough to live with the architecture we chose — and long enough to fix it on the day it proves us wrong.",
-  /* « Nos plus-values » is a house double meaning: added value, and the plural
-     of a value. Under the sober ruling the English does not chase it — an
-     earlier draft used "Our better qualities", which is a joke about having
-     worse ones. The plain version makes the four falsifiable instead of
-     decorative, which is the only defence against "values" as a section label:
-     honesty, robustness and restraint are all things a client can actually hold
-     them to, and the four blocks below say how. */
-  valuesLabel: "What you can hold us to",
+  /* Ruling F8's duration, as a plain statement of what is typical. The opening
+     is the preference rather than the pride, matching the French.
+     Follows the French cut: the architecture clause said what the year bought
+     US, and ownership says what it buys the reader. It also lands the heading
+     directly above it — code that outlives the contract is code the client owns
+     — which the old clause never touched. "Outright" carries « à 100 % »:
+     English hears a percentage on a codebase as a coverage metric. */
+  lead: "We would rather take on work that lasts. An engagement usually runs a year or more: we build the product with you, and the code is yours outright, from the first commit to the last.",
+  /* The "What you can hold us to" label is cut with the French « Nos
+     plus-values » — see `Valeurs.tsx`. */
   values: [
     {
       key: "honnetete",

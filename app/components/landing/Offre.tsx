@@ -3,7 +3,6 @@ import Rich from "@/components/Rich";
 import Section from "@/components/Section";
 import SectionLead from "@/components/SectionLead";
 import SectionTitle from "@/components/SectionTitle";
-import Reveal from "@/components/motion/Reveal.client";
 import type { Dictionary } from "@/lib/i18n/types";
 
 /**
@@ -25,14 +24,19 @@ export default function Offre({ offre }: { offre: Dictionary["offre"] }) {
       <SectionTitle className="max-w-[16ch]">
         <Rich content={offre.title} />
       </SectionTitle>
-      <SectionLead>{offre.lead}</SectionLead>
+      {/* Two beats, one measure: the argument, then the offer. The second
+          paragraph sits closer than a fresh lead would, so the pair still reads
+          as one block under the heading. */}
+      {offre.lead.map((paragraph, index) => (
+        <SectionLead key={index} className={index > 0 ? "mt-5" : undefined}>
+          {paragraph}
+        </SectionLead>
+      ))}
 
-      <Reveal>
-        <Ledger
-          blocks={offre.blocks}
-          className="mt-[clamp(2.5rem,6vh,4rem)] border-line"
-        />
-      </Reveal>
+      <Ledger
+        blocks={offre.blocks}
+        className="mt-[clamp(2.5rem,6vh,4rem)] border-line"
+      />
     </Section>
   );
 }

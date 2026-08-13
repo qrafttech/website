@@ -232,7 +232,24 @@ const offre = {
        · « Dix ans de métier ne servent qu'à ça » goes with the cut it referred
          to. Nothing replaces it; the credential is already in the hero, where
          Alexis carries « 10+ ans de dev ». */
-  lead: "L’IA a changé la donne, et ce n’est que le début : prototyper est devenu quasi gratuit, et écrire beaucoup de code ne coûte presque plus rien. Notre valeur, c’est notre expertise en développement, avec l’IA comme levier. Nous construisons votre application à partir de zéro, et nous reprenons volontiers celle qui a déjà pris l’eau.",
+  /* CLIENT RULING, second pass: « notre expertise en développement » was left
+     hanging as an assertion, so the sentence after it now says what the
+     expertise is FOR. The contrast is the whole argument of the section — the
+     tool is everyone's, the trade is not — and it earns the concession made two
+     sentences earlier. CLIENT RULING: « scalable » stays, against the file's
+     habit of refusing anglicisms — it is the word the people who buy this say.
+     « et qui dure » rather than the hero's « pensé pour durer »: the same phrase
+     repeated verbatim one screen down reads as a template, not a conviction.
+     The break falls before « Notre valeur »: the first paragraph is the state of
+     the world, the second is us in it, and the paragraph rule is what marks the
+     turn. « Nous construisons votre application à partir de zéro, et nous
+     reprenons volontiers celle qui a déjà pris l'eau » is cut at the client's
+     instruction — the two things it named are the two blocks directly under it,
+     so the lead was announcing the ledger it sits on top of. */
+  lead: [
+    "L’IA a changé la donne, et ce n’est que le début : prototyper est devenu quasi gratuit, et écrire beaucoup de code ne coûte presque plus rien.",
+    "Notre valeur, c’est notre expertise en développement, avec l’IA comme levier. Écrire du code devient accessible à tous ; en faire un produit scalable et qui dure, c’est un métier.",
+  ],
   blocks: [
     {
       /* « Notre philosophie tient en une ligne : » is gone. A developer says
@@ -317,13 +334,20 @@ const valeurs = {
      lasting, and NOT back in `victoires.lead`: there it generalised across
      eight clients and sat inches from Chloé, an event landing built for a few
      days. Here it is the warrant for « aujourd'hui comme dans trois ans » —
-     they stay long enough to live with their own architecture. No month count,
-     no percentage: the underlying fact is qualitative. */
-  lead: "Nous préférons les missions qui s’inscrivent dans le temps. Une mission dure en général un an ou plus : c’est assez pour vivre avec l’architecture que nous avons choisie, et pour la corriger quand elle nous donne tort.",
-  /* The old site set « Nos plus-values » over these four, and the slot has been
-     empty since the rebuild. It is one of the two double meanings this house
-     coined for itself, so it comes back rather than being paraphrased. */
-  valuesLabel: "Nos plus-values",
+     they stay long enough to build the thing with the people who will keep it.
+     CLIENT RULING: « c'est assez pour vivre avec l'architecture que nous avons
+     choisie, et pour la corriger quand elle nous donne tort » is cut. It was
+     written from the supplier's side — the duration served OUR relationship to
+     OUR architecture — and a reader on this page is asking what a year with us
+     buys THEM. Ownership answers that, and it is the one fact in the section
+     that can be checked against a contract: no licence, no escrow, no clause
+     that keeps the repository on our side of the table. The « 100 % » is the
+     client's own figure and the only number the section carries. */
+  lead: "Nous préférons les missions qui s’inscrivent dans le temps. Une mission dure en général un an ou plus : nous construisons le produit avec vous, et le code vous appartient à 100 %, du premier commit au dernier.",
+  /* « Nos plus-values » is cut at the client's instruction. The house double
+     meaning was the whole reason it came back from the old site, and it was not
+     enough: the section heading already frames the four blocks, so the label
+     only named what was about to be read. See `Valeurs.tsx`. */
   values: [
     {
       /* Back to three sentences on one subject. The F3 exclusions were parked
