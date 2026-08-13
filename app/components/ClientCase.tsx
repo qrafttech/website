@@ -118,7 +118,7 @@ function ClientScreenshots({
                 sizes={
                   images.length === 1
                     ? "100vw"
-                    : `(min-width: 1024px) ${Math.round(
+                    : `(min-width: 640px) ${Math.round(
                         100 / images.length
                       )}vw, 100vw`
                 }
@@ -233,7 +233,7 @@ export default function ClientCase({
 
       <section className="border-t border-line bg-band">
         <Wrap className="flex flex-col gap-6 py-16 nav:flex-row nav:items-center nav:justify-between nav:py-20">
-          <h2 className="font-display text-[clamp(1.75rem,3.4vw,2.75rem)] font-bold leading-[1.06]">
+          <h2 className="font-display text-section font-bold">
             {caseUi.ctaTitle}
           </h2>
           <CtaLink

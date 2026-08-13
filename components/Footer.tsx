@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import Brand from "@/components/Brand";
+import MonoLink from "@/components/MonoLink";
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
 import { type Locale, hasBlog, localeHref } from "@/lib/i18n/config";
@@ -24,19 +23,18 @@ export default function Footer({
     <footer className="border-t border-line">
       <Wrap>
         <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-5 pb-7 pt-9">
-          {/* No `markClassName`: the lockup's proportion is `Brand`'s to keep,
-              and the 1.625rem override here is what made the footer's Q stand
-              a fifth taller than the word it belongs to. */}
+          {/* The mark's proportion is `Brand`'s to keep: size the lockup as a
+              whole and the Q tracks the wordmark. */}
           <Brand className="text-[1.5rem]" />
           <ul className="flex flex-wrap items-baseline gap-x-8 gap-y-2.5">
             {links.map((link) => (
               <li key={link.key}>
-                <Link
+                <MonoLink
                   href={localeHref(lang, link.href)}
-                  className="whitespace-nowrap font-mono text-xs uppercase tracking-[0.08em] text-ink2 transition-colors ease-epure hover:text-blue"
+                  className="whitespace-nowrap text-ink2"
                 >
                   {link.label}
-                </Link>
+                </MonoLink>
               </li>
             ))}
           </ul>

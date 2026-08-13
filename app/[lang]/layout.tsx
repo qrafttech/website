@@ -3,13 +3,7 @@ import { notFound } from "next/navigation";
 import { Inter, Sora, Space_Mono } from "next/font/google";
 
 import { SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
-import {
-  HTML_LANG,
-  LOCALES,
-  OG_LOCALE,
-  isLocale,
-  localePath,
-} from "@/lib/i18n/config";
+import { LOCALES, OG_LOCALE, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
 import MotionProvider from "@/components/motion/MotionProvider.client";
@@ -102,7 +96,7 @@ export default async function RootLayout({
   const t = await getDictionary(lang);
 
   return (
-    <html lang={HTML_LANG[lang]} className="scroll-smooth">
+    <html lang={lang} className="scroll-smooth">
       <body
         className={`${inter.variable} ${sora.variable} ${spaceMono.variable} font-sans text-base leading-normal`}
       >

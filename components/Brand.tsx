@@ -5,9 +5,6 @@ import qPixel from "@/public/images/q_pixel.png";
 
 interface BrandProps {
   className?: string;
-  /** Width of the mark. Defaults to the lockup below — override only with a
-   *  value in `em`, or the Q stops tracking the wordmark it sits in. */
-  markClassName?: string;
   priority?: boolean;
 }
 
@@ -31,11 +28,7 @@ interface BrandProps {
  */
 const MARK_WIDTH = "w-[0.82em]";
 
-export default function Brand({
-  className,
-  markClassName,
-  priority = false,
-}: BrandProps) {
+export default function Brand({ className, priority = false }: BrandProps) {
   return (
     <span
       className={clsx(
@@ -50,10 +43,7 @@ export default function Brand({
         aria-hidden
         priority={priority}
         sizes="32px"
-        className={clsx(
-          "h-auto translate-y-[6.8%] self-baseline",
-          markClassName ?? MARK_WIDTH
-        )}
+        className={clsx("h-auto translate-y-[6.8%] self-baseline", MARK_WIDTH)}
       />
       raft
     </span>

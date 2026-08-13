@@ -1,12 +1,6 @@
 import type { Client, Dictionary, RichText } from "@/lib/i18n/types";
 import { ARSENAL_ITEMS } from "@/lib/i18n/arsenal-items";
-import {
-  BOOKING_URL,
-  CONTACT_EMAIL,
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_TITLE,
-} from "@/lib/site";
+import { BOOKING_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 
 /* ===========================================================================
  * FRENCH COPY — the whole site, one file.
@@ -17,10 +11,10 @@ import {
  * rounds of forensic voice review signed off on, and the section comments came
  * with it because they are the record of why each sentence is the way it is.
  *
- * Structure: one `export const` per section, in page order, then a single
- * `export const fr: Dictionary` that assembles them. The section exports keep
- * the file navigable and keep the old import names alive; the assembled
- * dictionary is what the routes actually load, via `getDictionary()`.
+ * Structure: one `const` per section, in page order, then a single
+ * `export const fr: Dictionary` that assembles them. The per-section constants
+ * keep the file navigable; the assembled dictionary is what the routes
+ * actually load, via `getDictionary()`.
  *
  * Section order:
  *   meta · nav · langSwitcher · footer          — the shell
@@ -33,15 +27,16 @@ import {
 
 /* --- Document metadata ---------------------------------------------------- */
 
-export const meta = {
-  title: SITE_TITLE,
+const meta = {
+  title: "Qraft · Nous construisons des applications qui durent dans le temps",
   titleTemplate: `%s | ${SITE_NAME}`,
-  description: SITE_DESCRIPTION,
+  description:
+    "Trois développeurs à Marseille. Nous écrivons nous-mêmes le code que nous vendons : des applications et des agents IA qui durent dans le temps.",
 } as const;
 
 /* --- La barre de navigation et le pied de page ---------------------------- */
 
-export const nav = {
+const nav = {
   brandLabel: "Qraft",
   label: "Navigation principale",
   // `key` addresses an entry without matching on its label or its href, which
@@ -71,10 +66,10 @@ export const nav = {
  * footer owns it, and `landing.ts` re-exports it only until the duplicate
  * render at the bottom of `Invitation.tsx` is removed.
  */
-export const COLOPHON =
+const COLOPHON =
   "Conçu, écrit et codé au 36 rue Sainte, Marseille — par Nicolas, Alexis et Adrien.";
 
-export const footer = {
+const footer = {
   tagline: [
     { text: "Q", accent: true },
     { text: `rafting agentic software depuis 2020. ${COLOPHON}` },
@@ -85,7 +80,7 @@ export const footer = {
 
 /* --- Le sélecteur de langue ----------------------------------------------- */
 
-export const langSwitcher = {
+const langSwitcher = {
   label: "Langue du site",
   toLocale: {
     fr: "Voir ce site en français",
@@ -118,7 +113,7 @@ export const langSwitcher = {
 
 /* --- S1 · PROMESSE ------------------------------------------------------- */
 
-export const hero = {
+const hero = {
   titleLine1: "Construisons ensemble",
   /* Accent span: « durent » only. The H1 is `max-w-[16ch]` at
      `clamp(2.25rem, min(4.4vw, 7.6svh), 4.5rem)`, so line 2 wraps to three
@@ -174,9 +169,8 @@ export const hero = {
 
 /* --- Blog ---------------------------------------------------------------- */
 
-export const ticker = {
+const ticker = {
   label: "Notre blog",
-  lead: "On écrit ce qu’on apprend, et on le signe.",
   bylinePrefix: "par ",
   metaSeparator: " · ",
   more: { label: "Voir plus →", href: "/blog" },
@@ -184,7 +178,7 @@ export const ticker = {
 
 /* --- S2 · L’OFFRE -------------------------------------------------------- */
 
-export const offre = {
+const offre = {
   id: "offres",
   /* The house's own pun, recovered from qraft.tech: it puns on the stack and
      on being on the front line at once, and tells a reader in four words that
@@ -313,7 +307,7 @@ export const offre = {
  * still maps to `.claude/work/arc.md`, so the gap is kept rather than closed.
  * ------------------------------------------------------------------------ */
 
-export const valeurs = {
+const valeurs = {
   title: [
     { text: "Traversons ensemble " },
     { text: "l’épreuve du temps", accent: true },
@@ -382,7 +376,7 @@ export const valeurs = {
 
 /* --- S5 · L’ARSENAL ------------------------------------------------------ */
 
-export const arsenal = {
+const arsenal = {
   title: [
     { text: "Nos " },
     { text: "armes de prédilection", accent: true },
@@ -412,13 +406,12 @@ export const arsenal = {
 
 /* --- S6 · QUI NOUS SOMMES — le pivot ------------------------------------- */
 
-export const origine = {
+const origine = {
   /** « Marseille, 2020. » read as a caption rather than as the opening of a
    *  story, so the line now says what it is. Marseille keeps the accent every
-   *  other section heading carries. Rendered one step down from the section
-   *  display anchor (`MARGINAL`, not `ANCHOR`): this is six words where it was
-   *  two, and at 4rem it wrapped to three lines and outweighed the section it
-   *  introduces. */
+   *  other section heading carries. Rendered at the section display size and
+   *  not above it: this is six words where it was two, and at 4rem it wrapped
+   *  to three lines and outweighed the section it introduces. */
   dateline: [
     { text: "Tout a commencé à " },
     { text: "Marseille", accent: true },
@@ -478,11 +471,6 @@ export const origine = {
       caption: "Nicolas et Mehdi, revue de code, dans l’ancien bureau.",
     },
     {
-      key: "patio",
-      alt: "Un développeur assis dehors, au soleil, devant un mur de verdure",
-      caption: "Alexis, sur le patio de l’ancien bureau.",
-    },
-    {
       key: "balcon",
       alt: "Vue plongeante sur une rue marseillaise depuis un balcon, en plein soleil",
       caption: "Depuis le balcon du 36 rue Sainte, Marseille.",
@@ -492,7 +480,7 @@ export const origine = {
 
 /* --- S7 · PREUVE --------------------------------------------------------- */
 
-export const victoires = {
+const victoires = {
   id: "proof",
   title: [
     { text: "Nos dernières " },
@@ -532,7 +520,7 @@ export const victoires = {
 
 /* --- S8 · INVITATION ----------------------------------------------------- */
 
-export const invitation = {
+const invitation = {
   id: "contact",
   /* « Il y a une porte, et elle est ouverte. » was the page's one reach for a
      literary image, and it sat six words from « Le café est bon. », which works
@@ -564,7 +552,7 @@ export const invitation = {
 
 /* --- Le blog et la page 404 ---------------------------------------------- */
 
-export const blog = {
+const blog = {
   title: "Nos articles",
   subtitle:
     "Retours d’expérience, guides techniques et bonnes pratiques de notre équipe.",
@@ -584,7 +572,7 @@ export const blog = {
   },
 } as const;
 
-export const notFound = {
+const notFound = {
   eyebrow: "Erreur 404",
   title: "Page introuvable.",
   body: "La page que vous cherchez n’existe pas ou a été déplacée.",
@@ -593,7 +581,7 @@ export const notFound = {
 
 /* --- Les réalisations ----------------------------------------------------- */
 
-export const clients: readonly Client[] = [
+const clients: readonly Client[] = [
   {
     slug: "episto",
     name: "Episto",
@@ -830,7 +818,7 @@ export const clients: readonly Client[] = [
   },
 ];
 
-export const caseUi = {
+const caseUi = {
   stack: "Stack",
   integrations: "Intégrations",
   backToClients: "Toutes les réalisations",
@@ -850,8 +838,7 @@ const postalCode = "13001";
 const city = "Marseille";
 const address = `${street}, ${postalCode} ${city}`;
 
-export const cowork = {
-  eyebrow: "Cowork · Marseille",
+const cowork = {
   title: "Le cowork de Qraft",
   metaTitle: "Cowork à Marseille",
   subtitle:
@@ -865,7 +852,6 @@ export const cowork = {
     { value: "3", label: "callboxes" },
   ],
   spaces: {
-    eyebrow: "Visite guidée",
     title: "Nos espaces",
     tiles: [
       {
@@ -895,7 +881,6 @@ export const cowork = {
     ],
   },
   amenities: {
-    eyebrow: "Tout pour bien bosser",
     title: "Le confort, inclus",
     items: [
       {
@@ -939,7 +924,6 @@ export const cowork = {
     ],
   },
   gallery: {
-    eyebrow: "La galerie",
     title: "En images",
     zoomLabel: "Agrandir",
     closeLabel: "Fermer",
@@ -1009,8 +993,7 @@ export const cowork = {
       "Callboxes",
       "Café, thé et fruits frais",
     ],
-    cta: "Réserver une visite",
-    ctaHref: BOOKING_URL,
+    cta: { label: "Réserver une visite", href: BOOKING_URL },
     nudge: [
       { text: "Tu hésites ? " },
       { text: "Viens tester une semaine", strong: true },

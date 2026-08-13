@@ -1,6 +1,6 @@
 import Rich from "@/components/Rich";
 import Section from "@/components/Section";
-import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
+import SectionTitle from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import StackIcon from "@/app/components/StackIcon";
 import Reveal from "@/components/motion/Reveal.client";
@@ -18,7 +18,7 @@ export default function Arsenal({
         emphasis="proof"
         text={
           <div className="nav:sticky nav:top-16">
-            <SectionTitle size={MARGINAL} className="max-w-[15ch]">
+            <SectionTitle className="max-w-[15ch]">
               <Rich content={arsenal.title} />
             </SectionTitle>
             <p className="mt-6 max-w-[38ch] font-display text-[1.1875rem] font-semibold leading-[1.35]">

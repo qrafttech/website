@@ -17,9 +17,9 @@ export default function BlogCard({ article, href }: BlogCardProps) {
       className="group flex items-center justify-between border-b border-hair py-5 transition-colors ease-epure hover:border-line"
     >
       <div className="min-w-0 flex-1">
-        <h3 className="font-display text-base font-semibold text-ink transition-colors ease-epure group-hover:text-blue md:text-lg">
+        <h2 className="font-display text-base font-semibold text-ink transition-colors ease-epure group-hover:text-blue md:text-lg">
           {title}
-        </h3>
+        </h2>
         <Eyebrow className="pt-2">
           {dateISO ? <time dateTime={dateISO}>{date}</time> : date}
           {author && (

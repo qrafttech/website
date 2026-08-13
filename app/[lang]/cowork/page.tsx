@@ -122,8 +122,25 @@ const GALLERY_IMAGES: Record<CoworkGalleryKey, StaticImageData> = {
   lunch2: coworkLunch2,
 };
 
-function SectionHead({ title }: { title: string }) {
-  return <h2 className="mb-10 max-w-[24ch] text-section font-bold">{title}</h2>;
+/** The page's one section scaffold: page measure, vertical rhythm, and the
+ *  optional heading over it. Written out seven times before. */
+function CoworkSection({
+  title,
+  children,
+}: {
+  title?: string;
+  children: ReactNode;
+}) {
+  return (
+    <Wrap>
+      <div className="py-16">
+        {title ? (
+          <h2 className="mb-10 max-w-[24ch] text-section font-bold">{title}</h2>
+        ) : null}
+        {children}
+      </div>
+    </Wrap>
+  );
 }
 
 function PhotoTile({ tile }: { tile: Tile }) {
@@ -213,135 +230,113 @@ export default async function CoworkPage({
 
       <PageHero title={t.title} subtitle={t.subtitle} />
 
-      <Wrap>
-        <div className="py-16">
-          <div className="flex flex-col divide-y divide-hair border border-hair bg-canvas md:flex-row md:divide-x md:divide-y-0">
-            {t.stats.map((stat) => (
-              <div key={stat.label} className="flex-1 px-6 py-6 text-center">
-                <p className="font-display text-4xl font-bold text-ink2 lg:text-5xl">
-                  {stat.value}
-                </p>
-                <p className="mt-2 text-sm text-muted">{stat.label}</p>
+      <CoworkSection>
+        <div className="flex flex-col divide-y divide-hair border border-hair bg-canvas md:flex-row md:divide-x md:divide-y-0">
+          {t.stats.map((stat) => (
+            <div key={stat.label} className="flex-1 px-6 py-6 text-center">
+              <p className="font-display text-4xl font-bold text-ink2 lg:text-5xl">
+                {stat.value}
+              </p>
+              <p className="mt-2 text-sm text-muted">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </CoworkSection>
+
+      <CoworkSection title={t.spaces.title}>
+        <div className="grid grid-cols-1 gap-4 md:auto-rows-[13.75rem] md:grid-cols-2">
+          {t.spaces.tiles.map((tile) => (
+            <PhotoTile key={tile.key} tile={tile} />
+          ))}
+        </div>
+      </CoworkSection>
+
+      <CoworkSection title={t.amenities.title}>
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {t.amenities.items.map((amenity) => (
+            <div key={amenity.key} className="border border-hair bg-canvas p-6">
+              <div className="mb-4 inline-flex bg-tint p-3 text-blue">
+                {AMENITY_ICON[amenity.key]}
               </div>
-            ))}
-          </div>
+              <h3 className="font-display text-lg font-semibold">
+                {amenity.label}
+              </h3>
+              <p className="mt-2 text-sm text-muted">
+                <Rich
+                  content={amenity.body}
+                  strongClassName="font-semibold text-ink2"
+                />
+              </p>
+            </div>
+          ))}
         </div>
-      </Wrap>
+      </CoworkSection>
 
-      <Wrap>
-        <div className="py-16">
-          <SectionHead title={t.spaces.title} />
-          <div className="grid grid-cols-1 gap-4 md:auto-rows-[13.75rem] md:grid-cols-2">
-            {t.spaces.tiles.map((tile) => (
-              <PhotoTile key={tile.key} tile={tile} />
-            ))}
-          </div>
+      <CoworkSection title={t.gallery.title}>
+        <CoworkGallery
+          photos={galleryPhotos}
+          zoomLabel={t.gallery.zoomLabel}
+          closeLabel={t.gallery.closeLabel}
+        />
+      </CoworkSection>
+
+      <CoworkSection title={t.residents.title}>
+        <div className="max-w-4xl border border-hair bg-canvas p-8 text-lg leading-relaxed text-muted">
+          <Rich content={t.residents.body} />
         </div>
-      </Wrap>
+      </CoworkSection>
 
-      <Wrap>
-        <div className="py-16">
-          <SectionHead title={t.amenities.title} />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {t.amenities.items.map((amenity) => (
-              <div
-                key={amenity.key}
-                className="border border-hair bg-canvas p-6"
-              >
-                <div className="mb-4 inline-flex bg-tint p-3 text-blue">
-                  {AMENITY_ICON[amenity.key]}
-                </div>
-                <h3 className="font-display text-lg font-semibold">
-                  {amenity.label}
-                </h3>
-                <p className="mt-2 text-sm text-muted">
-                  <Rich
-                    content={amenity.body}
-                    strongClassName="font-semibold text-ink2"
-                  />
-                </p>
-              </div>
+      <CoworkSection title={t.location.title}>
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <ul className="space-y-3 text-lg text-ink2">
+            {t.location.points.map((point) => (
+              <li key={point} className="flex items-start gap-2">
+                <MapPinIcon className="mt-0.5 h-5 w-5 flex-none text-blue" />
+                <span>{point}</span>
+              </li>
             ))}
-          </div>
-        </div>
-      </Wrap>
-
-      <Wrap>
-        <div className="py-16">
-          <SectionHead title={t.gallery.title} />
-          <CoworkGallery
-            photos={galleryPhotos}
-            zoomLabel={t.gallery.zoomLabel}
-            closeLabel={t.gallery.closeLabel}
+          </ul>
+          <iframe
+            src={mapsEmbedUrl(t.location)}
+            title={t.location.mapTitle}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-80 w-full border border-hair"
           />
         </div>
-      </Wrap>
+      </CoworkSection>
 
-      <Wrap>
-        <div className="py-16">
-          <SectionHead title={t.residents.title} />
-          <div className="max-w-4xl border border-hair bg-canvas p-8 text-lg leading-relaxed text-muted">
-            <Rich content={t.residents.body} />
-          </div>
-        </div>
-      </Wrap>
-
-      <Wrap>
-        <div className="py-16">
-          <SectionHead title={t.location.title} />
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            <ul className="space-y-3 text-lg text-ink2">
-              {t.location.points.map((point) => (
-                <li key={point} className="flex items-start gap-2">
-                  <MapPinIcon className="mt-0.5 h-5 w-5 flex-none text-blue" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-            <iframe
-              src={mapsEmbedUrl(t.location)}
-              title={t.location.mapTitle}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="h-80 w-full border border-hair"
+      <CoworkSection>
+        <div className="mx-auto max-w-md border border-hair bg-canvas p-8">
+          <Eyebrow as="span" className="inline-block bg-tint px-3 py-1">
+            {t.pricing.badge}
+          </Eyebrow>
+          <p className="mt-4 font-display text-6xl font-bold text-ink2">
+            {t.pricing.price}
+          </p>
+          <p className="text-muted">{t.pricing.period}</p>
+          <p className="mt-5 text-sm font-medium text-ink2">
+            {t.pricing.intro}
+          </p>
+          <ul className="mt-3 space-y-2 text-ink2">
+            {t.pricing.includes.map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-blue" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <CtaLink href={t.pricing.cta.href} size="block" className="mt-7">
+            {t.pricing.cta.label}
+          </CtaLink>
+          <p className="mt-4 bg-tint px-4 py-3 text-sm text-ink2">
+            <Rich
+              content={t.pricing.nudge}
+              strongClassName="font-semibold text-ink2"
             />
-          </div>
+          </p>
         </div>
-      </Wrap>
-
-      <Wrap>
-        <div className="py-16">
-          <div className="mx-auto max-w-md border border-hair bg-canvas p-8">
-            <Eyebrow as="span" className="inline-block bg-tint px-3 py-1">
-              {t.pricing.badge}
-            </Eyebrow>
-            <p className="mt-4 font-display text-6xl font-bold text-ink2">
-              {t.pricing.price}
-            </p>
-            <p className="text-muted">{t.pricing.period}</p>
-            <p className="mt-5 text-sm font-medium text-ink2">
-              {t.pricing.intro}
-            </p>
-            <ul className="mt-3 space-y-2 text-ink2">
-              {t.pricing.includes.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-blue" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <CtaLink href={t.pricing.ctaHref} size="block" className="mt-7">
-              {t.pricing.cta}
-            </CtaLink>
-            <p className="mt-4 bg-tint px-4 py-3 text-sm text-ink2">
-              <Rich
-                content={t.pricing.nudge}
-                strongClassName="font-semibold text-ink2"
-              />
-            </p>
-          </div>
-        </div>
-      </Wrap>
+      </CoworkSection>
 
       <section className="py-32 text-center">
         <Wrap>

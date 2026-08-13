@@ -14,13 +14,7 @@ const BANDS = {
 
 const RHYTHM = "py-24 nav:py-[9.375rem]";
 
-const CONTAINERS = {
-  measure: "",
-  gutter: "px-gutter",
-  bleed: "",
-} as const;
-
-export type Band = keyof typeof BANDS;
+type Band = keyof typeof BANDS;
 
 interface SectionProps {
   children: ReactNode;
@@ -30,11 +24,10 @@ interface SectionProps {
    *  so an override cannot collide with it. design.md:59 — the final CTA and
    *  404 deliberately run larger. */
   rhythm?: string;
-  /** `measure` constrains to 75rem. `gutter` is full-width with only the page
-   *  gutter, as a full-width ledger uses. `bleed` applies no padding at all,
-   *  for a section whose own halves carry their padding — the only way a
-   *  photograph can reach the page edge. */
-  contain?: keyof typeof CONTAINERS;
+  /** `measure` constrains to 75rem. `bleed` applies no padding at all, for a
+   *  section whose own halves carry their padding — the only way a photograph
+   *  can reach the page edge. */
+  contain?: "measure" | "bleed";
   className?: string;
 }
 
@@ -53,11 +46,7 @@ export default function Section({
      * the surface and the air already say is the kind of separator this design
      * was asked to stop using. */
     <section id={id} className={clsx(BANDS[band], rhythm, className)}>
-      {contain === "measure" ? (
-        <Wrap>{children}</Wrap>
-      ) : (
-        <div className={CONTAINERS[contain]}>{children}</div>
-      )}
+      {contain === "measure" ? <Wrap>{children}</Wrap> : <div>{children}</div>}
     </section>
   );
 }

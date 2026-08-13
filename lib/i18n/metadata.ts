@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 import {
   DEFAULT_LOCALE,
-  LOCALES,
   type Locale,
   hasTranslation,
   localePath,
+  translatedLocales,
 } from "@/lib/i18n/config";
 
 /**
@@ -23,17 +23,41 @@ export function localeAlternates(
   locale: Locale,
   path: string
 ): NonNullable<Metadata["alternates"]> {
-  const languages: Record<string, string> = {};
-
-  for (const candidate of LOCALES) {
-    if (hasTranslation(candidate, path)) {
-      languages[candidate] = localePath(candidate, path);
-    }
-  }
+  const languages: Record<string, string> = Object.fromEntries(
+    translatedLocales(path).map((candidate) => [
+      candidate,
+      localePath(candidate, path),
+    ])
+  );
 
   if (hasTranslation(DEFAULT_LOCALE, path)) {
     languages["x-default"] = localePath(DEFAULT_LOCALE, path);
   }
 
   return { canonical: localePath(locale, path), languages };
+}
+
+/**
+ * An article-shaped page — a blog post or a case study. The OpenGraph/Twitter
+ * convention lives here so the two routes cannot drift apart. The site shell's
+ * own metadata is `type: "website"` and stays in the layout.
+ */
+export function articleMetadata(
+  locale: Locale,
+  path: string,
+  title: string,
+  description: string
+): Metadata {
+  return {
+    title,
+    description,
+    alternates: localeAlternates(locale, path),
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: localePath(locale, path),
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
 }

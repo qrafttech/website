@@ -2,7 +2,7 @@ import type { StaticImageData } from "next/image";
 
 import Rich from "@/components/Rich";
 import Section from "@/components/Section";
-import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
+import SectionTitle from "@/components/SectionTitle";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
 import Reveal from "@/components/motion/Reveal.client";
@@ -15,11 +15,6 @@ import revueDeCodeImg from "@/public/images/scene-revue-de-code.jpg";
  * One anchor scene plus at most two supporting frames across the whole page —
  * more becomes a gallery, and a gallery is decor. Two of the three land here;
  * the balcony frame is the third, beside the invitation's CTA.
- *
- * `origine.photos` also carries `patio`, deliberately unrendered: the hero
- * already names all three founders, so these frames exist to carry place, body
- * and moment rather than the roster, and a code review shows work happening in
- * a way a portrait cannot.
  */
 const PHOTOS: Partial<Record<OriginePhotoKey, StaticImageData>> = {
   openSpace: openSpaceImg,
@@ -44,9 +39,7 @@ export default function Origine({
   origine: Dictionary["origine"];
 }) {
   const anchor = photo(origine, "openSpace");
-  const supporting = [photo(origine, "revueDeCode")].filter(
-    (p): p is NonNullable<typeof p> => p !== null
-  );
+  const supporting = photo(origine, "revueDeCode");
 
   return (
     <Section id="origine" band="panel" contain="bleed" rhythm="">
@@ -54,12 +47,12 @@ export default function Origine({
         gutter="0rem"
         text={
           <div className={HALF}>
-            {/* M4 — the dateline, stepped down from `ANCHOR` to `MARGINAL` when
-                « Marseille, 2020. » became « Tout a commencé à Marseille, en
-                2020. » Six words where there were two: at the section display
-                anchor the line ran to three lines and shouted over the section
-                it opens, which is a paragraph of prose and not a claim. */}
-            <SectionTitle size={MARGINAL} className="max-w-[18ch]">
+            {/* M4 — the dateline. « Marseille, 2020. » became « Tout a commencé
+                à Marseille, en 2020. »: six words where there were two, so it
+                runs at the section display size and not above it, or the line
+                shouts over the section it opens — which is a paragraph of
+                prose, not a claim. */}
+            <SectionTitle className="max-w-[18ch]">
               <Rich content={origine.dateline} />
             </SectionTitle>
             <div className="mt-8 flex max-w-[52ch] flex-col gap-5 text-[1.0625rem] leading-[1.7] text-muted">
@@ -108,16 +101,13 @@ export default function Origine({
         }
         proof={
           <Reveal className={HALF}>
-            <div className="flex flex-col gap-8">
-              {supporting.map((frame) => (
-                <Figure
-                  key={frame.key}
-                  src={frame.src}
-                  alt={frame.alt}
-                  caption={frame.caption}
-                />
-              ))}
-            </div>
+            {supporting ? (
+              <Figure
+                src={supporting.src}
+                alt={supporting.alt}
+                caption={supporting.caption}
+              />
+            ) : null}
           </Reveal>
         }
       />

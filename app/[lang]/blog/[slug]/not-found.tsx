@@ -12,9 +12,9 @@ export default async function ArticleNotFound() {
     <main>
       <Wrap>
         <div className="flex flex-col items-center gap-4 pt-16 pb-24 text-center">
-          <h2 className="font-display text-2xl font-bold text-ink">
+          <h1 className="font-display text-2xl font-bold text-ink">
             {t.blog.notFound.title}
-          </h2>
+          </h1>
           <p className="text-muted">{t.blog.notFound.body}</p>
           <Link
             href={localePath(DEFAULT_LOCALE, "/blog")}

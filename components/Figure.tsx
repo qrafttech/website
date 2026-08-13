@@ -15,18 +15,17 @@ import Image, { type StaticImageData } from "next/image";
  * Server component — no client JS.
  */
 
-export type FigureSize = "bleed" | "inline" | "small";
+type FigureSize = "bleed" | "inline" | "small";
 
 /**
  * `sizes` must describe the slot the frame actually occupies, because the
- * browser picks a srcset candidate from it before layout exists. Every default
+ * browser picks a srcset candidate from it before layout exists. Every entry
  * below assumes the shipped case — the frame sits in ONE HALF of a diptych,
  * inside the page column, which since N4 (top bar, no side rail) is the full
- * viewport width. An
- * over-stated `sizes` is not a rounding error: claiming the full column for a
- * half-column slot doubles the computed need and jumps the browser two
- * candidates up the srcset. Measured at a 1440 viewport, alongside the box each
- * one really renders at. Pass `sizes` explicitly for any other placement.
+ * viewport width. An over-stated `sizes` is not a rounding error: claiming the
+ * full column for a half-column slot doubles the computed need and jumps the
+ * browser two candidates up the srcset. Measured at a 1440 viewport, alongside
+ * the box each one really renders at.
  */
 const SIZES: Record<FigureSize, { frame: string; sizes: string }> = {
   /** Full-bleed to the hairline, 60–80vh. The anchor scene. The section that
@@ -71,20 +70,6 @@ interface FigureProps {
    */
   caption: string;
   size?: FigureSize;
-  /**
-   * Override the variant's `sizes`. The defaults describe a frame in one half
-   * of a diptych; a frame placed anywhere else — full width, a third column,
-   * a fixed box — must declare its real slot here, or the browser will pick
-   * its candidate from a lie.
-   */
-  sizes?: string;
-  /** Ship the paper dot-screen treatment. Off by default. */
-  halftone?: boolean;
-  /** `object-position` for the crop, e.g. `"50% 35%"`. */
-  focus?: string;
-  priority?: boolean;
-  /** Set the caption beside the frame instead of beneath it (≥900px). */
-  captionBeside?: boolean;
   className?: string;
 }
 
@@ -93,54 +78,35 @@ export default function Figure({
   alt,
   caption,
   size = "inline",
-  sizes,
-  halftone = false,
-  focus,
-  priority = false,
-  captionBeside = false,
   className,
 }: FigureProps) {
-  const { frame, sizes: defaultSizes } = SIZES[size];
+  const { frame, sizes } = SIZES[size];
   const isBleed = size === "bleed";
 
   return (
-    <figure
-      className={clsx(
-        captionBeside && "nav:flex nav:items-start nav:gap-6",
-        className
-      )}
-    >
+    <figure className={className}>
       <div
         className={clsx(
-          "relative overflow-hidden bg-tint",
+          "relative w-full overflow-hidden bg-tint",
           frame,
-          captionBeside ? "nav:min-w-0 nav:flex-1" : "w-full",
-          !isBleed && "border border-hair",
-          halftone && "figure-halftone"
+          !isBleed && "border border-hair"
         )}
       >
         <Image
           src={src}
           alt={alt}
           fill
-          sizes={sizes ?? defaultSizes}
-          priority={priority}
+          sizes={sizes}
           placeholder="blur"
-          style={focus ? { objectPosition: focus } : undefined}
-          className={clsx(
-            "object-cover grayscale",
-            // Never colour: greyscale IS ink on paper. The contrast nudge is
-            // what keeps a photograph from going flat against canvas #fbfbf8;
-            // the halftone screen lifts the shadows, so it gets a little more.
-            halftone ? "brightness-[1.04] contrast-[1.1]" : "contrast-[1.04]"
-          )}
+          // Never colour: greyscale IS ink on paper. The contrast nudge is
+          // what keeps a photograph from going flat against canvas #fbfbf8.
+          className="object-cover contrast-[1.04] grayscale"
         />
       </div>
 
       <figcaption
         className={clsx(
           "mt-3 font-mono text-[0.6875rem] leading-[1.6] text-muted",
-          captionBeside && "nav:mt-0 nav:w-[13rem] nav:flex-none",
           isBleed && "px-gutter"
         )}
       >

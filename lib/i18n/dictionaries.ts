@@ -1,5 +1,4 @@
 import type { Locale } from "@/lib/i18n/config";
-import { DEFAULT_LOCALE } from "@/lib/i18n/config";
 import type { Client, Dictionary } from "@/lib/i18n/types";
 
 /**
@@ -18,7 +17,7 @@ const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
 };
 
 export function getDictionary(locale: Locale): Promise<Dictionary> {
-  return (dictionaries[locale] ?? dictionaries[DEFAULT_LOCALE])();
+  return dictionaries[locale]();
 }
 
 /** Resolve a case study by slug. Slugs are identical across locales. */

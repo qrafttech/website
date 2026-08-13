@@ -22,11 +22,10 @@ import type { StackIconSlug } from "@/lib/stack-icons";
 
 /* --- Rich text ----------------------------------------------------------- */
 
-export interface RichSegment {
+interface RichSegment {
   text: string;
   strong?: boolean;
   accent?: boolean;
-  underline?: boolean;
   href?: string;
 }
 
@@ -34,7 +33,7 @@ export type RichText = readonly RichSegment[];
 
 /* --- Small shared shapes -------------------------------------------------- */
 
-export interface CtaCopy {
+interface CtaCopy {
   label: string;
   href: string;
 }
@@ -50,7 +49,7 @@ export interface LedgerBlock {
 
 /** Nav entries are addressed by key so a locale-dependent one — the French-only
  *  blog — can be filtered without matching on `href` or on a label. */
-export type NavKey = "offres" | "equipe" | "realisations" | "blog" | "cowork";
+type NavKey = "offres" | "equipe" | "realisations" | "blog" | "cowork";
 
 export interface NavLink {
   key: NavKey;
@@ -74,11 +73,10 @@ export interface TeamMember {
 
 /* --- Landing: origine ----------------------------------------------------- */
 
-/** Keyed to `public/images/scene-*.jpg`. `patio` is carried but unrendered —
- *  see the note in `app/components/landing/Origine.tsx`. */
-export type OriginePhotoKey = "openSpace" | "revueDeCode" | "patio" | "balcon";
+/** Keyed to `public/images/scene-*.jpg`. */
+export type OriginePhotoKey = "openSpace" | "revueDeCode" | "balcon";
 
-export interface OriginePhoto {
+interface OriginePhoto {
   key: OriginePhotoKey;
   alt: string;
   /** Mandatory. An uncaptioned photograph is decor; a captioned one is a
@@ -93,7 +91,7 @@ export interface StackItem {
   icon?: StackIconSlug;
 }
 
-export interface ClientPoints {
+interface ClientPoints {
   title: string;
   items: readonly string[];
 }
@@ -176,7 +174,6 @@ export interface Dictionary {
 
   ticker: {
     label: string;
-    lead: string;
     bylinePrefix: string;
     metaSeparator: string;
     more: CtaCopy;
@@ -289,14 +286,12 @@ export interface Dictionary {
   clients: readonly Client[];
 
   cowork: {
-    eyebrow: string;
     title: string;
     metaTitle: string;
     subtitle: string;
     description: string;
     stats: readonly { value: string; label: string }[];
     spaces: {
-      eyebrow: string;
       title: string;
       tiles: readonly {
         key: CoworkTileKey;
@@ -306,7 +301,6 @@ export interface Dictionary {
       }[];
     };
     amenities: {
-      eyebrow: string;
       title: string;
       items: readonly {
         key: CoworkAmenityKey;
@@ -315,7 +309,6 @@ export interface Dictionary {
       }[];
     };
     gallery: {
-      eyebrow: string;
       title: string;
       zoomLabel: string;
       closeLabel: string;
@@ -342,8 +335,7 @@ export interface Dictionary {
       offerDescription: string;
       intro: string;
       includes: readonly string[];
-      cta: string;
-      ctaHref: string;
+      cta: CtaCopy;
       nudge: RichText;
     };
     final: {

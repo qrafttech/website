@@ -42,7 +42,8 @@ import { BOOKING_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
  *      "Technical leadership", « Nos réalisations » → "Work", « Sobriété » →
  *      "Restraint" (never "Sobriety", which in English is about drink).
  *   4. Let the versions diverge in content where English needs it. The blog is
- *      French-only, and `ticker.lead` says so rather than pretending.
+ *      French-only, so `hasBlog()` drops its ticker from `/en` rather than
+ *      promising articles that do not exist in English.
  *   5. Have a native speaker read the finished page. NOT DONE — flagged.
  *   6. Never serve French under an `/en` URL. `hasBlog()` in
  *      `lib/i18n/config.ts` enforces it; this file never promises English prose
@@ -73,10 +74,10 @@ import { BOOKING_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 
 /* --- Document metadata ---------------------------------------------------- */
 
-/* NOT `SITE_TITLE` / `SITE_DESCRIPTION` from `lib/site.ts`: those are French,
-   and serving them under `/en` is PARTIE 8's rule 6 breach (Eleven Labs, OCTO).
-   `SITE_NAME` is a proper noun and is shared. */
-export const meta = {
+/* The title and description are written per locale, here and in `fr.ts`:
+   serving French prose under `/en` is PARTIE 8's rule 6 breach (Eleven Labs,
+   OCTO). `SITE_NAME` is a proper noun and is shared from `lib/site.ts`. */
+const meta = {
   title: "Qraft · Software you’ll still be running in three years",
   titleTemplate: `%s | ${SITE_NAME}`,
   description:
@@ -85,7 +86,7 @@ export const meta = {
 
 /* --- The nav bar and the footer ------------------------------------------- */
 
-export const nav = {
+const nav = {
   brandLabel: "Qraft",
   label: "Main navigation",
   /* The blog entry is carried, not deleted: `hasBlog()` drops it on `/en` at
@@ -112,10 +113,10 @@ export const nav = {
  * takes a comma, because the page's em-dash budget is three and the French page
  * spends zero. Losing one connector is cheaper than starting the habit.
  */
-export const COLOPHON =
+const COLOPHON =
   "Designed, written and coded at 36 rue Sainte, Marseille, by Nicolas, Alexis and Adrien.";
 
-export const footer = {
+const footer = {
   /* "Qrafting agentic software" was already an English pun sitting in the
      French file. It is the one line on the site that needed no work at all. */
   tagline: [
@@ -130,7 +131,7 @@ export const footer = {
 
 /* Each label is written in the language it leads to, which is the convention
    every bilingual site in the corpus follows. Identical to the French. */
-export const langSwitcher = {
+const langSwitcher = {
   label: "Site language",
   toLocale: {
     fr: "Voir ce site en français",
@@ -148,7 +149,7 @@ export const langSwitcher = {
 
 /* --- S1 · THE PROMISE ----------------------------------------------------- */
 
-export const hero = {
+const hero = {
   /* FR: « Construisons ensemble / des applications qui durent dans le temps. »
      The hortative survives as "Let's" — PARTIE 8 lists it as one of the few
      French devices that crosses cleanly. What does not survive is « durent dans
@@ -216,9 +217,8 @@ export const hero = {
    English and serving French — PARTIE 8's rule 6, broken by Eleven Labs and
    OCTO, and the one failure the research calls worse than having no English
    version at all. */
-export const ticker = {
+const ticker = {
   label: "Our blog",
-  lead: "We write up what we learn, we sign our names to it, and the articles are in French.",
   bylinePrefix: "by ",
   metaSeparator: " · ",
   more: { label: "Read more →", href: "/blog" },
@@ -226,7 +226,7 @@ export const ticker = {
 
 /* --- S2 · WHAT WE BUILD --------------------------------------------------- */
 
-export const offre = {
+const offre = {
   id: "offres",
   /* CLIENT RULING: English does not pun. « Les devs sur le front, comme sur le
      back ! » therefore has no English descendant at all — not the calque PARTIE
@@ -299,7 +299,7 @@ export const offre = {
 
 /* --- S4 · WHAT YOU ARE ACTUALLY PAYING FOR -------------------------------- */
 
-export const valeurs = {
+const valeurs = {
   /* FR: « Traversons ensemble l'épreuve du temps. » PARTIE 8 prescribes "Let's
      build something that stands the test of time" — correct English, and a
      phrase worn thin enough to belong on the banned list rather than in a
@@ -374,7 +374,7 @@ export const valeurs = {
 
 /* --- S5 · THE ARSENAL ----------------------------------------------------- */
 
-export const arsenal = {
+const arsenal = {
   /* « Nos armes de prédilection » → NOT "Our weapons of choice", the brief's
      original worked example. It is the battle metaphor the sober ruling rules
      out, and PARTIE 8 already flagged it as banal in English on its own. The
@@ -403,7 +403,7 @@ export const arsenal = {
 
 /* --- S6 · WHO WE ARE — the pivot ------------------------------------------ */
 
-export const origine = {
+const origine = {
   /** No longer a dateline, in either language: it now opens the story rather
    *  than captioning it. Rendered one step down from the section display anchor
    *  — see the note in `Origine.tsx`. */
@@ -476,11 +476,6 @@ export const origine = {
       caption: "Nicolas and Mehdi, code review, in the old office.",
     },
     {
-      key: "patio",
-      alt: "A developer sitting outside in the sun in front of a wall of greenery",
-      caption: "Alexis, on the patio of the old office.",
-    },
-    {
       key: "balcon",
       alt: "Looking down onto a Marseille street from a balcony in full sun",
       caption: "From the balcony at 36 rue Sainte, Marseille.",
@@ -490,7 +485,7 @@ export const origine = {
 
 /* --- S7 · PROOF ----------------------------------------------------------- */
 
-export const victoires = {
+const victoires = {
   id: "proof",
   /* « Nos dernières victoires ». PARTIE 8: "our latest victories" is pompous in
      English, and « victoires » is a French section convention that is not an
@@ -530,7 +525,7 @@ export const victoires = {
 
 /* --- S8 · INVITATION ------------------------------------------------------ */
 
-export const invitation = {
+const invitation = {
   id: "contact",
   titleLine1: "Our door is open,",
   titleLine2: "at 36 rue Sainte.",
@@ -564,7 +559,7 @@ export const invitation = {
 /* `/en/blog` 404s by design (`hasTranslation()`), so this copy is the contract
    being satisfied rather than a page being served. It is written honestly
    anyway, in case the ruling ever changes. */
-export const blog = {
+const blog = {
   title: "Our articles",
   subtitle:
     "Field notes, technical guides and working habits from our team. The articles are written in French.",
@@ -584,7 +579,7 @@ export const blog = {
   },
 } as const;
 
-export const notFound = {
+const notFound = {
   eyebrow: "Error 404",
   title: "Page not found.",
   body: "The page you are looking for does not exist, or it has moved.",
@@ -601,7 +596,7 @@ export const notFound = {
  * copy, so they are translated close.
  * ========================================================================= */
 
-export const clients: readonly Client[] = [
+const clients: readonly Client[] = [
   {
     slug: "episto",
     name: "Episto",
@@ -850,7 +845,7 @@ export const clients: readonly Client[] = [
   },
 ];
 
-export const caseUi = {
+const caseUi = {
   stack: "Stack",
   integrations: "Integrations",
   backToClients: "All our work",
@@ -895,8 +890,7 @@ const postalCode = "13001";
 const city = "Marseille";
 const address = `${street}, ${postalCode} ${city}`;
 
-export const cowork = {
-  eyebrow: "Cowork · Marseille",
+const cowork = {
   title: "The Qraft cowork",
   metaTitle: "Coworking in Marseille",
   subtitle:
@@ -910,7 +904,6 @@ export const cowork = {
     { value: "3", label: "call boxes" },
   ],
   spaces: {
-    eyebrow: "The tour",
     title: "Our rooms",
     tiles: [
       {
@@ -940,7 +933,6 @@ export const cowork = {
     ],
   },
   amenities: {
-    eyebrow: "Everything you need to work",
     title: "Comfort, included",
     items: [
       {
@@ -985,7 +977,6 @@ export const cowork = {
     ],
   },
   gallery: {
-    eyebrow: "The gallery",
     title: "In pictures",
     zoomLabel: "Enlarge",
     closeLabel: "Close",
@@ -1059,8 +1050,7 @@ export const cowork = {
       "Call boxes",
       "Coffee, tea and fresh fruit",
     ],
-    cta: "Book a visit",
-    ctaHref: BOOKING_URL,
+    cta: { label: "Book a visit", href: BOOKING_URL },
     /* « Tu hésites ? Viens tester une semaine avant de te décider. » — the
        research calls this line already excellent. The imperative carries in
        English exactly what the tutoiement carried in French. */

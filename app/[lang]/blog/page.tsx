@@ -68,13 +68,16 @@ async function ArticleList({
 
   return (
     <>
-      {paginatedArticles.map((article) => (
-        <BlogCard
-          key={article.id}
-          article={article}
-          href={localePath(lang, `/blog/${article.slug}`)}
-        />
-      ))}
+      <ul>
+        {paginatedArticles.map((article) => (
+          <li key={article.id}>
+            <BlogCard
+              article={article}
+              href={localePath(lang, `/blog/${article.slug}`)}
+            />
+          </li>
+        ))}
+      </ul>
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

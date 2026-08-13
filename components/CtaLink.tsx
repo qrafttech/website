@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 const BASE = "transition-colors ease-epure";
 
 const TONES = {
-  blue: "bg-blue text-[#fafafa] hover:bg-ink2",
+  blue: "bg-blue text-canvas hover:bg-ink2",
   ink: "border border-ink bg-ink text-canvas hover:bg-transparent hover:text-ink",
 } as const;
 

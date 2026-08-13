@@ -15,7 +15,7 @@ import {
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { hasBlog, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { localeAlternates } from "@/lib/i18n/metadata";
+import { articleMetadata } from "@/lib/i18n/metadata";
 
 const getArticle = cache(fetchArticleBySlug);
 
@@ -70,18 +70,7 @@ export async function generateMetadata({
     }
   }
 
-  return {
-    title: article.title,
-    description,
-    alternates: localeAlternates(lang, `/blog/${slug}`),
-    openGraph: {
-      type: "article",
-      title: article.title,
-      description,
-      url: localePath(lang, `/blog/${slug}`),
-    },
-    twitter: { card: "summary_large_image", title: article.title, description },
-  };
+  return articleMetadata(lang, `/blog/${slug}`, article.title, description);
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {

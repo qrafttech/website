@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ClientCase from "@/app/components/ClientCase";
-import { isLocale, localePath } from "@/lib/i18n/config";
+import { isLocale } from "@/lib/i18n/config";
 import { getClient, getDictionary } from "@/lib/i18n/dictionaries";
-import { localeAlternates } from "@/lib/i18n/metadata";
+import { articleMetadata } from "@/lib/i18n/metadata";
 
 interface ClientPageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -36,18 +36,7 @@ export async function generateMetadata({
 
   const title = `${client.name} — ${client.sector}`;
 
-  return {
-    title,
-    description: client.lede,
-    alternates: localeAlternates(lang, `/realisations/${slug}`),
-    openGraph: {
-      type: "article",
-      title,
-      description: client.lede,
-      url: localePath(lang, `/realisations/${slug}`),
-    },
-    twitter: { card: "summary_large_image", title, description: client.lede },
-  };
+  return articleMetadata(lang, `/realisations/${slug}`, title, client.lede);
 }
 
 export default async function ClientPage({ params }: ClientPageProps) {

@@ -228,10 +228,9 @@ export default function NotionRenderer({ blocks }: { blocks: NotionBlock[] }) {
       {grouped.map((item, i) => {
         if (item.kind === "list") {
           const Tag = item.listType;
-          const listClass =
-            item.listType === "ul"
-              ? "list-disc space-y-2 pl-6"
-              : "list-decimal space-y-2 pl-6";
+          const listClass = `${
+            item.listType === "ul" ? "list-disc" : "list-decimal"
+          } space-y-2 pl-6`;
           return (
             <Tag key={i} className={listClass}>
               {item.items.map((block) => (

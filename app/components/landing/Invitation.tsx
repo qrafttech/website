@@ -32,12 +32,7 @@ export default function Invitation({
   );
 
   return (
-    <Section
-      id={invitation.id}
-      band="canvas"
-      rhythm="py-24 nav:py-[10.5rem]"
-      className="scroll-mt-0"
-    >
+    <Section id={invitation.id} rhythm="py-24 nav:py-[10.5rem]">
       <Diptych
         side="left"
         emphasis="text"
@@ -48,11 +43,8 @@ export default function Invitation({
                 the largest object on the site by a wide margin — a heading that
                 loud makes the invitation under it read as fine print. */}
             <h2 className="text-[clamp(2rem,4.6vw,3.5rem)] font-bold leading-[1.03] tracking-[-0.035em]">
-              <RiseLine trigger="view">{invitation.titleLine1}</RiseLine>
-              <RiseLine
-                trigger="view"
-                className="bg-brand bg-clip-text text-transparent"
-              >
+              <RiseLine>{invitation.titleLine1}</RiseLine>
+              <RiseLine className="bg-brand bg-clip-text text-transparent">
                 {invitation.titleLine2}
               </RiseLine>
             </h2>

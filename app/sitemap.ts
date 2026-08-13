@@ -5,21 +5,20 @@ import {
   LOCALES,
   type Locale,
   hasBlog,
-  hasTranslation,
   localePath,
+  translatedLocales,
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { SITE_URL } from "@/lib/site";
 
 /** Every locale that has this page, as an absolute URL, for `alternates`. */
 function alternates(path: string): Record<string, string> {
-  const languages: Record<string, string> = {};
-  for (const locale of LOCALES) {
-    if (hasTranslation(locale, path)) {
-      languages[locale] = `${SITE_URL}${localePath(locale, path)}`;
-    }
-  }
-  return languages;
+  return Object.fromEntries(
+    translatedLocales(path).map((locale) => [
+      locale,
+      `${SITE_URL}${localePath(locale, path)}`,
+    ])
+  );
 }
 
 function entry(

@@ -19,7 +19,7 @@ export default function Rich({
   return (
     <>
       {content.map((segment, index) => {
-        const { text, strong, accent, underline, href } = segment;
+        const { text, strong, accent, href } = segment;
 
         if (href) {
           const external = href.startsWith("http");
@@ -51,7 +51,7 @@ export default function Rich({
           );
         }
 
-        if (accent || underline) {
+        if (accent) {
           return (
             <span
               key={index}

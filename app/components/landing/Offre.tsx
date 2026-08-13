@@ -1,6 +1,8 @@
+import Ledger from "@/components/Ledger";
 import Rich from "@/components/Rich";
 import Section from "@/components/Section";
-import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
+import SectionLead from "@/components/SectionLead";
+import SectionTitle from "@/components/SectionTitle";
 import Reveal from "@/components/motion/Reveal.client";
 import type { Dictionary } from "@/lib/i18n/types";
 
@@ -14,34 +16,22 @@ import type { Dictionary } from "@/lib/i18n/types";
  * in the old single column, so nothing gets harder to read, while halving the
  * section's height and removing the void.
  *
- * One rule opens the ledger and none divide it. The rule under the lede is
- * doing work nothing else does — it is the line between the argument and the
- * list of what we sell. The four blocks underneath needed no dividers: the
- * grid gap and each block's own display heading already say where one ends.
+ * The rule that opens the ledger is doing work nothing else does — it is the
+ * line between the argument and the list of what we sell.
  */
 export default function Offre({ offre }: { offre: Dictionary["offre"] }) {
   return (
     <Section id={offre.id} band="sand">
-      <SectionTitle size={MARGINAL} className="max-w-[16ch]">
+      <SectionTitle className="max-w-[16ch]">
         <Rich content={offre.title} />
       </SectionTitle>
-      <p className="mt-6 max-w-[62ch] text-[1.0625rem] leading-[1.65] text-muted">
-        {offre.lead}
-      </p>
+      <SectionLead>{offre.lead}</SectionLead>
 
       <Reveal>
-        <dl className="mt-[clamp(2.5rem,6vh,4rem)] grid gap-x-[clamp(2rem,4vw,4rem)] gap-y-4 border-t border-line nav:grid-cols-2">
-          {offre.blocks.map((block) => (
-            <div key={block.key} className="py-7">
-              <dt className="font-display text-[1.3125rem] font-bold leading-[1.2]">
-                {block.title}
-              </dt>
-              <dd className="mt-2.5 max-w-[58ch] text-[0.9375rem] leading-[1.7] text-muted">
-                {block.body}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <Ledger
+          blocks={offre.blocks}
+          className="mt-[clamp(2.5rem,6vh,4rem)] border-line"
+        />
       </Reveal>
     </Section>
   );

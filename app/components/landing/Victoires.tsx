@@ -2,9 +2,11 @@ import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
+import Eyebrow from "@/components/Eyebrow";
 import Rich from "@/components/Rich";
 import Section from "@/components/Section";
-import SectionTitle, { MARGINAL } from "@/components/SectionTitle";
+import SectionLead from "@/components/SectionLead";
+import SectionTitle from "@/components/SectionTitle";
 
 import Reveal from "@/components/motion/Reveal.client";
 import { clientLogos } from "@/lib/client-logos";
@@ -124,12 +126,10 @@ export default function Victoires({
 
   return (
     <Section id={victoires.id} band="sand">
-      <SectionTitle size={MARGINAL} className="max-w-[15ch]">
+      <SectionTitle className="max-w-[15ch]">
         <Rich content={victoires.title} />
       </SectionTitle>
-      <p className="mt-6 max-w-[62ch] text-[1.0625rem] leading-[1.65] text-muted">
-        {victoires.lead}
-      </p>
+      <SectionLead>{victoires.lead}</SectionLead>
 
       {/* Paired rather than stacked: four cases in one tall column left the
           half beside them blank for most of the section. Two columns halve the
@@ -168,9 +168,7 @@ export default function Victoires({
                   </a>
                 ) : null}
               </div>
-              <p className="mt-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted">
-                {entry.sector}
-              </p>
+              <Eyebrow className="mt-1.5">{entry.sector}</Eyebrow>
               <p className="mt-4 max-w-[62ch] text-[1rem] leading-[1.6] text-ink2">
                 {entry.what}
               </p>

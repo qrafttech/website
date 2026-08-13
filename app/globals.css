@@ -12,7 +12,7 @@
     --header-h: 3.5rem;
   }
 
-  @media (min-width: 900px) {
+  @media screen(nav) {
     :root {
       --header-h: 4.5rem;
     }
@@ -69,24 +69,6 @@
     .paper-grain {
       display: none;
     }
-  }
-
-  /* Halftone — the optional Figure treatment. A fixed paper-coloured dot
-   * screen punched through the ink: invisible in the highlights, visible as
-   * paper showing through the shadows, which is how a photograph looks when
-   * it has been printed rather than displayed. */
-  .figure-halftone::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: radial-gradient(
-      circle at center,
-      rgba(251, 251, 248, 0.4) 0 26%,
-      transparent 40%
-    );
-    background-size: 3px 3px;
-    mix-blend-mode: screen;
   }
 }
 

@@ -31,8 +31,7 @@ export const PREFIXED_LOCALES: readonly Locale[] = LOCALES.filter(
   (locale) => locale !== DEFAULT_LOCALE
 );
 
-/** `<html lang>` values, and the OpenGraph `locale` tags. */
-export const HTML_LANG: Record<Locale, string> = { fr: "fr", en: "en" };
+/** The OpenGraph `locale` tags. */
 export const OG_LOCALE: Record<Locale, string> = { fr: "fr_FR", en: "en_US" };
 
 /** What the language switcher renders. Locale-independent by design. */
@@ -59,6 +58,11 @@ export function hasBlog(locale: Locale): boolean {
 export function hasTranslation(locale: Locale, path: string): boolean {
   if (path === "/blog" || path.startsWith("/blog/")) return hasBlog(locale);
   return true;
+}
+
+/** The locales that carry this page — the hreflang set, and the sitemap's. */
+export function translatedLocales(path: string): readonly Locale[] {
+  return LOCALES.filter((locale) => hasTranslation(locale, path));
 }
 
 /**
