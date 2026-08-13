@@ -16,7 +16,11 @@ export default function Arsenal({
         side="left"
         emphasis="proof"
         text={
-          <div className="nav:sticky nav:top-16">
+          /* Offset from `--header-h`, not from a hand-picked rem: `top-16` was
+             4rem against a 4.5rem bar, so the heading's cap-line docked under
+             the bar's own hairline with nothing between them. The extra 2.5rem
+             is the air the heading holds while the stack scrolls past it. */
+          <div className="nav:sticky nav:top-[calc(var(--header-h)+2.5rem)]">
             <SectionTitle className="max-w-[15ch]">
               <Rich content={arsenal.title} />
             </SectionTitle>
