@@ -61,11 +61,25 @@ function buildCases(
  * `Intégrations :` lines under it belong to. Hidden, those lines arrive
  * unowned.
  */
+/** Optical corrections on top of the compact/wordmark rule below, keyed by
+ *  slug. That rule gives every wordmark one 22px cap and assumes the
+ *  letterforms sit in their file at roughly the same scale; these two don't —
+ *  C'Evidentia is full-height capitals in an 8:1 box, hellio full-height bold
+ *  lowercase — so at 22px they read a size up from easiware and Embarq.
+ *  (Chloé had the opposite problem, letters lost in a padded box; that one is
+ *  fixed in the file itself, by tightening the SVG viewBox to the ink.) */
+const MARK_HEIGHTS: Record<string, string> = {
+  cevidentia: "h-4",
+  hellio: "h-[1.125rem]",
+};
+
 function Mark({
+  slug,
   logo,
   nda,
   name,
 }: {
+  slug: string;
   logo?: StaticImageData;
   nda?: string;
   name: string;
@@ -83,7 +97,7 @@ function Mark({
         alt={name}
         className={clsx(
           "mb-1 w-auto max-w-[11rem] object-contain object-left opacity-75 grayscale",
-          compact ? "h-[1.875rem]" : "h-[1.375rem]"
+          MARK_HEIGHTS[slug] ?? (compact ? "h-[1.875rem]" : "h-[1.375rem]")
         )}
       />
     );
@@ -178,7 +192,12 @@ export default function Victoires({
                   register change already says the block has turned from
                   argument into record. */}
             <div className="mt-7 flex flex-col items-start gap-1">
-              <Mark logo={entry.logo} nda={entry.nda} name={entry.name} />
+              <Mark
+                slug={entry.slug}
+                logo={entry.logo}
+                nda={entry.nda}
+                name={entry.name}
+              />
               <Meta label={victoires.stackLabel} items={entry.stack} />
               <Meta
                 label={victoires.integrationsLabel}
