@@ -201,9 +201,9 @@ export interface Dictionary {
     note: string;
     /** `items` reuses `StackItem`, so the arsenal and the case-study stacks
      *  draw their marks from one icon set. `icon` is optional on purpose: a
-     *  brand with no official single-path SVG (AWS, Heroku, OpenAI, Scalingo,
-     *  pgvector, RSpec, Llama) renders as a label-only chip rather than being
-     *  dropped from the list or given an invented mark. */
+     *  brand with no usable official SVG (OpenAI, pgvector, RSpec, Llama)
+     *  renders as a label-only chip rather than being dropped from the list
+     *  or given an invented mark. */
     groups: readonly {
       key: string;
       title: string;
