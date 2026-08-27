@@ -244,7 +244,7 @@ const origine = {
     {
       key: "openSpace",
       alt: "Trois personnes travaillent à leurs bureaux dans un open space aux murs de brique blanche",
-      caption: "36 rue Sainte, Marseille · l’open space.",
+      caption: "36 rue Sainte, Marseille · le cowork.",
     },
     {
       key: "revueDeCode",
@@ -254,7 +254,7 @@ const origine = {
     {
       key: "balcon",
       alt: "Vue plongeante sur une rue marseillaise depuis un balcon, en plein soleil",
-      caption: "Depuis le balcon du 36 rue Sainte, Marseille.",
+      caption: "Depuis le balcon de notre cowork.",
     },
   ],
 } as const;

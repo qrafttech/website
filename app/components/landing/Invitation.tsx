@@ -87,7 +87,7 @@ export default function Invitation({
                 alt={balcon.alt}
                 caption={balcon.caption}
                 size="small"
-                className="w-[15rem] max-nav:w-[11rem]"
+                className="w-[18rem] max-nav:w-[13rem]"
               />
             ) : null}
           </div>

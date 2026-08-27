@@ -241,7 +241,7 @@ const origine = {
     {
       key: "openSpace",
       alt: "Three people working at their desks in an open space with whitewashed brick walls",
-      caption: "36 rue Sainte, Marseille · the open space.",
+      caption: "36 rue Sainte, Marseille · the cowork.",
     },
     {
       key: "revueDeCode",
@@ -251,7 +251,7 @@ const origine = {
     {
       key: "balcon",
       alt: "Looking down onto a Marseille street from a balcony in full sun",
-      caption: "From the balcony at 36 rue Sainte, Marseille.",
+      caption: "From the balcony of our cowork.",
     },
   ],
 } as const;
