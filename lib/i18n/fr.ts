@@ -306,6 +306,11 @@ const victoires = {
       what: "Pour la maison Chloé, nous avons livré la landing événementielle d’un lancement de collection capsule, en sept langues.",
       note: "Un lancement digital concentre un trafic international sur quelques jours, et la date ne se reporte pas. Une page Next.js et Tailwind CSS servie depuis AWS, sept langues, dimensionnée pour le pic plutôt que pour la moyenne — livrée pour le jour J.",
     },
+    {
+      slug: "hellio",
+      what: "Hellio orchestre le financement de la rénovation énergétique, et nous renforçons son équipe de développement.",
+      note: "Derrière chaque prime CEE, tout un écosystème : les obligés qui financent, les artisans qui réalisent les travaux, les apporteurs d’affaires, et un pôle national qui contrôle la véracité des opérations. Nous travaillons en sprints avec l’équipe fullstack — NestJS, TypeScript, Docker — sur un système d’information intégré à Salesforce et HubSpot, et l’organisation évolue vers des squads avec notre arrivée.",
+    },
   ],
   others:
     "Chez Episto, nous travaillons aujourd’hui avec l’équipe produit et technique d’une plateforme d’études qui recrute ses répondants sur les réseaux sociaux.",
@@ -372,6 +377,26 @@ const clients: readonly Client[] = [
       { text: "l’équipe produit et technique", strong: true },
       { text: " d’Episto." },
     ],
+  },
+  {
+    slug: "hellio",
+    name: "Hellio",
+    sector: "Transition énergétique · Renfort d’équipe",
+    lede: "Le financement des travaux d’économies d’énergie — primes CEE, obligés, artisans — et l’équipe de développement fullstack que nous renforçons.",
+    website: "hellio.com",
+    project:
+      "Hellio est un acteur de référence de la transition énergétique en France, délégataire CEE : l’État impose aux distributeurs d’énergie de financer des économies d’énergie — isolation, chauffage, rénovation —, et Hellio orchestre tout l’écosystème. Les obligés qui financent les primes, les artisans qui réalisent les travaux, les apporteurs d’affaires, et un pôle national qui contrôle la véracité des opérations. L’activité historique du logement s’est élargie au solaire et à l’énergie.",
+    role: [
+      { text: "Qraft renforce " },
+      { text: "l’équipe de développement fullstack", strong: true },
+      { text: " d’Hellio — en sprints, aux côtés des équipes Salesforce." },
+    ],
+    stack: [
+      { label: "NestJS", icon: "nestjs" },
+      { label: "TypeScript", icon: "typescript" },
+      { label: "Docker", icon: "docker" },
+    ],
+    integrations: ["Salesforce", "HubSpot"],
   },
   {
     slug: "cevidentia",

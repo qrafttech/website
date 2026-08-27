@@ -300,6 +300,11 @@ const victoires = {
       what: "For the house of Chloé, we shipped the event landing page for a capsule collection launch, in seven languages.",
       note: "A digital launch packs international traffic into a few days, and the date does not move. A Next.js and Tailwind CSS page served from AWS, in seven languages, sized for the peak rather than the average — delivered for launch day.",
     },
+    {
+      slug: "hellio",
+      what: "Hellio orchestrates the financing of energy-saving renovation, and we reinforce its development team.",
+      note: "Behind every energy-saving grant sits a whole ecosystem: the obligated parties who finance, the craftsmen who do the work, the business introducers, and a national desk that checks each operation is real. We work in sprints with the fullstack team — NestJS, TypeScript, Docker — on an information system integrated with Salesforce and HubSpot, and the organisation is moving to squads with our arrival.",
+    },
   ],
   others:
     "At Episto, we now work with the product and engineering team of a research platform that recruits its respondents on social media.",
@@ -370,6 +375,26 @@ const clients: readonly Client[] = [
       { text: "Episto’s product and engineering team", strong: true },
       { text: "." },
     ],
+  },
+  {
+    slug: "hellio",
+    name: "Hellio",
+    sector: "Energy transition · Embedded team",
+    lede: "Financing energy-saving renovation work — CEE grants, obligated parties, craftsmen — and the fullstack development team we reinforce.",
+    website: "hellio.com",
+    project:
+      "Hellio is one of the leading names of the energy transition in France and a CEE delegate (energy savings certificates): the French state requires energy distributors to finance energy savings — insulation, heating, renovation — and Hellio orchestrates the whole ecosystem. The obligated parties who fund the grants, the craftsmen who do the work, the business introducers, and a national desk that checks each operation is real. The historical housing business has expanded into solar and energy.",
+    role: [
+      { text: "Qraft reinforces " },
+      { text: "Hellio’s fullstack development team", strong: true },
+      { text: " — in sprints, alongside the Salesforce teams." },
+    ],
+    stack: [
+      { label: "NestJS", icon: "nestjs" },
+      { label: "TypeScript", icon: "typescript" },
+      { label: "Docker", icon: "docker" },
+    ],
+    integrations: ["Salesforce", "HubSpot"],
   },
   {
     slug: "cevidentia",

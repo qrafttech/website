@@ -1,6 +1,7 @@
 import type { StaticImageData } from "next/image";
 
 import episto from "@/public/images/logos/clients/episto-logo.svg";
+import hellio from "@/public/images/logos/clients/hellio-logo.svg";
 import cevidentia from "@/public/images/logos/clients/cevidentia-logo.svg";
 import easiware from "@/public/images/logos/clients/easiware-logo.svg";
 import embarq from "@/public/images/logos/clients/embarq-logo.svg";
@@ -10,6 +11,7 @@ import bruno from "@/public/images/logos/clients/bruno-logo.png";
 
 export const clientLogos: Record<string, StaticImageData> = {
   episto,
+  hellio,
   cevidentia,
   easiware,
   embarq,
