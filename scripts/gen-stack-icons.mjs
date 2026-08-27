@@ -40,6 +40,7 @@ const version = devDependencies["simple-icons"];
 const SLUGS = [
   /* Referenced by `clients[].stack[].icon` in the locale dictionaries. */
   "apollographql",
+  "cloudflare",
   "expo",
   "fastapi",
   "flask",

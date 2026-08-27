@@ -478,7 +478,7 @@ const clients: readonly Client[] = [
       { label: "Heroku", icon: "heroku" },
       { label: "AWS S3", icon: "amazonwebservices" },
     ],
-    integrations: ["DocuSign", "Sendgrid", "Upflow"],
+    integrations: ["DocuSign", "Sendgrid", "Upflow", "HubSpot"],
   },
   {
     slug: "billi",
@@ -593,6 +593,7 @@ const clients: readonly Client[] = [
       { label: "Next.js", icon: "nextdotjs" },
       { label: "Tailwind CSS", icon: "tailwindcss" },
       { label: "AWS", icon: "amazonwebservices" },
+      { label: "Cloudflare R2", icon: "cloudflare" },
     ],
   },
 ];
