@@ -34,7 +34,6 @@ export const ARSENAL_ITEMS = {
   data: [
     { label: "PostgreSQL", icon: "postgresql" },
     { label: "Redis", icon: "redis" },
-    { label: "pgvector" },
   ],
   frontend: [
     { label: "Next.js", icon: "nextdotjs" },

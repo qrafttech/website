@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import Rich from "@/components/Rich";
 import type { LedgerBlock } from "@/lib/i18n/types";
 
 /**
@@ -31,7 +32,11 @@ export default function Ledger({
             {block.title}
           </dt>
           <dd className="mt-2.5 max-w-[58ch] text-[0.9375rem] leading-[1.7] text-muted">
-            {block.body}
+            {typeof block.body === "string" ? (
+              block.body
+            ) : (
+              <Rich content={block.body} />
+            )}
           </dd>
         </div>
       ))}

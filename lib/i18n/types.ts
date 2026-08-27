@@ -38,11 +38,12 @@ interface CtaCopy {
   href: string;
 }
 
-/** A titled block in a two-column ledger. `key` is a React key only. */
+/** A titled block in a two-column ledger. `key` is a React key only.
+ *  `body` accepts `RichText` for the blocks that carry an inline link. */
 export interface LedgerBlock {
   key: string;
   title: string;
-  body: string;
+  body: string | RichText;
 }
 
 /* --- Shell ---------------------------------------------------------------- */
