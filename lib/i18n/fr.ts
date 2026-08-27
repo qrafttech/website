@@ -217,7 +217,7 @@ const origine = {
     ] as RichText,
     [
       {
-        text: "Ils voulaient leur propre atelier : choisir les projets, choisir la façon de les construire et choisir les gens qui les écrivent. Six ans plus tard, nous sommes trois, et nous n’avons pas changé d’avis.",
+        text: "Ils voulaient leur propre atelier : choisir les projets, choisir la façon de les construire et choisir les gens qui les écrivent. Six ans et des dizaines de développeur.euse.s mentoré.e.s plus tard, nous n’avons pas changé d’avis.",
       },
     ] as RichText,
     [

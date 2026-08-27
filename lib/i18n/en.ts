@@ -214,7 +214,7 @@ const origine = {
     ] as RichText,
     [
       {
-        text: "They wanted a workshop of their own: to pick the projects, to pick how those projects get built and to pick the people who write them. Six years on, there are three of us, and we have not changed our minds.",
+        text: "They wanted a workshop of their own: to pick the projects, to pick how those projects get built and to pick the people who write them. Six years and dozens of mentored developers later, we have not changed our minds.",
       },
     ] as RichText,
     [
