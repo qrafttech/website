@@ -291,9 +291,24 @@ const victoires = {
       what: "Une application mobile organise le maintien à domicile des personnes âgées, et le projet est sous NDA.",
       note: "Médecins, aides à domicile et familles voient chacun ce qui les concerne, au bon moment, depuis leur téléphone. Nous avons cadré le besoin avec les équipes métier avant d’écrire une ligne, parce qu’une tournée d’aide à domicile ne s’invente pas depuis un bureau. L’application tourne sur les deux stores.",
     },
+    {
+      slug: "embarq",
+      what: "Embarq fait du portage salarial : onboarding des indépendants, missions, facturation et salaires passent par ses applications web et mobile.",
+      note: "Les admins pilotent les missions, la facturation et le versement des salaires ; les indépendants signent leurs contrats et remplissent leurs comptes rendus d’activité. Une seule API Rails, exposée en GraphQL, sert le web et l’application mobile, parce que des règles métier de cette densité ne doivent être écrites qu’une fois. L’app iOS et Android reprend tout le périmètre du web.",
+    },
+    {
+      slug: "bruno",
+      what: "Bruno épargne automatiquement pour ses utilisateurs : un moteur analyse les dépenses et met de côté ce qui peut l’être.",
+      note: "L’agrégation bancaire alimente le moteur d’analyse — Flask, NumPy, Pandas, à côté de l’API Rails — qui décide de chaque virement d’épargne, parce que mettre de côté ne doit jamais provoquer de découvert. Nous avons construit l’ensemble de bout en bout : l’API, le moteur, les apps web et mobile, un chatbot Facebook.",
+    },
+    {
+      slug: "chloe",
+      what: "Pour la maison Chloé, nous avons livré la landing événementielle d’un lancement de collection capsule, en sept langues.",
+      note: "Un lancement digital concentre un trafic international sur quelques jours, et la date ne se reporte pas. Une page Next.js et Tailwind CSS servie depuis AWS, sept langues, dimensionnée pour le pic plutôt que pour la moyenne — livrée pour le jour J.",
+    },
   ],
   others:
-    "Nous avons aussi construit les applications web et mobile d’Embarq, le moteur d’épargne de Bruno et la landing en sept langues d’une collection capsule Chloé, qui devait tenir un trafic international concentré sur quelques jours. Chez Episto, nous travaillons avec l’équipe produit et technique d’une plateforme d’études qui recrute ses répondants sur les réseaux sociaux.",
+    "Chez Episto, nous travaillons aujourd’hui avec l’équipe produit et technique d’une plateforme d’études qui recrute ses répondants sur les réseaux sociaux.",
 } as const;
 
 /* --- L’invitation ----------------------------------------------------------- */
@@ -543,7 +558,9 @@ const clients: readonly Client[] = [
     role: [
       { text: "Qraft a développé l’application " },
       { text: "de bout en bout", strong: true },
-      { text: " — API, moteur d’analyse, apps web et mobile." },
+      {
+        text: " — API, moteur d’analyse, apps web et mobile, chatbot Facebook.",
+      },
     ],
     stack: [
       { label: "Rails API", icon: "rubyonrails" },

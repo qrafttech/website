@@ -285,9 +285,24 @@ const victoires = {
       what: "A mobile app coordinates home care for elderly people, and the project is under NDA.",
       note: "Doctors, home carers and families each see what concerns them, at the right moment, from their phone. We framed the need with the operational teams before writing a line, because you do not invent a home-care round from behind a desk. The app runs on both stores.",
     },
+    {
+      slug: "embarq",
+      what: "Embarq is an umbrella employment company: freelancer onboarding, assignments, invoicing and salaries all run through its web and mobile applications.",
+      note: "Admins drive the assignments, the invoicing and the salary payments; freelancers sign their contracts and file their timesheets. A single Rails API, exposed over GraphQL, serves the web and the mobile app, because business rules this dense should only be written once. The iOS and Android app covers the full scope of the web.",
+    },
+    {
+      slug: "bruno",
+      what: "Bruno saves automatically for its users: an engine reads the spending and puts aside whatever can go.",
+      note: "Bank aggregation feeds the analysis engine — Flask, NumPy, Pandas, alongside the Rails API — and the engine decides every savings transfer, because putting money aside must never push the account into overdraft. We built the whole thing end to end: the API, the engine, the web and mobile apps, a Facebook chatbot.",
+    },
+    {
+      slug: "chloe",
+      what: "For the house of Chloé, we shipped the event landing page for a capsule collection launch, in seven languages.",
+      note: "A digital launch packs international traffic into a few days, and the date does not move. A Next.js and Tailwind CSS page served from AWS, in seven languages, sized for the peak rather than the average — delivered for launch day.",
+    },
   ],
   others:
-    "We also built Embarq’s web and mobile applications and the savings engine behind Bruno. For a Chloé capsule collection we shipped a landing page in seven languages that had to hold international traffic packed into a few days. At Episto we work with the product and engineering team of a research platform that recruits its respondents on social media.",
+    "At Episto, we now work with the product and engineering team of a research platform that recruits its respondents on social media.",
 } as const;
 
 /* --- The invitation --------------------------------------------------------- */
@@ -541,7 +556,9 @@ const clients: readonly Client[] = [
     role: [
       { text: "Qraft built the application " },
       { text: "end to end", strong: true },
-      { text: ": the API, the analysis engine, the web and mobile apps." },
+      {
+        text: ": the API, the analysis engine, the web and mobile apps, a Facebook chatbot.",
+      },
     ],
     stack: [
       { label: "Rails API", icon: "rubyonrails" },
