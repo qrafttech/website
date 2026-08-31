@@ -1,4 +1,4 @@
-import { formules } from "@/lib/demo/tarifs";
+import { formules } from "../../lib/demo/tarifs";
 
 export default function TarifsTable() {
   return (
