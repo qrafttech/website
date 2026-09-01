@@ -10,7 +10,7 @@ import Arsenal from "@/app/components/landing/Arsenal";
 import Origine from "@/app/components/landing/Origine";
 import Victoires from "@/app/components/landing/Victoires";
 import Invitation from "@/app/components/landing/Invitation";
-import { hasBlog, isLocale, localePath } from "@/lib/i18n/config";
+import { isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 
@@ -59,15 +59,12 @@ export default async function Home({ params }: HomeProps) {
           table and puts the reader into spec-scanning mode, which the origin
           story cannot break out of once it follows.
 
-          The ticker is the blog's shop window, and the blog is French-only, so
-          it is absent rather than translated — an English hero that scrolls
-          into a wall of French headlines is worse than one section shorter. */}
+          The ticker is the blog's shop window; it scrolls the articles of the
+          page's own language. */}
       <Hero lang={lang} hero={t.hero} />
-      {hasBlog(lang) ? (
-        <Suspense>
-          <Ticker lang={lang} ticker={t.ticker} />
-        </Suspense>
-      ) : null}
+      <Suspense>
+        <Ticker lang={lang} ticker={t.ticker} />
+      </Suspense>
       <Offre offre={t.offre} />
       <Victoires lang={lang} victoires={t.victoires} clients={t.clients} />
       <Valeurs valeurs={t.valeurs} />

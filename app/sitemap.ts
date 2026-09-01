@@ -1,40 +1,44 @@
 import type { MetadataRoute } from "next";
 
-import { fetchArticles } from "@/lib/notion";
+import { type ArticleMeta, fetchArticles } from "@/lib/notion";
 import {
   LOCALES,
   type Locale,
-  hasBlog,
   localePath,
-  translatedLocales,
+  otherLocale,
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { type LocalePaths, samePath } from "@/lib/i18n/metadata";
 import { SITE_URL } from "@/lib/site";
 
 /** Every locale that has this page, as an absolute URL, for `alternates`. */
-function alternates(path: string): Record<string, string> {
-  return Object.fromEntries(
-    translatedLocales(path).map((locale) => [
-      locale,
-      `${SITE_URL}${localePath(locale, path)}`,
-    ])
-  );
+function alternates(paths: LocalePaths): Record<string, string> {
+  const languages: Record<string, string> = {};
+  for (const locale of LOCALES) {
+    const path = paths[locale];
+    if (path) languages[locale] = `${SITE_URL}${localePath(locale, path)}`;
+  }
+  return languages;
 }
 
 function entry(
   locale: Locale,
-  path: string,
+  paths: string | LocalePaths,
   rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">
 ): MetadataRoute.Sitemap[number] {
+  const byLocale = typeof paths === "string" ? samePath(paths) : paths;
   return {
-    url: `${SITE_URL}${localePath(locale, path)}`,
-    alternates: { languages: alternates(path) },
+    url: `${SITE_URL}${localePath(locale, byLocale[locale] ?? "/")}`,
+    alternates: { languages: alternates(byLocale) },
     ...rest,
   };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles = await fetchArticles();
+  const articles: Record<Locale, ArticleMeta[]> = {
+    fr: await fetchArticles("fr"),
+    en: await fetchArticles("en"),
+  };
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of LOCALES) {
@@ -56,17 +60,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       );
     }
 
-    // The blog is French-only, so it appears under `fr` and nowhere else —
-    // listing `/en/blog/…` would submit URLs that 404 by design.
-    if (!hasBlog(locale)) continue;
-
     entries.push(
       entry(locale, "/blog", { changeFrequency: "weekly", priority: 0.8 })
     );
 
-    for (const article of articles) {
+    // An article's slug differs per language, so its alternate is looked up
+    // through the `Translation` relation rather than assumed from the path.
+    const other = otherLocale(locale);
+    for (const article of articles[locale]) {
+      const translation = articles[other].find(
+        (candidate) => candidate.id === article.translationId
+      );
+      const paths: LocalePaths = {
+        [locale]: `/blog/${article.slug}`,
+        ...(translation ? { [other]: `/blog/${translation.slug}` } : {}),
+      };
+
       entries.push(
-        entry(locale, `/blog/${article.slug}`, {
+        entry(locale, paths, {
           ...(article.dateISO
             ? { lastModified: new Date(article.dateISO) }
             : {}),

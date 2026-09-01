@@ -10,7 +10,6 @@ import CtaLink from "@/components/CtaLink";
 import LangSwitcher from "@/components/LangSwitcher.client";
 import {
   type Locale,
-  hasBlog,
   localeHref,
   localePath,
   splitLocale,
@@ -109,11 +108,7 @@ export default function Nav({
   const open = openFor === pathname;
   const setOpen = (value: boolean) => setOpenFor(value ? pathname : null);
 
-  // The blog is French-only, so on any other locale the item is dropped rather
-  // than linked to French prose from an English nav.
-  const links = nav.links.filter(
-    (link) => link.key !== "blog" || hasBlog(lang)
-  );
+  const links = nav.links;
 
   const onHome = path === "/";
   const sectionIds = onHome

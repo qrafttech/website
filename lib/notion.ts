@@ -6,6 +6,8 @@ import type {
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
+import { type Locale, otherLocale } from "@/lib/i18n/config";
+
 export const notion = new Client({
   auth: process.env.NOTION_API_KEY,
   retry: { maxRetries: 3 },
@@ -20,6 +22,11 @@ function requireEnv(name: string): string {
 const PROP_LANGUAGE = "Language";
 const PROP_DATE = "Date";
 const PROP_AUTHOR = "Author";
+/** Self-relation: the same article, written in the other language. */
+const PROP_TRANSLATION = "Translation";
+
+/** The options of the `Language` select, by site locale. */
+const LANGUAGE_BY_LOCALE: Record<Locale, string> = { fr: "FR", en: "EN" };
 
 export interface ArticleMeta {
   id: string;
@@ -28,6 +35,8 @@ export interface ArticleMeta {
   dateISO: string;
   author: string;
   slug: string;
+  /** Notion id of the same article in the other locale, if it has one. */
+  translationId: string | null;
 }
 
 function slugify(input: string): string {
@@ -47,26 +56,46 @@ export interface ArticleFull extends ArticleMeta {
   blocks: NotionBlock[];
 }
 
-const MONTHS_FR = [
-  "jan",
-  "fév",
-  "mar",
-  "avr",
-  "mai",
-  "jun",
-  "jul",
-  "aoû",
-  "sep",
-  "oct",
-  "nov",
-  "dec",
-];
+const MONTHS: Record<Locale, readonly string[]> = {
+  fr: [
+    "jan",
+    "fév",
+    "mar",
+    "avr",
+    "mai",
+    "jun",
+    "jul",
+    "aoû",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+  ],
+  en: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+};
 
-function formatDateFR(iso: string): string {
+/** `12 jan 2026` in French, `Jan 12, 2026` in English. */
+function formatDate(iso: string, locale: Locale): string {
   const d = new Date(iso);
-  return `${d.getUTCDate()} ${
-    MONTHS_FR[d.getUTCMonth()]
-  } ${d.getUTCFullYear()}`;
+  const day = d.getUTCDate();
+  const month = MONTHS[locale][d.getUTCMonth()];
+  const year = d.getUTCFullYear();
+  return locale === "fr"
+    ? `${day} ${month} ${year}`
+    : `${month} ${day}, ${year}`;
 }
 
 export function extractPlainText(richText: RichTextItemResponse[]): string {
@@ -74,7 +103,8 @@ export function extractPlainText(richText: RichTextItemResponse[]): string {
 }
 
 function extractPageMeta(
-  page: PageObjectResponse
+  page: PageObjectResponse,
+  locale: Locale
 ): Omit<ArticleMeta, "author" | "slug"> | null {
   const titleProp = Object.values(page.properties).find(
     (prop) => prop.type === "title"
@@ -89,9 +119,15 @@ function extractPageMeta(
     dateProp?.type === "date" && dateProp.date?.start
       ? dateProp.date.start
       : "";
-  const date = dateISO ? formatDateFR(dateISO) : "";
+  const date = dateISO ? formatDate(dateISO, locale) : "";
 
-  return { id: page.id, title, date, dateISO };
+  const translationProp = page.properties[PROP_TRANSLATION];
+  const translationId =
+    translationProp?.type === "relation"
+      ? translationProp.relation[0]?.id ?? null
+      : null;
+
+  return { id: page.id, title, date, dateISO, translationId };
 }
 
 async function resolveAuthor(page: PageObjectResponse): Promise<string> {
@@ -147,17 +183,23 @@ async function fetchAllBlocks(
   return blocks;
 }
 
-export async function fetchArticles(): Promise<ArticleMeta[]> {
+/**
+ * The articles of one locale, newest first. An article is one Notion page per
+ * language, so each locale is its own list, its own slugs (derived from that
+ * language's title) and its own cache entry; the two lists are tied together
+ * only by the `Translation` relation.
+ */
+export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
   "use cache";
   cacheLife("max");
-  cacheTag("blog-list");
+  cacheTag(`blog-list-${locale}`);
 
   try {
     const response = await notion.dataSources.query({
       data_source_id: requireEnv("NOTION_DATABASE_ID"),
       filter: {
         property: PROP_LANGUAGE,
-        select: { equals: "FR" },
+        select: { equals: LANGUAGE_BY_LOCALE[locale] },
       },
       sorts: [{ property: PROP_DATE, direction: "descending" }],
     });
@@ -168,7 +210,7 @@ export async function fetchArticles(): Promise<ArticleMeta[]> {
 
     const articles = await Promise.all(
       pages.map(async (p) => {
-        const meta = extractPageMeta(p);
+        const meta = extractPageMeta(p, locale);
         if (!meta) return null;
         const author = await resolveAuthor(p);
         return { ...meta, author } satisfies Omit<ArticleMeta, "slug">;
@@ -199,12 +241,27 @@ async function fetchArticleBlocks(id: string): Promise<NotionBlock[]> {
 }
 
 export async function fetchArticleBySlug(
+  locale: Locale,
   slug: string
 ): Promise<ArticleFull | null> {
-  const articles = await fetchArticles();
+  const articles = await fetchArticles(locale);
   const match = articles.find((a) => a.slug === slug);
   if (!match) return null;
 
   const blocks = await fetchArticleBlocks(match.id);
   return { ...match, blocks };
+}
+
+/**
+ * The same article in the other locale, resolved through the `Translation`
+ * relation — its slug comes from its own title, so it cannot be derived from
+ * this one. `null` while the article has no translation yet.
+ */
+export async function fetchTranslation(
+  locale: Locale,
+  article: ArticleMeta
+): Promise<ArticleMeta | null> {
+  if (!article.translationId) return null;
+  const siblings = await fetchArticles(otherLocale(locale));
+  return siblings.find((a) => a.id === article.translationId) ?? null;
 }

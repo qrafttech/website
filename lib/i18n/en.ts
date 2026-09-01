@@ -334,11 +334,11 @@ const invitation = {
 
 const blog = {
   title: "Our articles",
-  subtitle:
-    "Field notes, technical guides and working habits from our team. The articles are written in French.",
+  subtitle: "Field notes, technical guides and working habits from our team.",
   metaDescription:
-    "Field notes, technical guides and working habits from the Qraft team, written in French.",
+    "Field notes, technical guides and working habits from the Qraft team.",
   backToArticles: "Back to the articles",
+  translation: "Lire en français",
   empty: "Nothing here yet. Come back soon.",
   pagination: {
     label: "Pagination",

@@ -13,7 +13,7 @@ export default async function Ticker({
   lang: Locale;
   ticker: Dictionary["ticker"];
 }) {
-  const articles = (await fetchArticles()).slice(0, 6);
+  const articles = (await fetchArticles(lang)).slice(0, 6);
 
   if (articles.length === 0) return null;
 

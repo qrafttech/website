@@ -27,9 +27,9 @@ import type { Dictionary } from "@/lib/i18n/types";
  * server would mean `headers()`, and `headers()` would make every page on the
  * site dynamic to render two links.
  *
- * Where the target locale has no version of the page — the French-only blog —
- * `switchLocalePath` falls back to that locale's home rather than offering a
- * link to a 404.
+ * On a blog article the twin's slug is Notion data this component cannot
+ * reach, so `switchLocalePath` sends the reader to the target locale's article
+ * list; the article page itself links to its exact translation.
  */
 export default function LangSwitcher({
   lang,
