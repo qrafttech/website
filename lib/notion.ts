@@ -184,10 +184,27 @@ async function fetchAllBlocks(
 }
 
 /**
+ * Today as `YYYY-MM-DD` in Paris time — the day boundary articles are
+ * scheduled against. Notion dates are day-precise, so the `Date` property
+ * compares against a calendar day, not an instant.
+ */
+function todayISO(): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Paris",
+  }).format(new Date());
+}
+
+/**
  * The articles of one locale, newest first. An article is one Notion page per
  * language, so each locale is its own list, its own slugs (derived from that
  * language's title) and its own cache entry; the two lists are tied together
  * only by the `Translation` relation.
+ *
+ * `Date` is the publication date: a page dated in the future is not an
+ * article yet, and a page with no date is a draft. The list is cached until
+ * the Notion webhook or the nightly cron (`/api/cron/publish`) drops it, so
+ * "today" is whatever day the cache was last filled — the cron is what
+ * releases scheduled articles on their day.
  */
 export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
   "use cache";
@@ -198,8 +215,13 @@ export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
     const response = await notion.dataSources.query({
       data_source_id: requireEnv("NOTION_DATABASE_ID"),
       filter: {
-        property: PROP_LANGUAGE,
-        select: { equals: LANGUAGE_BY_LOCALE[locale] },
+        and: [
+          {
+            property: PROP_LANGUAGE,
+            select: { equals: LANGUAGE_BY_LOCALE[locale] },
+          },
+          { property: PROP_DATE, date: { on_or_before: todayISO() } },
+        ],
       },
       sorts: [{ property: PROP_DATE, direction: "descending" }],
     });
