@@ -7,15 +7,15 @@ import BlogCard from "@/app/components/BlogCard";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
 import { fetchArticles } from "@/lib/notion";
-import { type Locale, hasBlog, isLocale, localePath } from "@/lib/i18n/config";
+import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
 
 /**
- * The blog is French-only — articles are written in French and there is no
- * translation pipeline. `/en/blog` therefore 404s rather than serving French
- * prose from an English URL, the nav link is dropped on `/en`, and the sitemap
- * lists these pages under `fr` only.
+ * One list per locale. Articles are written in both languages in Notion, as
+ * two pages tied by a `Translation` relation, so `/blog` lists the French
+ * pages and `/en/blog` the English ones — an article that exists in only one
+ * language appears in that list alone.
  */
 
 export async function generateMetadata({
@@ -24,7 +24,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  if (!isLocale(lang) || !hasBlog(lang)) return {};
+  if (!isLocale(lang)) return {};
 
   const t = await getDictionary(lang);
 
@@ -46,7 +46,7 @@ async function ArticleList({
   lang: Locale;
   copy: Awaited<ReturnType<typeof getDictionary>>["blog"];
 }) {
-  const [pageParam, articles] = await Promise.all([page, fetchArticles()]);
+  const [pageParam, articles] = await Promise.all([page, fetchArticles(lang)]);
 
   const totalPages = Math.max(
     1,
@@ -98,7 +98,7 @@ export default async function BlogPage({
   searchParams,
 }: BlogPageProps) {
   const { lang } = await params;
-  if (!isLocale(lang) || !hasBlog(lang)) notFound();
+  if (!isLocale(lang)) notFound();
 
   const t = await getDictionary(lang);
 

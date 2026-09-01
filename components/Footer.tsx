@@ -2,7 +2,7 @@ import Brand from "@/components/Brand";
 import MonoLink from "@/components/MonoLink";
 import Rich from "@/components/Rich";
 import Wrap from "@/components/Wrap";
-import { type Locale, hasBlog, localeHref } from "@/lib/i18n/config";
+import { type Locale, localeHref } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
 import { CONTACT_EMAIL } from "@/lib/site";
 
@@ -15,9 +15,7 @@ export default function Footer({
   nav: Dictionary["nav"];
   footer: Dictionary["footer"];
 }) {
-  const links = nav.links.filter(
-    (link) => link.key !== "blog" || hasBlog(lang)
-  );
+  const links = nav.links;
 
   return (
     <footer className="border-t border-line">

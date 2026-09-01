@@ -2,13 +2,21 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
+import { LOCALES } from "@/lib/i18n/config";
+
+/**
+ * One list per locale. The webhook payload does not say which language the
+ * page is in, and a property update may be the `Language` select itself, so
+ * both lists are dropped together.
+ */
+const lists = LOCALES.map((locale) => `blog-list-${locale}`);
+
 const tagsByEvent: Record<string, (pageId: string) => string[]> = {
   "page.content_updated": (id) => (id ? [`blog-article-${id}`] : []),
   "page.properties_updated": (id) =>
-    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
-  "page.created": () => ["blog-list"],
-  "page.deleted": (id) =>
-    id ? ["blog-list", `blog-article-${id}`] : ["blog-list"],
+    id ? [...lists, `blog-article-${id}`] : lists,
+  "page.created": () => lists,
+  "page.deleted": (id) => (id ? [...lists, `blog-article-${id}`] : lists),
 };
 
 export async function POST(request: NextRequest) {

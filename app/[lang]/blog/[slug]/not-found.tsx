@@ -1,12 +1,19 @@
 import Link from "next/link";
+import { lang as rootLang } from "next/root-params";
 
 import Wrap from "@/components/Wrap";
-import { DEFAULT_LOCALE, localePath } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
-/** The blog only exists in French, so this 404 is French by construction. */
+/**
+ * `not-found.tsx` receives no `params`; `[lang]` is a root segment, so its
+ * value is read through `next/root-params` — see `app/[lang]/not-found.tsx`.
+ */
 export default async function ArticleNotFound() {
-  const t = await getDictionary(DEFAULT_LOCALE);
+  const raw = await rootLang();
+  const locale =
+    typeof raw === "string" && isLocale(raw) ? raw : DEFAULT_LOCALE;
+  const t = await getDictionary(locale);
 
   return (
     <main>
@@ -17,7 +24,7 @@ export default async function ArticleNotFound() {
           </h1>
           <p className="text-muted">{t.blog.notFound.body}</p>
           <Link
-            href={localePath(DEFAULT_LOCALE, "/blog")}
+            href={localePath(locale, "/blog")}
             className="inline-block border border-line px-5 py-3 text-[0.9375rem] text-ink transition-colors ease-epure hover:bg-tint"
           >
             {t.blog.notFound.cta}

@@ -44,25 +44,20 @@ export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
 }
 
+/** With two locales, "the other one" is well defined. */
+export function otherLocale(locale: Locale): Locale {
+  return locale === "fr" ? "en" : "fr";
+}
+
 /**
- * The blog is French-only — articles are written in French and there is no
- * translation pipeline. On any other locale the nav link, the hero ticker and
- * the sitemap entries are absent, and `/…/blog` 404s rather than serving
- * French prose under an English URL.
+ * Whether a locale-relative path is the same page in both locales. Every
+ * page is, except a blog article: articles are one Notion page per language,
+ * each with a slug derived from its own title, so `/blog/mon-article` has no
+ * `/en/blog/mon-article` — its English twin lives at another slug, known only
+ * once the article has been fetched (`fetchTranslation`).
  */
-export function hasBlog(locale: Locale): boolean {
-  return locale === "fr";
-}
-
-/** Whether a locale-relative path exists in the given locale at all. */
-export function hasTranslation(locale: Locale, path: string): boolean {
-  if (path === "/blog" || path.startsWith("/blog/")) return hasBlog(locale);
-  return true;
-}
-
-/** The locales that carry this page — the hreflang set, and the sitemap's. */
-export function translatedLocales(path: string): readonly Locale[] {
-  return LOCALES.filter((locale) => hasTranslation(locale, path));
+export function isSharedPath(path: string): boolean {
+  return !path.startsWith("/blog/");
 }
 
 /**
@@ -115,13 +110,13 @@ export function splitLocale(pathname: string): {
 
 /**
  * Where the switcher sends a reader who is on `pathname` and asks for
- * `target`. The current path is preserved (`/cowork` ↔ `/en/cowork`); when the
- * page has no equivalent in the target locale — the French-only blog — it
- * falls back to that locale's home rather than to a 404.
+ * `target`. The current path is preserved (`/cowork` ↔ `/en/cowork`). On a
+ * blog article the slug differs per language and the switcher, a client
+ * component, cannot ask Notion which one — it sends the reader to the
+ * target locale's article list; the article itself carries the exact link to
+ * its translation.
  */
 export function switchLocalePath(pathname: string, target: Locale): string {
   const { path } = splitLocale(pathname);
-  return hasTranslation(target, path)
-    ? localePath(target, path)
-    : localePath(target, "/");
+  return localePath(target, isSharedPath(path) ? path : "/blog");
 }

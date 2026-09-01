@@ -8,14 +8,21 @@ import Wrap from "@/components/Wrap";
 import Eyebrow from "@/components/Eyebrow";
 import MonoLink from "@/components/MonoLink";
 import {
+  type ArticleMeta,
   fetchArticles,
   fetchArticleBySlug,
+  fetchTranslation,
   extractPlainText,
 } from "@/lib/notion";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
-import { hasBlog, isLocale, localePath } from "@/lib/i18n/config";
+import {
+  type Locale,
+  isLocale,
+  localePath,
+  otherLocale,
+} from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { articleMetadata } from "@/lib/i18n/metadata";
+import { type LocalePaths, articleMetadata } from "@/lib/i18n/metadata";
 
 const getArticle = cache(fetchArticleBySlug);
 
@@ -24,14 +31,28 @@ interface ArticlePageProps {
 }
 
 /**
- * Articles are French-only. For any other locale this returns a single
- * placeholder slug rather than the real list, so `/en/blog/<slug>` costs one
- * prerendered 404 instead of thirty-odd, and every other English article URL
- * is resolved on demand — where the page's own guard 404s it too.
- *
- * It cannot simply return `[]`: with Cache Components enabled, Next requires
- * every `generateStaticParams` to yield at least one result so it can prove at
- * build time that the route has no unguarded dynamic access.
+ * Where this article lives in each locale. Its own slug comes from its own
+ * title; its translation's slug from the translation's title, through the
+ * `Translation` relation. An untranslated article advertises one locale only.
+ */
+function articlePaths(
+  lang: Locale,
+  slug: string,
+  translation: ArticleMeta | null
+): LocalePaths {
+  return {
+    [lang]: `/blog/${slug}`,
+    ...(translation
+      ? { [otherLocale(lang)]: `/blog/${translation.slug}` }
+      : {}),
+  };
+}
+
+/**
+ * With Cache Components enabled, Next requires every `generateStaticParams`
+ * to yield at least one result so it can prove at build time that the route
+ * has no unguarded dynamic access. When Notion is unreachable this returns a
+ * placeholder rather than `[]`; every real slug is then resolved on demand.
  */
 const NO_SUCH_ARTICLE = "_";
 
@@ -40,13 +61,13 @@ export async function generateStaticParams({
 }: {
   params: { lang: string };
 }) {
-  if (!isLocale(params.lang) || !hasBlog(params.lang)) {
-    return [{ slug: NO_SUCH_ARTICLE }];
-  }
+  if (!isLocale(params.lang)) return [{ slug: NO_SUCH_ARTICLE }];
 
   try {
-    const articles = await fetchArticles();
-    return articles.map((article) => ({ slug: article.slug }));
+    const articles = await fetchArticles(params.lang);
+    return articles.length > 0
+      ? articles.map((article) => ({ slug: article.slug }))
+      : [{ slug: NO_SUCH_ARTICLE }];
   } catch {
     return [{ slug: NO_SUCH_ARTICLE }];
   }
@@ -56,11 +77,12 @@ export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { lang, slug } = await params;
-  if (!isLocale(lang) || !hasBlog(lang)) return {};
+  if (!isLocale(lang)) return {};
 
-  const article = await getArticle(slug);
-
+  const article = await getArticle(lang, slug);
   if (!article) return {};
+
+  const translation = await fetchTranslation(lang, article);
 
   let description = article.title;
   for (const block of article.blocks) {
@@ -70,20 +92,27 @@ export async function generateMetadata({
     }
   }
 
-  return articleMetadata(lang, `/blog/${slug}`, article.title, description);
+  return articleMetadata(
+    lang,
+    articlePaths(lang, slug, translation),
+    article.title,
+    description
+  );
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { lang, slug } = await params;
-  if (!isLocale(lang) || !hasBlog(lang)) notFound();
+  if (!isLocale(lang)) notFound();
 
   const [article, t] = await Promise.all([
-    getArticle(slug),
+    getArticle(lang, slug),
     getDictionary(lang),
   ]);
 
   if (!article) notFound();
 
+  const translation = await fetchTranslation(lang, article);
+  const other = otherLocale(lang);
   const path = localePath(lang, `/blog/${slug}`);
 
   return (
@@ -104,14 +133,29 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           },
           url: `${SITE_URL}${path}`,
           mainEntityOfPage: `${SITE_URL}${path}`,
-          inLanguage: "fr",
+          inLanguage: lang,
         }}
       />
       <Wrap>
         <div className="pt-8 pb-24">
-          <MonoLink href={localePath(lang, "/blog")} className="text-muted">
-            &larr; {t.blog.backToArticles}
-          </MonoLink>
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <MonoLink href={localePath(lang, "/blog")} className="text-muted">
+              &larr; {t.blog.backToArticles}
+            </MonoLink>
+            {/* The exact twin, which the nav's switcher cannot know — it is a
+                client component and the twin's slug lives in Notion. Labelled
+                in the target language, as a reader of that language expects. */}
+            {translation ? (
+              <MonoLink
+                href={localePath(other, `/blog/${translation.slug}`)}
+                hrefLang={other}
+                lang={other}
+                className="text-muted"
+              >
+                {t.blog.translation} &rarr;
+              </MonoLink>
+            ) : null}
+          </div>
           <article className="mx-auto max-w-prose pt-12">
             <h1 className="font-display text-section font-bold text-ink">
               {article.title}

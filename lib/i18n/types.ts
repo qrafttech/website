@@ -252,6 +252,8 @@ export interface Dictionary {
     subtitle: string;
     metaDescription: string;
     backToArticles: string;
+    /** Link to the article's twin in the other locale, in THAT language. */
+    translation: string;
     empty: string;
     pagination: {
       label: string;
