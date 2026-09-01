@@ -1,6 +1,76 @@
+/* Hallmark · genre: editorial · macrostructure: Split Studio · theme: épure (locked identity)
+ * design-system: design.md · designed-as-app · nav: N4 top bar · footer: Ft4 dense colophon
+ * hero: full-viewport panel · symmetric two-over-three composition · ink headline
+ * retained identity exceptions: ink #000 (gate 7)
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --header-h: 3.5rem;
+  }
+
+  @media screen(nav) {
+    :root {
+      --header-h: 4.5rem;
+    }
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    /* The bar is sticky at every width now, so every anchor target has to clear
+     * it — no `scroll-padding-top: 0` above 900px any more. */
+    scroll-padding-top: var(--header-h);
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-canvas text-ink;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline outline-2 outline-offset-[3px] outline-blue;
+  }
+}
+
+@layer components {
+  /* Paper grain — site-wide identity signature. One fixed, never-moving,
+   * never-interactive overlay carrying a committed 128x128 feTurbulence tile
+   * (scripts/gen-grain.mjs). 0 KB of JavaScript. Because it never animates it
+   * cannot violate prefers-reduced-motion. */
+  .paper-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    background-image: url("/images/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+  }
+
+  @media print {
+    .paper-grain {
+      display: none;
+    }
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

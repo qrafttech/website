@@ -10,10 +10,21 @@ interface Photo {
   alt: string;
 }
 
-const GALLERY_SIZES = "(min-width: 1024px) 1100px, 90vw";
+const GRID_SIZES = "(min-width: 640px) 33vw, 100vw";
+const LIGHTBOX_SIZES = "90vw";
 const PER_ROW = 3;
 
-export default function CoworkGallery({ photos }: { photos: Photo[] }) {
+interface CoworkGalleryProps {
+  photos: Photo[];
+  zoomLabel: string;
+  closeLabel: string;
+}
+
+export default function CoworkGallery({
+  photos,
+  zoomLabel,
+  closeLabel,
+}: CoworkGalleryProps) {
   const [active, setActive] = useState<Photo | null>(null);
 
   const rows: Photo[][] = [];
@@ -34,17 +45,17 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
                 key={photo.alt}
                 type="button"
                 onClick={() => setActive(photo)}
-                aria-label={`Agrandir : ${photo.alt}`}
+                aria-label={`${zoomLabel} : ${photo.alt}`}
                 style={
                   { "--r": photo.src.width / photo.src.height } as CSSProperties
                 }
-                className="group relative w-full overflow-hidden [aspect-ratio:var(--r)] sm:w-auto sm:[flex-basis:0] sm:[flex-grow:var(--r)]"
+                className="group relative w-full overflow-hidden border border-hair [aspect-ratio:var(--r)] sm:w-auto sm:[flex-basis:0] sm:[flex-grow:var(--r)]"
               >
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes={GALLERY_SIZES}
+                  sizes={GRID_SIZES}
                   placeholder="blur"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -60,11 +71,11 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
         aria-label={active?.alt}
         className="relative z-50"
       >
-        <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
+        <div className="fixed inset-0 bg-ink2/80" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           {active && (
             <Dialog.Panel
-              className="relative"
+              className="relative border border-hair"
               style={{
                 aspectRatio: active.src.width / active.src.height,
                 width: `min(90vw, ${
@@ -75,8 +86,8 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
               <button
                 type="button"
                 onClick={() => setActive(null)}
-                aria-label="Fermer"
-                className="absolute -top-10 right-0 text-white hover:text-white/70"
+                aria-label={closeLabel}
+                className="absolute -top-10 right-0 text-canvas hover:text-canvas/70"
               >
                 <XMarkIcon className="h-8 w-8" />
               </button>
@@ -84,7 +95,8 @@ export default function CoworkGallery({ photos }: { photos: Photo[] }) {
                 src={active.src}
                 alt={active.alt}
                 fill
-                sizes={GALLERY_SIZES}
+                sizes={LIGHTBOX_SIZES}
+                placeholder="blur"
                 className="object-cover"
               />
             </Dialog.Panel>

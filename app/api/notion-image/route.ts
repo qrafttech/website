@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { notion } from "../../../lib/notion";
+import { notion } from "@/lib/notion";
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

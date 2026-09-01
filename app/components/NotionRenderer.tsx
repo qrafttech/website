@@ -1,6 +1,8 @@
 import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
-import type { NotionBlock } from "../../lib/notion";
-import { extractPlainText } from "../../lib/notion";
+
+import Eyebrow from "@/components/Eyebrow";
+import type { NotionBlock } from "@/lib/notion";
+import { extractPlainText } from "@/lib/notion";
 
 function isSafeHref(href: string): boolean {
   return href.startsWith("https://") || href.startsWith("http://");
@@ -30,7 +32,7 @@ function RichText({ richText }: { richText: RichTextItemResponse[] }) {
 
         if (code) {
           content = (
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">
+            <code className="bg-chip px-1.5 py-0.5 font-mono text-sm">
               {content}
             </code>
           );
@@ -46,7 +48,7 @@ function RichText({ richText }: { richText: RichTextItemResponse[] }) {
             <a
               key={i}
               href={safeHref}
-              className="text-blue-600 underline hover:text-blue-800"
+              className="text-blue underline underline-offset-4 hover:text-ink2"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -93,7 +95,7 @@ function ListItem({ block }: { block: NotionBlock }) {
   if (!richText) return null;
 
   return (
-    <li className="text-base text-zinc-700">
+    <li className="text-base text-muted">
       <RichText richText={richText} />
       {block.children && block.children.length > 0 && (
         <NotionRenderer blocks={block.children} />
@@ -109,7 +111,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
         return <div className="h-6" />;
       }
       return (
-        <p className="text-base leading-relaxed text-zinc-700">
+        <p className="text-base leading-relaxed text-muted">
           <RichText richText={block.paragraph.rich_text} />
         </p>
       );
@@ -126,7 +128,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
       if (!richText) return null;
       const Tag = config.tag;
       return (
-        <Tag className={`font-serif ${config.size} font-bold text-zinc-900`}>
+        <Tag className={`font-display ${config.size} font-semibold text-ink`}>
           <RichText richText={richText} />
         </Tag>
       );
@@ -136,12 +138,10 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
       return (
         <div>
           {block.code.language && (
-            <span className="text-xs uppercase tracking-wide text-zinc-400">
-              {block.code.language}
-            </span>
+            <Eyebrow as="span">{block.code.language}</Eyebrow>
           )}
-          <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-2 md:p-4">
-            <code className="text-sm text-zinc-100">
+          <pre className="overflow-x-auto bg-chip p-2 md:p-4">
+            <code className="font-mono text-sm text-ink2">
               {extractPlainText(block.code.rich_text)}
             </code>
           </pre>
@@ -150,25 +150,25 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
 
     case "quote":
       return (
-        <blockquote className="border-l-4 border-zinc-300 pl-4 italic text-zinc-600">
+        <blockquote className="border-l-2 border-blue pl-4 text-muted">
           <RichText richText={block.quote.rich_text} />
         </blockquote>
       );
 
     case "callout":
       return (
-        <div className="flex gap-3 rounded-lg bg-zinc-50 p-4">
+        <div className="flex gap-3 border border-hair bg-chip p-4">
           {block.callout.icon?.type === "emoji" && (
             <span className="text-xl">{block.callout.icon.emoji}</span>
           )}
-          <div className="text-base text-zinc-700">
+          <div className="text-base text-muted">
             <RichText richText={block.callout.rich_text} />
           </div>
         </div>
       );
 
     case "divider":
-      return <hr className="border-zinc-200" />;
+      return <hr className="border-hair" />;
 
     case "image": {
       const imgUrl =
@@ -185,12 +185,14 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
                 ? extractPlainText(block.image.caption)
                 : ""
             }
-            className="max-w-full rounded-lg"
+            loading="lazy"
+            decoding="async"
+            className="max-w-full"
           />
           {block.image.caption.length > 0 && (
-            <figcaption className="pt-2 text-center text-sm text-zinc-500">
+            <Eyebrow as="figcaption" className="pt-2 text-center">
               <RichText richText={block.image.caption} />
-            </figcaption>
+            </Eyebrow>
           )}
         </figure>
       );
@@ -202,7 +204,7 @@ function BlockRenderer({ block }: { block: NotionBlock }) {
       return (
         <a
           href={safeUrl}
-          className="block rounded-lg border border-zinc-200 p-4 text-sm text-blue-600 underline hover:bg-zinc-50 hover:text-blue-800"
+          className="block border border-line p-4 text-sm text-blue underline underline-offset-4 hover:bg-tint hover:text-ink2"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -226,10 +228,9 @@ export default function NotionRenderer({ blocks }: { blocks: NotionBlock[] }) {
       {grouped.map((item, i) => {
         if (item.kind === "list") {
           const Tag = item.listType;
-          const listClass =
-            item.listType === "ul"
-              ? "list-disc space-y-2 pl-6"
-              : "list-decimal space-y-2 pl-6";
+          const listClass = `${
+            item.listType === "ul" ? "list-disc" : "list-decimal"
+          } space-y-2 pl-6`;
           return (
             <Tag key={i} className={listClass}>
               {item.items.map((block) => (

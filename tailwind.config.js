@@ -1,5 +1,7 @@
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
+const EASE = "cubic-bezier(0.65, 0, 0.15, 0.99)";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,62 +11,48 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        brand: {
-          orange: "#e77c40",
-          gold: "#f8c618",
-        },
+      screens: {
+        nav: "900px",
       },
-      fontSize: {
-        sm: ["0.875rem", "1.5rem"],
-        lg: ["1.125rem", "2rem"],
-        base: ["1rem", "1.75rem"],
-        "2xl": ["1.5rem", "2.25rem"],
-        "4xl": ["2.25rem", "2.75rem"],
-        "5xl": ["3rem", "3.75rem"],
-        "6xl": ["3.75rem", "4.5rem"],
+      spacing: {
+        gutter: "clamp(1.5rem,3.6vw,3.75rem)",
+      },
+      colors: {
+        canvas: "#fbfbf8",
+        ink: "#000000",
+        ink2: "#09090b",
+        muted: "#3f3f47",
+        hair: "#e4e3de",
+        line: "#cdccc3",
+        chip: "#f5f4ef",
+        tint: "#eceae2",
+        blue: "#2650e1",
+        sand: "#f4f3ed",
+        band: "#f0efe9",
+        panel: "#f0f1f4",
+        rule: "#dcdee3",
+      },
+      backgroundImage: {
+        brand: "linear-gradient(135deg, #6710b0 0%, #2650e1 50%, #07b6e4 100%)",
       },
       fontFamily: {
-        sans: ["var(--font-montserrat)", ...fontFamily.sans],
-        serif: ["var(--font-sora)", ...fontFamily.serif],
-        scribble: ["var(--font-scribble)", ...fontFamily.mono],
+        sans: ["var(--font-inter)", ...fontFamily.sans],
+        display: ["var(--font-sora)", ...fontFamily.sans],
+        mono: ["var(--font-space-mono)", ...fontFamily.mono],
+      },
+      fontSize: {
+        section: ["clamp(1.75rem,3.4vw,2.75rem)", { lineHeight: "1.06" }],
+      },
+      transitionTimingFunction: {
+        epure: EASE,
       },
       keyframes: {
-        wave: {
-          "0%": { transform: "rotate(0.0deg)" },
-          "10%": { transform: "rotate(14deg)" },
-          "20%": { transform: "rotate(-8deg)" },
-          "30%": { transform: "rotate(14deg)" },
-          "40%": { transform: "rotate(-4deg)" },
-          "50%": { transform: "rotate(10.0deg)" },
-          "60%": { transform: "rotate(0.0deg)" },
-          "100%": { transform: "rotate(0.0deg)" },
-        },
-        "grow-and-shrink": {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.5)" },
-          "100%": { transform: "scale(1)" },
-        },
-        "slide-in": {
-          from: { transform: "translateX(100%)" },
-          to: { transform: "translateX(0%)" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-12px)" },
-        },
-        bob: {
-          "0%, 100%": { transform: "translateY(0) rotate(-3deg)" },
-          "50%": { transform: "translateY(-24px) rotate(3deg)" },
+        tick: {
+          to: { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        "waving-hand": "wave 2s linear infinite",
-        "spin-slow": "spin 15s linear infinite",
-        "grow-and-shrink": "grow-and-shrink 5s infinite",
-        "slide-in": "slide-in 10s",
-        float: "float 6s ease-in-out infinite",
-        bob: "bob 3.5s ease-in-out infinite",
+        tick: "tick 42s linear infinite",
       },
     },
   },

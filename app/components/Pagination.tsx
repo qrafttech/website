@@ -1,9 +1,14 @@
 import Link from "next/link";
 import clsx from "clsx";
 
+import { type Locale, localePath } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/types";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  lang: Locale;
+  copy: Dictionary["blog"]["pagination"];
 }
 
 type PageItem = number | "ellipsis";
@@ -42,26 +47,31 @@ function getPageNumbers(currentPage: number, totalPages: number): PageItem[] {
 export default function Pagination({
   currentPage,
   totalPages,
+  lang,
+  copy,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageNumbers(currentPage, totalPages);
+  const index = localePath(lang, "/blog");
+  const pageHref = (page: number) =>
+    page === 1 ? index : `${index}?page=${page}`;
 
   return (
     <nav
-      aria-label="Pagination"
+      aria-label={copy.label}
       className="flex items-center justify-center gap-2 pt-12"
     >
       {currentPage > 1 ? (
         <Link
-          href={currentPage === 2 ? "/blog" : `/blog?page=${currentPage - 1}`}
-          className="rounded-2xl border border-black bg-transparent px-5 py-2 text-sm font-medium text-black hover:bg-black/10"
+          href={pageHref(currentPage - 1)}
+          className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          Précédent
+          {copy.previous}
         </Link>
       ) : (
-        <span className="rounded-2xl border border-black/20 px-5 py-2 text-sm font-medium text-black/30">
-          Précédent
+        <span className="border border-hair px-5 py-2 text-sm text-muted/40">
+          {copy.previous}
         </span>
       )}
 
@@ -69,19 +79,20 @@ export default function Pagination({
         page === "ellipsis" ? (
           <span
             key={`ellipsis-${i}`}
-            className="grid h-10 w-10 place-items-center text-sm text-zinc-400"
+            className="grid h-10 w-10 place-items-center text-sm text-muted"
           >
             ...
           </span>
         ) : (
           <Link
             key={page}
-            href={page === 1 ? "/blog" : `/blog?page=${page}`}
+            href={pageHref(page)}
+            aria-current={page === currentPage ? "page" : undefined}
             className={clsx(
-              "grid h-10 w-10 place-items-center rounded-2xl border text-sm font-medium",
+              "grid h-10 w-10 place-items-center border text-sm transition-colors ease-epure",
               page === currentPage
-                ? "border-black bg-black text-white"
-                : "border-black bg-transparent text-black hover:bg-black/10"
+                ? "border-ink2 bg-ink2 text-canvas"
+                : "border-line text-ink hover:bg-tint"
             )}
           >
             {page}
@@ -91,14 +102,14 @@ export default function Pagination({
 
       {currentPage < totalPages ? (
         <Link
-          href={`/blog?page=${currentPage + 1}`}
-          className="rounded-2xl border border-black bg-transparent px-5 py-2 text-sm font-medium text-black hover:bg-black/10"
+          href={pageHref(currentPage + 1)}
+          className="border border-line px-5 py-2 text-sm text-ink transition-colors ease-epure hover:bg-tint"
         >
-          Suivant
+          {copy.next}
         </Link>
       ) : (
-        <span className="rounded-2xl border border-black/20 px-5 py-2 text-sm font-medium text-black/30">
-          Suivant
+        <span className="border border-hair px-5 py-2 text-sm text-muted/40">
+          {copy.next}
         </span>
       )}
     </nav>

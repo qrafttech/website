@@ -547,18 +547,6 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@rive-app/canvas@1.0.98":
-  version "1.0.98"
-  resolved "https://registry.yarnpkg.com/@rive-app/canvas/-/canvas-1.0.98.tgz#36b75be962fbb77b6ef9c47a843efb3297e45300"
-  integrity sha512-dBsiM6ObIBHCUA/8RwCBDwlOSJ7+K3m4M0/OgPpgmvQ4Qw7d63ouSoOJxiwBeysu9dSqIVEXk9zR/pdqhAVCVQ==
-
-"@rive-app/react-canvas@^3.0.35":
-  version "3.0.35"
-  resolved "https://registry.yarnpkg.com/@rive-app/react-canvas/-/react-canvas-3.0.35.tgz#4749bd40851f35769880404f7d0590681527f63b"
-  integrity sha512-215d3bw57OZundZXnuLWWr8mtRW5iomzNZ6TdQ4+MaLxKKKX91cSI0ef8g0Tq9khgNTCyRt1morNOTDXMLbDZg==
-  dependencies:
-    "@rive-app/canvas" "1.0.98"
-
 "@rtsao/scc@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
@@ -1475,11 +1463,6 @@ eslint-config-next@16.1.5:
     eslint-plugin-react-hooks "^7.0.0"
     globals "16.4.0"
     typescript-eslint "^8.46.0"
-
-eslint-config-prettier@^8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.6.0.tgz#dec1d29ab728f4fa63061774e1672ac4e363d207"
-  integrity sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==
 
 eslint-import-resolver-node@^0.3.6:
   version "0.3.6"
@@ -3189,6 +3172,11 @@ side-channel@^1.1.0:
     side-channel-list "^1.0.0"
     side-channel-map "^1.0.1"
     side-channel-weakmap "^1.0.2"
+
+simple-icons@16.28.0:
+  version "16.28.0"
+  resolved "https://registry.yarnpkg.com/simple-icons/-/simple-icons-16.28.0.tgz#5cb3cad9902a188d1d2656791b36a8fee4b5685a"
+  integrity sha512-sQPR5AtK/ijRjou7zw7mlLp08oB6FH7i0lOy5XJ2zp9mJs/yejgiOn7KvQoe2q4YJIx6VmgUSW5AOefebPt5kg==
 
 slash@^4.0.0:
   version "4.0.0"
