@@ -151,7 +151,7 @@ const valeurs = {
     { text: "values", accent: true },
     { text: "." },
   ] as RichText,
-  lead: "An engagement usually runs a year or more, and the code is yours outright, from the first commit to the last.",
+  lead: "An engagement runs from a few months to a year or more, and the code is yours outright, from the first commit to the last.",
   values: [
     {
       key: "transparence",

@@ -151,7 +151,7 @@ const valeurs = {
     { text: "valeurs", accent: true },
     { text: "." },
   ] as RichText,
-  lead: "Une mission dure en général un an ou plus, et le code vous appartient à 100 %, du premier commit au dernier.",
+  lead: "Une mission dure de quelques mois à un an ou plus, et le code vous appartient à 100 %, du premier commit au dernier.",
   values: [
     {
       key: "transparence",
