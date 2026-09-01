@@ -18,8 +18,8 @@ const nav = {
   label: "Main navigation",
   links: [
     { key: "offres", label: "What we do", href: "/#offres" },
-    { key: "equipe", label: "Team", href: "/#origine" },
     { key: "realisations", label: "Work", href: "/#proof" },
+    { key: "equipe", label: "Team", href: "/#origine" },
     { key: "blog", label: "Blog", href: "/blog" },
     { key: "cowork", label: "Cowork", href: "/cowork" },
   ],
