@@ -15,7 +15,7 @@ interface BlogCardProps {
 /**
  * One ledger row: the date in the margin, the title and its lede in the body,
  * the cover beside them when the article has one. Below `nav` the row stacks,
- * cover first.
+ * cover first. The cover is letterboxed, not cropped: covers come in every ratio.
  */
 export default function BlogCard({ article, href, status }: BlogCardProps) {
   const { title, date, dateISO, author, excerpt, cover } = article;
@@ -58,7 +58,7 @@ export default function BlogCard({ article, href, status }: BlogCardProps) {
           alt=""
           loading="lazy"
           decoding="async"
-          className="order-first mb-4 aspect-[3/2] w-full bg-tint object-cover nav:order-none nav:mb-0"
+          className="order-first mb-4 aspect-[3/2] w-full object-contain nav:order-none nav:mb-0"
         />
       )}
       <span
