@@ -3,10 +3,12 @@ scripts:
   archive: cd "$ORCA_WORKTREE_PATH" && docker compose down -v
 
 # The dev tab installs dependencies and starts Next.js: a tab is not bound by the setup-hook timeout.
-# It picks a free port first so it can print the URL, then keeps `docker compose up` in the foreground.
+# It picks a free port once and stores it in `.env`, which compose reads on its own: a later `make up`
+# (an agent running lint, say) keeps the same port instead of recreating the container on a random one.
 defaultTabs:
   - title: dev
     command: >-
-      export WEB_PORT=$(python3 -c 'import socket; s = socket.socket(); s.bind(("", 0)); print(s.getsockname()[1])')
-      && echo "http://$(hostname -s):$WEB_PORT"
+      (grep -qs '^WEB_PORT=' .env
+      || echo "WEB_PORT=$(python3 -c 'import socket; s = socket.socket(); s.bind(("", 0)); print(s.getsockname()[1])')" >> .env)
+      && echo "http://$(hostname -s):$(sed -n 's/^WEB_PORT=//p' .env)"
       && docker compose up web
