@@ -51,7 +51,8 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   /**
-   * Everything except the API routes, Next's own asset pipelines, the
+   * Everything except the API routes, the PostHog proxy (`/ingest`, rewritten
+   * in next.config.js), Next's own asset pipelines, the
    * root-level metadata routes (`app/robots.ts`, `app/sitemap.ts` — they live
    * outside `[lang]` and a rewrite would 404 them) and anything with a file
    * extension, which is `public/` and the favicons. No page slug on this site
@@ -61,6 +62,6 @@ export const config = {
    * convention is `proxy.ts` with a named `proxy` export.
    */
   matcher: [
-    "/((?!api|_next/static|_next/image|robots\\.txt|sitemap\\.xml|.*\\.[^/]*$).*)",
+    "/((?!api|ingest|_next/static|_next/image|robots\\.txt|sitemap\\.xml|.*\\.[^/]*$).*)",
   ],
 };
