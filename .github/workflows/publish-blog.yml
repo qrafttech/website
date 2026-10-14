@@ -3,8 +3,8 @@ name: Publish scheduled articles
 # An article PR (`blog/<slug-fr>` branch, opened by `/publish`) merges itself
 # on the morning of its `date`, Paris time, without a human approval: the
 # 48h before are the window to object. It is held while it is a draft, has a
-# review requesting changes, or has failing or pending checks; closing it
-# cancels the article.
+# review requesting changes, failing or pending checks, a file without a
+# `date` or a conflict with main; closing it cancels the article.
 #
 # main requires an approving review. The workflow merges with git and pushes
 # with the `BLOG_DEPLOY_KEY` deploy key, which the `Default` ruleset lets
