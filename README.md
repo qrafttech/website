@@ -34,6 +34,33 @@ $ yarn dev
 
 Open a new browser window on [http://localhost:3000](http://localhost:3000) to launch your app ☕️ 👨🏻‍🏭
 
+## Blog
+
+Articles are Markdown files in `content/blog`, one folder per article:
+
+```
+content/blog/<slug-fr>/
+  fr.md        # either language may be missing
+  en.md
+  cover.jpg    # optional
+  *.png        # the article's images, referenced by file name
+```
+
+Each file starts with a front matter:
+
+```yaml
+---
+title: Auditer ses skills Claude Code
+slug: auditer-ses-skills-claude-code # the URL, set once
+date: 2026-10-05 # no date = draft
+author: Nicolas Rouanne
+cover: cover.jpg # optional
+excerpt: … # optional, defaults to the first paragraph
+---
+```
+
+In production an article appears on its `date` (Paris time), released by the nightly cron (`/api/cron/publish`). Preview deployments and the dev server also show drafts and scheduled articles. A callout is a quote starting with `> [!NOTE]`, `> [!TIP]` or `> [!WARNING]`.
+
 ## Linting & Styling
 
 ### Linting

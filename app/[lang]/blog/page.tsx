@@ -6,16 +6,15 @@ import PageHero from "@/app/components/PageHero";
 import BlogCard from "@/app/components/BlogCard";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
-import { fetchArticles } from "@/lib/notion";
+import { fetchArticles } from "@/lib/blog";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
 
 /**
- * One list per locale. Articles are written in both languages in Notion, as
- * two pages tied by a `Translation` relation, so `/blog` lists the French
- * pages and `/en/blog` the English ones — an article that exists in only one
- * language appears in that list alone.
+ * One list per locale. An article is a folder with one Markdown file per
+ * language, so `/blog` lists the French files and `/en/blog` the English ones
+ * — an article that exists in only one language appears in that list alone.
  */
 
 export async function generateMetadata({
@@ -70,7 +69,7 @@ async function ArticleList({
     <>
       <ul>
         {paginatedArticles.map((article) => (
-          <li key={article.id}>
+          <li key={article.slug}>
             <BlogCard
               article={article}
               href={localePath(lang, `/blog/${article.slug}`)}

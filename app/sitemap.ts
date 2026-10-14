@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { type ArticleMeta, fetchArticles } from "@/lib/notion";
+import { type ArticleMeta, fetchArticles } from "@/lib/blog";
 import {
   LOCALES,
   type Locale,
@@ -65,11 +65,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     );
 
     // An article's slug differs per language, so its alternate is looked up
-    // through the `Translation` relation rather than assumed from the path.
+    // in the same folder rather than assumed from the path.
     const other = otherLocale(locale);
     for (const article of articles[locale]) {
       const translation = articles[other].find(
-        (candidate) => candidate.id === article.translationId
+        (candidate) => candidate.dir === article.dir
       );
       const paths: LocalePaths = {
         [locale]: `/blog/${article.slug}`,

@@ -2,7 +2,7 @@ import { cache } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import NotionRenderer from "@/app/components/NotionRenderer";
+import Markdown from "@/app/components/Markdown";
 import JsonLd from "@/app/components/JsonLd";
 import Wrap from "@/components/Wrap";
 import Eyebrow from "@/components/Eyebrow";
@@ -12,8 +12,7 @@ import {
   fetchArticles,
   fetchArticleBySlug,
   fetchTranslation,
-  extractPlainText,
-} from "@/lib/notion";
+} from "@/lib/blog";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import {
   type Locale,
@@ -31,9 +30,9 @@ interface ArticlePageProps {
 }
 
 /**
- * Where this article lives in each locale. Its own slug comes from its own
- * title; its translation's slug from the translation's title, through the
- * `Translation` relation. An untranslated article advertises one locale only.
+ * Where this article lives in each locale. Each language file has its own
+ * slug; the translation is the other file of the same folder. An
+ * untranslated article advertises one locale only.
  */
 function articlePaths(
   lang: Locale,
@@ -51,8 +50,8 @@ function articlePaths(
 /**
  * With Cache Components enabled, Next requires every `generateStaticParams`
  * to yield at least one result so it can prove at build time that the route
- * has no unguarded dynamic access. When Notion is unreachable this returns a
- * placeholder rather than `[]`; every real slug is then resolved on demand.
+ * has no unguarded dynamic access. When no article is published yet this
+ * returns a placeholder rather than `[]`.
  */
 const NO_SUCH_ARTICLE = "_";
 
@@ -63,14 +62,10 @@ export async function generateStaticParams({
 }) {
   if (!isLocale(params.lang)) return [{ slug: NO_SUCH_ARTICLE }];
 
-  try {
-    const articles = await fetchArticles(params.lang);
-    return articles.length > 0
-      ? articles.map((article) => ({ slug: article.slug }))
-      : [{ slug: NO_SUCH_ARTICLE }];
-  } catch {
-    return [{ slug: NO_SUCH_ARTICLE }];
-  }
+  const articles = await fetchArticles(params.lang);
+  return articles.length > 0
+    ? articles.map((article) => ({ slug: article.slug }))
+    : [{ slug: NO_SUCH_ARTICLE }];
 }
 
 export async function generateMetadata({
@@ -84,19 +79,11 @@ export async function generateMetadata({
 
   const translation = await fetchTranslation(lang, article);
 
-  let description = article.title;
-  for (const block of article.blocks) {
-    if (block.type === "paragraph" && block.paragraph.rich_text.length > 0) {
-      description = extractPlainText(block.paragraph.rich_text).slice(0, 160);
-      break;
-    }
-  }
-
   return articleMetadata(
     lang,
     articlePaths(lang, slug, translation),
     article.title,
-    description
+    article.excerpt.slice(0, 160) || article.title
   );
 }
 
@@ -143,7 +130,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               &larr; {t.blog.backToArticles}
             </MonoLink>
             {/* The exact twin, which the nav's switcher cannot know — it is a
-                client component and the twin's slug lives in Notion. Labelled
+                client component and the twin's slug is in the twin's file. Labelled
                 in the target language, as a reader of that language expects. */}
             {translation ? (
               <MonoLink
@@ -168,7 +155,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               )}
             </Eyebrow>
             <div className="pt-8">
-              <NotionRenderer blocks={article.blocks} />
+              <Markdown body={article.body} dir={article.dir} />
             </div>
           </article>
         </div>

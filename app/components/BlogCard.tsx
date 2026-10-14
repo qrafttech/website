@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import Eyebrow from "@/components/Eyebrow";
-import type { ArticleMeta } from "@/lib/notion";
+import type { ArticleMeta } from "@/lib/blog";
 
 interface BlogCardProps {
   article: ArticleMeta;

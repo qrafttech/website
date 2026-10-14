@@ -51,8 +51,8 @@ export function otherLocale(locale: Locale): Locale {
 
 /**
  * Whether a locale-relative path is the same page in both locales. Every
- * page is, except a blog article: articles are one Notion page per language,
- * each with a slug derived from its own title, so `/blog/mon-article` has no
+ * page is, except a blog article: articles are one Markdown file per language,
+ * each with its own slug, so `/blog/mon-article` has no
  * `/en/blog/mon-article` — its English twin lives at another slug, known only
  * once the article has been fetched (`fetchTranslation`).
  */
@@ -112,7 +112,7 @@ export function splitLocale(pathname: string): {
  * Where the switcher sends a reader who is on `pathname` and asks for
  * `target`. The current path is preserved (`/cowork` ↔ `/en/cowork`). On a
  * blog article the slug differs per language and the switcher, a client
- * component, cannot ask Notion which one — it sends the reader to the
+ * component, cannot read the article to know which one — it sends the reader to the
  * target locale's article list; the article itself carries the exact link to
  * its translation.
  */
