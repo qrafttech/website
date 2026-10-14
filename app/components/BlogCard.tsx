@@ -2,15 +2,19 @@ import Link from "next/link";
 
 import Eyebrow from "@/components/Eyebrow";
 import type { ArticleMeta } from "@/lib/blog";
+import type { Dictionary } from "@/lib/i18n/types";
 
 interface BlogCardProps {
   article: ArticleMeta;
   /** Locale-prefixed by the caller — the card does not know its locale. */
   href: string;
+  status: Dictionary["blog"]["status"];
 }
 
-export default function BlogCard({ article, href }: BlogCardProps) {
+export default function BlogCard({ article, href, status }: BlogCardProps) {
   const { title, date, dateISO, author } = article;
+  const statusLabel =
+    article.status === "published" ? null : status[article.status];
   return (
     <Link
       href={href}
@@ -21,6 +25,12 @@ export default function BlogCard({ article, href }: BlogCardProps) {
           {title}
         </h2>
         <Eyebrow className="pt-2">
+          {statusLabel && (
+            <>
+              {statusLabel}
+              {date && <span className="mx-1.5">&middot;</span>}
+            </>
+          )}
           {dateISO ? <time dateTime={dateISO}>{date}</time> : date}
           {author && (
             <>

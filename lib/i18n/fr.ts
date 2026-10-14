@@ -343,6 +343,7 @@ const blog = {
   backToArticles: "Retour aux articles",
   translation: "Read in English",
   empty: "Aucun article pour le moment. Revenez bientôt.",
+  status: { scheduled: "Programmé", draft: "Brouillon" },
   pagination: {
     label: "Pagination",
     previous: "Précédent",

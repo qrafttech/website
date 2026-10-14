@@ -73,6 +73,7 @@ async function ArticleList({
             <BlogCard
               article={article}
               href={localePath(lang, `/blog/${article.slug}`)}
+              status={copy.status}
             />
           </li>
         ))}

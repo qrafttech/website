@@ -148,6 +148,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {article.title}
             </h1>
             <Eyebrow className="pt-4">
+              {article.status !== "published" && (
+                <>
+                  {t.blog.status[article.status]}
+                  {article.date && <span className="mx-1.5">&middot;</span>}
+                </>
+              )}
               {article.dateISO ? (
                 <time dateTime={article.dateISO}>{article.date}</time>
               ) : (

@@ -26,6 +26,12 @@ export function assetUrl(dir: string, file: string): string {
  */
 const SHOW_UNPUBLISHED = process.env.VERCEL_ENV !== "production";
 
+/**
+ * `scheduled` and `draft` only ever reach a page outside production, where
+ * unpublished articles are listed.
+ */
+export type ArticleStatus = "published" | "scheduled" | "draft";
+
 export interface ArticleMeta {
   /** The article's folder, shared by its translations and its images. */
   dir: string;
@@ -34,6 +40,7 @@ export interface ArticleMeta {
   date: string;
   dateISO: string;
   author: string;
+  status: ArticleStatus;
   /** The `excerpt` field, or else the first paragraph. */
   excerpt: string;
   /** Absolute URL of the cover image, if the article has one. */
@@ -95,7 +102,10 @@ function firstParagraph(markdown: string): string {
 }
 
 /** Throws on a malformed file, so a broken article fails the build. */
-function readArticle(dir: string, locale: Locale): ArticleFull | null {
+function readArticle(
+  dir: string,
+  locale: Locale
+): Omit<ArticleFull, "status"> | null {
   const file = path.join(BLOG_DIR, dir, `${locale}.md`);
   if (!existsSync(file)) return null;
 
@@ -139,8 +149,9 @@ function todayISO(): string {
   }).format(new Date());
 }
 
-function isPublished(article: ArticleMeta, today: string): boolean {
-  return article.dateISO !== "" && article.dateISO <= today;
+function statusOf(dateISO: string, today: string): ArticleStatus {
+  if (!dateISO) return "draft";
+  return dateISO <= today ? "published" : "scheduled";
 }
 
 /**
@@ -162,9 +173,12 @@ export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
   const articles = readdirSync(BLOG_DIR, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => readArticle(entry.name, locale))
-    .filter((a): a is ArticleFull => a !== null)
-    .filter((a) => SHOW_UNPUBLISHED || isPublished(a, today))
-    .map(({ body: _body, ...meta }) => meta)
+    .filter((a) => a !== null)
+    .map(({ body: _body, ...meta }) => ({
+      ...meta,
+      status: statusOf(meta.dateISO, today),
+    }))
+    .filter((a) => SHOW_UNPUBLISHED || a.status === "published")
     .sort((a, b) => (b.dateISO || "9999").localeCompare(a.dateISO || "9999"));
 
   const slugs = new Set<string>();
@@ -184,7 +198,8 @@ export async function fetchArticleBySlug(
 ): Promise<ArticleFull | null> {
   const articles = await fetchArticles(locale);
   const match = articles.find((a) => a.slug === slug);
-  return match ? readArticle(match.dir, locale) : null;
+  const article = match && readArticle(match.dir, locale);
+  return article ? { ...article, status: match.status } : null;
 }
 
 /**
