@@ -1,0 +1,59 @@
+name: Publish scheduled articles
+
+# An article PR (`blog/<slug-fr>` branch, opened by `/publish`) merges itself
+# on the morning of its `date`, Paris time, without a human approval: the
+# 48h before are the window to object. It is held while it is a draft, has a
+# review requesting changes, or has failing or pending checks; closing it
+# cancels the article.
+#
+# main requires an approving review, so the workflow approves the PR itself:
+# the repo must allow GitHub Actions to approve pull requests.
+on:
+  schedule:
+    # 04:30 in Paris in summer, 03:30 in winter: after midnight either way,
+    # and well before the 9h social posts.
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge the article PRs whose date has come
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          today=$(TZ=Europe/Paris date +%F)
+          prs=$(gh pr list --state open --limit 100 \
+            --json number,headRefName,isDraft,reviewDecision,headRefOid \
+            --jq '.[] | select(.headRefName | startswith("blog/")) | select(.isDraft | not)
+              | select(.reviewDecision != "CHANGES_REQUESTED") | "\(.number) \(.headRefOid)"')
+
+          echo "$prs" | while read -r pr sha; do
+            if [ -z "$pr" ]; then continue; fi
+
+            # The latest date among the article files of the PR: a file
+            # without a date is a draft, and holds the PR.
+            latest=""
+            files=$(gh pr diff "$pr" --name-only | grep -E '^content/blog/[^/]+/(fr|en)\.md$' || true)
+            if [ -z "$files" ]; then echo "#$pr: no article file, skipped"; continue; fi
+            for file in $files; do
+              date=$(gh api "repos/$GH_REPO/contents/$file?ref=$sha" -H "Accept: application/vnd.github.raw" \
+                | awk 'NR == 1 && $0 != "---" { exit } NR > 1 && $0 == "---" { exit } /^date:/ { print $2 }')
+              if [ -z "$date" ]; then latest=draft; break; fi
+              if [[ "$date" > "$latest" ]]; then latest=$date; fi
+            done
+
+            if [ "$latest" = draft ]; then echo "#$pr: draft, skipped"; continue; fi
+            if [[ "$latest" > "$today" ]]; then echo "#$pr: scheduled for $latest, skipped"; continue; fi
+            if ! gh pr checks "$pr" > /dev/null; then echo "#$pr: checks not green, skipped"; continue; fi
+
+            gh pr review "$pr" --approve --body "Article daté du $latest : publié automatiquement."
+            gh pr merge "$pr" --merge --match-head-commit "$sha"
+            echo "#$pr: merged ($latest)"
+          done
