@@ -3,7 +3,10 @@ scripts:
   archive: cd "$ORCA_WORKTREE_PATH" && docker compose down -v
 
 # The dev tab installs dependencies and starts Next.js: a tab is not bound by the setup-hook timeout.
-# It prints the URL first: the port is random per worktree, and Orca does not tie Docker ports to the workspace.
+# It picks a free port first so it can print the URL, then keeps `docker compose up` in the foreground.
 defaultTabs:
   - title: dev
-    command: docker compose up -d web && echo "http://$(hostname -s):$(docker compose port web 3000 | cut -d: -f2)" && docker compose logs -f web
+    command: >-
+      export WEB_PORT=$(python3 -c 'import socket; s = socket.socket(); s.bind(("", 0)); print(s.getsockname()[1])')
+      && echo "http://$(hostname -s):$WEB_PORT"
+      && docker compose up web
