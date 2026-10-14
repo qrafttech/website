@@ -94,11 +94,14 @@ function formatDate(iso: string, locale: Locale): string {
     : `${month} ${day}, ${year}`;
 }
 
+/** The first paragraph with text: one holding only an image is skipped. */
 function firstParagraph(markdown: string): string {
-  const paragraph = fromMarkdown(markdown).children.find(
-    (node) => node.type === "paragraph"
-  );
-  return paragraph ? toString(paragraph) : "";
+  for (const node of fromMarkdown(markdown).children) {
+    if (node.type !== "paragraph") continue;
+    const text = toString(node, { includeImageAlt: false }).trim();
+    if (text) return text;
+  }
+  return "";
 }
 
 /** Throws on a malformed file, so a broken article fails the build. */
