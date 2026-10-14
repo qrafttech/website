@@ -37,3 +37,6 @@ next-env.d.ts
 
 # hallmark design-skill state (regenerable)
 .hallmark/
+
+# Orca workspace state (screenshot drops, etc.)
+.orca/
