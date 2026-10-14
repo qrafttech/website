@@ -59,7 +59,7 @@ excerpt: … # optional, defaults to the first paragraph
 ---
 ```
 
-In production an article appears on its `date` (Paris time), released by the nightly cron (`/api/cron/publish`). Preview deployments and the dev server also show drafts and scheduled articles. A callout is a quote starting with `> [!NOTE]`, `> [!TIP]` or `> [!WARNING]`.
+In production an article appears on its `date` (Paris time), released by the nightly cron (`/api/cron/publish`). An article PR on a `blog/<slug-fr>` branch merges itself that morning, without an approval (`.github/workflows/publish-blog.yml`), unless it is a draft, has a review requesting changes or failing checks; closing it cancels the article. Preview deployments and the dev server also show drafts and scheduled articles. A callout is a quote starting with `> [!NOTE]`, `> [!TIP]` or `> [!WARNING]`.
 
 ## Linting & Styling
 
