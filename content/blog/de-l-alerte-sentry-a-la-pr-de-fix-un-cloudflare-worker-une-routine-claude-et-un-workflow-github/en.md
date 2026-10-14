@@ -3,6 +3,7 @@ title: "From Sentry Alert to Fix PR: a Cloudflare Worker, a Claude Routine and a
 slug: from-sentry-alert-to-fix-pr-a-cloudflare-worker-a-claude-routine-and-a-github-workflow
 date: 2026-10-26
 author: "Nicolas Rouanne"
+cover: "diagram-en.jpg"
 ---
 
 Since July, a Claude routine has been fixing some of our production bugs on its own. Every night at 1am, a [Claude Code routine](https://code.claude.com/docs/en/routines) read the Sentry alerts posted in Slack, looked for the root cause in the monorepo, and opened a PR when it was confident — otherwise it answered in the alert thread with a short analysis. Over its first five weeks: 7 PRs opened, 6 merged, and about 15 alerts dismissed with a real diagnosis (third-party timeouts, known races, guard rails doing their job). It's the continuation of the manual triage we described in January ([Using Claude Code to Triage Sentry Issues and Link Them to GitHub](/en/blog/using-claude-code-to-triage-sentry-issues-and-link-them-to-github)), except nobody has to run anything.

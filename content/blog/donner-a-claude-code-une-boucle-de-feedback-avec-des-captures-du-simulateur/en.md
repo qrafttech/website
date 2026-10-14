@@ -5,12 +5,6 @@ date: 2026-01-27
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** January 27, 2026
-
----
-
 When Claude Code runs commands, it sees text output. But when working on a mobile app, text isn't enough - you need to see the screen.
 
 The idea: use `xcrun simctl io booted screenshot` to capture the simulator, then let Claude read the image. Now it has a feedback loop.

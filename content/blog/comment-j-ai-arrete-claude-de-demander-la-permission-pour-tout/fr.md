@@ -5,12 +5,6 @@ date: 2026-01-22
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 22 janvier 2026
-
----
-
 ## « Autoriser Claude à exécuter git status ? » Pour la centième fois aujourd'hui.
 
 J'adore Claude Code. C'est devenu mon compagnon de code au quotidien. Mais il y avait un truc qui me rendait dingue : les demandes de permission constantes pour des commandes totalement inoffensives.

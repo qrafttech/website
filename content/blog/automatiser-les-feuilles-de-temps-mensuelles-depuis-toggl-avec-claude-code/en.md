@@ -5,12 +5,6 @@ date: 2026-03-04
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** March 4, 2026
-
----
-
 I wanted to generate a monthly timesheet from Toggl — one that shows, per day, how many half-days I worked for each client. Simple enough on the surface. The tricky part turned out to be the rounding.
 
 ## The goal

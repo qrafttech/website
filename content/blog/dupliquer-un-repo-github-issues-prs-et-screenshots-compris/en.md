@@ -3,6 +3,7 @@ title: "Mirroring a GitHub repository — issues, PRs and screenshots included"
 slug: mirroring-a-github-repository-issues-prs-and-screenshots-included
 date: 2026-06-12
 author: "Nicolas Rouanne"
+cover: "screenshot-2026-06-12-at-14-23-46-blurred.png"
 ---
 
 **Before:** a repository hosted in an organization we don't control — 823 issues and pull requests, ~2,300 comments, 160 screenshots, 40 releases.

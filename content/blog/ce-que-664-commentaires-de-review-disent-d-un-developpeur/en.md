@@ -3,6 +3,7 @@ title: "What 664 review comments say about a developer"
 slug: what-664-review-comments-say-about-a-developer
 date: 2026-07-10
 author: "Nicolas Rouanne"
+cover: "fig1-en.png"
 ---
 
 Ahead of the semi-annual review of one of our developers, I wanted to check an impression: his PRs seemed to get pushback in review more often than the others'. I asked Claude Code to classify the semester's 664 human review comments — 474 PRs, three devs compared. Call them Anatole (the dev under review), Barnabé and Côme.

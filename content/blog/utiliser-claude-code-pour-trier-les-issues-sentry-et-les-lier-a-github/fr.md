@@ -5,12 +5,6 @@ date: 2026-01-27
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 27 janvier 2026
-
----
-
 ## « Tu peux vérifier ce qui se passe dans Sentry ? »
 
 C'est tout ce que j'ai demandé à Claude Code. Ce qui a suivi était un workflow complet de triage d'incidents—interrogation des issues, catégorisation, et création d'issues GitHub correctement liées—le tout en conversation naturelle.

@@ -3,12 +3,7 @@ title: "Loops agentiques : je ne dis plus à Claude comment faire, je lui dis qu
 slug: loops-agentiques-je-ne-dis-plus-a-claude-comment-faire-je-lui-dis-quoi-verifier
 date: 2026-10-06
 author: "Adrien Lupo"
----
-
-**Auteur :** Adrien Lupo
-
-**Date :** 6 octobre 2026
-
+cover: "01-cover.png"
 ---
 
 ![](01-cover.png)

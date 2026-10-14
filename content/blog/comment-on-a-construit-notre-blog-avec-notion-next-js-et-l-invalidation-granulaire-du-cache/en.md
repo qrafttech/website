@@ -5,12 +5,6 @@ date: 2026-03-05
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** March 5, 2026
-
----
-
 I wanted a blog for the Qraft website, but I didn't want to build a full CMS or manage a database. We already use Notion internally, and it has a solid API. So the idea was simple: write articles in Notion, render them on the site with Next.js, and use Vercel's caching to keep things fast. It took 5 PRs to get there, and the final architecture turned out cleaner than I expected.
 
 ## Why Notion as a CMS

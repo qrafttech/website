@@ -3,6 +3,7 @@ title: "Ce que 664 commentaires de review disent d'un développeur"
 slug: ce-que-664-commentaires-de-review-disent-d-un-developpeur
 date: 2026-07-10
 author: "Nicolas Rouanne"
+cover: "fig1-fr.png"
 ---
 
 Avant l'entretien semestriel d'un des développeurs de l'équipe, je voulais vérifier une impression : ses PRs semblaient accrocher en review plus souvent que celles des autres. J'ai fait classifier par Claude Code les 664 commentaires de review humains du semestre — 474 PRs, trois devs comparés. Appelons-les Anatole (le dev évalué), Barnabé et Côme.

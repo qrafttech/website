@@ -5,12 +5,6 @@ date: 2026-01-22
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 22 janvier 2026
-
----
-
 ## Petite confession
 
 J'écris cet article depuis mon terminal. Pas de navigateur ouvert, pas de copier-coller entre applications. Juste moi, Claude Code, et un espace Notion avec lequel je peux discuter directement.

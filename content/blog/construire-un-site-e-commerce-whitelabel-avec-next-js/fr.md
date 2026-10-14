@@ -5,12 +5,6 @@ date: 2025-06-20
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 20 juin 2025
-
----
-
 Je construis un site e-commerce whitelabel avec Next.js : selon l'hôte, le thème change.
 
 Je pense qu'il y a 3 façons de faire :

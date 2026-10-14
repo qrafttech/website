@@ -3,6 +3,7 @@ title: "Automating time tracking: a cloud routine and a local sensor"
 slug: automating-time-tracking-a-cloud-routine-and-a-local-sensor
 date: 2026-07-10
 author: "Nicolas Rouanne"
+cover: "toggl-notif.jpg"
 ---
 
 We sell expertise by the hour. For that to work, every hour has to land on the right client and the right topic — billable or not. My tool for this is [Toggl](https://toggl.com/track/), and I'm bad at maintaining it by hand: a forgotten timer running all night, entries never assigned to a client, whole gaps on busy days.

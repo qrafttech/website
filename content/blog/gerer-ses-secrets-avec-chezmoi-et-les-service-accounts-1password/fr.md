@@ -5,12 +5,6 @@ date: 2026-05-07
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 7 mai 2026
-
----
-
 J'utilise [chezmoi](https://www.chezmoi.io/) pour gérer mes dotfiles entre machines, avec les secrets stockés dans 1Password. Jusqu'à récemment, tout passait par mon compte personnel 1Password. Ça marchait bien pour moi seul, mais quand j'ai commencé à donner accès à la CLI `op` à des agents IA (Claude Code), j'ai réalisé qu'ils pouvaient voir _tous les vaults_ de mon compte. Pas idéal.
 
 Voici comment j'ai migré vers les Service Accounts 1Password pour isoler les agents aux seuls secrets dont ils ont besoin.

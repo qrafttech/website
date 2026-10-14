@@ -5,12 +5,6 @@ date: 2026-03-03
 author: "Adrien Lupo"
 ---
 
-**Auteur :** Adrien Lupo
-
-**Date :** 03 mars 2026
-
----
-
 Quand je code une feature, j'ai souvent le réflexe d'aller regarder comment les meilleurs projets open source font la même chose. Comment [cal.com](http://cal.com/) structure ses tRPC routes ? Comment Vendure découpe ses modules NestJS ? Comment Prefect organise ses layers FastAPI ?
 
 Le problème : ça prend du temps. Trouver le bon repo, naviguer dans sa structure, comprendre les conventions, puis comparer avec mon propre code. J'ai automatisé tout ça avec un agent Claude Code custom.

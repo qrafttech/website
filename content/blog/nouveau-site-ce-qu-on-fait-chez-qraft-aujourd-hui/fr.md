@@ -3,6 +3,7 @@ title: "Nouveau site : ce qu'on fait chez Qraft aujourd'hui"
 slug: nouveau-site-ce-qu-on-fait-chez-qraft-aujourd-hui
 date: 2026-09-01
 author: "Nicolas Rouanne"
+cover: "qraft-site-01-hero-fr.jpg"
 ---
 
 On a mis en ligne un nouveau site. L'ancien racontait ce qu'est Qraft : une équipe d'experts qui construit des applications, bien. C'est toujours vrai, mais depuis un moment ça ne dit plus tout ce qu'on fait.
