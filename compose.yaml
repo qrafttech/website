@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    command: sh -c "yarn install --frozen-lockfile && yarn dev --hostname 0.0.0.0"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      # Random host port unless WEB_PORT is set, so parallel worktrees don't collide: `make url`
+      - "${WEB_PORT:-0}:3000"
+
+volumes:
+  node_modules:

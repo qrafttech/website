@@ -4,32 +4,31 @@
 
 Website for the **Qraft** software engineering company; powered by [_Next.js_](https://nextjs.org/) and [_Tailwind CSS_](https://tailwindcss.com/).
 
-## Installation
-
-You need [`node`](https://nodejs.org/en/) and we highly recommend installing it through a _Version Manager_, such as [`nvm`](https://github.com/creationix/nvm). The following will install `node` [LTS](https://nodejs.org/en/about/releases/) and `npm`
-
-```sh
-$ brew install nvm
-$ nvm install --lts
-```
-
-`yarn` is needed to fetch JS dependencies. Use [`brew`](https://brew.sh/) 🍺 to [install it](https://yarnpkg.com/lang/en/docs/install/#mac-stable); use `--ignore-dependencies` to use node's version from `nvm`.
-
-```sh
-$ brew install yarn --ignore-dependencies
-```
-
-Install the _Javascript_ dependencies
-
-```sh
-$ yarn install
-```
-
 ## Development
 
-Run the project in _development_ mode to start the **_development server_** 👨🏻‍🏭
+Two setups, pick one.
+
+### With Docker
+
+You need [Docker](https://docs.docker.com/get-docker/): the app runs in a container, independent from the `node` installed on your machine.
 
 ```sh
+$ make up     # install dependencies and start the development server
+$ make url    # print its address
+$ make logs   # follow its logs
+$ make down   # stop it
+```
+
+`make help` lists every command.
+
+### Without Docker
+
+You need [`node`](https://nodejs.org/en/), in the version from `.nvmrc`; we highly recommend installing it through a _Version Manager_, such as [`nvm`](https://github.com/nvm-sh/nvm). `nvm install` reads `.nvmrc`; `corepack enable` provides `yarn`.
+
+```sh
+$ nvm install
+$ corepack enable
+$ yarn install
 $ yarn dev
 ```
 
@@ -44,7 +43,8 @@ The project is linted using [_TypeScript_](https://www.typescriptlang.org/) and 
 Run the linter manually to check your changes if needed:
 
 ```sh
-$ yarn lint
+$ make lint    # with Docker
+$ yarn lint    # without Docker
 ```
 
 > **Continuous integration** 🤖 will run the linter and **fail the build** if any error is found. 👮‍♀️
@@ -58,7 +58,8 @@ We rely on **_Prettier_ default settings**, so no configuration file is needed/p
 Run `prettier` manually to format your files if needed:
 
 ```sh
-$ yarn format
+$ make format  # with Docker
+$ yarn format  # without Docker
 ```
 
 > **Continuous integration** 🤖 will run the formatter and **fail the build** if any error is found. 👮‍♀️

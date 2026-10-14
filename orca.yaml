@@ -1,0 +1,8 @@
+scripts:
+  # Starts the dev server detached: the setup hook returns at once, the container installs dependencies then runs Next.js.
+  setup: cd "$ORCA_WORKTREE_PATH" && docker compose up -d --build web
+  archive: cd "$ORCA_WORKTREE_PATH" && docker compose down -v
+
+defaultTabs:
+  - title: dev
+    command: docker compose logs -f web
