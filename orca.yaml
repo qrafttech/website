@@ -1,8 +1,8 @@
 scripts:
-  # Starts the dev server detached: the setup hook returns at once, the container installs dependencies then runs Next.js.
-  setup: cd "$ORCA_WORKTREE_PATH" && docker compose up -d --build web
+  setup: cd "$ORCA_WORKTREE_PATH" && docker compose build web
   archive: cd "$ORCA_WORKTREE_PATH" && docker compose down -v
 
+# The dev tab installs dependencies and starts Next.js: a tab is not bound by the setup-hook timeout.
 defaultTabs:
   - title: dev
-    command: docker compose logs -f web
+    command: docker compose up web
