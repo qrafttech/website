@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   cacheComponents: true,
+  // The dev server runs on orca-host and is opened from a desktop browser:
+  // without this, Next.js blocks hot reload (`/_next/hmr`) from that origin.
+  allowedDevOrigins: ["orca-host"],
   // `lib/blog.ts` reads `content/blog` at runtime too, when the nightly cron
   // rebuilds the lists: the files must ship with the server functions.
   outputFileTracingIncludes: {
