@@ -340,6 +340,7 @@ const blog = {
   backToArticles: "Back to the articles",
   translation: "Lire en français",
   empty: "Nothing here yet. Come back soon.",
+  status: { scheduled: "Scheduled", draft: "Draft" },
   pagination: {
     label: "Pagination",
     previous: "Previous",

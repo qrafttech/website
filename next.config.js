@@ -2,6 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   cacheComponents: true,
+  // `lib/blog.ts` reads `content/blog` at runtime too, when the nightly cron
+  // rebuilds the lists: the files must ship with the server functions.
+  outputFileTracingIncludes: {
+    "/**": ["./content/blog/**/*.md"],
+    "/blog-assets/**": ["./content/blog/**/*"],
+  },
   // PostHog reverse proxy — see instrumentation-client.ts.
   async rewrites() {
     return [

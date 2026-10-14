@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { type Locale, localeHref, localePath } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
-import { fetchArticles } from "@/lib/notion";
+import { fetchArticles } from "@/lib/blog";
 
 const MOBILE_ARTICLES = 3;
 
@@ -20,7 +20,7 @@ export default async function Ticker({
   /* M5 — a signed, dated article is a person thinking in public; an unsigned
      title is content. */
   const links = articles.map((article) => ({
-    key: article.id,
+    key: article.slug,
     href: localePath(lang, `/blog/${article.slug}`),
     title: article.title,
     meta: [

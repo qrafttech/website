@@ -255,6 +255,8 @@ export interface Dictionary {
     /** Link to the article's twin in the other locale, in THAT language. */
     translation: string;
     empty: string;
+    /** Shown before the date of an unpublished article, outside production. */
+    status: { scheduled: string; draft: string };
     pagination: {
       label: string;
       previous: string;
