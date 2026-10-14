@@ -1,0 +1,8 @@
+scripts:
+  setup: cd "$ORCA_WORKTREE_PATH" && docker compose build web
+  archive: cd "$ORCA_WORKTREE_PATH" && docker compose down -v
+
+# The dev tab installs dependencies and starts Next.js: a tab is not bound by the setup-hook timeout.
+defaultTabs:
+  - title: dev
+    command: docker compose up web

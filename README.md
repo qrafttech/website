@@ -4,36 +4,18 @@
 
 Website for the **Qraft** software engineering company; powered by [_Next.js_](https://nextjs.org/) and [_Tailwind CSS_](https://tailwindcss.com/).
 
-## Installation
-
-You need [`node`](https://nodejs.org/en/) and we highly recommend installing it through a _Version Manager_, such as [`nvm`](https://github.com/creationix/nvm). The following will install `node` [LTS](https://nodejs.org/en/about/releases/) and `npm`
-
-```sh
-$ brew install nvm
-$ nvm install --lts
-```
-
-`yarn` is needed to fetch JS dependencies. Use [`brew`](https://brew.sh/) 🍺 to [install it](https://yarnpkg.com/lang/en/docs/install/#mac-stable); use `--ignore-dependencies` to use node's version from `nvm`.
-
-```sh
-$ brew install yarn --ignore-dependencies
-```
-
-Install the _Javascript_ dependencies
-
-```sh
-$ yarn install
-```
-
 ## Development
 
-Run the project in _development_ mode to start the **_development server_** 👨🏻‍🏭
+You need [Docker](https://docs.docker.com/get-docker/): the app runs in a container with the Node version from `.nvmrc`.
 
 ```sh
-$ yarn dev
+$ make up     # install dependencies and start the development server
+$ make url    # print its address
+$ make logs   # follow its logs
+$ make down   # stop it
 ```
 
-Open a new browser window on [http://localhost:3000](http://localhost:3000) to launch your app ☕️ 👨🏻‍🏭
+`make help` lists every command.
 
 ## Linting & Styling
 
@@ -44,7 +26,7 @@ The project is linted using [_TypeScript_](https://www.typescriptlang.org/) and 
 Run the linter manually to check your changes if needed:
 
 ```sh
-$ yarn lint
+$ make lint
 ```
 
 > **Continuous integration** 🤖 will run the linter and **fail the build** if any error is found. 👮‍♀️
@@ -58,7 +40,7 @@ We rely on **_Prettier_ default settings**, so no configuration file is needed/p
 Run `prettier` manually to format your files if needed:
 
 ```sh
-$ yarn format
+$ make format
 ```
 
 > **Continuous integration** 🤖 will run the formatter and **fail the build** if any error is found. 👮‍♀️
