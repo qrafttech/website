@@ -58,7 +58,7 @@ export default function BlogCard({ article, href, status }: BlogCardProps) {
           alt=""
           loading="lazy"
           decoding="async"
-          className="order-first mb-4 aspect-[3/2] w-full bg-tint object-contain nav:order-none nav:mb-0"
+          className="order-first mb-4 aspect-[3/2] w-full object-contain nav:order-none nav:mb-0"
         />
       )}
       <span
