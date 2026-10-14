@@ -5,12 +5,6 @@ date: 2026-01-29
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 29 janvier 2026
-
----
-
 Chez Qraft, nous avons deux produits qui génèrent beaucoup de PDF : Billi, une plateforme SaaS de facturation pour les cabinets de freelances, et Embarq, une société de portage salarial entièrement automatisée. Entre les deux, on génère des factures, des comptes rendus d'activité, des notes de frais, des avoirs, des devis, des contrats et des simulations de paie. Les PDF sont partout.
 
 Pendant des années, on a généré ces documents avec la même stack dans les deux produits. Ça marchait, mais c'était jamais génial. Je veux expliquer pourquoi on a décidé de construire une API dédiée de conversion HTML vers PDF plutôt que de continuer à rafistoler ce qu'on avait.

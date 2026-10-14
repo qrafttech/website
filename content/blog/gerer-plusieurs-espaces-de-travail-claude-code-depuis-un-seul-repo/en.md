@@ -5,12 +5,6 @@ date: 2026-03-04
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** March 4, 2026
-
----
-
 I use Claude Code across three separate directories — `~/dev/` for development, `~/work/` for non-dev tasks (time tracking, content editing), and `~/personal/` for personal admin. Each workspace has its own `CLAUDE.md` (context instructions) and `.mcp.json` (MCP server config). I wanted all of these versioned in a single repo so I could track changes, review diffs, and not lose configs when switching machines.
 
 ## The setup

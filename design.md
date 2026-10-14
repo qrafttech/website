@@ -128,6 +128,8 @@ inline mono link row above it. No link columns, no social icon row.
   sized or grouped so the marks read on their own — that is a wall, and the
   clause below still forbids it. A named case with no usable mark keeps the
   slot and says why.
-- Content pages: typography only.
+- Content pages: typography only. One exception: a `/blog` row shows the
+  article's `cover` image beside its lede when the front matter names one —
+  the author's own image, never a stock placeholder for an article without one.
 - No invented metrics, no testimonials that don't exist, no logo walls beyond
   the clients actually named in `lib/i18n/fr/clients.ts`.

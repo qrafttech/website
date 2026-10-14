@@ -3,10 +3,7 @@ title: "J'ai vibe-rempli mon Crédit d'Impôt Innovation"
 slug: j-ai-vibe-rempli-mon-credit-d-impot-innovation
 date: 2026-04-28
 author: "Nicolas Rouanne"
----
-
-_Auteur : Nicolas Rouanne — 28 avril 2026_
-
+cover: "screenshot-2026-04-28-at-15-22-23.png"
 ---
 
 Remplir le dossier CII (Crédit d'Impôt Innovation) est une corvée annuelle. Le dossier exige des données de personnel, du suivi de temps, des chiffres de paie, et une description du projet suffisamment détaillée pour qu'un inspecteur des impôts ne la rejette pas.

@@ -5,12 +5,6 @@ date: 2026-02-13
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 13 février 2026
-
----
-
 J'utilise Claude Code avec le serveur MCP de Notion pour lire et écrire dans mes espaces Notion. Mais j'ai deux comptes Notion — un pour le travail et un personnel. Le serveur MCP n'accepte qu'un seul NOTION_TOKEN, donc il n'est pas possible de connecter les deux en même temps. Voici le contournement que j'utilise, et quelques pistes pour améliorer les choses.
 
 ## Le problème

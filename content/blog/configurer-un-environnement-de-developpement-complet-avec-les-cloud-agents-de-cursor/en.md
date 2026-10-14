@@ -5,12 +5,6 @@ date: 2026-03-02
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** March 2, 2026
-
----
-
 I wanted to see if Cursor's new Cloud Agents feature could set up a real development environment from scratch — not a toy project, but a full Rails API + Next.js monorepo with PostgreSQL, Redis, encrypted credentials, and seeded data. The answer: yes, mostly. Here's how it went.
 
 ## What are Cursor Cloud Agents?

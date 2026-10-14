@@ -3,6 +3,7 @@ title: "Automatiser le suivi de temps : une routine cloud, un capteur local"
 slug: automatiser-le-suivi-de-temps-une-routine-cloud-un-capteur-local
 date: 2026-07-10
 author: "Nicolas Rouanne"
+cover: "toggl-notif.jpg"
 ---
 
 On vend du temps d'expertise. Pour que ça tienne, chaque heure doit finir sur le bon client et le bon sujet — facturable ou non. Mon outil pour ça, c'est [Toggl](https://toggl.com/track/), et je suis mauvais à le tenir à la main : timer oublié qui tourne toute la nuit, entrées jamais attribuées à un client, trous entiers les jours chargés.

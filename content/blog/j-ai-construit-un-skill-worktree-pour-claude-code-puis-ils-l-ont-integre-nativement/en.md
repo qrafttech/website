@@ -5,12 +5,6 @@ date: 2026-03-02
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** March 2, 2026
-
----
-
 I spent a few weeks building a custom `/worktree` skill for Claude Code. It managed git worktrees for feature branches: creating them, copying permissions, cleaning up after merges, pruning stale branches. It was 114 lines of carefully crafted shell logic, and three other skills depended on it. Today I deleted it all and replaced it with a single flag: `claude --worktree`.
 
 This is a story about building custom tooling on a fast-moving platform, and whether the investment is worth it.

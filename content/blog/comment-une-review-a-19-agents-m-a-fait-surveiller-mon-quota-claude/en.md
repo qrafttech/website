@@ -3,6 +3,7 @@ title: "How a 19-agent code review made me watch my Claude quota"
 slug: how-a-19-agent-code-review-made-me-watch-my-claude-quota
 date: 2026-06-24
 author: "Nicolas Rouanne"
+cover: "screenshot-2026-06-24-at-14-55-37.png"
 ---
 
 I ran two multi-agent code reviews back to back — Claude Code's "ultracode" mode — and watched a chunk of my weekly limit disappear without ever seeing it go. The first review fanned out 31 agents across one PR; the second, 19. Each agent chewed through 50–80k tokens. The output, honestly: unreadable. Lots of volume, very little I could use. And I had no real-time sense of what it was costing me until I went looking.

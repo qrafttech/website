@@ -5,12 +5,6 @@ date: 2025-06-20
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** June 20, 2025
-
----
-
 I'm building a whitelabel e-commerce website with Next.js: depending on the host the theme changes.
 
 I think there are 3 ways of doing it:

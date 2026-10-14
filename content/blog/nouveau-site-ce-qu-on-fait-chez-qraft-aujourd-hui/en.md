@@ -3,6 +3,7 @@ title: "New site: what we do at Qraft today"
 slug: new-site-what-we-do-at-qraft-today
 date: 2026-09-01
 author: "Nicolas Rouanne"
+cover: "qraft-site-01-hero-fr.jpg"
 ---
 
 We've put a new site online. The old one told what Qraft is: a team of experts who build applications, and build them well. That's still true, but for a while now it hasn't said everything we do.

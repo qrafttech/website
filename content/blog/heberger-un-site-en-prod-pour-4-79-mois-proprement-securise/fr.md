@@ -5,12 +5,6 @@ date: 2026-05-26
 author: "Adrien Lupo"
 ---
 
-**Auteur :** Adrien Lupo
-
-**Date :** 26 mai 2026
-
----
-
 J'ai développé un petit site pour une association sportive, et j'ai décidé de l'héberger moi-même sur un VPS. Ouvrir un VPS, ça fait un peu peur au début : une IP publique, et des bots qui tapent à la porte toute la journée. Voici comment je l'ai sécurisé, sans être sysadmin. Le fil rouge : la défense en profondeur.
 
 ## Pourquoi un VPS

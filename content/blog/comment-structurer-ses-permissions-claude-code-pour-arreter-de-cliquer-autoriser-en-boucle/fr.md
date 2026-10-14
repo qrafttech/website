@@ -5,12 +5,6 @@ date: 2026-02-19
 author: "Adrien Lupo"
 ---
 
-**Auteur :** Adrien Lupo
-
-**Date :** 19 février 2026
-
----
-
 À force de cliquer sur "autoriser" en boucle, on ne lit plus rien. Le signal se noie dans le bruit -- et c'est là que le risque commence. Mardi matin chez Qraft, on a pris 30 minutes pour parler permissions dans Claude Code. Je vous partage ce qui en est ressorti.
 
 ---

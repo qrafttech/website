@@ -5,12 +5,6 @@ date: 2026-01-29
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** January 29, 2026
-
----
-
 At Qraft, we build two products that generate a lot of PDFs: Billi, a SaaS invoicing platform for freelance agencies, and Embarq, a fully automated umbrella company (portage salarial) in France. Between the two, we generate invoices, activity reports, expense reports, credit notes, quotes, contracts, and pay simulations. PDFs are everywhere.
 
 For years, we've been generating these documents with the same stack in both products. It worked, but it was never great. I want to explain why we decided to build a dedicated, standalone HTML-to-PDF API instead of continuing to patch what we had.

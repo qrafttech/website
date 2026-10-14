@@ -3,6 +3,7 @@ title: "De l'alerte Sentry à la PR de fix : un Cloudflare Worker, une routine C
 slug: de-l-alerte-sentry-a-la-pr-de-fix-un-cloudflare-worker-une-routine-claude-et-un-workflow-github
 date: 2026-10-26
 author: "Nicolas Rouanne"
+cover: "diagram-fr.jpg"
 ---
 
 Depuis juillet, une routine Claude corrige toute seule une partie de nos bugs de prod. Chaque nuit à 1h, une [routine Claude Code](https://code.claude.com/docs/en/routines) lisait les alertes Sentry postées dans Slack, cherchait la cause racine dans le monorepo, et ouvrait une PR quand elle était sûre d'elle — sinon elle répondait dans le thread de l'alerte avec une courte analyse. Sur ses cinq premières semaines : 7 PRs ouvertes, 6 mergées, et une quinzaine d'alertes écartées avec un vrai diagnostic (timeouts tiers, races connues, garde-fous qui font leur travail). C'est la suite du tri manuel dont on parlait en janvier ([Utiliser Claude Code pour trier les issues Sentry et les lier à GitHub](/blog/utiliser-claude-code-pour-trier-les-issues-sentry-et-les-lier-a-github)), sauf que personne n'a rien à lancer.

@@ -3,12 +3,7 @@ title: "Migrer 13 PRs vers un monorepo avec git format-patch"
 slug: migrer-13-prs-vers-un-monorepo-avec-git-format-patch
 date: 2026-01-26
 author: "Nicolas Rouanne"
----
-
-**Auteur :** Nicolas Rouanne
-
-**Date :** 26 janvier 2026
-
+cover: "screenshot-2026-01-26-at-11-33-46.png"
 ---
 
 ## Vous avez déjà essayé de migrer des PRs ouvertes lors d'une consolidation de repositories ?

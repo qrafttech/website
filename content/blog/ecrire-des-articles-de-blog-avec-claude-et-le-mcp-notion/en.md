@@ -5,12 +5,6 @@ date: 2026-01-22
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** January 22, 2026
-
----
-
 ## A quick confession
 
 I'm writing this article from my terminal. No browser open, no copy-pasting between apps. Just me, Claude Code, and a Notion workspace I can talk to directly.

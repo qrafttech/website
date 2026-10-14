@@ -3,6 +3,7 @@ title: "\"Write it in pythonic style as a pythonista would\""
 slug: write-it-in-pythonic-style-as-a-pythonista-would
 date: 2026-07-07
 author: "Nicolas Rouanne"
+cover: "attio-cleanup-pythonista.png"
 ---
 
 The prompt in the title isn't mine — it comes from Sébastien Vian, CTO of [Wisetax](https://www.wisetax.fr/), hosted in our coworking space in Marseille. He drops it on LLM-generated Python, and it made me laugh enough to try it the same morning on a real script. The rewrite was nice; the conversation that followed turned out to be the interesting part.

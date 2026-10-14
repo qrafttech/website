@@ -3,6 +3,7 @@ title: "Connecter gogcli à plusieurs comptes Google"
 slug: connecter-gogcli-a-plusieurs-comptes-google
 date: 2026-06-15
 author: "Nicolas Rouanne"
+cover: "11-authorize-consent.png"
 ---
 
 Dans mes workflows d’agents, j’utilise **gogcli** (`gog`), la CLI de [steipete](https://github.com/openclaw/gogcli), le créateur d’openclaw, qui parle à Gmail, Drive, Docs, Calendar et au reste de la Google Workspace API. C’est ce qui permet à mes agents d’aller fouiller dans mes documents et mes mails : retrouver toute la discussion et les échanges avec un client, trier ma boîte, éditer un Doc partagé, etc.

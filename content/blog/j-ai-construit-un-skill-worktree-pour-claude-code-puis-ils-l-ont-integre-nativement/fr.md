@@ -5,12 +5,6 @@ date: 2026-03-02
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 2 mars 2026
-
----
-
 J'ai passé quelques semaines à construire un skill `/worktree` pour Claude Code. Il gérait les worktrees git pour les branches de fonctionnalités : création, copie des permissions, nettoyage après merge, suppression des branches obsolètes. 114 lignes de logique shell soigneusement écrites, et trois autres skills en dépendaient. Aujourd'hui, j'ai tout supprimé et remplacé par un simple flag : `claude --worktree`.
 
 C'est une histoire de tooling custom sur une plateforme qui évolue vite, et de la question de savoir si l'investissement en vaut la peine.

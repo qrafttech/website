@@ -3,6 +3,7 @@ title: "Connecting gogcli to multiple Google accounts"
 slug: connecting-gogcli-to-multiple-google-accounts
 date: 2026-06-15
 author: "Nicolas Rouanne"
+cover: "11-authorize-consent.png"
 ---
 
 [gog](https://github.com/openclaw/gogcli) (gogcli) is a CLI that talks to Gmail, Drive, Docs, Calendar and the rest of the Google Workspace API. I use it daily on my work account, and I wanted to plug in my personal Gmail to edit a shared document.

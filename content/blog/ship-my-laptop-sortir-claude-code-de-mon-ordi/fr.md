@@ -3,6 +3,7 @@ title: "Ship my laptop - sortir Claude Code de mon ordi"
 slug: ship-my-laptop-sortir-claude-code-de-mon-ordi
 date: 2026-10-01
 author: "Nicolas Rouanne"
+cover: "orca-host-schema.png"
 ---
 
 Depuis quelque temps, je peaufine mon workflow Claude Code, ou plus généralement mon agentic engineering. Je me retrouve à écrire des skills dans [mon repo Claude](https://nicolasrouanne.github.io/agent-skills/), tout est organisé, versionné, j'ai construit mon personal brain.

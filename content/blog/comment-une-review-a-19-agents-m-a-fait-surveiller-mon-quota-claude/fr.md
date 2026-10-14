@@ -3,6 +3,7 @@ title: "Comment une review à 19 agents m'a fait surveiller mon quota Claude"
 slug: comment-une-review-a-19-agents-m-a-fait-surveiller-mon-quota-claude
 date: 2026-06-24
 author: "Nicolas Rouanne"
+cover: "screenshot-2026-06-24-at-14-55-37.png"
 ---
 
 J'ai lancé deux reviews de code multi-agents à la suite — le mode « ultracode » de Claude Code — et j'ai regardé une partie de ma limite hebdo fondre sans jamais la voir partir. La première a déployé 31 agents sur une PR, la seconde 19, chacun avalant entre 50 et 80k tokens. Le résultat, honnêtement : illisible. Beaucoup de volume, peu d'utilisable. Et je n'avais aucune visibilité en temps réel sur ce que ça me coûtait, jusqu'à ce que j'aille regarder.

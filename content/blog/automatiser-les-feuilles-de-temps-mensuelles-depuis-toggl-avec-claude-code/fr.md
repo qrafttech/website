@@ -5,12 +5,6 @@ date: 2026-03-04
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 4 mars 2026
-
----
-
 Je voulais générer une feuille de temps mensuelle depuis Toggl — une table montrant, jour par jour, combien de demi-journées j'ai travaillé pour chaque client. Simple en apparence. La partie délicate s'est révélée être l'arrondi.
 
 ## L'objectif

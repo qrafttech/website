@@ -3,6 +3,7 @@ title: "Dupliquer un repo GitHub — issues, PRs et screenshots compris"
 slug: dupliquer-un-repo-github-issues-prs-et-screenshots-compris
 date: 2026-06-12
 author: "Nicolas Rouanne"
+cover: "screenshot-2026-06-12-at-14-23-46-blurred.png"
 ---
 
 **Avant :** un repo hébergé sur une organisation qu'on ne contrôle pas — 823 issues et pull requests, ~2 300 commentaires, 160 screenshots, 40 releases.

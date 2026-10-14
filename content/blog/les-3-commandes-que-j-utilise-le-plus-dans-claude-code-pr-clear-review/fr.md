@@ -5,12 +5,6 @@ date: 2026-02-19
 author: "Adrien Lupo"
 ---
 
-**Auteur :** Adrien Lupo
-
-**Date :** 19 février 2026
-
----
-
 Depuis quelques semaines, j'ai un workflow qui tient en trois commandes. Trois slash commands dans Claude Code qui ont changé la qualité de ce que je livre pour nos clients chez Qraft. Pas de setup compliqué, pas d'outillage supplémentaire. Juste `/pr`, `/clear`, `/review`, et des itérations.
 
 ---

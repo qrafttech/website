@@ -3,12 +3,7 @@ title: "Construire un prototype SIG 3D pour l’hybridation urbaine à Marseille
 slug: construire-un-prototype-sig-3d-pour-l-hybridation-urbaine-a-marseille
 date: 2026-02-12
 author: "Nicolas Rouanne"
----
-
-**Auteur :** Nicolas Rouanne
-
-**Date :** 12 février 2026
-
+cover: "final-3-surelevation-ortho.jpg"
 ---
 
 Je voulais construire un prototype fonctionnel pour explorer comment identifier les bâtiments adaptés à l’hybridation urbaine (« surélévation ») à Marseille. Le contexte : un client avait besoin d’un outil SIG capable d’aller au-delà de la simple visualisation cartographique pour qualifier les bâtiments qui pourraient être surélevés, c’est-à-dire accueillir des étages supplémentaires sur leur toiture. Plutôt que de partir d’un document de spécifications, j’ai décidé de construire quelque chose de concret en utilisant uniquement des données ouvertes de l’État français.

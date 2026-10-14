@@ -3,10 +3,7 @@ title: "I Vibe-Filled My French Tax Innovation Credit"
 slug: i-vibe-filled-my-french-tax-innovation-credit
 date: 2026-04-28
 author: "Nicolas Rouanne"
----
-
-_Author: Nicolas Rouanne — April 28, 2026_
-
+cover: "screenshot-2026-04-28-at-15-22-23.png"
 ---
 
 Filing the French CII (Crédit d'Impôt Innovation) is a yearly chore. The dossier needs personnel data, time tracking, payroll figures, and a project description detailed enough that a tax inspector won't bounce it.

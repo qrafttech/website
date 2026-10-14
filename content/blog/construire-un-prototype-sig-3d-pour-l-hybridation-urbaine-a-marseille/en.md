@@ -3,12 +3,7 @@ title: "Building a 3D GIS Prototype for Urban Hybridization in Marseille"
 slug: building-a-3d-gis-prototype-for-urban-hybridization-in-marseille
 date: 2026-02-12
 author: "Nicolas Rouanne"
----
-
-**Author:** Nicolas Rouanne
-
-**Date:** February 12, 2026
-
+cover: "final-3-surelevation-ortho.jpg"
 ---
 
 I wanted to build a working prototype to explore how we could identify buildings suitable for urban hybridization (“surélévation”) in Marseille. The context: a client needed a GIS tool that could go beyond simple map visualization to actually help qualify which buildings could be elevated with additional floors on their rooftops. Instead of starting with a spec document, I decided to build something tangible using only open French government data.

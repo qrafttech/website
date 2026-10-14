@@ -5,12 +5,6 @@ date: 2026-01-22
 author: "Nicolas Rouanne"
 ---
 
-**Author:** Nicolas Rouanne
-
-**Date:** January 22, 2026
-
----
-
 ## "Allow Claude to run git status?" For the hundredth time today.
 
 I love Claude Code. It's become my daily coding companion. But there's one thing that was driving me crazy: the constant permission prompts for completely harmless commands.

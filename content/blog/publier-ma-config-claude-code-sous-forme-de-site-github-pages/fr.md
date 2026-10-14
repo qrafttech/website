@@ -5,12 +5,6 @@ date: 2026-02-12
 author: "Nicolas Rouanne"
 ---
 
-**Auteur :** Nicolas Rouanne
-
-**Date :** 12 février 2026
-
----
-
 Je conserve toute ma configuration Claude Code — skills, settings, guides et insights — dans un seul dépôt Git. À un moment, je me suis dit : c'est déjà organisé en fichiers markdown, pourquoi ne pas en faire un site de documentation ? J'ai donc mis en place GitHub Pages avec Jekyll et le thème Just the Docs. Voici comment ça fonctionne.
 
 ## Pourquoi publier sa config Claude Code ?

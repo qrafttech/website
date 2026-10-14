@@ -3,6 +3,7 @@ title: "Ship my laptop - getting Claude Code off my computer"
 slug: ship-my-laptop-getting-claude-code-off-my-computer
 date: 2026-10-01
 author: "Nicolas Rouanne"
+cover: "orca-host-schema-en.png"
 ---
 
 For a while now I have been refining my Claude Code workflow, or more generally my agentic engineering. I find myself writing skills in [my Claude repository](https://nicolasrouanne.github.io/agent-skills/), everything organised, versioned, I have built my personal brain.

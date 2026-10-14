@@ -3,6 +3,7 @@ title: "Les stacked PRs arrivent sur GitHub"
 slug: les-stacked-prs-arrivent-sur-github
 date: 2026-09-08
 author: "Nicolas Rouanne"
+cover: "stack-merging.png"
 ---
 
 On les attendait depuis longtemps. Meta les pratique en interne depuis des années, Graphite en a fait un produit, GitLab les a dans son CLI depuis 2024 - et GitHub, le plus gros hébergeur de code, n'avait rien. Depuis fin juillet, c'est réglé : les stacked PRs sont en public preview sur tous les repos.
