@@ -6,7 +6,11 @@ Website for the **Qraft** software engineering company; powered by [_Next.js_](h
 
 ## Development
 
-You need [Docker](https://docs.docker.com/get-docker/): the app runs in a container with the Node version from `.nvmrc`.
+Two setups, pick one.
+
+### With Docker
+
+You need [Docker](https://docs.docker.com/get-docker/): the app runs in a container, independent from the `node` installed on your machine.
 
 ```sh
 $ make up     # install dependencies and start the development server
@@ -17,6 +21,19 @@ $ make down   # stop it
 
 `make help` lists every command.
 
+### Without Docker
+
+You need [`node`](https://nodejs.org/en/), in the version from `.nvmrc`; we highly recommend installing it through a _Version Manager_, such as [`nvm`](https://github.com/nvm-sh/nvm). `nvm install` reads `.nvmrc`; `corepack enable` provides `yarn`.
+
+```sh
+$ nvm install
+$ corepack enable
+$ yarn install
+$ yarn dev
+```
+
+Open a new browser window on [http://localhost:3000](http://localhost:3000) to launch your app ☕️ 👨🏻‍🏭
+
 ## Linting & Styling
 
 ### Linting
@@ -26,7 +43,8 @@ The project is linted using [_TypeScript_](https://www.typescriptlang.org/) and 
 Run the linter manually to check your changes if needed:
 
 ```sh
-$ make lint
+$ make lint    # with Docker
+$ yarn lint    # without Docker
 ```
 
 > **Continuous integration** 🤖 will run the linter and **fail the build** if any error is found. 👮‍♀️
@@ -40,7 +58,8 @@ We rely on **_Prettier_ default settings**, so no configuration file is needed/p
 Run `prettier` manually to format your files if needed:
 
 ```sh
-$ make format
+$ make format  # with Docker
+$ yarn format  # without Docker
 ```
 
 > **Continuous integration** 🤖 will run the formatter and **fail the build** if any error is found. 👮‍♀️

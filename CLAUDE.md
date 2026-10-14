@@ -2,7 +2,7 @@
 
 ## Running
 
-The app runs in Docker (`compose.yaml`), not on the host: the host's Node is too old for Next.js. `make up` starts the dev server, `make url` prints its address.
+The app runs in Docker (`compose.yaml`), so it does not depend on the host's Node. `make up` starts the dev server, `make url` prints its address.
 
 ## Formatting
 

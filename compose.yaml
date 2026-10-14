@@ -1,8 +1,6 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    build: .
     command: sh -c "yarn install --frozen-lockfile && yarn dev --hostname 0.0.0.0"
     volumes:
       - .:/app
