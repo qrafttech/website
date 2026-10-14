@@ -6,8 +6,9 @@ name: Publish scheduled articles
 # review requesting changes, or has failing or pending checks; closing it
 # cancels the article.
 #
-# main requires an approving review, so the workflow approves the PR itself:
-# the repo must allow GitHub Actions to approve pull requests.
+# main requires an approving review. The workflow merges with git and pushes
+# with the `BLOG_DEPLOY_KEY` deploy key, which the `Default` ruleset lets
+# bypass; GitHub then marks the PR as merged.
 on:
   schedule:
     # 04:30 in Paris in summer, 03:30 in winter: after midnight either way,
@@ -16,25 +17,34 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
 
 jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          ssh-key: ${{ secrets.BLOG_DEPLOY_KEY }}
+
       - name: Merge the article PRs whose date has come
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+          GH_REPO_OWNER: ${{ github.repository_owner }}
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           today=$(TZ=Europe/Paris date +%F)
           prs=$(gh pr list --state open --limit 100 \
             --json number,headRefName,isDraft,reviewDecision,headRefOid \
             --jq '.[] | select(.headRefName | startswith("blog/")) | select(.isDraft | not)
-              | select(.reviewDecision != "CHANGES_REQUESTED") | "\(.number) \(.headRefOid)"')
+              | select(.reviewDecision != "CHANGES_REQUESTED") | "\(.number) \(.headRefOid) \(.headRefName)"')
 
-          echo "$prs" | while read -r pr sha; do
+          echo "$prs" | while read -r pr sha branch; do
             if [ -z "$pr" ]; then continue; fi
 
             # The latest date among the article files of the PR: a file
@@ -53,7 +63,15 @@ jobs:
             if [[ "$latest" > "$today" ]]; then echo "#$pr: scheduled for $latest, skipped"; continue; fi
             if ! gh pr checks "$pr" > /dev/null; then echo "#$pr: checks not green, skipped"; continue; fi
 
-            gh pr review "$pr" --approve --body "Article daté du $latest : publié automatiquement."
-            gh pr merge "$pr" --merge --match-head-commit "$sha"
+            git fetch -q origin "$sha" main
+            git reset -q --hard origin/main
+            if ! git merge -q --no-ff "$sha" -m "Merge pull request #$pr from $GH_REPO_OWNER/$branch" \
+              -m "Article daté du $latest, publié automatiquement."; then
+              git merge --abort
+              echo "#$pr: conflicts with main, skipped"
+              continue
+            fi
+            git push -q origin HEAD:main
+            git push -q origin --delete "$branch"
             echo "#$pr: merged ($latest)"
           done
