@@ -114,7 +114,7 @@ The tfvars live in my own Claude Code config repository, next to the GCP one: a 
 
 ## What it costs, and what it gives up
 
-A VPS-2: 4 vCores, 8 GB of RAM, 75 GB of disk, €8.49 a month. Plus a 100 GB additional disk for `/var/lib/orca` (€4.31), which survives a reinstall, and OVH's automated backup (€0.50). €13.30 excl. VAT, against about $126 for the GCP defaults.
+A VPS-2: 4 vCores, 8 GB of RAM, 75 GB of disk, €8.49 a month. Plus a 100 GB additional disk for `/var/lib/orca` (€4.31), which survives a reinstall, and OVH's automated backup (€0.50). €13.30 excl. VAT, against about $126 for the GCP defaults. To work on several projects at once, I'd rather recommend a VPS-4 (8 vCores, 24 GB of RAM, 200 GB): €19.96 excl. VAT a month on a one-year commitment, about €24 with the additional disk. Still a sixth of the GCP price, with more RAM.
 
 What it gives up:
 
