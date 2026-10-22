@@ -114,7 +114,7 @@ Les tfvars vivent dans mon repo de config Claude Code, à côté de celui de GCP
 
 ## Ce que ça coûte, et ce qu'on y perd
 
-Un VPS-2 : 4 vCores, 8 Go de RAM, 75 Go de disque, 8,49 € par mois. Plus un disque additionnel de 100 Go pour `/var/lib/orca` (4,31 €), qui survit à une réinstallation, et le backup automatique d'OVH (0,50 €). 13,30 € HT, contre environ 126 $ pour les valeurs par défaut sur GCP. Pour plusieurs projets en parallèle, je recommande plutôt un VPS-4 (8 vCores, 24 Go de RAM, 200 Go) : 19,96 € HT par mois engagé sur un an, environ 24 € avec le disque additionnel. Toujours six fois moins cher que GCP, avec plus de RAM.
+Un VPS-2 : 4 vCores, 8 Go de RAM, 75 Go de disque, 8,49 € par mois. Plus un disque additionnel de 100 Go pour `/var/lib/orca` (4,31 €), qui survit à une réinstallation, et le backup automatique d'OVH (0,50 €). 13,30 € HT, contre environ 126 $ pour les valeurs par défaut sur GCP. Pour plusieurs projets en parallèle, je recommande plutôt un VPS-4 (8 vCores, 24 Go de RAM, 200 Go) : 19,96 € HT par mois engagé sur un an, environ 24 € avec le disque additionnel. Toujours près de cinq fois moins cher que GCP, avec plus de RAM.
 
 Ce qu'on y perd :
 
