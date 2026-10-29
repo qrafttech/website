@@ -41,6 +41,8 @@ Avec ça, une PR qui ne touche pas `api/` ne lance plus du tout ce workflow : pa
 
 Le problème vient des règles de protection de `main`. Notre ruleset exige que quatre checks soient verts avant de merger : `RSpec Tests`, `Rubocop`, `ESLint` et `Vitest`. Un workflow qui ne se lance pas ne crée pas son check. Sur une PR qui ne touche que `web/`, GitHub attend donc un check `RSpec Tests` qui n'arrivera jamais : il l'affiche en « Expected », et le bouton de merge reste bloqué.
 
+![La section « Require status checks to pass » du ruleset de main, avec les quatre checks requis](ruleset.png "Les quatre checks requis par le ruleset de main.")
+
 ![Les checks requis d'une PR qui ne touche que web/, avec paths: et avec un job changes](checks-fr.png "Avec paths:, trois checks requis ne sont jamais créés et la PR ne peut pas être mergée.")
 
 C'est écrit dans la doc de GitHub, dans [Handling skipped but required checks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#handling-skipped-but-required-checks) : un workflow sauté par un filtre de chemins laisse ses checks en attente et bloque le merge, alors qu'un job sauté par une condition `if:` est rapporté comme réussi. Et un ruleset ne permet pas de rendre un check requis seulement pour certains chemins.
