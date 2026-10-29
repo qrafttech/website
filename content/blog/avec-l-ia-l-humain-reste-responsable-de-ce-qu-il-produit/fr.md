@@ -17,14 +17,12 @@ Je l'ai relayé à l'équipe Qraft le lendemain matin, parce que je pense que ç
 
 ## Quand je code
 
-C'est la même chose pour le code. Une bonne partie de ce que je livre aujourd'hui, c'est Claude Code qui l'écrit : le code, mais aussi les descriptions de PR et les issues. C'est quand même mon nom dessus, et c'est à moi d'en répondre. Mon travail, c'est de relire l'axe, de challenger et de donner la direction.
+C'est pareil pour le code. Claude Code écrit une bonne partie de ce que je livre : le code, les PR, les issues. Mais c'est mon nom dessus.
 
-Un exemple de la même semaine. Un check de CI bloquait les PR, et j'ai demandé à Claude d'ouvrir une issue. Sa première version faisait 304 mots : le constat, l'historique des trois PR qui y avaient mené, trois pistes et un paragraphe d'impact. Tout était juste. J'ai répondu « Plus simple ». La deuxième fait 122 mots : ce qui casse, pourquoi, et deux pistes.
+La même semaine, j'ai demandé à Claude d'ouvrir une issue sur un bug de CI. Sa première version faisait 304 mots. Tout était juste, mais c'était trop long. J'ai répondu « Plus simple », et la deuxième en fait 122.
 
 ![Une issue avant et après « Plus simple », anonymisée](issue.jpg "La même issue, avant et après « Plus simple »")
 
-Ce qui est parti, c'est ce dont le lecteur n'avait pas besoin pour agir : l'historique, la troisième piste « si elle existe », l'impact qui redisait l'introduction. Ce tri, Claude ne l'a pas fait de lui-même, et c'est le même que pour les notes de comité de pilotage.
+C'est ça, mon travail : relire, challenger, demander plus simple ou plus précis, et donner la direction. Claude écrit, c'est moi qui signe.
 
-Pour le code, je relis d'abord la structure plutôt que le détail : les routes, les ressources, les noms. Si l'architecture doit changer, les bugs peuvent attendre. Et je ne réécris pas à la main, je dis où aller. Dans la même session, sur la façon de ne lancer que les checks utiles, ça donnait : « Je préfère que ça ne se lance pas du tout, plutôt que ça se lance et que ce soit ignoré ». C'est là qu'on a fini : le job lourd ne tourne pas du tout quand son projet n'a pas changé ([le détail dans un autre article](/blog/ne-lancer-que-les-tests-du-projet-modifie-sans-perdre-les-checks-requis)).
-
-Cet article aussi a été écrit avec Claude. J'en ai refusé plusieurs versions avant celle-ci, et c'est mon nom qui est en haut.
+Cet article aussi a été écrit avec Claude. J'en ai refusé plusieurs versions avant celle-ci.

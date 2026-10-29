@@ -17,14 +17,12 @@ I shared it with the Qraft team the next morning, because I think it concerns al
 
 ## When I code
 
-It's the same with code. A good part of what I ship today is written by Claude Code: the code, but also PR descriptions and issues. It's still my name on it, and I'm the one who answers for it. My job is to read for the direction, challenge, and steer.
+It's the same with code. Claude Code writes a good part of what I ship: the code, the PRs, the issues. But it's my name on it.
 
-An example from the same week. A CI check was blocking PRs, and I asked Claude to open an issue. Its first version was 304 words: the finding, the history of the three PRs that led there, three leads and a paragraph on impact. All of it was correct. I answered "Plus simple" (simpler). The second one is 122 words: what breaks, why, and two leads.
+The same week, I asked Claude to open an issue about a CI bug. Its first version was 304 words. All of it was correct, but it was too long. I answered "Plus simple" (simpler), and the second one is 122 words.
 
 ![An issue (in French) before and after "simpler", anonymized](issue.jpg "The same issue, before and after “simpler”")
 
-What went away is what the reader didn't need in order to act: the history, the third lead "if it exists", the impact paragraph that repeated the introduction. Claude didn't do that sorting on its own, and it's the same sorting as for the steering committee notes.
+That's my job: read, challenge, ask for simpler or more precise, and set the direction. Claude writes, I sign.
 
-For code, I read the structure before the details: routes, resources, names. If the architecture has to change, bugs can wait. And I don't rewrite by hand, I say where to go. In the same session, on how to run only the checks that matter, it went like this: "I'd rather it doesn't run at all than have it run and be ignored". That's where we ended up: the heavy job doesn't run at all when its project hasn't changed ([details in another article](/en/blog/running-only-the-changed-project-s-tests-without-losing-required-checks)).
-
-This article was written with Claude too. I turned down several versions before this one, and it's my name at the top.
+This article was written with Claude too. I turned down several versions before this one.
