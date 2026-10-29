@@ -19,10 +19,10 @@ I shared it with the Qraft team the next morning, because I think it concerns al
 
 It's the same with code. Claude Code writes a good part of what I ship: the code, the PRs, the issues. But it's my name on it.
 
-The same week, I asked Claude to open an issue about a CI bug. Its first version was 304 words. All of it was correct, but it was too long. I answered "Plus simple" (simpler), and the second one is 122 words.
+The same week, I asked Claude to open an issue about a CI bug. Its first version was 304 words. All of it was correct, but it was too long. I answered "Plus simple" (simpler), and the second one is 122 words. Now I understand what it does, and so do my colleagues.
 
 ![An issue (in French) before and after "simpler", anonymized](issue.jpg "The same issue, before and after “simpler”")
 
 That's my job: read, challenge, ask for simpler or more precise, and set the direction. Claude writes, I sign.
 
-This article was written with Claude too. I turned down several versions before this one.
+This article was co-written with Claude too. That's the whole point: I'm the author. If it's bad, it's my fault, and if it's good, too.

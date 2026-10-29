@@ -19,10 +19,10 @@ Je l'ai relayé à l'équipe Qraft le lendemain matin, parce que je pense que ç
 
 C'est pareil pour le code. Claude Code écrit une bonne partie de ce que je livre : le code, les PR, les issues. Mais c'est mon nom dessus.
 
-La même semaine, j'ai demandé à Claude d'ouvrir une issue sur un bug de CI. Sa première version faisait 304 mots. Tout était juste, mais c'était trop long. J'ai répondu « Plus simple », et la deuxième en fait 122.
+La même semaine, j'ai demandé à Claude d'ouvrir une issue sur un bug de CI. Sa première version faisait 304 mots. Tout était juste, mais c'était trop long. J'ai répondu « Plus simple », et la deuxième en fait 122. Du coup je comprends ce que ça fait, mes collègues aussi.
 
 ![Une issue avant et après « Plus simple », anonymisée](issue.jpg "La même issue, avant et après « Plus simple »")
 
 C'est ça, mon travail : relire, challenger, demander plus simple ou plus précis, et donner la direction. Claude écrit, c'est moi qui signe.
 
-Cet article aussi a été écrit avec Claude. J'en ai refusé plusieurs versions avant celle-ci.
+Cet article aussi a été co-écrit avec Claude. C'est là tout le sujet : c'est moi l'auteur, si c'est nul c'est ma faute, si c'est bien aussi.
