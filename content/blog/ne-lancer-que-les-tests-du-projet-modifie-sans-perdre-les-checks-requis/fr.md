@@ -111,6 +111,20 @@ Sur la facture, c'est pire : GitHub arrondit chaque job à la minute supérieure
 
 On a gardé quatre workflows séparés : chaque projet garde son fichier, et ça reste lisible. Sur la facture, l'écart est faible de toute façon : une minute Linux coûte quelques dixièmes de centime au tarif standard. Ce qu'on récupère, ce sont surtout des runners libres plus tôt pour les autres PR.
 
+## Et le temps d'attente ?
+
+Les minutes de runner, c'est la facture. Pour un développeur, ce qui compte, c'est le temps entre son push et le moment où les quatre checks requis sont finis. On l'a mesuré sur les mêmes PR : 315 pushes, file d'attente comprise.
+
+Les quatre checks tournent en parallèle, donc on attend le plus long. C'est RSpec dans 310 pushes sur 315. Et 71 PR sur 99 touchent `api/` : pour elles, RSpec tourne de toute façon, et rien ne change.
+
+![Temps d'attente au 75e centile entre un push et la fin des checks requis, avant et avec le filtrage, par type de PR](wait-fr.png "Pour les PR qui touchent l'API, l'attente ne bouge pas. Pour les autres, elle passe d'une dizaine de minutes à une minute ou moins.")
+
+- PR qui touchent `api/` : 11,7 min au 75e centile, avant comme après ;
+- PR qui ne touchent que `web/` ou `chat/` : de 11,8 min à 1,1 min ;
+- PR qui ne touchent aucun des trois (CI, docs) : de 10,8 min à une quinzaine de secondes, le temps du job `changes`.
+
+Sur l'ensemble, le 75e centile passe de 11,7 à 11,4 min, et la médiane de 10,7 à 10,4 min. Pour la PR typique, celle qui touche l'API, le filtrage ne fait rien gagner : il faudrait accélérer RSpec lui-même. Pour une PR sur une autre partie du repo, on n'attend plus la CI.
+
 ## Garder des métriques de CI justes
 
 On envoie déjà la durée de chaque check à PostHog pour suivre le retour de CI (on l'a raconté dans [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)). Un check sauté finit maintenant en une dizaine de secondes, avec seulement son job `changes`. Envoyé tel quel, il ferait baisser la durée moyenne de RSpec sans que RSpec soit plus rapide.
@@ -118,4 +132,4 @@ On envoie déjà la durée de chaque check à PostHog pour suivre le retour de C
 Le script lit donc les jobs de chaque check, et n'envoie pas la durée d'un check où seul `changes` a tourné. PostHog ignore une valeur absente dans une moyenne, donc les moyennes par check ne mesurent que les vrais runs. L'attente totale du développeur, elle, compte toujours tous les checks.
 
 > [!NOTE]
-> Les chiffres viennent de 100 PR, avec les durées des runs hors file d'attente. La durée du job `changes` est estimée à partir de quelques runs, et les minutes facturées supposent le tarif standard de GitHub, qui dépend du plan du repo.
+> Les chiffres viennent de 100 PR. Les minutes de runner sont les durées des runs hors file d'attente ; le temps d'attente, lui, la compte, en supposant qu'elle ne change pas avec le filtrage. La durée du job `changes` est estimée à partir de quelques runs, et les minutes facturées supposent le tarif standard de GitHub, qui dépend du plan du repo.

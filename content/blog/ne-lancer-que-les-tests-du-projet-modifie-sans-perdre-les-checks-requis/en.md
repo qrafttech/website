@@ -111,6 +111,20 @@ On the bill it's worse: GitHub rounds each job up to the minute. Each `changes` 
 
 We kept four separate workflows: each project keeps its own file, and it stays readable. On the bill the gap is small anyway: a Linux minute costs a few tenths of a cent at the standard rate. What we get back is mostly runners freed up sooner for the other PRs.
 
+## And the wait?
+
+Runner minutes are the bill. For a developer, what matters is the time between their push and the moment the four required checks are done. We measured it on the same PRs: 315 pushes, queue time included.
+
+The four checks run in parallel, so you wait for the longest one. That's RSpec in 310 pushes out of 315. And 71 PRs out of 99 touch `api/`: for those, RSpec runs anyway, and nothing changes.
+
+![75th percentile wait between a push and the end of the required checks, before and with filtering, per PR type](wait-en.png "For PRs that touch the API, the wait doesn't move. For the others, it goes from about ten minutes to a minute or less.")
+
+- PRs that touch `api/`: 11.7 min at the 75th percentile, before and after;
+- PRs that only touch `web/` or `chat/`: from 11.8 min to 1.1 min;
+- PRs that touch none of the three (CI, docs): from 10.8 min to about fifteen seconds, the time of the `changes` job.
+
+Overall, the 75th percentile goes from 11.7 to 11.4 min, and the median from 10.7 to 10.4 min. For the typical PR, the one that touches the API, filtering saves nothing: RSpec itself would have to get faster. For a PR on another part of the repo, you no longer wait for the CI.
+
 ## Keeping the CI metrics right
 
 We already send each check's duration to PostHog to track CI feedback (we wrote about it in [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)). A skipped check now finishes in about ten seconds, with only its `changes` job. Sent as is, it would bring RSpec's average duration down without RSpec getting any faster.
@@ -118,4 +132,4 @@ We already send each check's duration to PostHog to track CI feedback (we wrote 
 So the script reads each check's jobs, and doesn't send the duration of a check where only `changes` ran. PostHog ignores a missing value in an average, so the per-check averages only measure real runs. The developer's total wait still counts every check.
 
 > [!NOTE]
-> The figures come from 100 PRs, with run durations excluding queue time. The `changes` job's duration is estimated from a few runs, and the billed minutes assume GitHub's standard rate, which depends on the repo's plan.
+> The figures come from 100 PRs. Runner minutes are run durations excluding queue time; the wait includes it, assuming filtering doesn't change it. The `changes` job's duration is estimated from a few runs, and the billed minutes assume GitHub's standard rate, which depends on the repo's plan.
