@@ -25,11 +25,27 @@ In total, about 1,456 runner minutes, roughly 24 hours per 100 PRs. That's the c
 
 ## Why `paths:` isn't enough
 
-The first idea is to add a `paths:` filter to each workflow's trigger. The workflow then doesn't start at all when the PR doesn't touch its folder.
+The first idea is a `paths:` filter on the workflow's trigger:
 
-The problem is that our four checks are required by the `main` ruleset. A workflow filtered out by `paths:` doesn't start, so it creates no check. GitHub waits for a check that will never come, shows it as "Expected", and the PR can no longer be merged. A ruleset can't require a check for some paths only.
+```yaml
+name: API - Tests
 
-Keeping `paths:` would mean removing those checks from the required ones. We could then merge a PR with red tests, and we don't want that.
+on:
+  pull_request:
+    paths:
+      - 'api/**'
+      - '.github/workflows/api-test.yml'
+```
+
+With that, a PR that doesn't touch `api/` doesn't start this workflow at all: no RSpec, no runner.
+
+The problem comes from the protection rules on `main`. Our ruleset requires four checks to be green before merging: `RSpec Tests`, `Rubocop`, `ESLint` and `Vitest`. A workflow that doesn't start doesn't create its check. On a PR that only touches `web/`, GitHub waits for an `RSpec Tests` check that will never come: it shows it as "Expected", and the merge button stays blocked.
+
+![The required checks of a PR that only touches web/, with paths: and with a changes job](checks-en.png "With paths:, three required checks are never created and the PR can't be merged.")
+
+GitHub's docs say so in [Handling skipped but required checks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#handling-skipped-but-required-checks): a workflow skipped by path filtering leaves its checks pending and blocks the merge, while a job skipped by an `if:` condition is reported as passed. And a ruleset can't require a check for some paths only.
+
+We could remove those checks from the required ones to unblock the merge. But we could then merge a PR with red tests, and we don't want that.
 
 ## A `changes` job and an `if:`
 
@@ -66,13 +82,18 @@ When the heavy job is skipped, GitHub counts it as passed. The required `RSpec T
 
 On a push to `main`, the same `changes` job compares the commit with the previous one. Since we merge with merge commits, that diff holds all the PR's files.
 
-## A skipped job counts as passed, even by accident
+## When the detection fails
 
-That rule works both ways. If the `changes` job fails, during a GitHub outage for instance, every job that depends on it is skipped. With `if: needs.changes.outputs.api == 'true'`, they are reported as passed, and you can merge without a single test.
+The `changes` job can fail, during a GitHub outage for instance. It then answers neither "yes" nor "no": its `api` output is empty. Everything depends on how RSpec's `if:` is written.
 
-Hence the condition in the YAML above: `!cancelled()` makes the `if:` evaluate even when `changes` failed, and `!= 'false'` runs the tests in every case except when the detection explicitly said the project didn't change. If the detection fails, everything runs, as before.
+![What RSpec does depending on the changes job's answer and on the if: condition](skip-en.png "With == 'true', a failed detection lets you merge without tests. With != 'false', it runs the tests.")
 
-In our PR, that condition was simplified for a while to `== 'true'`, which looks equivalent and isn't. The review caught it.
+- `== 'true'`: RSpec runs only if the detection answered "yes". If it fails, RSpec is skipped, so counted as passed, and the PR can be merged without a single test having run.
+- `!= 'false'`: RSpec runs unless the detection answered "no". If it fails, RSpec runs, as before the filtering.
+
+The `!cancelled()` at the start of the condition is needed. Without it, GitHub skips a job whose dependency failed outright, without even looking at the rest of the `if:`.
+
+The two conditions look a lot alike. In our PR, one replaced the other for a while, and the review caught it.
 
 ## What it saves, in time and on the bill
 

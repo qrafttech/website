@@ -25,11 +25,27 @@ Au total, environ 1 456 minutes de runner, à peu près 24 heures pour 100 PR. C
 
 ## Pourquoi `paths:` ne suffit pas
 
-La première idée, c'est d'ajouter un filtre `paths:` au déclencheur de chaque workflow. Le workflow ne se lance plus du tout quand la PR ne touche pas son dossier.
+La première idée, c'est un filtre `paths:` sur le déclencheur du workflow :
 
-Le problème, c'est que nos quatre checks sont requis par le ruleset de `main`. Un workflow filtré par `paths:` ne se lance pas, donc il ne crée aucun check. GitHub attend un check qui n'arrivera jamais, l'affiche en « Expected », et la PR ne peut plus être mergée. Un ruleset ne sait pas exiger un check seulement pour certains chemins.
+```yaml
+name: API - Tests
 
-Pour garder `paths:`, il faudrait retirer ces checks des checks requis. On pourrait alors merger une PR dont les tests sont rouges, et on ne veut pas de ça.
+on:
+  pull_request:
+    paths:
+      - 'api/**'
+      - '.github/workflows/api-test.yml'
+```
+
+Avec ça, une PR qui ne touche pas `api/` ne lance plus du tout ce workflow : pas de RSpec, pas de runner.
+
+Le problème vient des règles de protection de `main`. Notre ruleset exige que quatre checks soient verts avant de merger : `RSpec Tests`, `Rubocop`, `ESLint` et `Vitest`. Un workflow qui ne se lance pas ne crée pas son check. Sur une PR qui ne touche que `web/`, GitHub attend donc un check `RSpec Tests` qui n'arrivera jamais : il l'affiche en « Expected », et le bouton de merge reste bloqué.
+
+![Les checks requis d'une PR qui ne touche que web/, avec paths: et avec un job changes](checks-fr.png "Avec paths:, trois checks requis ne sont jamais créés et la PR ne peut pas être mergée.")
+
+C'est écrit dans la doc de GitHub, dans [Handling skipped but required checks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#handling-skipped-but-required-checks) : un workflow sauté par un filtre de chemins laisse ses checks en attente et bloque le merge, alors qu'un job sauté par une condition `if:` est rapporté comme réussi. Et un ruleset ne permet pas de rendre un check requis seulement pour certains chemins.
+
+On pourrait retirer ces checks des checks requis pour débloquer le merge. Mais on pourrait alors merger une PR dont les tests sont rouges, et on ne veut pas de ça.
 
 ## Un job `changes` et un `if:`
 
@@ -66,13 +82,18 @@ Quand le job lourd est sauté, GitHub le compte comme réussi. Le check requis `
 
 Sur un push sur `main`, le même job `changes` compare le commit au précédent. Comme on merge avec des merge commits, ce diff contient tous les fichiers de la PR.
 
-## Un job sauté compte comme réussi, même par accident
+## Quand la détection plante
 
-Cette règle marche dans les deux sens. Si le job `changes` plante, par exemple sur une panne de GitHub, tous les jobs qui en dépendent sont sautés. Avec un `if: needs.changes.outputs.api == 'true'`, ils sont donc rapportés comme réussis, et on peut merger sans aucun test.
+Le job `changes` peut planter, par exemple pendant une panne de GitHub. Il ne répond alors ni « oui » ni « non » : sa sortie `api` est vide. Tout dépend de la façon dont on a écrit le `if:` de RSpec.
 
-D'où la condition du YAML ci-dessus : `!cancelled()` fait évaluer le `if:` même quand `changes` a échoué, et `!= 'false'` fait tourner les tests dans tous les cas, sauf quand la détection a dit explicitement que le projet n'a pas changé. Si la détection plante, tout tourne, comme avant.
+![Ce que fait RSpec selon la réponse du job changes et selon la condition du if:](skip-fr.png "Avec == 'true', une détection en panne laisse merger sans tests. Avec != 'false', elle fait tourner les tests.")
 
-Dans notre PR, cette condition a été simplifiée un moment en `== 'true'`, qui a l'air équivalente et ne l'est pas. C'est la relecture qui l'a vu.
+- `== 'true'` : RSpec tourne seulement si la détection a répondu « oui ». Si elle plante, RSpec est sauté, donc compté comme réussi, et la PR peut être mergée sans qu'aucun test n'ait tourné.
+- `!= 'false'` : RSpec tourne sauf si la détection a répondu « non ». Si elle plante, RSpec tourne, comme avant le filtrage.
+
+Le `!cancelled()` au début de la condition est nécessaire. Sans lui, GitHub saute d'office un job dont une dépendance a échoué, sans même regarder la suite du `if:`.
+
+Les deux conditions se ressemblent beaucoup. Dans notre PR, l'une a remplacé l'autre pendant un moment, et c'est la relecture qui l'a vu.
 
 ## Ce que ça rapporte, en temps et en facture
 
