@@ -5,7 +5,7 @@ date: 2026-11-16
 author: "Nicolas Rouanne"
 ---
 
-Fin octobre, dans une des boîtes avec qui on travaille, un membre de la direction a posté ce message à toute l'équipe.
+Fin octobre, chez un de nos clients, un membre de la direction a posté ce message à toute l'équipe.
 
 ![Message Slack d'un membre de la direction, noms masqués](message.jpg "« en produisant avec l'IA, on reste 100% responsable de la qualité produite »")
 

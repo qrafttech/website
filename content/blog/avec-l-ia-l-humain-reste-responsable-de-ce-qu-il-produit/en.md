@@ -5,7 +5,7 @@ date: 2026-11-16
 author: "Nicolas Rouanne"
 ---
 
-At the end of October, at one of the companies we work with, a member of the leadership team posted this message to the whole company.
+At the end of October, at one of our clients, a member of the leadership team posted this message to the whole company.
 
 ![Slack message (in French) from a member of the leadership team, names hidden](message.jpg "“when producing with AI, we remain 100% responsible for the quality of what we produce”")
 
