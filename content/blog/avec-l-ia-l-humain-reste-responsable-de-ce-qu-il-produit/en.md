@@ -17,12 +17,14 @@ I shared it with the Qraft team the next morning, because I think it concerns al
 
 ## When I code
 
-It's the same with code. A good part of what I ship today is written by Claude Code. But it's my code: my name is on the PR, and if it breaks, I'm the one who answers for it. So my review follows roughly the same order every time.
+It's the same with code. A good part of what I ship today is written by Claude Code: the code, but also PR descriptions and issues. It's still my name on it, and I'm the one who answers for it. My job is to read for the direction, challenge, and steer.
 
-The direction first. Before reading the details, I look at the structure: routes, resources, contracts, names. If the architecture has to change, the bugs don't matter yet: fixing code that's about to be restructured means doing the review twice.
+An example from the same week. A CI check was blocking PRs, and I asked Claude to open an issue. Its first version was 304 words: the finding, the history of the three PRs that led there, three leads and a paragraph on impact. All of it was correct. I answered "Plus simple" (simpler). The second one is 122 words: what breaks, why, and two leads.
 
-Then I challenge. Short questions, one at a time: "what's the builder?", "why both?". And one I ask on almost every PR: what could we have removed? An abstraction "just in case", an interface nobody uses yet, a field that duplicates data we already have: that's what slips through most easily when nobody reads.
+![An issue (in French) before and after "simpler", anonymized](issue.jpg "The same issue, before and after “simpler”")
 
-Then I give directions. I don't fix it line by line: I say where to go, for example "this route belongs under the real resource, not in a separate endpoint", and Claude redoes it. Bugs come only after that, once the shape is right.
+What went away is what the reader didn't need in order to act: the history, the third lead "if it exists", the impact paragraph that repeated the introduction. Claude didn't do that sorting on its own, and it's the same sorting as for the steering committee notes.
 
-This article was written with Claude too. I turned down two versions before this one, and it's my name at the top.
+For code, I read the structure before the details: routes, resources, names. If the architecture has to change, bugs can wait. And I don't rewrite by hand, I say where to go. In the same session, on how to run only the checks that matter, it went like this: "I'd rather it doesn't run at all than have it run and be ignored". That's where we ended up: the heavy job doesn't run at all when its project hasn't changed ([details in another article](/en/blog/running-only-the-changed-project-s-tests-without-losing-required-checks)).
+
+This article was written with Claude too. I turned down several versions before this one, and it's my name at the top.

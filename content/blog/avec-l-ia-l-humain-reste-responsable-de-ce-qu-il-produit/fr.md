@@ -17,12 +17,14 @@ Je l'ai relayé à l'équipe Qraft le lendemain matin, parce que je pense que ç
 
 ## Quand je code
 
-C'est la même chose pour le code. Une bonne partie de ce que je livre aujourd'hui, c'est Claude Code qui l'écrit. Mais c'est mon code : c'est mon nom sur la PR, et si ça casse, c'est à moi d'en répondre. Du coup, ma relecture suit à peu près toujours le même ordre.
+C'est la même chose pour le code. Une bonne partie de ce que je livre aujourd'hui, c'est Claude Code qui l'écrit : le code, mais aussi les descriptions de PR et les issues. C'est quand même mon nom dessus, et c'est à moi d'en répondre. Mon travail, c'est de relire l'axe, de challenger et de donner la direction.
 
-D'abord l'axe. Avant de lire le détail, je regarde la structure : les routes, les ressources, les contrats, les noms. Si l'architecture doit changer, les bugs, on s'en fiche : corriger du code qui va être restructuré, c'est faire la relecture deux fois.
+Un exemple de la même semaine. Un check de CI bloquait les PR, et j'ai demandé à Claude d'ouvrir une issue. Sa première version faisait 304 mots : le constat, l'historique des trois PR qui y avaient mené, trois pistes et un paragraphe d'impact. Tout était juste. J'ai répondu « Plus simple ». La deuxième fait 122 mots : ce qui casse, pourquoi, et deux pistes.
 
-Ensuite, je challenge. Des questions courtes, une à la fois : « c'est quoi le builder ? », « pourquoi les 2 ? ». Et une que je pose presque à chaque PR : qu'est-ce qu'on aurait pu enlever ? Une abstraction « au cas où », une interface que personne n'utilise encore, un champ qui duplique une donnée qu'on a déjà, c'est ce qui passe le plus facilement quand on ne relit pas.
+![Une issue avant et après « Plus simple », anonymisée](issue.jpg "La même issue, avant et après « Plus simple »")
 
-Puis je donne la direction. Je ne corrige pas ligne à ligne : je dis où aller, par exemple « cette route doit vivre sous la vraie ressource, pas dans un endpoint à part », et Claude refait. Les bugs viennent seulement après, une fois que la forme est la bonne.
+Ce qui est parti, c'est ce dont le lecteur n'avait pas besoin pour agir : l'historique, la troisième piste « si elle existe », l'impact qui redisait l'introduction. Ce tri, Claude ne l'a pas fait de lui-même, et c'est le même que pour les notes de comité de pilotage.
 
-Cet article aussi a été écrit avec Claude. J'en ai refusé deux versions avant celle-ci, et c'est mon nom qui est en haut.
+Pour le code, je relis d'abord la structure plutôt que le détail : les routes, les ressources, les noms. Si l'architecture doit changer, les bugs peuvent attendre. Et je ne réécris pas à la main, je dis où aller. Dans la même session, sur la façon de ne lancer que les checks utiles, ça donnait : « Je préfère que ça ne se lance pas du tout, plutôt que ça se lance et que ce soit ignoré ». C'est là qu'on a fini : le job lourd ne tourne pas du tout quand son projet n'a pas changé ([le détail dans un autre article](/blog/ne-lancer-que-les-tests-du-projet-modifie-sans-perdre-les-checks-requis)).
+
+Cet article aussi a été écrit avec Claude. J'en ai refusé plusieurs versions avant celle-ci, et c'est mon nom qui est en haut.
