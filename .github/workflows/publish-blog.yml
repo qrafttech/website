@@ -19,8 +19,6 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  # `gh pr checks` reads the commit statuses and check runs: without these,
-  # it fails and every PR looks like it has failing checks.
   checks: read
   statuses: read
 
