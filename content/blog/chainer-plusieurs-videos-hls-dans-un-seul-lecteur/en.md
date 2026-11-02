@@ -13,7 +13,7 @@ Code repo (public) : [https://github.com/nicolasrouanne/video-chaining](https://
 Live POC (CodeSandbox) : [https://codesandbox.io/p/github/nicolasrouanne/video-chaining/main](https://codesandbox.io/p/github/nicolasrouanne/video-chaining/main)
 
 > [!NOTE]
-> 📸 SCREENSHOT — final POC playing a chained playlist, with the manifest visible in the network tab
+![The final POC: a single player playing the chained playlist.](poc-player.jpg "The final POC: a single player playing the chained playlist.")
 
 ## 1. First attempt — JS array, swap src on ended
 
@@ -98,7 +98,7 @@ Frontend, no clip-switching JS at all :
 The segments stream directly from the original CDN (Bunny in our case). The server only emits the manifest text — a few KB. Cheap and fast.
 
 > [!NOTE]
-> 📸 SCREENSHOT — Network tab showing one /playlist.m3u8 request (~1 KB) followed by .ts segments served directly by vz-\*.b-cdn.net
+![One 1.4 kB /playlist.m3u8 request to the server, then .ts segments served directly by the CDN (here, the Mux test streams of the public POC).](poc-network.jpg "One 1.4 kB /playlist.m3u8 request to the server, then .ts segments served directly by the CDN (here, the Mux test streams of the public POC).")
 
 ## 4. The subtle gotcha — ABR is silently dropped
 
@@ -140,7 +140,7 @@ hls.bandwidthEstimate  // measured bandwidth in bits/s
 ```
 
 > [!NOTE]
-> 📸 SCREENSHOT — DevTools console showing hls.levels output with two entries, before/after throttling
+![hls.levels after the fix: five renditions, and ABR stepping down when the network is throttled to 1 Mbit/s.](poc-console-en.jpg "hls.levels after the fix: five renditions, and ABR stepping down when the network is throttled to 1 Mbit/s.")
 
 → Tracked in [https://github.com/nicolasrouanne/video-chaining/issues/2](https://github.com/nicolasrouanne/video-chaining/issues/2)
 
