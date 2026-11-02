@@ -2,7 +2,7 @@
 title: "LLM evals: what they are for, and how we run them with Langfuse"
 slug: llm-evals-what-they-are-for-and-how-we-run-them-with-langfuse
 date: 2026-10-19
-cover: "evals-en.jpg"
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -102,6 +102,8 @@ All of this paid off this autumn, when we migrated to a new generation of models
 | Cases passed (run 1 / run 2) | 15 / 16 | 17 / 18 |
 | Quotes copied word for word | 118 / 120 | 94 / 95 |
 | Total answer length | ~4,600 words | ~3,700 words |
+
+![Cases passed out of 30 and answer length, over two runs with each model.](cover-en.jpg "Cases passed out of 30 and answer length, over two runs with each model.")
 
 Fourteen cases pass every time, ten fail every time, and four change from one run to the next, as many on each side. That's the normal noise of models and judges, and it's why we look at the total rather than at each case. The conclusion: the new model is at least as good, quotes more faithfully, and answers about 20 % shorter, which analysts will notice. We migrated.
 

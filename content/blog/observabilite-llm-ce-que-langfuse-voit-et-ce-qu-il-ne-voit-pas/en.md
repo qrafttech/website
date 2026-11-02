@@ -2,7 +2,7 @@
 title: "LLM observability: what Langfuse sees, and what it doesn't"
 slug: llm-observability-what-langfuse-sees-and-what-it-doesn-t
 date: 2026-10-22
-cover: "langfuse-en.jpg"
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 

@@ -2,7 +2,7 @@
 title: "Observabilité LLM : ce que Langfuse voit, et ce qu'il ne voit pas"
 slug: observabilite-llm-ce-que-langfuse-voit-et-ce-qu-il-ne-voit-pas
 date: 2026-10-22
-cover: "langfuse-fr.jpg"
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
