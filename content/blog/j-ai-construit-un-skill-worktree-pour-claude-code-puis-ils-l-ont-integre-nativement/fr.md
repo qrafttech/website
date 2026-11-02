@@ -2,6 +2,7 @@
 title: "J'ai construit un skill Worktree pour Claude Code. Puis ils l'ont intégré nativement."
 slug: j-ai-construit-un-skill-worktree-pour-claude-code-puis-ils-l-ont-integre-nativement
 date: 2026-03-02
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -30,6 +31,8 @@ Puis Anthropic a ajouté `--worktree` comme flag natif. Quand on lance `claude -
 - Nettoie à la fin de la session
 
 Quatre points qui ont rendu mes 114 lignes obsolètes.
+
+![Le skill /worktree et ses 114 lignes de shell, remplacés par le flag natif claude --worktree.](cover-fr.jpg "Le skill /worktree et ses 114 lignes de shell, remplacés par le flag natif claude --worktree.")
 
 ## La migration
 

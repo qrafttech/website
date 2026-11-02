@@ -2,6 +2,7 @@
 title: "Building a Whitelabel E-commerce Website with Next.js"
 slug: building-a-whitelabel-e-commerce-website-with-next-js
 date: 2025-06-20
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -12,6 +13,8 @@ I think there are 3 ways of doing it:
 - prefix every path with `/wl/brand`
 - add a query param such as `?wl=itelis`
 - add a cookie (or header) such as `whitelabel: brand;`
+
+![The three ways to pass the brand: in the path, as a query parameter, or in a cookie.](cover-en.jpg "The three ways to pass the brand: in the path, as a query parameter, or in a cookie.")
 
 ## Building a Whitelabel E-commerce Website with Next.js
 

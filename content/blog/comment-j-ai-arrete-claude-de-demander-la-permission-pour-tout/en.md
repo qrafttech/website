@@ -2,6 +2,7 @@
 title: "How I Stopped Claude From Asking Permission for Everything"
 slug: how-i-stopped-claude-from-asking-permission-for-everything
 date: 2026-01-22
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -12,6 +13,8 @@ I love Claude Code. It's become my daily coding companion. But there's one thing
 `git status`? Allow. `ls`? Allow. `git log`? Allow. `tree`? Allow.
 
 I found myself clicking "Allow" so reflexively that I worried I'd approve something dangerous without noticing. That's the opposite of security.
+
+![The same permission prompt, for git status, ls, git log and tree.](cover-en.jpg "The same permission prompt, for git status, ls, git log and tree.")
 
 ## The Settings Hierarchy I Didn't Know About
 

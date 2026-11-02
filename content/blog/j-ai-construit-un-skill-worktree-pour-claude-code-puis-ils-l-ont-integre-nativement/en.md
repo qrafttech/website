@@ -2,6 +2,7 @@
 title: "I Built a Custom Worktree Skill for Claude Code. Then They Shipped It Natively."
 slug: i-built-a-custom-worktree-skill-for-claude-code-then-they-shipped-it-natively
 date: 2026-03-02
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -30,6 +31,8 @@ Then Anthropic added `--worktree` as a native flag. When you run `claude --workt
 - Cleans up on session exit
 
 Four bullet points that made my 114 lines obsolete.
+
+![The /worktree skill and its 114 lines of shell, replaced by the native claude --worktree flag.](cover-en.jpg "The /worktree skill and its 114 lines of shell, replaced by the native claude --worktree flag.")
 
 ## The Migration
 

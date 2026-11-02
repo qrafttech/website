@@ -2,6 +2,7 @@
 title: "Pourquoi nous avons construit notre propre API HTML-to-PDF"
 slug: pourquoi-nous-avons-construit-notre-propre-api-html-to-pdf
 date: 2026-01-29
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -44,6 +45,8 @@ Quand j'ai pris du recul pour regarder le problème, ce dont on avait vraiment b
 - **Déploiement simple** — un conteneur, un processus
 
 C'est tout. Pas de machine à états, pas d'ActiveStorage, pas de jobs en arrière-plan. Juste un endpoint HTTP.
+
+![Avant, chaque produit embarque son pipeline Grover et Chromium. Après, ils appellent tous la même API en HTTP.](cover-fr.jpg "Avant, chaque produit embarque son pipeline Grover et Chromium. Après, ils appellent tous la même API en HTTP.")
 
 ## La décision
 

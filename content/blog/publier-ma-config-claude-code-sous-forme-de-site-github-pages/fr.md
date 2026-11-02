@@ -2,6 +2,7 @@
 title: "Publier ma config Claude Code sous forme de site GitHub Pages"
 slug: publier-ma-config-claude-code-sous-forme-de-site-github-pages
 date: 2026-02-12
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -51,6 +52,8 @@ La partie la plus intéressante est la façon dont les skills sont publiés. Ils
 ```
 
 Cette étape s'exécute avant le build Jekyll. Chaque SKILL.md possède déjà le bon front matter (`parent: Skills`, `permalink: /skills/skill-name/`), donc ils s'intègrent automatiquement dans la navigation. Le répertoire skills/ est dans .gitignore — il n'existe que pendant le build.
+
+![Le workflow GitHub Actions : l'étape de copie des skills tourne avant le build Jekyll.](cover-fr.jpg "Le workflow GitHub Actions : l'étape de copie des skills tourne avant le build Jekyll.")
 
 Résultat : ajouter un nouveau skill sur le site ne demande aucun travail supplémentaire. Il suffit d' écrire le SKILL.md dans .claude/skills/mon-skill/ et de pusher sur main.
 

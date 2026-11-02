@@ -2,6 +2,7 @@
 title: "Managing Multiple Claude Code Workspaces from a Single Repo"
 slug: managing-multiple-claude-code-workspaces-from-a-single-repo
 date: 2026-03-04
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -32,6 +33,8 @@ The new structure:
 ```
 
 Each original file (`~/dev/CLAUDE.md`, `~/work/.mcp.json`, etc.) becomes a symlink pointing into the repo.
+
+![The six files of the dev, work and personal workspaces are symlinks to ~/dev/claude/workspaces.](cover-en.jpg "The six files of the dev, work and personal workspaces are symlinks to ~/dev/claude/workspaces.")
 
 ## Handling secrets in .mcp.json
 

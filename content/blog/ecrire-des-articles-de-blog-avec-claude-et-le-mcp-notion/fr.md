@@ -2,6 +2,7 @@
 title: "Écrire des articles de blog avec Claude et le MCP Notion"
 slug: ecrire-des-articles-de-blog-avec-claude-et-le-mcp-notion
 date: 2026-01-22
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -50,6 +51,8 @@ Tout ne se passe pas toujours parfaitement. À un moment, la mise à jour d'une 
 La base de données a été archivée. Peux-tu la recréer avec 
 la même structure et les mêmes articles ?
 ```
+
+![Les prompts de l'article, passés à Claude Code, modifient directement les pages Notion du blog.](cover-fr.jpg "Les prompts de l'article, passés à Claude Code, modifient directement les pages Notion du blog.")
 
 ## Pourquoi j'aime vraiment ça
 

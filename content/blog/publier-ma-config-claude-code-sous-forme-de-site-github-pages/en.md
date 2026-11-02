@@ -2,6 +2,7 @@
 title: "Publishing My Claude Code Config as a GitHub Pages Site"
 slug: publishing-my-claude-code-config-as-a-github-pages-site
 date: 2026-02-12
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -51,6 +52,8 @@ The most interesting part of the setup is how skills get published. Skills live 
 ```
 
 This runs before Jekyll builds. Each SKILL.md already has the right front matter (`parent: Skills`, `permalink: /skills/skill-name/`), so they slot into the navigation automatically. The skills/ directory is in .gitignore — it only exists during the build.
+
+![The GitHub Actions workflow: the skill copy step runs before the Jekyll build.](cover-en.jpg "The GitHub Actions workflow: the skill copy step runs before the Jekyll build.")
 
 This means adding a new skill to the site requires zero extra work: just write the SKILL.md in .claude/skills/my-skill/ and push to main.
 

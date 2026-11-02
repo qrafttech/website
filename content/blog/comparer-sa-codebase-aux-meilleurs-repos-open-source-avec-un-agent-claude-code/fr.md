@@ -2,6 +2,7 @@
 title: "Comparer sa codebase aux meilleurs repos open source avec un agent Claude Code"
 slug: comparer-sa-codebase-aux-meilleurs-repos-open-source-avec-un-agent-claude-code
 date: 2026-03-03
+cover: "cover-fr.jpg"
 author: "Adrien Lupo"
 ---
 
@@ -175,6 +176,8 @@ Pour donner une idée concrète, voici un extrait de ma liste par framework :
 **FastAPI** -- fastapi/full-stack-fastapi-template (le seul template officiel), Prefect (orchestration, 21K stars), Mealie (architecture textbook), Tracecat (DDD exemplaire)
 
 **Expo/React Native** -- Ignite (boilerplate de référence depuis 9 ans), obytes/react-native-template-obytes (le plus moderne), create-t3-turbo (monorepo web + mobile)
+
+![Une partie des repos de référence de l'agent, par framework.](cover-fr.jpg "Une partie des repos de référence de l'agent, par framework.")
 
 > [!NOTE]
 > Cette liste n'est pas statique. Je la mets à jour régulièrement quand je découvre un nouveau repo de qualité ou quand un repo est archivé. Netflix/dispatch (FastAPI), par exemple, a été archivé en septembre 2025 -- il reste une référence architecturale mais ne reçoit plus de mises à jour.

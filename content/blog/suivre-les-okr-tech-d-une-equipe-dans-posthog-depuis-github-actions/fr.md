@@ -2,6 +2,7 @@
 title: "Suivre les OKR tech d'une équipe dans PostHog, depuis GitHub Actions"
 slug: suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions
 date: 2026-10-29
+cover: "chart-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 

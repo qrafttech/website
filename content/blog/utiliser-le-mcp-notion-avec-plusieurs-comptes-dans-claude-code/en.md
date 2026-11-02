@@ -2,6 +2,7 @@
 title: "Using Notion MCP with Multiple Accounts in Claude Code"
 slug: using-notion-mcp-with-multiple-accounts-in-claude-code
 date: 2026-02-13
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -50,6 +51,8 @@ My solution is simple: I use two separate working directories, each with its own
 ```
 
 Both use the exact same MCP server package. The only difference is the token. When I launch Claude Code from ~/dev/, it connects to my work Notion. When I launch from ~/personal-agent/, it connects to my personal Notion.
+
+![Both .mcp.json files are identical, except for NOTION_TOKEN.](cover-en.jpg "Both .mcp.json files are identical, except for NOTION_TOKEN.")
 
 ## What Works
 
