@@ -2,6 +2,7 @@
 title: "Remplacer du texte dans un PDF sans que ça se voit"
 slug: remplacer-du-texte-dans-un-pdf-sans-que-ca-se-voit
 date: 2026-06-12
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -38,6 +39,8 @@ def sample_background(page, rect, dpi=144):
 ```
 
 Détail bête, mais c'est ce genre de détail qui sépare « propre » de « bricolé ». À ce stade le texte est remplacé et le fond invisible. J'aurais pu m'arrêter là. C'est la police qui a tout fait basculer.
+
+![Recouvrir laisse un rectangle blanc et l'ancien texte. Rédiger retire les glyphes et reprend la couleur du fond.](cover-fr.jpg "Recouvrir laisse un rectangle blanc et l'ancien texte. Rédiger retire les glyphes et reprend la couleur du fond.")
 
 → [apply_redactions](https://pymupdf.readthedocs.io/en/latest/page.html#Page.apply_redactions)
 
@@ -165,6 +168,8 @@ Calibration : `0.375 pt` de trait → 0.125 em de fût, pile la cible. Une seule
 La vraie leçon n'est pas technique : **mon œil était un mauvais juge.** « Ça a l'air bon » a été faux trois fois de suite.
 
 Ce qui a tout débloqué, c'est d'arrêter de regarder et de **mesurer**. Remplacer le texte **par lui-même**, puis superposer l'original et la sortie en fausses couleurs — encre d'origine sur un canal, nouvelle encre sur l'autre. Tout ce qui n'est pas vert est un écart.
+
+![Superposition en fausses couleurs : vert quand les deux encres coïncident, cyan quand la nouvelle déborde.](superposition-fr.jpg "Superposition en fausses couleurs : vert quand les deux encres coïncident, cyan quand la nouvelle déborde.")
 
 ```python
 from PIL import Image

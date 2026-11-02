@@ -2,6 +2,7 @@
 title: "Chaining HLS videos into one player"
 slug: chaining-hls-videos-into-one-player
 date: 2026-06-03
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -54,6 +55,8 @@ SOURCES ──┐
           │   absolutize segments  between each source
 SOURCES ──┘
 ```
+
+![The clips' segments are concatenated into one playlist per rendition, separated by #EXT-X-DISCONTINUITY.](cover-en.jpg "The clips' segments are concatenated into one playlist per rendition, separated by #EXT-X-DISCONTINUITY.")
 
 Server side, the core is ~30 lines of Node. For each source URL, descend the master playlist to a variant, keep only the `#EXTINF` lines and segment URLs (made absolute), join them all with `#EXT-X-DISCONTINUITY` between sources :
 

@@ -2,6 +2,7 @@
 title: "Chaîner plusieurs vidéos HLS dans un seul lecteur"
 slug: chainer-plusieurs-videos-hls-dans-un-seul-lecteur
 date: 2026-06-03
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -54,6 +55,8 @@ SOURCES ──┐
           │   segments absolutisés  entre chaque source
 SOURCES ──┘
 ```
+
+![Les segments des clips sont concaténés dans une playlist par rendition, séparés par #EXT-X-DISCONTINUITY.](cover-fr.jpg "Les segments des clips sont concaténés dans une playlist par rendition, séparés par #EXT-X-DISCONTINUITY.")
 
 Côté serveur, le cœur fait ~30 lignes de Node. Pour chaque URL source, on descend le master playlist jusqu'à un variant, on garde uniquement les lignes `#EXTINF` et les URLs de segments (rendues absolues), on join le tout avec `#EXT-X-DISCONTINUITY` entre les sources :
 

@@ -2,6 +2,7 @@
 title: "Auditer ses skills Claude Code"
 slug: auditer-ses-skills-claude-code
 date: 2026-10-05
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -19,6 +20,8 @@ Quelques choix que j'ai bien aimés :
 - il vérifie contre le bon modèle. Mes skills tournent sur Opus, mes routines cloud sur Sonnet, et il a audité chacun contre le sien ;
 - il n'a pas lu les `settings.json` ni les `.mcp.json`, parce qu'ils peuvent contenir des secrets ;
 - il n'applique rien. Il rend un rapport (constat, `fichier:ligne`, pourquoi c'est obsolète) et un diff proposé, qui passe `git apply --check`, et il sépare ce qu'il corrige de ce qu'il me laisse trancher.
+
+![Deux constats de l'audit : un skill de février contredit le guide de style de juillet, et le skill de PR suppose un worktree.](cover-fr.jpg "Deux constats de l'audit : un skill de février contredit le guide de style de juillet, et le skill de PR suppose un worktree.")
 
 ## 2. Pas la formulation : la dérive
 

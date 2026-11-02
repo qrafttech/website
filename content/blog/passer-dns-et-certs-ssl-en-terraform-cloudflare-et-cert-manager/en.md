@@ -2,6 +2,7 @@
 title: "Moving DNS and SSL certificates to Terraform — Cloudflare and cert-manager"
 slug: moving-dns-and-ssl-certificates-to-terraform-cloudflare-and-cert-manager
 date: 2026-05-18
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -93,6 +94,8 @@ A few design choices worth calling out:
 - Plan posted as a sticky PR comment — edited in place rather than spammed on every push. Reviewers see the latest diff, not a wall of stale ones.
 - Plan truncated to 65k characters (GitHub's comment limit). Beyond that, the full plan is uploaded as a workflow artifact.
 - Noise from `refresh` and `import` lines is filtered out so the diff reads as actual change, not state reconciliation.
+
+![The Terraform plan posted as a PR comment: one record changed, one record created.](cover-en.jpg "The Terraform plan posted as a PR comment: one record changed, one record created.")
 
 ## 3. cert-manager + Let's Encrypt
 

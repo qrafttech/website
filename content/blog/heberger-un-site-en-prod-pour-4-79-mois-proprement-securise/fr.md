@@ -2,6 +2,7 @@
 title: "Héberger un site en prod pour 4,79 €/mois, proprement sécurisé"
 slug: heberger-un-site-en-prod-pour-4-79-mois-proprement-securise
 date: 2026-05-26
+cover: "cover-fr.jpg"
 author: "Adrien Lupo"
 ---
 
@@ -38,6 +39,8 @@ La défense en profondeur, c'est de ne pas miser sur une seule protection mais s
 4. Chiffrement : HTTPS automatique côté public (Caddy + Let's Encrypt).
 5. Patchs automatiques : les correctifs de sécurité s'appliquent seuls.
 6. Backups : des sauvegardes quotidiennes chez Hetzner.
+
+![Un VPS à 4,79 € par mois, protégé par six couches de défense.](cover-fr.jpg "Un VPS à 4,79 € par mois, protégé par six couches de défense.")
 
 ---
 

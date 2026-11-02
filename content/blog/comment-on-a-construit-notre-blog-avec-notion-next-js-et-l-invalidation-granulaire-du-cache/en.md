@@ -2,6 +2,7 @@
 title: "How We Built Our Blog with Notion, Next.js, and Granular Cache Invalidation"
 slug: how-we-built-our-blog-with-notion-next-js-and-granular-cache-invalidation
 date: 2026-03-05
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -146,6 +147,8 @@ The logic is intuitive:
 - **Created or deleted** → the listing (and the article if applicable)
 
 Security is handled with HMAC-SHA256 signature verification. Notion signs every webhook payload, and we verify it with timing-safe comparison before processing anything.
+
+![A Notion webhook invalidates only the edited article's tag: the listing and the other articles stay cached.](cover-en.jpg "A Notion webhook invalidates only the edited article's tag: the listing and the other articles stay cached.")
 
 ## The Slug Decision
 

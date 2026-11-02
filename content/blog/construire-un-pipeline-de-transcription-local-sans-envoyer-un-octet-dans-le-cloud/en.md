@@ -2,6 +2,7 @@
 title: "Building a local transcription pipeline without sending a single byte to the cloud"
 slug: building-a-local-transcription-pipeline-without-sending-a-single-byte-to-the-cloud
 date: 2026-05-19
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -13,6 +14,8 @@ ffmpeg loudnorm → WhisperX (large-v3, Silero VAD) → wav2vec2 align
 ```
 
 Repo: [github.com/nicolasrouanne/transcribe](https://github.com/nicolasrouanne/transcribe).
+
+![A pipeline output: each segment has its timestamp and its speaker, all computed locally.](cover-en.jpg "A pipeline output: each segment has its timestamp and its speaker, all computed locally.")
 
 ## 0. Why not MacWhisper
 

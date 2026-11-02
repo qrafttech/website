@@ -2,6 +2,7 @@
 title: "Automating monthly timesheets from Toggl with Claude Code"
 slug: automating-monthly-timesheets-from-toggl-with-claude-code
 date: 2026-03-04
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -79,6 +80,8 @@ For February 5th with 3 slots:
 | SAMM | 2nd → slot 3 | **0.5** |
 | Qraft | lowest | **0.0** |
 | **Total** |  | **1.5** ✅ |
+
+![Example calendar with the two-level carry-forward: each day stays bounded by the hours worked.](cover-en.jpg "Example calendar with the two-level carry-forward: each day stays bounded by the hours worked.")
 
 ## What works
 
