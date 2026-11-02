@@ -2,6 +2,7 @@
 title: "Gérer ses secrets avec Chezmoi et les Service Accounts 1Password"
 slug: gerer-ses-secrets-avec-chezmoi-et-les-service-accounts-1password
 date: 2026-05-07
+cover: "cover.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -36,6 +37,8 @@ La correction tient en trois parties :
 ### 1. Créer un vault dédié
 
 J'ai créé un vault appelé `AI Agents` dans 1Password et copié les items concernés dedans :
+
+![Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.](cover.jpg "Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.")
 
 - `chezmoi_notion_personal` / `chezmoi_notion_work` (clés API Notion)
 - `chezmoi_slack-qraft` / `chezmoi_slack-episto` (tokens Slack)

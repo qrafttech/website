@@ -2,6 +2,7 @@
 title: "Managing Secrets with Chezmoi and 1Password Service Accounts"
 slug: managing-secrets-with-chezmoi-and-1password-service-accounts
 date: 2026-05-07
+cover: "cover.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -36,6 +37,8 @@ The fix has three parts:
 ### 1. Create a dedicated vault
 
 I created a vault called `AI Agents` in 1Password and copied the relevant items into it:
+
+![The sa-claude-code service account can only reach the AI Agents vault, read and write.](cover.jpg "The sa-claude-code service account can only reach the AI Agents vault, read and write.")
 
 - `chezmoi_notion_personal` / `chezmoi_notion_work` (Notion API keys)
 - `chezmoi_slack-qraft` / `chezmoi_slack-episto` (Slack tokens)
