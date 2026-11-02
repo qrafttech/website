@@ -34,7 +34,7 @@ sentry-cli organizations list
 
 # Claude querying issue details via API
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://sentry.io/api/0/projects/samm-care/api/issues/?limit=20"
+  "https://sentry.io/api/0/projects/sante-app/api/issues/?limit=20"
 ```
 
 The CLI handles basic operations, but the REST API is essential for anything analytical—like getting tag distributions or issue metadata.
@@ -68,7 +68,7 @@ For the test and config issues, Claude resolved them directly via the API:
 curl -X PUT -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status": "resolved"}' \
-  "https://sentry.io/api/0/organizations/samm-care/issues/API-2/"
+  "https://sentry.io/api/0/organizations/sante-app/issues/API-2/"
 ```
 
 Three issues resolved in seconds, no clicking through the UI.
@@ -83,7 +83,7 @@ First, it checked if the GitHub integration was configured:
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://sentry.io/api/0/organizations/samm-care/integrations/"
+  "https://sentry.io/api/0/organizations/sante-app/integrations/"
 ```
 
 It was—integration ID `360433`. Then Claude created linked issues for each real bug:
@@ -92,19 +92,19 @@ It was—integration ID `360433`. Then Claude created linked issues for each rea
 curl -X POST -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "repo": "samm-care/samm",
+    "repo": "sante-app/app",
     "title": "TypeError in _sync_carer_to_ximi",
-    "description": "Sentry Issue: [API-4](https://samm-care.sentry.io/issues/90099488/)\n\n```\nTypeError: NoneType object is not subscriptable\n  File \"/app/services/carers.py\", line 137\n```"
+    "description": "Sentry Issue: [API-4](https://sante-app.sentry.io/issues/90099488/)\n\n```\nTypeError: NoneType object is not subscriptable\n  File \"/app/services/carers.py\", line 137\n```"
   }' \
-  "https://sentry.io/api/0/organizations/samm-care/issues/API-4/integrations/360433/"
+  "https://sentry.io/api/0/organizations/sante-app/issues/API-4/integrations/360433/"
 ````
 
 The response:
 
 ```json
 {
-  "key": "samm-care/samm#317",
-  "url": "https://github.com/samm-care/samm/issues/317"
+  "key": "sante-app/app#317",
+  "url": "https://github.com/sante-app/app/issues/317"
 }
 ```
 
