@@ -2,6 +2,7 @@
 title: "Construire un site e-commerce whitelabel avec Next.js"
 slug: construire-un-site-e-commerce-whitelabel-avec-next-js
 date: 2025-06-20
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -12,6 +13,8 @@ Je pense qu'il y a 3 façons de faire :
 - préfixer chaque chemin avec `/wl/brand`
 - ajouter un paramètre de requête tel que `?wl=itelis`
 - ajouter un cookie (ou header) tel que `whitelabel: brand;`
+
+![Les trois façons de passer la marque : dans le chemin, en paramètre de requête, ou dans un cookie.](cover-fr.jpg "Les trois façons de passer la marque : dans le chemin, en paramètre de requête, ou dans un cookie.")
 
 ## Construire un site e-commerce whitelabel avec Next.js
 

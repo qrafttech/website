@@ -2,6 +2,7 @@
 title: "Les 3 commandes que j'utilise le plus dans Claude Code : /pr, /clear, /review"
 slug: les-3-commandes-que-j-utilise-le-plus-dans-claude-code-pr-clear-review
 date: 2026-02-19
+cover: "cover-fr.jpg"
 author: "Adrien Lupo"
 ---
 
@@ -116,6 +117,8 @@ Je ne merge jamais au premier passage. Voici la boucle :
 5. Claude applique les changements.
 6. Je push sur la PR.
 7. Retour à l'étape 2.
+
+![La boucle : /pr, puis /clear et /review, jusqu'à ce que les suggestions deviennent anecdotiques.](cover-fr.jpg "La boucle : /pr, puis /clear et /review, jusqu'à ce que les suggestions deviennent anecdotiques.")
 
 À chaque passage, il y a du code mort, des abstractions inutiles, de la complexité superflue. Chaque itération nettoie et rend le code plus lean. Quand les suggestions deviennent anecdotiques, je merge.
 

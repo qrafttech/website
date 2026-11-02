@@ -2,6 +2,7 @@
 title: "Writing Blog Articles with Claude and the Notion MCP"
 slug: writing-blog-articles-with-claude-and-the-notion-mcp
 date: 2026-01-22
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -50,6 +51,8 @@ Things don't always go perfectly. At one point, updating a page accidentally arc
 The database got archived. Can you recreate it with the 
 same structure and articles?
 ```
+
+![The prompts from this post, sent to Claude Code, edit the blog's Notion pages directly.](cover-en.jpg "The prompts from this post, sent to Claude Code, edit the blog's Notion pages directly.")
 
 ## Why I actually like this
 

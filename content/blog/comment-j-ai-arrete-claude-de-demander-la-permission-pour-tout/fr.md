@@ -2,6 +2,7 @@
 title: "Comment j'ai arrêté Claude de demander la permission pour tout"
 slug: comment-j-ai-arrete-claude-de-demander-la-permission-pour-tout
 date: 2026-01-22
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -12,6 +13,8 @@ J'adore Claude Code. C'est devenu mon compagnon de code au quotidien. Mais il y 
 `git status` ? Autoriser. `ls` ? Autoriser. `git log` ? Autoriser. `tree` ? Autoriser.
 
 Je cliquais sur "Autoriser" tellement par réflexe que j'avais peur d'approuver un truc dangereux sans m'en rendre compte. C'est l'inverse de la sécurité.
+
+![Le même prompt de permission, pour git status, ls, git log et tree.](cover-fr.jpg "Le même prompt de permission, pour git status, ls, git log et tree.")
 
 ## La hiérarchie des settings que je ne connaissais pas
 

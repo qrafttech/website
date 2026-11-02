@@ -2,6 +2,7 @@
 title: "Comment structurer ses permissions Claude Code pour arrêter de cliquer \"Autoriser\" en boucle"
 slug: comment-structurer-ses-permissions-claude-code-pour-arreter-de-cliquer-autoriser-en-boucle
 date: 2026-02-19
+cover: "cover-fr.jpg"
 author: "Adrien Lupo"
 ---
 
@@ -53,6 +54,8 @@ Les règles sont évaluées dans cet ordre : **deny > ask > allow**. Les règles
 C'est ce qui permet la stratégie que j'utilise : des **allow larges** qui sont "attrapés" par des **ask spécifiques** avant d'être atteints.
 
 ---
+
+![Deny, puis Ask, puis Allow : trois exemples de règles de chaque niveau, tirés de la config présentée plus bas.](cover-fr.jpg "Deny, puis Ask, puis Allow : trois exemples de règles de chaque niveau, tirés de la config présentée plus bas.")
 
 ## Ma config User : un exemple commenté
 

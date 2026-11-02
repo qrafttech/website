@@ -2,6 +2,7 @@
 title: "Why we built our own HTML-to-PDF API"
 slug: why-we-built-our-own-html-to-pdf-api
 date: 2026-01-29
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -44,6 +45,8 @@ When I stepped back and looked at the problem, what we really needed was simple:
 - **Simple deployment** — one container, one process
 
 That's it. No state machine, no ActiveStorage, no background jobs. Just an HTTP endpoint.
+
+![Before, each product embeds its own Grover and Chromium pipeline. After, they all call the same API over HTTP.](cover-en.jpg "Before, each product embeds its own Grover and Chromium pipeline. After, they all call the same API over HTTP.")
 
 ## The decision
 

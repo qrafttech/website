@@ -2,6 +2,7 @@
 title: "Gérer plusieurs espaces de travail Claude Code depuis un seul repo"
 slug: gerer-plusieurs-espaces-de-travail-claude-code-depuis-un-seul-repo
 date: 2026-03-04
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -32,6 +33,8 @@ La nouvelle structure :
 ```
 
 Chaque fichier original (`~/dev/CLAUDE.md`, `~/work/.mcp.json`, etc.) devient un lien symbolique pointant vers le repo.
+
+![Les six fichiers des espaces dev, work et personal sont des liens symboliques vers ~/dev/claude/workspaces.](cover-fr.jpg "Les six fichiers des espaces dev, work et personal sont des liens symboliques vers ~/dev/claude/workspaces.")
 
 ## Gérer les secrets dans .mcp.json
 

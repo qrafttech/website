@@ -2,6 +2,7 @@
 title: "Tracking a team's tech OKRs in PostHog, straight from GitHub Actions"
 slug: tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions
 date: 2026-10-29
+cover: "chart-en.jpg"
 author: "Nicolas Rouanne"
 ---
 

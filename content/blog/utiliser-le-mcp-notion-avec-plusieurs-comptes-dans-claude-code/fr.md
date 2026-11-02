@@ -2,6 +2,7 @@
 title: "Utiliser le MCP Notion avec plusieurs comptes dans Claude Code"
 slug: utiliser-le-mcp-notion-avec-plusieurs-comptes-dans-claude-code
 date: 2026-02-13
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -50,6 +51,8 @@ Ma solution est simple : j'utilise deux répertoires de travail séparés, chacu
 ```
 
 Les deux utilisent exactement le même package MCP. La seule différence est le token. Quand je lance Claude Code depuis ~/dev/, il se connecte à mon Notion pro. Quand je lance depuis ~/personal-agent/, il se connecte à mon Notion personnel.
+
+![Les deux fichiers .mcp.json sont identiques, sauf le NOTION_TOKEN.](cover-fr.jpg "Les deux fichiers .mcp.json sont identiques, sauf le NOTION_TOKEN.")
 
 ## Ce qui marche
 
