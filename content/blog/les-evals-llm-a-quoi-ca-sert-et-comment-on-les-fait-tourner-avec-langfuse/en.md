@@ -2,6 +2,7 @@
 title: "LLM evals: what they are for, and how we run them with Langfuse"
 slug: llm-evals-what-they-are-for-and-how-we-run-them-with-langfuse
 date: 2026-10-19
+cover: "evals-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -17,6 +18,8 @@ A unit test checks an exact output, and an LLM answer is never the same twice. S
 - does it still hold with this new model or this new prompt? Here we replay a fixed set of cases and compare runs. That's the regression.
 
 Both share the same checks, which we split into two layers.
+
+![Audit and regression go through the same code checks and the same LLM judges, and end up as per-defect scores in Langfuse.](evals-en.jpg "Audit and regression go through the same code checks and the same LLM judges, and end up as per-defect scores in Langfuse.")
 
 ## What code can check
 

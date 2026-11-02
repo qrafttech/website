@@ -2,12 +2,15 @@
 title: "LLM observability: what Langfuse sees, and what it doesn't"
 slug: llm-observability-what-langfuse-sees-and-what-it-doesn-t
 date: 2026-10-22
+cover: "langfuse-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
 At the end of August, we found out after the fact that a single feature of our app had cost about $440 in four days. No alert, and no simple way to tell which customer was behind it. Yet we were already tracing our LLM calls in Langfuse.
 
 This is the companion to [our article on evals](https://qraft.tech/en/blog/llm-evals-what-they-are-for-and-how-we-run-them-with-langfuse): evals check what goes to production, this one is about what happens once it's there. How much it costs, for whom, and what breaks without warning.
+
+![Langfuse sees the cost, sometimes wrong, and doesn't see the calls that produced nothing.](langfuse-en.jpg "Langfuse sees the cost, sometimes wrong, and doesn't see the calls that produced nothing.")
 
 ## One generation per call
 

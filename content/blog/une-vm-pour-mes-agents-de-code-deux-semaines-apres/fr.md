@@ -2,6 +2,7 @@
 title: "Une VM pour mes agents de code, deux semaines après"
 slug: une-vm-pour-mes-agents-de-code-deux-semaines-apres
 date: 2026-10-15
+cover: "couches-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -39,6 +40,8 @@ Les secrets restent dans 1Password : le fichier de config ne contient que des r�
 TS_AUTHKEY={{ op://Vault/tailscale/authkey }}
 GH_TOKEN={{ op://Vault/github/token }}
 ```
+
+![La VM, l'image commune, mon image, et le projet qui dit quoi lancer. Les secrets restent dans 1Password.](couches-fr.jpg "La VM, l'image commune, mon image, et le projet qui dit quoi lancer. Les secrets restent dans 1Password.")
 
 → [README](https://github.com/qrafttech/orca-host#readme), [architecture.md](https://github.com/qrafttech/orca-host/blob/main/.claude/knowledge/architecture.md).
 

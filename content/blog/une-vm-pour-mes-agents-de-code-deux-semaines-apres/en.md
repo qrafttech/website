@@ -2,6 +2,7 @@
 title: "A VM for my coding agents, two weeks in"
 slug: a-vm-for-my-coding-agents-two-weeks-in
 date: 2026-10-15
+cover: "couches-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -39,6 +40,8 @@ Secrets stay in 1Password: the configuration file only holds references, the hos
 TS_AUTHKEY={{ op://Vault/tailscale/authkey }}
 GH_TOKEN={{ op://Vault/github/token }}
 ```
+
+![The VM, the shared image, my image, and the project that says what to run. Secrets stay in 1Password.](couches-en.jpg "The VM, the shared image, my image, and the project that says what to run. Secrets stay in 1Password.")
 
 → [README](https://github.com/qrafttech/orca-host#readme), [architecture.md](https://github.com/qrafttech/orca-host/blob/main/.claude/knowledge/architecture.md).
 

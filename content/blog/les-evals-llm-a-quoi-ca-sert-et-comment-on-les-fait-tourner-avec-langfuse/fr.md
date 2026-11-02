@@ -2,6 +2,7 @@
 title: "Les evals LLM : à quoi ça sert, et comment on les fait tourner avec Langfuse"
 slug: les-evals-llm-a-quoi-ca-sert-et-comment-on-les-fait-tourner-avec-langfuse
 date: 2026-10-19
+cover: "evals-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -17,6 +18,8 @@ Un test unitaire vérifie une sortie exacte, alors qu'une réponse de LLM n'est 
 - est-ce que ça tient avec ce nouveau modèle ou ce nouveau prompt ? Là, on rejoue un jeu de cas figés et on compare les runs. C'est la régression.
 
 Les deux partagent les mêmes vérifications, qu'on a séparées en deux couches.
+
+![Audit et régression passent par les mêmes checks en code et les mêmes juges LLM, et finissent en scores par défaut dans Langfuse.](evals-fr.jpg "Audit et régression passent par les mêmes checks en code et les mêmes juges LLM, et finissent en scores par défaut dans Langfuse.")
 
 ## Ce qui se vérifie en code
 
