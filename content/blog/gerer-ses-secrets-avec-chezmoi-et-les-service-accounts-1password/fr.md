@@ -38,8 +38,6 @@ La correction tient en trois parties :
 
 J'ai créé un vault appelé `AI Agents` dans 1Password et copié les items concernés dedans :
 
-![Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.](cover.jpg "Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.")
-
 - `chezmoi_notion_personal` / `chezmoi_notion_work` (clés API Notion)
 - `chezmoi_slack-qraft` / `chezmoi_slack-episto` (tokens Slack)
 - `chezmoi_toggl` (token API Toggl)
@@ -50,6 +48,8 @@ C'est une copie simple. 1Password ne supporte pas la hiérarchie de vaults, donc
 ### 2. Créer un service account
 
 Dans l'UI web 1Password : **Settings > Developer > Service Accounts**. J'ai créé `sa-claude-code` avec accès lecture/écriture au vault `AI Agents` uniquement.
+
+![Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.](cover.jpg "Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.")
 
 Le service account fournit un token (`ops_...`) qui s'authentifie de manière non-interactive. Pas de Touch ID, pas de MFA, pas de session personnelle. Mais il ne peut voir que les vaults qu'on lui assigne.
 

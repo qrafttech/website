@@ -38,8 +38,6 @@ The fix has three parts:
 
 I created a vault called `AI Agents` in 1Password and copied the relevant items into it:
 
-![The sa-claude-code service account can only reach the AI Agents vault, read and write.](cover.jpg "The sa-claude-code service account can only reach the AI Agents vault, read and write.")
-
 - `chezmoi_notion_personal` / `chezmoi_notion_work` (Notion API keys)
 - `chezmoi_slack-qraft` / `chezmoi_slack-episto` (Slack tokens)
 - `chezmoi_toggl` (Toggl API token)
@@ -50,6 +48,8 @@ This is a flat copy. 1Password doesn't support vault hierarchies, so naming conv
 ### 2. Create a service account
 
 In the 1Password web UI: **Settings > Developer > Service Accounts**. I created `sa-claude-code` with read/write access to the `AI Agents` vault only.
+
+![The sa-claude-code service account can only reach the AI Agents vault, read and write.](cover.jpg "The sa-claude-code service account can only reach the AI Agents vault, read and write.")
 
 The service account gives you a token (`ops_...`) that authenticates non-interactively. No Touch ID, no MFA, no personal session. But it can only see the vaults you assign to it.
 
