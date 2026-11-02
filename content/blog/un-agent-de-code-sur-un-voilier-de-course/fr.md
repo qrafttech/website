@@ -26,13 +26,15 @@ GPS $RMC (onglet out_TimeSync    ──┘      (choisit la meilleure    (PC nav
 
 Le détail qui m'a fait sourire : la chaîne GPS → gpsd existait déjà dans le graphe de l'Exocet, entièrement câblée, dans un onglet désactivé. Il restait à l'activer et à configurer NTP. On est passés de +228,8 s à +4 ms.
 
-![Réglages d'heure de l'Exocet : port GPSD 8112 et serveur NTP](timesync.jpg "L'Exocet, onglet Synchronisation : gpsd sur le port 8112, et un serveur NTP.")
+![Réglages d'heure de l'Exocet : port GPSD 8112 et serveur NTP](timesync.png "L'Exocet, onglet Synchronisation : gpsd sur le port 8112, et le serveur NTP.")
 
 ## 2. Quand le lien tombe
 
 Sur un bateau, la coupure n'est pas un incident, c'est l'état normal. Au large, la 4G disparaît. Le réflexe serveur serait une file : on bufferise pendant la coupure, on rejoue au retour. Sauf qu'au retour, on rejouerait une heure de « direct » périmé.
 
 Alors j'ai séparé deux voies, et je ne les mélange jamais.
+
+![Schéma : à bord l'Exocet, le publisher et l'archive sur le PiKVM ; à terre R2, ClickHouse et Grafana](arch-fr.jpg "Deux voies : le direct en pointillés, l'archive en trait plein.")
 
 **Le direct jette.** Un publisher sur le PiKVM lit le flux de l'Exocet (via l'API que son app web utilise, pas documentée), en fait un snapshot complet par seconde et le pousse à terre en WebSocket. Si le lien tombe, la seconde est perdue, et c'est voulu :
 
@@ -59,11 +61,13 @@ Deux détails : on retente au plus toutes les 5 s (pas une poignée de main TLS 
 
 **Un seul store, jetable.** À terre, une VM GCP fait tourner [ClickHouse](https://clickhouse.com/) et Grafana. Les lignes du direct arrivent avec `source='live'` et sont provisoires : quand l'enregistrement complet est rechargé depuis R2 (`source='psm'`, pleine fréquence), il les remplace. Le store se reconstruit entièrement depuis R2, donc on peut le jeter.
 
-![Architecture : à bord l'Exocet et le PiKVM, à terre ClickHouse et Grafana, R2 entre les deux](arch-fr.jpg "Du bateau à la terre : le direct en 1 Hz, l'archive par R2. Schéma tiré du README du repo.")
+![Dashboard Grafana Live : vent, vitesse, cibles de polaire et courbes sur une heure](live.jpg "Le dashboard Live sur une heure de course, le 9 octobre, pendant le Tour de Corse.")
 
 Le bug le plus instructif est venu de là. Après un redémarrage de l'Exocet, le publisher n'a retrouvé que 8 canaux sur 28, et il a streamé comme ça pendant deux heures. Le tableau de bord avait l'air parfait : l'indicateur « Data age » au vert, à 0 s. Et le vent affichait 0,0, parce que l'agrégat `argMax` de ClickHouse sur une fenêtre vide renvoie 0 plutôt que rien. Un flux dégradé ressemble exactement à un flux sain. C'est toujours ouvert.
 
 L'inverse est arrivé aussi : le soir de la mise en service, la girouette s'est tue pendant un quart d'heure. Ma première réaction : « did we break something in the pixel? ». Non, c'était un vrai trou côté capteur, et c'est la voie directe qui venait de le montrer.
+
+![Dashboard Grafana Replay : trace autour de la Corse et vitesse comparée à la polaire](replay.jpg "Replay du Tour de Corse : la trace colorée par % de polaire, la vitesse contre la cible.")
 
 ## 3. L'énergie et le forfait
 
@@ -106,7 +110,7 @@ Le comportement de l'Exocet, c'est son graphe (21 flows, 743 nœuds), et il n'ex
 - le hash `rev` que renvoie Node-RED est sorti de git. C'est un état d'exécution, comme un state Terraform, pas de la configuration. En plus, l'Exocet renvoie `rev: null` pendant des heures après un déploiement : on compare le contenu, jamais le hash ;
 - l'export de configuration complet du fabricant est chiffré, et rechiffré à chaque export : impossible à comparer. Il part en sauvegarde sur R2, pas dans git.
 
-![Le bateau sous git : snapshot de l'Exocet en pull request, apply à quai, backup vers R2](git-fr.jpg "Snapshot toutes les 15 minutes en pull request, apply à la main et à quai.")
+![Schéma : snapshot de l'Exocet en pull request, merge sur main, apply à quai, backup vers R2](git-fr.jpg "Le graphe part de la boîte vers git tout seul ; il ne revient vers la boîte qu'à la main, à quai.")
 
 Pour le déploiement, l'agent proposait un bouton manuel. J'ai voulu que ça parte au merge. Le problème : un déploiement redémarre l'application de l'Exocet, donc le pilote. Inoffensif le long d'un ponton, dangereux en route, et la CI ne peut pas demander à un humain où est le bateau. Alors elle demande au bateau :
 
@@ -142,5 +146,7 @@ Ce qui change par rapport au dev web :
 - La bascule sur le GPS n'a jamais été observée au large. La cible de 10 ms n'est vérifiée que sur l'Exocet, seul appareil qui parle NTP : les autres sont seulement bornés à une ou deux secondes.
 - Le coût 4G du direct est une estimation (~1 Ko/s, quelques Mo par heure de course). Jamais mesuré sur une vraie journée de régate. La consommation électrique non plus.
 - Côté terre, la suppression des lignes du direct puis l'insertion de l'archive ne sont pas atomiques.
+
+![Trois écrans de l'app montre Garmin : TARGET, POLAR, TACTIC](watch.png "Depuis, les chiffres arrivent aussi au poignet de l'équipage. Capture du simulateur Garmin, valeurs fictives.")
 
 La prochaine régate dira si tout ça tient en mer 😅
