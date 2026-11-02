@@ -2,7 +2,7 @@
 title: "A coding agent on a racing sailboat"
 slug: a-coding-agent-on-a-racing-sailboat
 author: "Nicolas Rouanne"
-cover: "cover-en.jpg"
+cover: "cover.jpg"
 ---
 
 On a server, when an agent breaks something, you restart. On a racing sailboat, restarting the navigation computer cuts the autopilot.
@@ -25,6 +25,8 @@ GPS $RMC (out_TimeSync tab       ──┘      (picks the best         (nav PC,
 ```
 
 The detail that made me smile: the GPS → gpsd chain already existed in the Exocet's graph, fully wired, in a disabled tab. All that was left was to enable it and configure NTP. We went from +228.8 s to +4 ms.
+
+![Exocet time settings: GPSD port 8112 and NTP server](timesync.jpg "The Exocet, Synchronization tab: gpsd on port 8112, and an NTP server.")
 
 ## 2. When the link drops
 
@@ -57,11 +59,9 @@ Two details: it retries at most every 5 s (not one TLS handshake per snapshot ov
 
 **One store, disposable.** Ashore, a GCP VM runs [ClickHouse](https://clickhouse.com/) and Grafana. Live rows arrive with `source='live'` and are provisional: when the full recording is reloaded from R2 (`source='psm'`, full rate), it replaces them. The store rebuilds entirely from R2, so it can be thrown away.
 
-![The two lanes: live from the boat to shore, archive through R2](lanes-en.jpg "Live drops, the archive catches up. The shore store rebuilds from R2.")
+![Architecture: aboard the Exocet and the PiKVM, ashore ClickHouse and Grafana, R2 in between](arch-en.jpg "From the boat to shore: live at 1 Hz, the archive through R2. Diagram from the repo's README.")
 
 The most instructive bug came from there. After an Exocet restart, the publisher resolved only 8 channels out of 28, and streamed like that for two hours. The dashboard looked perfect: the "Data age" indicator green, at 0 s. And the wind showed 0.0, because ClickHouse's `argMax` aggregate over an empty window returns 0 rather than nothing. A degraded stream looks exactly like a healthy one. It is still open.
-
-![Dashboard: data age at 0 s, wind at 0.0, but 8 channels out of 28](dash-en.jpg "Reconstruction of the dashboard during the bug: everything looks healthy.")
 
 The reverse happened too: on the evening we went live, the wind vane went silent for a quarter of an hour. My first reaction: "did we break something in the pixel?". No, it was a real gap on the sensor side, and the live lane had just shown it.
 
@@ -105,6 +105,8 @@ The Exocet's behaviour is its graph (21 flows, 743 nodes), and it only existed i
 - the push refuses to deploy if the box changed since the last pull, so it cannot overwrite an edit made aboard;
 - the `rev` hash Node-RED returns is out of git. It is runtime state, like a Terraform state, not configuration. On top of that, the Exocet returns `rev: null` for hours after a deploy: we compare content, never the hash;
 - the manufacturer's full configuration export is encrypted, and re-encrypted on every export: impossible to diff. It goes to R2 as a backup, not into git.
+
+![The boat under git: Exocet snapshot as a pull request, apply at the dock, backup to R2](git-en.jpg "A snapshot every 15 minutes as a pull request, applied by hand, at the dock.")
 
 For deployment, the agent suggested a manual button. I wanted it to go out on merge. The problem: a deploy restarts the Exocet application, and with it the autopilot. Harmless alongside a pontoon, dangerous under way, and CI cannot ask a human where the boat is. So it asks the boat:
 
