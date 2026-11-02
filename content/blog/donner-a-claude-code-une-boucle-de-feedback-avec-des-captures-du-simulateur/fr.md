@@ -2,6 +2,7 @@
 title: "Donner à Claude Code une boucle de feedback avec des captures du simulateur"
 slug: donner-a-claude-code-une-boucle-de-feedback-avec-des-captures-du-simulateur
 date: 2026-01-27
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -20,6 +21,8 @@ xcrun simctl io booted screenshot /tmp/screen.png
 ```
 
 Claude peut lire les fichiers images, donc il voit ce qui est à l'écran et peut s'adapter.
+
+![La boucle : capture du simulateur avec xcrun simctl, puis Claude lit l'image.](cover-fr.jpg "La boucle : capture du simulateur avec xcrun simctl, puis Claude lit l'image.")
 
 ## Ce qui marche
 

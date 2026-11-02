@@ -2,6 +2,7 @@
 title: "Giving Claude Code a feedback loop with simulator screenshots"
 slug: giving-claude-code-a-feedback-loop-with-simulator-screenshots
 date: 2026-01-27
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -20,6 +21,8 @@ xcrun simctl io booted screenshot /tmp/screen.png
 ```
 
 Claude can read image files, so it can see what's on screen and adjust accordingly.
+
+![The loop: capture the simulator with xcrun simctl, then Claude reads the image.](cover-en.jpg "The loop: capture the simulator with xcrun simctl, then Claude reads the image.")
 
 ## What works
 
