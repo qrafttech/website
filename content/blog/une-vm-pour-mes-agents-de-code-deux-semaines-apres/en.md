@@ -2,7 +2,7 @@
 title: "A VM for my coding agents, two weeks in"
 slug: a-vm-for-my-coding-agents-two-weeks-in
 date: 2026-10-15
-cover: "couches-en.jpg"
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -65,6 +65,8 @@ variable "machine_type" {
 ## 4. Idle sessions are not free
 
 A Claude Code session holds around 500 MB of RAM, even when nobody has spoken to it in days. Background sessions stay alive until you close them. Orca shows each session's consumption in the bottom-right corner and lets you kill it from there, which is worth checking from time to time. I had about twenty open that morning; my head gives up well before the VM does.
+
+![Orca's Resource Manager: memory and CPU of each session open on the VM.](cover-en.jpg "Orca's Resource Manager: memory and CPU of each session open on the VM.")
 
 ## 5. What a project brings
 
