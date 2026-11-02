@@ -2,6 +2,7 @@
 title: "A coding agent on a racing sailboat"
 slug: a-coding-agent-on-a-racing-sailboat
 author: "Nicolas Rouanne"
+cover: "cover-en.jpg"
 ---
 
 On a server, when an agent breaks something, you restart. On a racing sailboat, restarting the navigation computer cuts the autopilot.
@@ -56,7 +57,11 @@ Two details: it retries at most every 5 s (not one TLS handshake per snapshot ov
 
 **One store, disposable.** Ashore, a GCP VM runs [ClickHouse](https://clickhouse.com/) and Grafana. Live rows arrive with `source='live'` and are provisional: when the full recording is reloaded from R2 (`source='psm'`, full rate), it replaces them. The store rebuilds entirely from R2, so it can be thrown away.
 
+![The two lanes: live from the boat to shore, archive through R2](lanes-en.jpg "Live drops, the archive catches up. The shore store rebuilds from R2.")
+
 The most instructive bug came from there. After an Exocet restart, the publisher resolved only 8 channels out of 28, and streamed like that for two hours. The dashboard looked perfect: the "Data age" indicator green, at 0 s. And the wind showed 0.0, because ClickHouse's `argMax` aggregate over an empty window returns 0 rather than nothing. A degraded stream looks exactly like a healthy one. It is still open.
+
+![Dashboard: data age at 0 s, wind at 0.0, but 8 channels out of 28](dash-en.jpg "Reconstruction of the dashboard during the bug: everything looks healthy.")
 
 The reverse happened too: on the evening we went live, the wind vane went silent for a quarter of an hour. My first reaction: "did we break something in the pixel?". No, it was a real gap on the sensor side, and the live lane had just shown it.
 

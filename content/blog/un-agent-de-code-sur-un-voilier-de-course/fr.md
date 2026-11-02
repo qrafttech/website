@@ -2,6 +2,7 @@
 title: "Un agent de code sur un voilier de course"
 slug: un-agent-de-code-sur-un-voilier-de-course
 author: "Nicolas Rouanne"
+cover: "cover-fr.jpg"
 ---
 
 Sur un serveur, quand un agent casse quelque chose, on redémarre. Sur un voilier de course, redémarrer le calculateur de navigation coupe le pilote automatique.
@@ -56,7 +57,11 @@ Deux détails : on retente au plus toutes les 5 s (pas une poignée de main TLS 
 
 **Un seul store, jetable.** À terre, une VM GCP fait tourner [ClickHouse](https://clickhouse.com/) et Grafana. Les lignes du direct arrivent avec `source='live'` et sont provisoires : quand l'enregistrement complet est rechargé depuis R2 (`source='psm'`, pleine fréquence), il les remplace. Le store se reconstruit entièrement depuis R2, donc on peut le jeter.
 
+![Les deux voies : le direct à bord vers la terre, l'archive par R2](lanes-fr.jpg "Le direct jette, l'archive rattrape. Le store à terre se reconstruit depuis R2.")
+
 Le bug le plus instructif est venu de là. Après un redémarrage de l'Exocet, le publisher n'a retrouvé que 8 canaux sur 28, et il a streamé comme ça pendant deux heures. Le tableau de bord avait l'air parfait : l'indicateur « Data age » au vert, à 0 s. Et le vent affichait 0,0, parce que l'agrégat `argMax` de ClickHouse sur une fenêtre vide renvoie 0 plutôt que rien. Un flux dégradé ressemble exactement à un flux sain. C'est toujours ouvert.
+
+![Tableau de bord : Data age à 0 s, vent à 0,0, mais 8 canaux sur 28](dash-fr.jpg "Reconstitution du tableau de bord pendant le bug : tout a l'air sain.")
 
 L'inverse est arrivé aussi : le soir de la mise en service, la girouette s'est tue pendant un quart d'heure. Ma première réaction : « did we break something in the pixel? ». Non, c'était un vrai trou côté capteur, et c'est la voie directe qui venait de le montrer.
 
