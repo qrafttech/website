@@ -2,12 +2,15 @@
 title: "Why I Version My .zshrc with chezmoi (After Claude Broke It Twice)"
 slug: why-i-version-my-zshrc-with-chezmoi-after-claude-broke-it-twice
 date: 2026-03-09
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
 I use Claude Code daily. It's great for writing code, but it has one annoying habit: it sometimes edits my `.zshrc` and breaks things. Last week it removed an alias I use constantly — `cc` for `claude --worktree`. The week before, it messed up my shell config in a different way. Both times, I had to manually fix it.
 
 That was the trigger. I needed my dotfiles versioned, so any accidental change could be caught and reverted. I'd been meaning to do it for a while — this was the push.
+
+![chezmoi diff shows the removed alias, chezmoi apply puts it back.](cover-en.jpg "chezmoi diff shows the removed alias, chezmoi apply puts it back.")
 
 ## Choosing a tool
 

@@ -2,6 +2,7 @@
 title: "Chaîner plusieurs vidéos HLS dans un seul lecteur"
 slug: chainer-plusieurs-videos-hls-dans-un-seul-lecteur
 date: 2026-06-03
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -12,7 +13,7 @@ Repo (public) : [https://github.com/nicolasrouanne/video-chaining](https://githu
 POC live (CodeSandbox) : [https://codesandbox.io/p/github/nicolasrouanne/video-chaining/main](https://codesandbox.io/p/github/nicolasrouanne/video-chaining/main)
 
 > [!NOTE]
-> 📸 SCREENSHOT — POC final jouant une playlist chaînée, avec le manifest visible dans l'onglet réseau
+![Le POC final : un seul lecteur qui joue la playlist chaînée.](poc-player.jpg "Le POC final : un seul lecteur qui joue la playlist chaînée.")
 
 ## 1. Première tentative — tableau JS, swap src à la fin
 
@@ -55,6 +56,8 @@ SOURCES ──┐
 SOURCES ──┘
 ```
 
+![Les segments des clips sont concaténés dans une playlist par rendition, séparés par #EXT-X-DISCONTINUITY.](cover-fr.jpg "Les segments des clips sont concaténés dans une playlist par rendition, séparés par #EXT-X-DISCONTINUITY.")
+
 Côté serveur, le cœur fait ~30 lignes de Node. Pour chaque URL source, on descend le master playlist jusqu'à un variant, on garde uniquement les lignes `#EXTINF` et les URLs de segments (rendues absolues), on join le tout avec `#EXT-X-DISCONTINUITY` entre les sources :
 
 ```javascript
@@ -95,7 +98,7 @@ Frontend, aucune JS de bascule entre clips :
 Les segments streament directement depuis le CDN d'origine (Bunny dans notre cas). Le serveur n'émet que le texte du manifest — quelques KB. Pas cher, rapide.
 
 > [!NOTE]
-> 📸 SCREENSHOT — onglet Network montrant une requête /playlist.m3u8 (~1 KB) suivie de segments .ts servis directement par vz-\*.b-cdn.net
+![Une requête /playlist.m3u8 de 1,4 kB au serveur, puis les segments .ts servis directement par le CDN (ici les flux de test Mux du POC public).](poc-network.jpg "Une requête /playlist.m3u8 de 1,4 kB au serveur, puis les segments .ts servis directement par le CDN (ici les flux de test Mux du POC public).")
 
 ## 4. Le piège subtil — l'ABR sauté silencieusement
 
@@ -137,7 +140,7 @@ hls.bandwidthEstimate  // bande passante mesurée en bits/s
 ```
 
 > [!NOTE]
-> 📸 SCREENSHOT — Console DevTools affichant la sortie de hls.levels avec deux entrées, avant/après throttling
+![hls.levels après le correctif : cinq renditions, et l'ABR qui redescend quand on bride le réseau à 1 Mbit/s.](poc-console-fr.jpg "hls.levels après le correctif : cinq renditions, et l'ABR qui redescend quand on bride le réseau à 1 Mbit/s.")
 
 → Suivi dans [https://github.com/nicolasrouanne/video-chaining/issues/2](https://github.com/nicolasrouanne/video-chaining/issues/2)
 

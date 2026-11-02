@@ -2,6 +2,7 @@
 title: "Gérer ses secrets avec Chezmoi et les Service Accounts 1Password"
 slug: gerer-ses-secrets-avec-chezmoi-et-les-service-accounts-1password
 date: 2026-05-07
+cover: "cover.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -47,6 +48,8 @@ C'est une copie simple. 1Password ne supporte pas la hiérarchie de vaults, donc
 ### 2. Créer un service account
 
 Dans l'UI web 1Password : **Settings > Developer > Service Accounts**. J'ai créé `sa-claude-code` avec accès lecture/écriture au vault `AI Agents` uniquement.
+
+![Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.](cover.jpg "Le service account sa-claude-code n'a accès qu'au vault AI Agents, en lecture et écriture.")
 
 Le service account fournit un token (`ops_...`) qui s'authentifie de manière non-interactive. Pas de Touch ID, pas de MFA, pas de session personnelle. Mais il ne peut voir que les vaults qu'on lui assigne.
 

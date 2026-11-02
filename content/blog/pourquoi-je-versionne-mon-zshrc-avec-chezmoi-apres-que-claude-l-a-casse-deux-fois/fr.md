@@ -2,12 +2,15 @@
 title: "Pourquoi je versionne mon .zshrc avec chezmoi (après que Claude l'a cassé deux fois)"
 slug: pourquoi-je-versionne-mon-zshrc-avec-chezmoi-apres-que-claude-l-a-casse-deux-fois
 date: 2026-03-09
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
 J'utilise Claude Code au quotidien. C'est un super outil pour écrire du code, mais il a un défaut agaçant : il lui arrive de modifier mon `.zshrc` et de casser des choses. La semaine dernière, il a supprimé un alias que j'utilise en permanence — `cc` pour `claude --worktree`. La semaine d'avant, il avait cassé ma config shell autrement. À chaque fois, j'ai dû réparer à la main.
 
 C'est ce qui m'a décidé. Il fallait que mes dotfiles soient versionnés, pour pouvoir détecter et annuler tout changement accidentel. Ça faisait un moment que j'y pensais — c'était le coup de pouce qu'il me fallait.
+
+![chezmoi diff montre l'alias supprimé, chezmoi apply le remet.](cover-fr.jpg "chezmoi diff montre l'alias supprimé, chezmoi apply le remet.")
 
 ## Choisir un outil
 

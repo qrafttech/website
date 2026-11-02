@@ -2,6 +2,7 @@
 title: "Auditing my Claude Code skills"
 slug: auditing-my-claude-code-skills
 date: 2026-10-05
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -19,6 +20,8 @@ A few choices I liked:
 - it checks against the right model. My skills run on Opus, my cloud routines on Sonnet, and it audited each against its own;
 - it did not read the `settings.json` or `.mcp.json` files, since they can hold secrets;
 - it applies nothing. It returns a report (finding, `file:line`, why it is obsolete) and a proposed diff, which passes `git apply --check`, and it separates what it fixes from what it leaves for me to decide.
+
+![Two findings from the audit: a February skill contradicts the July style guide, and the PR skill assumes a worktree.](cover-en.jpg "Two findings from the audit: a February skill contradicts the July style guide, and the PR skill assumes a worktree.")
 
 ## 2. Not the wording: the drift
 

@@ -2,6 +2,7 @@
 title: "Une VM pour mes agents de code, deux semaines après"
 slug: une-vm-pour-mes-agents-de-code-deux-semaines-apres
 date: 2026-10-15
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -40,6 +41,8 @@ TS_AUTHKEY={{ op://Vault/tailscale/authkey }}
 GH_TOKEN={{ op://Vault/github/token }}
 ```
 
+![La VM, l'image commune, mon image, et le projet qui dit quoi lancer. Les secrets restent dans 1Password.](couches-fr.jpg "La VM, l'image commune, mon image, et le projet qui dit quoi lancer. Les secrets restent dans 1Password.")
+
 → [README](https://github.com/qrafttech/orca-host#readme), [architecture.md](https://github.com/qrafttech/orca-host/blob/main/.claude/knowledge/architecture.md).
 
 ## 3. Ce qu'une semaine d'usage quotidien a montré
@@ -62,6 +65,8 @@ variable "machine_type" {
 ## 4. Une session inactive n'est pas gratuite
 
 Une session Claude Code garde environ 500 Mo de RAM, même quand personne ne lui a parlé depuis des jours. Les sessions en background restent vivantes tant qu'on ne les ferme pas. Orca affiche la consommation de chaque session en bas à droite et permet de la tuer de là, ça vaut le coup d'y jeter un œil de temps en temps. J'en avais une vingtaine d'ouvertes ce matin-là, ma tête lâche bien avant la VM.
+
+![Le Resource Manager d'Orca : la mémoire et le CPU de chaque session ouverte sur la VM.](cover-fr.jpg "Le Resource Manager d'Orca : la mémoire et le CPU de chaque session ouverte sur la VM.")
 
 ## 5. Ce que le projet apporte
 

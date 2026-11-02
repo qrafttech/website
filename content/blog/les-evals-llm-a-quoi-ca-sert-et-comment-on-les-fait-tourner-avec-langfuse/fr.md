@@ -2,6 +2,7 @@
 title: "Les evals LLM : à quoi ça sert, et comment on les fait tourner avec Langfuse"
 slug: les-evals-llm-a-quoi-ca-sert-et-comment-on-les-fait-tourner-avec-langfuse
 date: 2026-10-19
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -17,6 +18,8 @@ Un test unitaire vérifie une sortie exacte, alors qu'une réponse de LLM n'est 
 - est-ce que ça tient avec ce nouveau modèle ou ce nouveau prompt ? Là, on rejoue un jeu de cas figés et on compare les runs. C'est la régression.
 
 Les deux partagent les mêmes vérifications, qu'on a séparées en deux couches.
+
+![Audit et régression passent par les mêmes checks en code et les mêmes juges LLM, et finissent en scores par défaut dans Langfuse.](evals-fr.jpg "Audit et régression passent par les mêmes checks en code et les mêmes juges LLM, et finissent en scores par défaut dans Langfuse.")
 
 ## Ce qui se vérifie en code
 
@@ -99,6 +102,8 @@ Tout ça a servi cet automne, quand on a migré vers une nouvelle génération d
 | Cas passés (run 1 / run 2) | 15 / 16 | 17 / 18 |
 | Citations copiées mot pour mot | 118 / 120 | 94 / 95 |
 | Longueur totale des réponses | ~4 600 mots | ~3 700 mots |
+
+![Cas passés sur 30 et longueur des réponses, sur deux runs avec chaque modèle.](cover-fr.jpg "Cas passés sur 30 et longueur des réponses, sur deux runs avec chaque modèle.")
 
 Quatorze cas passent à chaque fois, dix échouent à chaque fois, et quatre changent d'un run à l'autre, autant d'un côté que de l'autre. C'est le bruit normal des modèles et des juges, et c'est pour ça qu'on regarde le total plutôt que chaque cas. La conclusion : le nouveau modèle est au moins aussi bon, cite plus fidèlement, et répond environ 20 % plus court, ce que les analystes vont remarquer. On a migré.
 

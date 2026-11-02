@@ -2,6 +2,7 @@
 title: "Comment on a construit notre blog avec Notion, Next.js et l'invalidation granulaire du cache"
 slug: comment-on-a-construit-notre-blog-avec-notion-next-js-et-l-invalidation-granulaire-du-cache
 date: 2026-03-05
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -146,6 +147,8 @@ La logique est intuitive :
 - **Création ou suppression** → le listing (et l'article le cas échéant)
 
 La sécurité passe par une vérification de signature HMAC-SHA256. Notion signe chaque payload de webhook, et on vérifie avec une comparaison timing-safe avant de traiter quoi que ce soit.
+
+![Un webhook Notion invalide le seul tag de l'article modifié : le listing et les autres articles restent en cache.](cover-fr.jpg "Un webhook Notion invalide le seul tag de l'article modifié : le listing et les autres articles restent en cache.")
 
 ## Le choix des slugs
 

@@ -2,6 +2,7 @@
 title: "Construire un pipeline de transcription local sans envoyer un octet dans le cloud"
 slug: construire-un-pipeline-de-transcription-local-sans-envoyer-un-octet-dans-le-cloud
 date: 2026-05-19
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -13,6 +14,8 @@ ffmpeg loudnorm → WhisperX (large-v3, Silero VAD) → wav2vec2 align
 ```
 
 Repo : [github.com/nicolasrouanne/transcribe](https://github.com/nicolasrouanne/transcribe).
+
+![Une sortie du pipeline : chaque segment a son horodatage et son locuteur, le tout calculé en local.](cover-fr.jpg "Une sortie du pipeline : chaque segment a son horodatage et son locuteur, le tout calculé en local.")
 
 ## 0. Pourquoi pas MacWhisper
 

@@ -2,6 +2,7 @@
 title: "Automatiser les feuilles de temps mensuelles depuis Toggl avec Claude Code"
 slug: automatiser-les-feuilles-de-temps-mensuelles-depuis-toggl-avec-claude-code
 date: 2026-03-04
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -79,6 +80,8 @@ Pour le 5 février avec 3 créneaux :
 | Application mobile Santé | 2e → créneau 3 | **0.5** |
 | Qraft | la plus basse | **0.0** |
 | **Total** |  | **1.5** ✅ |
+
+![Exemple de calendrier avec le report à deux niveaux : chaque journée reste bornée par les heures travaillées.](cover-fr.jpg "Exemple de calendrier avec le report à deux niveaux : chaque journée reste bornée par les heures travaillées.")
 
 ## Ce qui fonctionne
 

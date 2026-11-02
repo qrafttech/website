@@ -2,12 +2,15 @@
 title: "Observabilité LLM : ce que Langfuse voit, et ce qu'il ne voit pas"
 slug: observabilite-llm-ce-que-langfuse-voit-et-ce-qu-il-ne-voit-pas
 date: 2026-10-22
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
 Fin août, on a découvert après coup qu'une seule feature de notre app avait coûté environ 440 $ en quatre jours. Pas d'alerte, et aucun moyen simple de savoir quel client était derrière. On traçait pourtant déjà nos appels LLM dans Langfuse.
 
 C'est le pendant de [notre article sur les evals](https://qraft.tech/blog/les-evals-llm-a-quoi-ca-sert-et-comment-on-les-fait-tourner-avec-langfuse) : les evals vérifient ce qui part en prod, ici on parle de ce qui se passe une fois que c'est en prod. Combien ça coûte, pour qui, et ce qui casse sans prévenir.
+
+![Langfuse voit le coût, parfois faux, et ne voit pas les appels qui n'ont rien produit.](langfuse-fr.jpg "Langfuse voit le coût, parfois faux, et ne voit pas les appels qui n'ont rien produit.")
 
 ## Une génération par appel
 

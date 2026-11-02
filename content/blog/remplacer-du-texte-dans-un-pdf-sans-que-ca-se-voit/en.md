@@ -2,6 +2,7 @@
 title: "Replacing text in a PDF without it showing"
 slug: replacing-text-in-a-pdf-without-it-showing
 date: 2026-06-12
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -38,6 +39,8 @@ def sample_background(page, rect, dpi=144):
 ```
 
 A silly detail, but it's exactly the kind of detail that separates « clean » from « hacked together ». At this point the text is replaced and the background invisible. I could have stopped there. It's the font that tipped everything over.
+
+![Covering leaves a white rectangle and the old text. Redacting removes the glyphs and reuses the background colour.](cover-en.jpg "Covering leaves a white rectangle and the old text. Redacting removes the glyphs and reuses the background colour.")
 
 → [apply_redactions](https://pymupdf.readthedocs.io/en/latest/page.html#Page.apply_redactions)
 
@@ -165,6 +168,8 @@ Calibration: `0.375 pt` of stroke → 0.125 em of stem, right on target. A singl
 The real lesson isn't technical: **my eye was a bad judge.** « Looks right » was wrong three times in a row.
 
 What unblocked everything was to stop looking and **measure**. Replace the text **with itself**, then overlay the original and the output in false color — original ink on one channel, new ink on the other. Anything that isn't green is a deviation.
+
+![False-colour overlay: green where both inks match, cyan where the new ink spills over.](superposition-en.jpg "False-colour overlay: green where both inks match, cyan where the new ink spills over.")
 
 ```python
 from PIL import Image

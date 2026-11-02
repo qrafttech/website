@@ -2,6 +2,7 @@
 title: "Passer DNS et certs SSL en Terraform — Cloudflare et cert-manager"
 slug: passer-dns-et-certs-ssl-en-terraform-cloudflare-et-cert-manager
 date: 2026-05-18
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -93,6 +94,8 @@ Quelques choix de design qui valent le coup :
 - Plan posté en commentaire sticky sur la PR — on l'édite à chaque push, on ne spamme pas. Le reviewer voit le dernier diff, pas un mur de versions périmées.
 - Plan tronqué à 65k caractères (la limite GitHub pour un comment). Au-delà, le plan complet est uploadé comme artefact du workflow.
 - Bruit des lignes `refresh` et `import` filtré pour que le diff reflète un vrai changement, pas une réconciliation d'état.
+
+![Le plan Terraform posté en commentaire sur la PR : un record modifié, un record créé.](cover-fr.jpg "Le plan Terraform posté en commentaire sur la PR : un record modifié, un record créé.")
 
 ## 3. cert-manager + Let's Encrypt
 
