@@ -2,6 +2,7 @@
 title: "How to Connect the Notion MCP"
 slug: how-to-connect-the-notion-mcp
 date: 2026-01-21
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -49,6 +50,8 @@ Notion provides a hosted server with OAuth installation. Connect through:
   }
 }
 ```
+
+![Connecting to the hosted MCP server goes through OAuth: you grant access to your Notion workspace.](cover-en.jpg "Connecting to the hosted MCP server goes through OAuth: you grant access to your Notion workspace.")
 
 ## Security Considerations
 

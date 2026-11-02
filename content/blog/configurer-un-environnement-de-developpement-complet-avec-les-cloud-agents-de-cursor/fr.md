@@ -2,6 +2,7 @@
 title: "Configurer un environnement de développement complet avec les Cloud Agents de Cursor"
 slug: configurer-un-environnement-de-developpement-complet-avec-les-cloud-agents-de-cursor
 date: 2026-03-02
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -42,6 +43,8 @@ L'agent a aussi produit un fichier `AGENTS.md` documentant tout ce qu'il avait a
 L'agent n'a pas pu créer de pull request. Le token GitHub fourni par Cursor Cloud n'avait pas les permissions de création de PR sur le repository, il a donc dû me donner le nom de branche et le corps de la PR pour que je la crée manuellement.
 
 C'est un point de friction. Si la promesse est "des PRs prêtes à merger avec des artefacts", les permissions du token doivent couvrir la création de PR nativement.
+
+![Ce que le cloud agent a mené à bout, et la pull request qu'il n'a pas pu ouvrir.](cover-fr.jpg "Ce que le cloud agent a mené à bout, et la pull request qu'il n'a pas pu ouvrir.")
 
 ## Les pièges découverts par l'agent
 

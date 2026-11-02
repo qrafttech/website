@@ -2,6 +2,7 @@
 title: "Utiliser Claude Code pour trier les issues Sentry et les lier à GitHub"
 slug: utiliser-claude-code-pour-trier-les-issues-sentry-et-les-lier-a-github
 date: 2026-01-27
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -71,6 +72,8 @@ curl -X PUT -H "Authorization: Bearer $TOKEN" \
 ```
 
 Trois issues résolues en quelques secondes, sans cliquer dans l'interface.
+
+![Le triage de Claude : issues de test et de config résolues, vrais bugs transformés en issues GitHub liées.](cover-fr.jpg "Le triage de Claude : issues de test et de config résolues, vrais bugs transformés en issues GitHub liées.")
 
 ## Création d'issues GitHub liées
 

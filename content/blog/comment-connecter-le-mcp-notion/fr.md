@@ -2,6 +2,7 @@
 title: "Comment connecter le MCP Notion"
 slug: comment-connecter-le-mcp-notion
 date: 2026-01-21
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -49,6 +50,8 @@ Notion fournit un serveur hébergé avec installation OAuth. Connectez-vous via 
   }
 }
 ```
+
+![La connexion au serveur MCP hébergé passe par OAuth : on autorise l'accès à son espace Notion.](cover-fr.jpg "La connexion au serveur MCP hébergé passe par OAuth : on autorise l'accès à son espace Notion.")
 
 ## Considérations de sécurité
 

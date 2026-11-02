@@ -2,6 +2,7 @@
 title: "Using Claude Code to Triage Sentry Issues and Link Them to GitHub"
 slug: using-claude-code-to-triage-sentry-issues-and-link-them-to-github
 date: 2026-01-27
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
@@ -71,6 +72,8 @@ curl -X PUT -H "Authorization: Bearer $TOKEN" \
 ```
 
 Three issues resolved in seconds, no clicking through the UI.
+
+![Claude's triage: test and config issues resolved, real bugs turned into linked GitHub issues.](cover-en.jpg "Claude's triage: test and config issues resolved, real bugs turned into linked GitHub issues.")
 
 ## Creating Linked GitHub Issues
 
