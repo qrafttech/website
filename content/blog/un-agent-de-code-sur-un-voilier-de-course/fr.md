@@ -147,6 +147,6 @@ Ce qui change par rapport au dev web :
 - Le coût 4G du direct est une estimation (~1 Ko/s, quelques Mo par heure de course). Jamais mesuré sur une vraie journée de régate. La consommation électrique non plus.
 - Côté terre, la suppression des lignes du direct puis l'insertion de l'archive ne sont pas atomiques.
 
-![Trois écrans de l'app montre Garmin : TARGET, POLAR, TACTIC](watch.png "Depuis, les chiffres arrivent aussi au poignet de l'équipage. Capture du simulateur Garmin, valeurs fictives.")
+![Trois écrans de l'app montre Garmin : TARGET, POLAR, TACTIC](watch.png "Depuis, les chiffres arrivent aussi au poignet de l'équipage. Écrans du simulateur Garmin sur une epix Pro, valeurs fictives.")
 
 La prochaine régate dira si tout ça tient en mer 😅

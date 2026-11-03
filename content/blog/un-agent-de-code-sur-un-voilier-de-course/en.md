@@ -147,6 +147,6 @@ What changes compared with web development:
 - The 4G cost of live is an estimate (~1 KB/s, a few MB per race hour). Never measured on a real regatta day. Power consumption neither.
 - Ashore, deleting the live rows then inserting the archive is not atomic.
 
-![Three screens of the Garmin watch app: TARGET, POLAR, TACTIC](watch.png "Since then, the numbers also reach the crew's wrists. Garmin simulator capture, made-up values.")
+![Three screens of the Garmin watch app: TARGET, POLAR, TACTIC](watch.png "Since then, the numbers also reach the crew's wrists. Garmin simulator screens on an epix Pro, made-up values.")
 
 The next regatta will tell whether all this holds at sea 😅
