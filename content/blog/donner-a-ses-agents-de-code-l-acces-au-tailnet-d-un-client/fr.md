@@ -10,12 +10,7 @@ Nos agents de code tournent sur une VM par dev, connectée à notre réseau [Tai
 
 La solution tient en un conteneur de plus sur la VM : un second Tailscale, connecté au réseau du client, qui ne crée pas d'interface réseau mais ouvre un proxy sur la machine.
 
-```text
-                     ┌─ tailscale   ──► notre réseau
-VM des agents ───────┤
-                     └─ tailscale-2 ──► réseau du client
-                        (proxy 127.0.0.1:1055)
-```
+![Une VM avec deux Tailscale : le premier vers notre tailnet, le second vers celui du client par un proxy SOCKS5](cover-fr.jpg)
 
 ```yaml
 tailscale-2:

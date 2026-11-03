@@ -10,12 +10,7 @@ Our coding agents run on one VM per dev, connected to our [Tailscale](https://ta
 
 The fix is one more container on the VM: a second Tailscale, connected to the client's network, which creates no network interface but opens a proxy on the machine.
 
-```text
-                     ┌─ tailscale   ──► our network
-Agents' VM ──────────┤
-                     └─ tailscale-2 ──► client's network
-                        (proxy 127.0.0.1:1055)
-```
+![A VM with two Tailscale nodes: the first to our tailnet, the second to the client's through a SOCKS5 proxy](cover-en.jpg)
 
 ```yaml
 tailscale-2:
