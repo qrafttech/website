@@ -4,7 +4,9 @@ name: Publish scheduled articles
 # on the morning of its `date`, Paris time, without a human approval: the
 # 48h before are the window to object. It is held while it is a draft, has a
 # review requesting changes, failing or pending checks, a file without a
-# `date` or a conflict with main; closing it cancels the article.
+# `date` or a conflict with main; closing it cancels the article. A PR from a
+# fork is never merged: only a branch of this repo, which only a collaborator
+# can push, qualifies.
 #
 # main requires an approving review. The workflow merges with git and pushes
 # with the `BLOG_DEPLOY_KEY` deploy key, which the `Default` ruleset lets
@@ -42,8 +44,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           today=$(TZ=Europe/Paris date +%F)
           prs=$(gh pr list --state open --limit 100 \
-            --json number,headRefName,isDraft,reviewDecision,headRefOid \
-            --jq '.[] | select(.headRefName | startswith("blog/")) | select(.isDraft | not)
+            --json number,headRefName,isDraft,reviewDecision,headRefOid,isCrossRepository \
+            --jq '.[] | select(.isCrossRepository | not)
+              | select(.headRefName | startswith("blog/")) | select(.isDraft | not)
               | select(.reviewDecision != "CHANGES_REQUESTED") | "\(.number) \(.headRefOid) \(.headRefName)"')
 
           echo "$prs" | while read -r pr sha branch; do
