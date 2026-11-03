@@ -6,7 +6,7 @@ author: "Nicolas Rouanne"
 cover: "architecture.png"
 ---
 
-Dans les équipes avec qui on travaille, chaque dev a son propre hôte Orca : une VM qui fait tourner ses sessions Claude Code et ses worktrees jour et nuit, qu'il pilote depuis l'app Orca desktop ou depuis son téléphone, par Tailscale. Jusqu'ici, c'était Flatcar sur GCP, pour environ 150 $ par mois et par personne. [L'article de la semaine dernière](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage) racontait comment l'hôte est devenu la même Debian chez tous les providers. Celui-ci, c'est le côté équipe : quelle machine prendre, ce que ça coûte, et ce qui change pour ceux qui s'en servent.
+Dans les équipes avec qui on travaille, chaque dev a son propre hôte Orca : une VM qui fait tourner ses sessions Claude Code et ses worktrees jour et nuit, qu'il pilote depuis l'app Orca desktop ou depuis son téléphone, par Tailscale. Jusqu'ici, c'était Flatcar sur GCP, pour environ 126 $ par mois et par personne. [L'article de la semaine dernière](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage) racontait comment l'hôte est devenu la même Debian chez tous les providers. Celui-ci, c'est le côté équipe : quelle machine prendre, ce que ça coûte, et ce qui change pour ceux qui s'en servent.
 
 ![L'hôte : les apps Orca le joignent par le tailnet, tout ce qui doit survivre vit sur le disque de données](architecture.png "Le même hôte sur GCP ou OVH")
 
@@ -16,12 +16,12 @@ Les deux marchent, depuis le même dépôt. On choisit avec `PROVIDER=gcp` ou `P
 
 | | Google Cloud | OVH |
 |---|---|---|
-| Prix | environ 135 à 160 $ par mois (4 vCPU, 16 Go) | environ 15 à 24 € HT par mois |
+| Prix | environ 126 $ par mois (4 vCPU, 16 Go) | environ 15 à 24 € HT par mois |
 | La machine | une VM, créée et supprimée par `make` | un VPS, commandé chez OVH et résilié dans son panneau |
 | Les données | un disque copié dans deux zones, un snapshot par jour | le disque additionnel du VPS, et la sauvegarde quotidienne d'OVH |
 | Rupture de stock | on passe dans l'autre zone du disque | on attend, ou on prend un autre datacenter |
 
-GCP garde des données plus résilientes. OVH divise la facture par cinq à dix, avec plus de RAM.
+GCP garde des données plus résilientes. OVH divise la facture par cinq à sept, avec plus de RAM.
 
 ## Quel VPS
 

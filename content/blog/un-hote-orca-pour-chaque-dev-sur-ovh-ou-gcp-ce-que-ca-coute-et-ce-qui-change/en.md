@@ -6,7 +6,7 @@ author: "Nicolas Rouanne"
 cover: "architecture.png"
 ---
 
-On the teams we work with, each developer has their own Orca host: a VM that runs their Claude Code sessions and their worktrees around the clock, which they drive from the Orca desktop app or from their phone, over Tailscale. Until now, that was Flatcar on GCP, at about $150 a month per person. [Last week's article](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script) told how the host became the same Debian on every provider. This one is the team's side: which machine to take, what it costs, and what changes for the people using it.
+On the teams we work with, each developer has their own Orca host: a VM that runs their Claude Code sessions and their worktrees around the clock, which they drive from the Orca desktop app or from their phone, over Tailscale. Until now, that was Flatcar on GCP, at about $126 a month per person. [Last week's article](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script) told how the host became the same Debian on every provider. This one is the team's side: which machine to take, what it costs, and what changes for the people using it.
 
 ![The host: the Orca apps reach it over the tailnet, everything that must survive lives on the data disk](architecture.png "The same host on GCP or OVH")
 
@@ -16,12 +16,12 @@ Both work, from the same repository. Pick one with `PROVIDER=gcp` or `PROVIDER=o
 
 | | Google Cloud | OVH |
 |---|---|---|
-| Price | about $135 to $160 a month (4 vCPU, 16 GB) | about €15 to €24 a month excl. VAT |
+| Price | about $126 a month (4 vCPU, 16 GB) | about €15 to €24 a month excl. VAT |
 | The machine | a VM, created and deleted by `make` | a VPS, ordered from OVH and cancelled in its control panel |
 | Your data | a disk copied in two zones, a snapshot a day | the VPS's additional disk, and OVH's daily backup |
 | Out of stock | switch to the disk's other zone | wait, or pick another datacenter |
 
-GCP keeps the more resilient data. OVH divides the bill by five to ten, with more RAM.
+GCP keeps the more resilient data. OVH divides the bill by five to seven, with more RAM.
 
 ## Which VPS
 
