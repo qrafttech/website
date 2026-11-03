@@ -36,7 +36,7 @@ Open a new browser window on [http://localhost:3000](http://localhost:3000) to l
 
 ## Blog
 
-Articles are Markdown files in `content/blog`, one folder per article:
+To write an article, read [CONTRIBUTING.md](CONTRIBUTING.md). In short, articles are Markdown files in `content/blog`, one folder per article:
 
 ```
 content/blog/<slug-fr>/
