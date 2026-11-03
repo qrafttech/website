@@ -72,11 +72,11 @@ De ces mesures, une règle simple : environ 1 Go pour le socle, 0,5 Go par sessi
 | VM | RAM | par mois, HT | sessions | par session |
 |---|---|---|---|---|
 | VPS-2 OVH | 8 Go | 13,30 € | ~13 | ~1,00 € |
-| VPS-3 OVH | 12 Go | 17,15 € | ~21 | ~0,80 € |
-| VPS-4 OVH | 24 Go | 28,80 € | ~44 | ~0,65 € |
+| VPS-3 OVH | 12 Go | ~15 € | ~21 | ~0,70 € |
+| VPS-4 OVH | 24 Go | ~24 € | ~44 | ~0,55 € |
 | GCP e2-standard-4 | 16 Go | ~126 $ | ~29 | ~4,30 $ |
 
-Les prix OVH comprennent, comme dans [la mise en place décrite avant](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage), un disque additionnel de 100 Go pour les données (4,31 €) et le backup automatique (0,50 à 1 € selon le modèle). GCP, c'est la VM par défaut avec son disque régional ; la `n2d-standard-4` sur laquelle j'ai mesuré, même RAM, revient à environ 160 $.
+Les prix OVH comprennent, comme dans [la mise en place décrite avant](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage), un disque additionnel de 100 Go pour les données (4,31 €) et le backup automatique ; VPS-3 et VPS-4 au tarif engagé sur un an. GCP, c'est la VM par défaut avec son disque régional ; la `n2d-standard-4` sur laquelle j'ai mesuré, même RAM, revient à environ 160 $.
 
 Ce matin-là sur le VPS : 1 Go de socle, 12 sessions à 0,5 Go, un navigateur à 2 Go, soit 9 Go sur une machine qui en a 7,6. Le VPS-2 tient les sessions sur lesquelles je travaille vraiment en même temps, pas celles que je laisse ouvertes.
 
@@ -85,4 +85,4 @@ Ce matin-là sur le VPS : 1 Go de socle, 12 sessions à 0,5 Go, un navigateur à
 - **Fermer une session quand sa tâche est finie.** Orca affiche la mémoire de chaque session et permet de la tuer de là. Une session fermée emporte ses serveurs MCP et son navigateur avec elle.
 - **Ne charger `chrome-devtools-mcp` que là où il faut un navigateur**, dans le `.mcp.json` des projets concernés plutôt que dans la configuration globale : 100 Mo de moins par session partout ailleurs, et pas de navigateur lancé par hasard.
 - **Ajouter du swap.** Aucun des deux hôtes n'en a. Des sessions inactives depuis des jours, c'est exactement ce qu'un swap sait mettre de côté, et une RAM pleine ralentit alors la machine progressivement au lieu de la bloquer.
-- **Monter d'un modèle.** Le VPS-3, c'est 3,85 € de plus par mois, pour 4 Go de RAM et 2 vCores de plus.
+- **Monter d'un modèle.** Le VPS-3, c'est environ 2 € de plus par mois, pour 4 Go de RAM et 2 vCores de plus.

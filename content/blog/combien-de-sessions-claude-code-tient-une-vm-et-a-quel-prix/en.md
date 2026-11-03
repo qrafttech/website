@@ -72,11 +72,11 @@ From these measurements, a rule of thumb: about 1 GB for the base, 0.5 GB per se
 | VM | RAM | per month, excl. VAT | sessions | per session |
 |---|---|---|---|---|
 | OVH VPS-2 | 8 GB | 13.30 € | ~13 | ~1.00 € |
-| OVH VPS-3 | 12 GB | 17.15 € | ~21 | ~0.80 € |
-| OVH VPS-4 | 24 GB | 28.80 € | ~44 | ~0.65 € |
+| OVH VPS-3 | 12 GB | ~15 € | ~21 | ~0.70 € |
+| OVH VPS-4 | 24 GB | ~24 € | ~44 | ~0.55 € |
 | GCP e2-standard-4 | 16 GB | ~$126 | ~29 | ~$4.30 |
 
-The OVH prices include, as in the [setup described before](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script), a 100 GB additional disk for the data (4.31 €) and the automatic backup (0.50 to 1 € depending on the model). GCP is the default VM with its regional disk; the `n2d-standard-4` I measured on, with the same RAM, is about $160.
+The OVH prices include, as in the [setup described before](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script), a 100 GB additional disk for the data (4.31 €) and the automatic backup; VPS-3 and VPS-4 at the one-year commitment price. GCP is the default VM with its regional disk; the `n2d-standard-4` I measured on, with the same RAM, is about $160.
 
 That morning on the VPS: 1 GB of base, 12 sessions at 0.5 GB, one browser at 2 GB, so 9 GB on a machine with 7.6. The VPS-2 holds the sessions I actually work in at the same time, not the ones I leave open.
 
@@ -85,4 +85,4 @@ That morning on the VPS: 1 GB of base, 12 sessions at 0.5 GB, one browser at 2 G
 - **Close a session when its task is done.** Orca shows each session's memory and can kill one from there. A closed session takes its MCP servers and its browser with it.
 - **Load `chrome-devtools-mcp` only where a browser is needed**, in the `.mcp.json` of those projects rather than in the global configuration: 100 MB less per session everywhere else, and no browser started by accident.
 - **Add swap.** Neither host has any. Sessions idle for days are what swap sets aside best, and a full RAM then slows the machine down gradually instead of stalling it.
-- **Move up one model.** The VPS-3 is 3.85 € more a month, for 4 GB of RAM and 2 vCores more.
+- **Move up one model.** The VPS-3 is about 2 € more a month, for 4 GB of RAM and 2 vCores more.
