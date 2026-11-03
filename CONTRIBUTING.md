@@ -1,101 +1,101 @@
-# Écrire un article pour le blog
+# Writing an article for the blog
 
-Les articles sont des fichiers Markdown dans `content/blog`, un dossier par article. Ce guide couvre tout le parcours : écrire, relire, programmer la publication.
+Articles are Markdown files in `content/blog`, one folder per article. This guide covers the whole path: writing, previewing, scheduling the publication.
 
-## Avant de commencer
+## Before you start
 
-Il faut être collaborateur du repo : demande un accès à nicolas.rouanne@qraft.tech. La branche de l'article doit être poussée **dans ce repo**, pas depuis un fork : une PR venant d'un fork n'est jamais publiée.
+You need to be a collaborator on the repo: ask nicolas.rouanne@qraft.tech. Push your branch **to this repo**, not to a fork: a PR from a fork is never published.
 
-## 1. Créer le dossier
+## 1. Create the folder
 
 ```
 content/blog/<slug-fr>/
-  fr.md          # la version française
-  en.md          # la version anglaise, optionnelle (et inversement)
-  cover-fr.jpg   # couverture, optionnelle
+  fr.md          # the French version
+  en.md          # the English version, optional (and the other way round)
+  cover-fr.jpg   # cover, optional
   cover-en.jpg
-  *.png          # les images de l'article
+  *.png          # the article's images
 ```
 
-Le nom du dossier est le slug français. Il ne change plus une fois l'article publié.
+The folder name is the French slug. It never changes once the article is published.
 
-## 2. Le front matter
+## 2. The front matter
 
-Chaque fichier commence par :
+Each file starts with:
 
 ```yaml
 ---
 title: "Auditer ses skills Claude Code"
 slug: auditer-ses-skills-claude-code
 date: 2026-10-05
-author: "Prénom Nom"
+author: "First Last"
 cover: "cover-fr.jpg"
-excerpt: "Une phrase pour la liste des articles et le partage."
+excerpt: "One sentence for the article list and social previews."
 ---
 ```
 
-| Champ     | Obligatoire | Rôle                                                                                                                    |
-| --------- | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `title`   | oui         | Le titre affiché.                                                                                                       |
-| `slug`    | oui         | L'URL : `qraft.tech/blog/<slug>` en français, `qraft.tech/en/blog/<slug>` en anglais. Unique par langue, fixé une fois. |
-| `date`    | non         | La date de publication, `YYYY-MM-DD`. **Sans date, l'article est un brouillon** et n'est jamais publié.                 |
-| `author`  | oui         | Ton nom.                                                                                                                |
-| `cover`   | non         | Le nom de fichier de la couverture, dans le dossier de l'article.                                                       |
-| `excerpt` | non         | Le résumé. Par défaut, le premier paragraphe.                                                                           |
+| Field     | Required | Role                                                                                                                |
+| --------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| `title`   | yes      | The displayed title.                                                                                                |
+| `slug`    | yes      | The URL: `qraft.tech/blog/<slug>` in French, `qraft.tech/en/blog/<slug>` in English. Unique per language, set once. |
+| `date`    | no       | The publication date, `YYYY-MM-DD`. **Without a date the article is a draft** and is never published.               |
+| `author`  | yes      | Your name.                                                                                                          |
+| `cover`   | no       | The cover's file name, in the article's folder.                                                                     |
+| `excerpt` | no       | The summary. Defaults to the first paragraph.                                                                       |
 
-Un fichier mal formé fait échouer le build : titre et slug manquants, date dans un autre format, deux articles avec le même slug.
+A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
 
-## 3. Le Markdown
+## 3. The Markdown
 
-C'est du Markdown GitHub : titres, listes, tableaux, blocs de code, citations.
+GitHub-flavored Markdown: headings, lists, tables, code blocks, quotes.
 
-- **Titres** : commence à `##`. Le titre de l'article vient du front matter.
-- **Code** : indique le langage, il est affiché au-dessus du bloc (` ```bash `, ` ```python `).
-- **Images** : par nom de fichier, à côté du `.md`. Le titre devient la légende :
+- **Headings**: start at `##`. The article's title comes from the front matter.
+- **Code**: name the language, it is displayed above the block (` ```bash `, ` ```python `).
+- **Images**: by file name, next to the `.md`. The title becomes the caption:
 
   ```markdown
-  ![Description pour l'accessibilité](schema.png "La légende sous l'image")
+  ![Alt text for accessibility](diagram.png "The caption under the image")
   ```
 
-- **Encadrés** : une citation qui commence par `[!NOTE]`, `[!TIP]` ou `[!WARNING]` :
+- **Callouts**: a quote whose first line is `[!NOTE]`, `[!TIP]` or `[!WARNING]`:
 
   ```markdown
   > [!TIP]
-  > Le conseil qui fait gagner une heure.
+  > The tip that saves an hour.
   ```
 
-- **Liens** internes en chemin absolu (`/blog/un-autre-article`), externes en URL complète. Ils s'ouvrent dans un nouvel onglet.
+- **Links**: internal ones as absolute paths (`/blog/another-article`), external ones as full URLs. They open in a new tab.
 
-Prettier ignore `content/`, ton Markdown n'est pas reformaté.
+Prettier ignores `content/`, your Markdown is not reformatted.
 
-## 4. Les images
+## 4. Images
 
-- **Couverture** : JPG, 2400 × 1600 (ratio 3:2), autour de 150 Ko. Si elle contient du texte, fais `cover-fr.jpg` et `cover-en.jpg`.
-- **Figures** : PNG ou JPG, moins de 300 Ko. Pas de capture d'écran avec des données réelles de client : anonymise avant.
+- **Cover**: JPEG, 2400 × 1600 (3:2), around 150 KB. If it contains text, make a `cover-fr.jpg` and a `cover-en.jpg`.
+- **Figures**: PNG or JPEG, under 300 KB. No screenshot with real client data: anonymize first.
 
-## 5. Relire
+## 5. Preview
 
-Deux façons de voir l'article rendu :
+Two ways to see the rendered article:
 
-- **En local** : `make up` puis `make url` (voir le [README](README.md)). Les brouillons sont listés en tête du blog.
-- **Sur la PR** : Vercel déploie une preview à chaque push, avec le lien dans la PR. Les brouillons et les articles programmés y sont visibles, jamais en production.
+- **Locally**: `make up` then `make url` (see the [README](README.md)). Drafts are listed at the top of the blog.
+- **On the PR**: Vercel deploys a preview on every push, linked from the PR. Drafts and scheduled articles show there, never in production.
 
-## 6. Publier
+## 6. Publish
 
-1. Pousse ta branche, nommée `blog/<slug-fr>`, et ouvre une PR. Tant que tu écris, laisse le fichier **sans `date`** : l'article est un brouillon.
-2. Quand c'est prêt, mets une `date` **au moins 48 h dans le futur**. Ces 48 h sont la fenêtre de relecture : Nicolas relit et commente sur la PR.
-3. Le matin de la date (vers 4 h, heure de Paris), la PR se merge toute seule et l'article est en ligne. Aucune action de ta part.
+1. Push your branch, named `blog/<slug-fr>`, and open a PR. While you write, leave the file **without a `date`**: the article is a draft.
+2. When it is ready, set a `date` **at least 48 hours ahead**. Those 48 hours are the review window: Nicolas reads and comments on the PR.
+3. On the morning of that date (around 4 am, Paris time), the PR merges itself and the article is live. Nothing to do on your side.
 
-La PR est retenue, et l'article n'est pas publié, tant que :
+The PR is held, and the article not published, while:
 
-- elle est en draft ;
-- une review demande des changements ;
-- un check est rouge ou en attente ;
-- un des fichiers `fr.md` / `en.md` n'a pas de `date` ;
-- elle a un conflit avec `main`.
+- it is a draft PR;
+- a review requests changes;
+- a check is red or pending;
+- one of the `fr.md` / `en.md` files has no `date`;
+- it conflicts with `main`.
 
-Pour décaler la publication, change la `date`. Pour annuler, ferme la PR.
+To move the publication, change the `date`. To cancel, close the PR.
 
-## 7. Modifier un article publié
+## 7. Edit a published article
 
-Une PR classique, sur n'importe quel nom de branche : elle demande une review avant le merge. Ne change pas le `slug`, c'est l'URL.
+A regular PR, on any branch name: it needs a review before merging. Don't change the `slug`, it is the URL.
