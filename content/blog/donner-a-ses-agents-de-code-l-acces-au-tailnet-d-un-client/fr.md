@@ -1,6 +1,8 @@
 ---
 title: "Donner à ses agents de code l'accès au tailnet d'un client"
 slug: donner-a-ses-agents-de-code-l-acces-au-tailnet-d-un-client
+date: 2026-11-13
+cover: "cover-fr.jpg"
 author: "Nicolas Rouanne"
 ---
 

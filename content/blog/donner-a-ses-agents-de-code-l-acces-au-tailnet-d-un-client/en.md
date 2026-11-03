@@ -1,6 +1,8 @@
 ---
 title: "Giving your coding agents access to a client's tailnet"
 slug: giving-your-coding-agents-access-to-a-client-s-tailnet
+date: 2026-11-13
+cover: "cover-en.jpg"
 author: "Nicolas Rouanne"
 ---
 
