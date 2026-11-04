@@ -101,6 +101,16 @@ OpenAI a annoncé sa version au DevDay du 29 septembre : `POST /v1/decisions`, s
 
 Même plafond que Jev : le problème vient du principe, pas du fournisseur. La catégorie principale est souvent juste, mais les catégories secondaires sont rarement attribuées (19 réponses multi-catégories, contre 67 pour GPT). Et sur « Jsp » ou « je ne sais pas », l'API a renvoyé un refus, sans aucune réponse.
 
+On a donc essayé d'aller chercher les catégories secondaires en deux temps. La question `choice` donne la catégorie principale et une probabilité pour chacune des 15 catégories. On pose ensuite un oui/non uniquement sur les trois suivantes de cette liste, avec toutes les catégories dans le contexte.
+
+| 182 réponses distinctes · 15 catégories | Identique à GPT prod | F1 | Réponses multi-catégories | Coût | Temps |
+| --- | --- | --- | --- | --- | --- |
+| GPT, relancé | 80,8 % | 90,5 % | 67 en prod | 0,0027 $ | 34,4 s |
+| Decisions, une `choice` | 52 % | 73 % | 30 | 0,0057 $ | 1,4 s |
+| Decisions, une `choice` puis 3 oui/non (seuil 0,6) | 53 % | 78 % | 71 | 0,0153 $ | 2,2 s |
+
+Le modèle attribue enfin des catégories secondaires, autant que GPT, et le F1 gagne 5 points. Mais l'accord exact ne bouge pas : il en ajoute autant de fausses qu'il en trouve de justes. Sur les réponses qui diffèrent, 20 ont une mauvaise catégorie principale, 21 ont une catégorie en moins et 24 une en trop. Même avec des oui/non parfaits, on plafonnerait à 74 %, parce que la bonne catégorie secondaire n'est pas toujours dans les trois premières. Le tout pour près de six fois le prix de GPT.
+
 On voulait aussi savoir si on payait la rapidité. On a compté les tokens réellement envoyés et comparé à ce que l'API facture : **environ 150 tokens par question, quelle que soit sa taille**.
 
 | Un lot de 20 réponses | Tokens envoyés | Tokens facturés |

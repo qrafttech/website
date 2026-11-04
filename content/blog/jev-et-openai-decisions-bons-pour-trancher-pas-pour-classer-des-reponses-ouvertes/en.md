@@ -101,6 +101,16 @@ OpenAI announced its own version at DevDay on September 29: `POST /v1/decisions`
 
 Same ceiling as Jev: the problem is the principle, not the vendor. The main category is usually right, but secondary ones are rarely assigned (19 multi-category answers against 67 for GPT). And on "idk" or "I don't know", the API sent back a refusal with no answer at all.
 
+So we tried to get the secondary categories in two steps. The `choice` question gives the main category and a probability for each of the 15 categories. We then ask a yes/no question only on the next three in that list, with all the categories in the context.
+
+| 182 distinct answers · 15 categories | Same codes as prod GPT | F1 | Multi-category answers | Cost | Time |
+| --- | --- | --- | --- | --- | --- |
+| GPT, re-run | 80.8% | 90.5% | 67 in prod | $0.0027 | 34.4 s |
+| Decisions, one `choice` | 52% | 73% | 30 | $0.0057 | 1.4 s |
+| Decisions, one `choice` then 3 yes/no (threshold 0.6) | 53% | 78% | 71 | $0.0153 | 2.2 s |
+
+The model finally assigns secondary categories, as many as GPT, and F1 gains 5 points. But exact agreement doesn't move: it adds as many wrong ones as right ones. Among the answers that differ, 20 have the wrong main category, 21 miss a category and 24 have an extra one. Even with perfect yes/no answers, it would cap at 74%, because the right secondary category isn't always in the top three. All of that for almost six times GPT's price.
+
 We also wanted to know if we were paying for speed. We counted the tokens actually sent and compared them with what the API billed: **about 150 tokens per question, whatever its size**.
 
 | A batch of 20 answers | Tokens sent | Tokens billed |
