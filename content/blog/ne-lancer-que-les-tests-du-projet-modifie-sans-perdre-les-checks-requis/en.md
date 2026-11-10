@@ -109,11 +109,89 @@ On the bill it's worse: GitHub rounds each job up to the minute. Each `changes` 
 - a `changes` job in each of the four workflows saves about 1,150 minutes of actual runner time (about twenty hours per 100 PRs), and almost nothing in billed minutes;
 - a single workflow with a single `changes` job shared by all jobs pays for the filtering once per push: about 411 billed minutes, so about 1,000 billed minutes saved.
 
-We kept four separate workflows: each project keeps its own file, and it stays readable. On the bill the gap is small anyway: a Linux minute costs a few tenths of a cent at the standard rate. What we get back is mostly runners freed up sooner for the other PRs.
+We first kept a `changes` job in each workflow: each project keeps its own file, and it stays readable. In the meantime, the front end's tests (Vitest) joined the CI. That makes five workflows, so five `changes` jobs billed on every push.
+
+## A single `changes` job, each project keeps its file
+
+In the end we didn't have to choose between readable files and the bill. A `ci.yml` workflow runs the `changes` job once per push, then calls each project's workflow with `workflow_call`, passing it a boolean:
+
+```yaml
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            api: [api/**, .github/workflows/api-test.yml, .github/workflows/ci.yml]
+
+  api-test:
+    name: API - Tests
+    needs: changes
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/api-test.yml
+    with:
+      run: ${{ needs.changes.result != 'success' || needs.changes.outputs.api == 'true' }}
+```
+
+The API workflow no longer triggers on its own on a PR. It runs when `ci.yml` calls it, and it's the one that skips its job:
+
+```yaml
+name: API - Tests
+
+on:
+  workflow_call:
+    inputs:
+      run:
+        type: boolean
+        required: true
+
+jobs:
+  test:
+    name: RSpec Tests
+    if: ${{ inputs.run }}
+    runs-on: ubuntu-latest
+    # ...
+```
+
+The skip has to happen there, in the called workflow. With an `if:` on the `api-test` job of `ci.yml`, the API workflow would never start: the `RSpec Tests` check wouldn't exist, and we'd be back to the "Expected" check that blocks the merge. Skipped in the called workflow, the job is created, then reported as successful. We checked it before merging, with a demo PR that only touches `web/` and a test ruleset: RSpec, Rubocop and the chat's tests were skipped, and the PR was mergeable.
+
+The condition also spells out what happens when detection crashes: if the `changes` job didn't succeed, everything runs. Same principle as `!= 'false'`, without having to remember what an empty output evaluates to.
+
+One trap at merge time: the checks get new names. `RSpec Tests` becomes `API - Tests / RSpec Tests`. The `main` ruleset has to be updated right after the merge, or it waits for the old names and blocks every PR. Open PRs pick up the new checks on their next push.
+
+## What it changed on the bill, measured
+
+We redid the count on the real runs, over three periods: before filtering (October 19 to 27, 166 pushes), with one `changes` per workflow (October 30 to November 9, 171 pushes) and with the shared `changes` (since November 9, 70 pushes). For each push, we add up the billed minutes of each job, rounded up to the minute.
+
+![Billed minutes per push over the three periods, for pushes that touch api/ and for the others, split between the changes job, RSpec and the other checks](billed-en.png "With one changes per workflow, a push that touches the API pays five more minutes. Shared, the job only costs one minute.")
+
+- A push that doesn't touch `api/` goes from 15.2 billed minutes to 5.8 with one `changes` per workflow, 5 of which are the `changes` jobs alone. With the shared job, it drops to 1.7.
+- A push that touches `api/` costs more with one `changes` per workflow: 5 more minutes to decide to run what was already running. With the shared job, that overhead drops to one minute.
+
+The blue moves too, but that's not the filtering. RSpec slowed down in late October: the suite keeps growing, and its duration depends on which CPU the runner lands on. Then it sped up on November 9, with other changes merged the same day (more on that below).
+
+To isolate the filtering, we keep RSpec at its earlier duration and take the real mix of pushes: 77% touch `api/`. A push cost 15.2 billed minutes without filtering. With one `changes` per workflow, it's 16.0, so 5% more than not filtering at all. With the shared job, it's 12.6, 17% less. Over about 1,400 pushes a month, that's about 3,600 billed minutes, around twenty dollars at the standard rate.
+
+In dollars, that's not much. What we mostly get back is runners freed up sooner, and PRs that no longer wait for the CI when they don't touch the API.
 
 ## And the wait?
 
-Runner minutes are the bill. For a developer, what matters is the time between their push and the moment the four required checks are done. We measured it on the same PRs: 315 pushes, queue time included.
+Runner minutes are the bill. For a developer, what matters is the time between their push and the moment the four required checks are done. Before changing anything, we computed it on the same 100 PRs: 315 pushes, queue time included.
 
 The four checks run in parallel, so you wait for the longest one. That's RSpec in 310 pushes out of 315. And 71 PRs out of 99 touch `api/`: for those, RSpec runs anyway, and nothing changes.
 
@@ -123,13 +201,15 @@ The four checks run in parallel, so you wait for the longest one. That's RSpec i
 - PRs that only touch `web/` or `chat/`: from 11.8 min to 1.1 min;
 - PRs that touch none of the three (CI, docs): from 10.8 min to about fifteen seconds, the time of the `changes` job.
 
-Overall, the 75th percentile goes from 11.7 to 11.4 min, and the median from 10.7 to 10.4 min. For the typical PR, the one that touches the API, filtering saves nothing: RSpec itself would have to get faster. For a PR on another part of the repo, you no longer wait for the CI.
+The measurements on the real runs confirm it: a push that doesn't touch `api/` waits 1.1 min at the 75th percentile, with one `changes` per workflow as with the shared job.
+
+For the typical PR, the one that touches the API, filtering saves nothing: RSpec itself has to get faster. That's the next part of the work, and three changes were merged on November 9. The permissions catalog, resynced in a good share of the tests, is now loaded once per suite. The job's setup is lighter. And the tool that flags lines changed without tests is no longer compiled on every new PR. Over the first 16 pushes that touch `api/`, the RSpec job goes from 14.7 to 9.4 minutes on average, and the wait from 16.8 to 10.2 min at the 75th percentile. That's still few pushes, but that's where the rest of the bill is: RSpec makes up nearly two thirds of the billed minutes.
 
 ## Keeping the CI metrics right
 
-We already send each check's duration to PostHog to track CI feedback (we wrote about it in [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)). A skipped check now finishes in about ten seconds, with only its `changes` job. Sent as is, it would bring RSpec's average duration down without RSpec getting any faster.
+We already send each check's duration to PostHog to track CI feedback (we wrote about it in [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)). A skipped check now finishes in a few seconds. Sent as is, it would bring RSpec's average duration down without RSpec getting any faster.
 
-So the script reads each check's jobs, and doesn't send the duration of a check where only `changes` ran. PostHog ignores a missing value in an average, so the per-check averages only measure real runs. The developer's total wait still counts every check.
+So the script reads the run's jobs, and doesn't send the duration of a skipped check. PostHog ignores a missing value in an average, so the per-check averages only measure real runs. The developer's total wait still counts every check.
 
 > [!NOTE]
-> The figures come from 100 PRs. Runner minutes are run durations excluding queue time; the wait includes it, assuming filtering doesn't change it. The `changes` job's duration is estimated from a few runs, and the billed minutes assume GitHub's standard rate, which depends on the repo's plan.
+> The estimates come from 100 PRs, and the wait includes queue time. The measurements come from the real runs of the three periods (166, 171 and 70 pushes), without cancelled runs. The last one only covers a day and a half, and its pushes touch the API less often than usual, hence the calculation with a constant mix. Billed minutes are recomputed job by job, at GitHub's standard rate ($0.006 per Linux minute), which depends on the repo's plan.

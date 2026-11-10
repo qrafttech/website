@@ -109,11 +109,89 @@ Sur la facture, c'est pire : GitHub arrondit chaque job à la minute supérieure
 - un job `changes` dans chacun des quatre workflows gagne environ 1 150 minutes de runner réel (une vingtaine d'heures pour 100 PR), et presque rien en minutes facturées ;
 - un seul workflow avec un seul job `changes` partagé par tous les jobs ne paie le filtrage qu'une fois par push : environ 411 minutes facturées, donc environ 1 000 minutes facturées de gagnées.
 
-On a gardé quatre workflows séparés : chaque projet garde son fichier, et ça reste lisible. Sur la facture, l'écart est faible de toute façon : une minute Linux coûte quelques dixièmes de centime au tarif standard. Ce qu'on récupère, ce sont surtout des runners libres plus tôt pour les autres PR.
+On a d'abord gardé un job `changes` dans chaque workflow : chaque projet garde son fichier, et ça reste lisible. Entre-temps, les tests du front (Vitest) sont arrivés en CI. Ça fait cinq workflows, donc cinq jobs `changes` facturés à chaque push.
+
+## Un seul job `changes`, chaque projet garde son fichier
+
+On n'a finalement pas eu à choisir entre des fichiers lisibles et la facture. Un workflow `ci.yml` lance le job `changes` une fois par push, puis appelle le workflow de chaque projet avec `workflow_call`, en lui passant un booléen :
+
+```yaml
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            api: [api/**, .github/workflows/api-test.yml, .github/workflows/ci.yml]
+
+  api-test:
+    name: API - Tests
+    needs: changes
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/api-test.yml
+    with:
+      run: ${{ needs.changes.result != 'success' || needs.changes.outputs.api == 'true' }}
+```
+
+Le workflow de l'API ne se déclenche plus tout seul sur une PR. Il tourne quand `ci.yml` l'appelle, et c'est lui qui saute son job :
+
+```yaml
+name: API - Tests
+
+on:
+  workflow_call:
+    inputs:
+      run:
+        type: boolean
+        required: true
+
+jobs:
+  test:
+    name: RSpec Tests
+    if: ${{ inputs.run }}
+    runs-on: ubuntu-latest
+    # ...
+```
+
+Le saut doit se faire là, dans le workflow appelé. Avec un `if:` sur le job `api-test` de `ci.yml`, le workflow de l'API ne serait jamais lancé : le check `RSpec Tests` n'existerait pas, et on retomberait sur le check « Expected » qui bloque le merge. Sauté dans le workflow appelé, le job est créé, puis rapporté comme réussi. On l'a vérifié avant de merger, avec une PR de démo qui ne touche que `web/` et un ruleset de test : RSpec, Rubocop et les tests du chat étaient sautés, et la PR était mergeable.
+
+La condition dit aussi en clair ce qui se passe quand la détection plante : si le job `changes` n'a pas réussi, tout tourne. C'est le principe du `!= 'false'`, sans avoir à se souvenir de ce que vaut une sortie vide.
+
+Un piège au merge : les checks changent de nom. `RSpec Tests` devient `API - Tests / RSpec Tests`. Il faut mettre à jour le ruleset de `main` juste après le merge, sinon il attend les anciens noms et bloque toutes les PR. Les PR ouvertes récupèrent les nouveaux checks à leur prochain push.
+
+## Ce que ça a changé sur la facture, mesuré
+
+On a refait le compte sur les runs réels, en trois périodes : avant le filtrage (19 au 27 octobre, 166 pushes), avec un `changes` par workflow (30 octobre au 9 novembre, 171 pushes) et avec le `changes` partagé (depuis le 9 novembre, 70 pushes). Pour chaque push, on additionne les minutes facturées de chaque job, arrondies à la minute supérieure.
+
+![Minutes facturées par push sur les trois périodes, pour les pushes qui touchent api/ et pour les autres, réparties entre le job changes, RSpec et les autres checks](billed-fr.png "Avec un changes par workflow, un push qui touche l'API paie cinq minutes de plus. Partagé, le job ne coûte plus qu'une minute.")
+
+- Un push qui ne touche pas `api/` passe de 15,2 minutes facturées à 5,8 avec un `changes` par workflow, dont 5 pour les seuls jobs `changes`. Avec le job partagé, il tombe à 1,7.
+- Un push qui touche `api/` coûte plus cher avec un `changes` par workflow : 5 minutes de plus pour décider de lancer ce qui tournait déjà. Avec le job partagé, ce surcoût tombe à une minute.
+
+Le bleu bouge aussi, mais ce n'est pas le filtrage. RSpec a ralenti fin octobre : la suite grossit, et sa durée dépend du CPU sur lequel tombe le runner. Puis il a accéléré le 9 novembre, avec d'autres changements mergés le même jour (on y revient plus bas).
+
+Pour isoler le filtrage, on garde RSpec à sa durée d'avant et on prend la vraie répartition des pushes : 77 % touchent `api/`. Un push coûtait 15,2 minutes facturées sans filtrage. Avec un `changes` par workflow, c'est 16,0, donc 5 % de plus que ne rien filtrer. Avec le job partagé, c'est 12,6, soit 17 % de moins. Sur environ 1 400 pushes par mois, ça fait environ 3 600 minutes facturées, une vingtaine de dollars au tarif standard.
+
+En dollars, c'est peu. Ce qu'on récupère surtout, ce sont des runners libres plus tôt, et des PR qui n'attendent plus la CI quand elles ne touchent pas l'API.
 
 ## Et le temps d'attente ?
 
-Les minutes de runner, c'est la facture. Pour un développeur, ce qui compte, c'est le temps entre son push et le moment où les quatre checks requis sont finis. On l'a mesuré sur les mêmes PR : 315 pushes, file d'attente comprise.
+Les minutes de runner, c'est la facture. Pour un développeur, ce qui compte, c'est le temps entre son push et le moment où les quatre checks requis sont finis. Avant de changer quoi que ce soit, on l'a calculé sur les mêmes 100 PR : 315 pushes, file d'attente comprise.
 
 Les quatre checks tournent en parallèle, donc on attend le plus long. C'est RSpec dans 310 pushes sur 315. Et 71 PR sur 99 touchent `api/` : pour elles, RSpec tourne de toute façon, et rien ne change.
 
@@ -123,13 +201,15 @@ Les quatre checks tournent en parallèle, donc on attend le plus long. C'est RSp
 - PR qui ne touchent que `web/` ou `chat/` : de 11,8 min à 1,1 min ;
 - PR qui ne touchent aucun des trois (CI, docs) : de 10,8 min à une quinzaine de secondes, le temps du job `changes`.
 
-Sur l'ensemble, le 75e centile passe de 11,7 à 11,4 min, et la médiane de 10,7 à 10,4 min. Pour la PR typique, celle qui touche l'API, le filtrage ne fait rien gagner : il faudrait accélérer RSpec lui-même. Pour une PR sur une autre partie du repo, on n'attend plus la CI.
+Les mesures sur les vrais runs le confirment : un push qui ne touche pas `api/` attend 1,1 min au 75e centile, avec un `changes` par workflow comme avec le job partagé.
+
+Pour la PR typique, celle qui touche l'API, le filtrage ne fait rien gagner : il faut accélérer RSpec lui-même. C'est la suite du chantier, et trois changements ont été mergés le 9 novembre. Le catalogue des permissions, resynchronisé dans une bonne partie des tests, n'est plus chargé qu'une fois par suite. Le setup du job est allégé. Et l'outil qui signale les lignes modifiées sans test n'est plus compilé à chaque nouvelle PR. Sur les 16 premiers pushes qui touchent `api/`, le job RSpec passe de 14,7 à 9,4 minutes en moyenne, et l'attente de 16,8 à 10,2 min au 75e centile. C'est encore peu de pushes, mais c'est là que se joue le reste de la facture : RSpec fait près des deux tiers des minutes facturées.
 
 ## Garder des métriques de CI justes
 
-On envoie déjà la durée de chaque check à PostHog pour suivre le retour de CI (on l'a raconté dans [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)). Un check sauté finit maintenant en une dizaine de secondes, avec seulement son job `changes`. Envoyé tel quel, il ferait baisser la durée moyenne de RSpec sans que RSpec soit plus rapide.
+On envoie déjà la durée de chaque check à PostHog pour suivre le retour de CI (on l'a raconté dans [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)). Un check sauté finit maintenant en quelques secondes. Envoyé tel quel, il ferait baisser la durée moyenne de RSpec sans que RSpec soit plus rapide.
 
-Le script lit donc les jobs de chaque check, et n'envoie pas la durée d'un check où seul `changes` a tourné. PostHog ignore une valeur absente dans une moyenne, donc les moyennes par check ne mesurent que les vrais runs. L'attente totale du développeur, elle, compte toujours tous les checks.
+Le script lit donc les jobs du run, et n'envoie pas la durée d'un check sauté. PostHog ignore une valeur absente dans une moyenne, donc les moyennes par check ne mesurent que les vrais runs. L'attente totale du développeur, elle, compte toujours tous les checks.
 
 > [!NOTE]
-> Les chiffres viennent de 100 PR. Les minutes de runner sont les durées des runs hors file d'attente ; le temps d'attente, lui, la compte, en supposant qu'elle ne change pas avec le filtrage. La durée du job `changes` est estimée à partir de quelques runs, et les minutes facturées supposent le tarif standard de GitHub, qui dépend du plan du repo.
+> Les estimations viennent de 100 PR, le temps d'attente compte la file d'attente. Les mesures viennent des runs réels des trois périodes (166, 171 et 70 pushes), sans les runs annulés. La dernière ne couvre qu'un jour et demi, et ses pushes touchent moins souvent l'API que d'habitude, d'où le calcul à répartition constante. Les minutes facturées sont recalculées job par job, au tarif standard de GitHub (0,006 $ la minute Linux), qui dépend du plan du repo.
