@@ -68,33 +68,11 @@ Un [Job](https://huggingface.co/docs/hub/jobs), c'est une image Docker, une comm
 
 ![Schéma du run : depuis mon Mac, 15 Jobs Hugging Face lancés, 10 à la fois, chacun installe le pipeline puis traite 8 images, charge le modèle depuis le Hub et dépose le résultat dans un dataset privé. Au total, 320 minutes de GPU et 2,13 $.](hugging-face-jobs-fr.png "15 Jobs, 8 images chacun, 2,13 $ au total.")
 
-Mes réglages, dans le code :
-
-```ts
-export const FLAVOR = 't4-small';
-export const IMAGE = 'condaforge/miniforge3:26.9.4-0';
-export const TIMEOUT_MINUTES = 120;
-export const BOXES_PER_JOB = 8;
-export const PRICE_PER_HOUR = 0.4;
-export const CAP_DOLLARS = 10;
-```
-
-Je lance les Jobs depuis un script TypeScript, via l'API HTTP. Avec la [CLI `hf`](https://huggingface.co/docs/huggingface_hub/guides/cli), ça donnerait :
-
-```bash
-hf jobs run --flavor t4-small --secrets HF_TOKEN \
-  condaforge/miniforge3:26.9.4-0 bash -c "$(cat delineate-job.sh)"
-```
+Je lance les Jobs depuis un script, via l'API HTTP de Hugging Face ; la [CLI `hf`](https://huggingface.co/docs/huggingface_hub/guides/cli) permet la même chose en une commande. Chaque Job s'arrête au bout de 2 heures au plus.
 
 Le flavor `t4-small`, c'est un GPU NVIDIA T4 de 16 Go, 4 vCPU et 15 Go de RAM, pour 0,40 $ de l'heure. L'installation du pipeline (conda, pip) prend environ 3 minutes : en groupant 8 images par Job, je ne la paie qu'une fois pour 8. Mon Mac n'envoie aucune image, seulement des coordonnées et des clés. Chaque Job récupère ses photos, lance `delineate.py`, dépose un fichier par image dans un dataset privé du Hub, puis efface ses fichiers. Si un Job plante, seule l'image en cours est perdue.
 
-J'ai aussi mis un plafond : le script ne lance aucun Job qui pourrait faire dépasser 10 $ au total, et il vérifie d'abord que le prix du flavor n'a pas changé.
-
-```bash
-curl -s https://huggingface.co/api/jobs/hardware \
-  | jq '.[] | select(.name == "t4-small") | {unitCostUSD, unitLabel}'
-# { "unitCostUSD": 0.006667, "unitLabel": "minute" }   → 0,40 $ de l'heure
-```
+J'ai aussi mis un plafond : le script ne lance aucun Job qui pourrait faire dépasser 10 $ au total, et il vérifie d'abord, auprès de l'API de Hugging Face, que le prix du flavor n'a pas changé.
 
 Sur les cinq zones, ça a donné 120 images, 15 Jobs dont 10 en parallèle, 320 minutes facturées, 2,13 $ et 92 098 contours.
 

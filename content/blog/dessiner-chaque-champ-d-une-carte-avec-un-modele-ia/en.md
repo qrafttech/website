@@ -68,33 +68,11 @@ A [Job](https://huggingface.co/docs/hub/jobs) is a Docker image, a command, a ma
 
 ![Diagram of the run: from my Mac, 15 Hugging Face Jobs, 10 at once, each installs the pipeline then processes 8 images, loads the model from the Hub and uploads the result to a private dataset. In total, 320 GPU minutes and $2.13.](hugging-face-jobs-en.png "15 Jobs, 8 images each, $2.13 in total.")
 
-My settings, in the code:
-
-```ts
-export const FLAVOR = 't4-small';
-export const IMAGE = 'condaforge/miniforge3:26.9.4-0';
-export const TIMEOUT_MINUTES = 120;
-export const BOXES_PER_JOB = 8;
-export const PRICE_PER_HOUR = 0.4;
-export const CAP_DOLLARS = 10;
-```
-
-I start the Jobs from a TypeScript script, through the HTTP API. With the [`hf` CLI](https://huggingface.co/docs/huggingface_hub/guides/cli), it would look like this:
-
-```bash
-hf jobs run --flavor t4-small --secrets HF_TOKEN \
-  condaforge/miniforge3:26.9.4-0 bash -c "$(cat delineate-job.sh)"
-```
+I start the Jobs from a script, through Hugging Face's HTTP API; the [`hf` CLI](https://huggingface.co/docs/huggingface_hub/guides/cli) does the same in one command. Each Job stops after 2 hours at most.
 
 The `t4-small` flavor is one 16 GB NVIDIA T4 GPU, 4 vCPU and 15 GB of RAM, for $0.40 an hour. Setting up the pipeline (conda, pip) takes about 3 minutes: grouping 8 images per Job means paying for it once per 8. My Mac sends no image, only coordinates and keys. Each Job fetches its photos, runs `delineate.py`, uploads one file per image to a private dataset on the Hub, then deletes its files. If a Job crashes, only the current image is lost.
 
-I also set a cap: the script starts no Job that could take the total past $10, and it first checks that the flavor's price hasn't changed.
-
-```bash
-curl -s https://huggingface.co/api/jobs/hardware \
-  | jq '.[] | select(.name == "t4-small") | {unitCostUSD, unitLabel}'
-# { "unitCostUSD": 0.006667, "unitLabel": "minute" }   → $0.40 an hour
-```
+I also set a cap: the script starts no Job that could take the total past $10, and it first checks with Hugging Face's API that the flavor's price hasn't changed.
 
 Across the five areas, that came to 120 images, 15 Jobs with 10 in parallel, 320 billed minutes, $2.13 and 92,098 outlines.
 
