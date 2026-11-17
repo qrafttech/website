@@ -6,11 +6,15 @@ cover: "carte-prospection.jpg"
 excerpt: "Les bases de contours de champs existantes étaient trop imprécises : on a fait tourner Delineate Anything sur Hugging Face Jobs, 120 images pour 2,13 $."
 ---
 
-Pour Telaqua, on construit une carte de prospection qui montre chaque champ agricole vu du satellite, sur cinq zones de 50 × 50 km au Sénégal et en Côte d'Ivoire. Des bases de contours de champs existent déjà, mais sur nos zones elles étaient trop imprécises. On a donc fait tourner un modèle nous-mêmes. J'ai présenté ce travail mardi à l'équipe, avec un tour de Hugging Face, où on a trouvé le modèle et où on l'a fait tourner.
+Telaqua, un de nos clients, vend du matériel d'irrigation. Ses commerciaux cherchent les grandes exploitations irriguées qui ne sont pas encore clientes. On leur construit une carte de prospection qui montre chaque champ agricole vu du satellite, pour l'instant sur cinq zones de 50 × 50 km autour de sites de ses clients, au Sénégal et en Côte d'Ivoire.
+
+J'ai présenté ce travail mardi à l'équipe, en trois temps que je reprends ici : le besoin du client et les pistes qu'on a explorées, l'implémentation, puis un tour de Hugging Face, la plateforme où on a trouvé le modèle et où on l'a fait tourner.
 
 ![La carte de prospection autour de Saint-Louis, au Sénégal : les contours jaunes des champs détectés, dessinés sur la photo satellite.](carte-prospection.jpg "La carte autour de Saint-Louis (Sénégal), avec seulement la couche Champs affichée.")
 
-## Trois pistes
+## 1. Le besoin client et nos explorations
+
+Pour dessiner les champs sur la carte, il nous faut leurs contours. Des bases de contours de champs existent déjà, mais sur nos zones elles étaient trop imprécises. On a regardé trois pistes avant d'en retenir une.
 
 ### Fields of The World, une base déjà calculée
 
@@ -38,7 +42,9 @@ Il lui faut une photo couleur ordinaire, à une seule date, avec une résolution
 
 Il est sous licence AGPL-3.0, qui autorise l'usage commercial. La contrainte porte sur le code modifié servi à des utilisateurs par le réseau, qui doit alors être publié ; nous lançons le pipeline des auteurs sans en modifier le code, en batch. Et il est petit, environ 62 millions de paramètres pour 125 Mo de poids : il tourne même sur un portable.
 
-## Le pipeline des auteurs
+## 2. L'implémentation
+
+### Le pipeline des auteurs
 
 Le [dépôt GitHub de Delineate Anything](https://github.com/Lavreniuk/Delineate-Anything) fournit un script, `delineate.py`, qui traite une grande image en quatre étapes. Il la découpe en vignettes de 512 px, les fait se chevaucher de moitié pour qu'un champ coupé au bord d'une vignette soit vu en entier dans la voisine, détecte les champs par lots sur le GPU, puis recolle le tout en une seule couche vectorielle. Il produit un GeoPackage, que je convertis en GeoJSON pour la carte.
 
@@ -46,17 +52,9 @@ Le [dépôt GitHub de Delineate Anything](https://github.com/Lavreniuk/Delineate
 
 Je ne touche pas au code de ce script. Je le récupère à un commit fixé et je l'installe comme l'indique le README. Je change seulement deux réglages de sa configuration : le masque d'occupation du sol, pour lequel j'utilise [ESA WorldCover](https://esa-worldcover.org/), et la surface minimale d'un champ.
 
-```bash
-conda create -y -q -n da -c conda-forge python=3.11 gdal > /dev/null
-source /opt/conda/etc/profile.d/conda.sh && conda activate da
-git init -q /da && cd /da
-git fetch -q --depth 1 "$DA_REPO" "$DA_COMMIT" && git checkout -q FETCH_HEAD
-pip install -q torch==2.6.0 torchvision==0.21.0 -r requirements.txt
-```
-
 Une image couvre environ 13 × 9 km, il en faut donc 120 pour mes cinq zones, 24 par zone.
 
-## Où faire tourner 120 images
+### Où faire tourner 120 images
 
 J'ai comparé cinq options, à partir de mesures ou d'estimations tirées de nos mesures.
 
@@ -64,7 +62,7 @@ J'ai comparé cinq options, à partir de mesures ou d'estimations tirées de nos
 
 Aucun fournisseur d'inférence ne sert ce modèle par API sur Hugging Face, donc cette option est exclue. Sur mon MacBook Pro M1 Pro, le pipeline utilise le GPU d'Apple et tourne environ deux fois moins vite que sur un T4 : il faudrait à peu près 18 heures de calcul sans interruption. Un VPS sans GPU à 20 € HT par mois mettrait 6 à 8 jours, et un serveur avec GPU coûte autour de 200 € par mois. Un GPU loué à l'heure chez AWS, Google Cloud ou RunPod reviendrait à 4 ou 5 $, mais il faut allumer la machine, l'installer, puis l'éteindre. J'ai choisi Hugging Face Jobs, qui loue un GPU à la minute et se lance par une simple requête.
 
-## Hugging Face Jobs
+### Hugging Face Jobs
 
 Un [Job](https://huggingface.co/docs/hub/jobs), c'est une image Docker, une commande, un type de machine (le *flavor*) et des secrets. Hugging Face démarre le conteneur, facture à la minute et l'arrête à la fin. Pas besoin d'abonnement, un solde de crédits prépayés suffit.
 
@@ -102,9 +100,9 @@ Sur les cinq zones, ça a donné 120 images, 15 Jobs dont 10 en parallèle, 320 
 
 Pour essayer le modèle sur une image sans rien installer, le README des auteurs renvoie vers une [démo sur un Space Hugging Face](https://huggingface.co/spaces/hugging-apps/delineate-anything-v2).
 
-## Le reste du Hub
+## 3. Hugging Face
 
-En préparant la présentation, j'ai fait le tour de la plateforme. Les chiffres datent du 17 novembre 2026.
+Hugging Face est la plateforme où se partagent les modèles, les datasets et les démos d'IA ouverts. C'est là qu'on a trouvé Delineate Anything et qu'on l'a fait tourner. En préparant la présentation, j'en ai fait le tour ; les chiffres datent du 17 novembre 2026.
 
 ### 3 244 718 modèles
 

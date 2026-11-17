@@ -6,11 +6,15 @@ cover: "carte-prospection.jpg"
 excerpt: "The existing field boundary databases were too imprecise, so we ran Delineate Anything on Hugging Face Jobs: 120 images for $2.13."
 ---
 
-For Telaqua, we are building a prospecting map that shows every farm field seen from the satellite, across five 50 × 50 km areas in Senegal and Côte d'Ivoire. Field boundary databases already exist, but on our areas they were too imprecise. So we ran a model ourselves. I presented this work to the team on Tuesday, along with a tour of Hugging Face, where we found the model and where we ran it.
+Telaqua, one of our clients, sells irrigation equipment. Its sales team looks for large irrigated farms that aren't customers yet. We are building them a prospecting map that shows every farm field seen from the satellite, for now across five 50 × 50 km areas around its customers' sites, in Senegal and Côte d'Ivoire.
+
+I presented this work to the team on Tuesday in three parts, which I follow here: the client's need and the options we explored, the implementation, then a tour of Hugging Face, the platform where we found the model and ran it.
 
 ![The prospecting map around Saint-Louis, Senegal: yellow outlines of the detected fields, drawn over the satellite photo.](carte-prospection.jpg "The map around Saint-Louis (Senegal), with only the Fields layer shown.")
 
-## Three options
+## 1. The client's need and what we explored
+
+To draw the fields on the map, we need their outlines. Field boundary databases already exist, but on our areas they were too imprecise. We looked at three options before picking one.
 
 ### Fields of The World, a precomputed database
 
@@ -38,7 +42,9 @@ It needs an ordinary colour photo, from a single date, at a resolution between 0
 
 It is licensed AGPL-3.0, which allows commercial use. The obligation applies to modified code served to users over a network, whose source must then be published; we run the authors' pipeline without changing its code, as a batch. And it's small, about 62 million parameters for 125 MB of weights: it even runs on a laptop.
 
-## The authors' pipeline
+## 2. The implementation
+
+### The authors' pipeline
 
 The [Delineate Anything GitHub repository](https://github.com/Lavreniuk/Delineate-Anything) ships a script, `delineate.py`, that processes a large image in four steps. It cuts it into 512 px tiles, overlaps them by half so a field cut at the edge of one tile is seen whole in the next, detects the fields in batches on the GPU, then merges everything into a single vector layer. It outputs a GeoPackage, which I convert to GeoJSON for the map.
 
@@ -46,17 +52,9 @@ The [Delineate Anything GitHub repository](https://github.com/Lavreniuk/Delineat
 
 I don't touch this script's code. I fetch it at a pinned commit and install it the way the README says. I only change two settings in its configuration: the land cover mask, for which I use [ESA WorldCover](https://esa-worldcover.org/), and the minimum field area.
 
-```bash
-conda create -y -q -n da -c conda-forge python=3.11 gdal > /dev/null
-source /opt/conda/etc/profile.d/conda.sh && conda activate da
-git init -q /da && cd /da
-git fetch -q --depth 1 "$DA_REPO" "$DA_COMMIT" && git checkout -q FETCH_HEAD
-pip install -q torch==2.6.0 torchvision==0.21.0 -r requirements.txt
-```
-
 One image covers about 13 × 9 km, so my five areas need 120 of them, 24 per area.
 
-## Where to run 120 images
+### Where to run 120 images
 
 I compared five options, from measurements or estimates based on our measurements.
 
@@ -64,7 +62,7 @@ I compared five options, from measurements or estimates based on our measurement
 
 No inference provider serves this model through an API on Hugging Face, so that option is out. On my MacBook Pro M1 Pro, the pipeline uses Apple's GPU and runs about half as fast as on a T4: roughly 18 hours of non-stop compute. A VPS without a GPU at €20 a month before VAT would take 6 to 8 days, and a server with a GPU costs around €200 a month. A GPU rented by the hour from AWS, Google Cloud or RunPod would come to $4 or $5, but you have to start the machine, set it up, then shut it down. I picked Hugging Face Jobs, which rents a GPU by the minute and starts with a single request.
 
-## Hugging Face Jobs
+### Hugging Face Jobs
 
 A [Job](https://huggingface.co/docs/hub/jobs) is a Docker image, a command, a machine type (the *flavor*) and secrets. Hugging Face starts the container, bills by the minute and stops it at the end. No subscription needed, a balance of prepaid credits is enough.
 
@@ -102,9 +100,9 @@ Across the five areas, that came to 120 images, 15 Jobs with 10 in parallel, 320
 
 To try the model on one image without installing anything, the authors' README points to a [demo on a Hugging Face Space](https://huggingface.co/spaces/hugging-apps/delineate-anything-v2).
 
-## The rest of the Hub
+## 3. Hugging Face
 
-While preparing the talk, I toured the platform. Figures are from 17 November 2026.
+Hugging Face is the platform where open AI models, datasets and demos are shared. It's where we found Delineate Anything and where we ran it. While preparing the talk I toured it; figures are from 17 November 2026.
 
 ### 3,244,718 models
 
