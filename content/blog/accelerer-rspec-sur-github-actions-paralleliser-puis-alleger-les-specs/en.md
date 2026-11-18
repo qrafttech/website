@@ -2,18 +2,18 @@
 title: "Speeding up RSpec on GitHub Actions: parallelize, then slim down the specs"
 slug: speeding-up-rspec-on-github-actions-parallelize-then-slim-down-the-specs
 author: "Nicolas Rouanne"
-excerpt: "The RSpec suite of one of our products took 11 minutes per PR. Split across 3 jobs of 2 processes, it takes 4, for 2 more billed minutes. And the spec conventions in progress cut it by another 45%."
+excerpt: "On one of our products, every PR waited 10 minutes for RSpec. Split across 3 jobs of 2 processes, the suite takes 4, for 2 more billed minutes. And lighter specs cut it by another 45%."
 ---
 
-In [Running only the changed project's tests](/en/blog/running-only-the-changed-project-s-tests-without-losing-required-checks), we stopped running RSpec on PRs that don't touch the API. But three quarters of PRs do touch it, and for them RSpec still ran in a single job: 11 minutes of waiting.
+On one of our products, a PR that touched the API waited 10 minutes for RSpec. That's long enough to open something else, and lose track of the PR.
 
-We did two things: split the suite across several runners (merged), and write specs that cost less (in progress).
+In [Running only the changed project's tests](/en/blog/running-only-the-changed-project-s-tests-without-losing-required-checks), we had already stopped running the tests of the parts of the code a PR doesn't touch. We went on in two steps. First, split the suite across several runners: CI does the same work, but in parallel, so we wait less. Then, slim down the specs themselves, so there's less work, period.
 
-![Slowest RSpec job, with one job and with 3 jobs of 2 processes](attente-en.png "From 651 s to 226 s, for 2 more billed minutes per run.")
+![Slowest RSpec job of each run, with one job then with 3 jobs of 2 processes](attente-en.png "From 618 s to 240 s median, for 2 more billed minutes per run.")
 
-## One suite, 3 jobs, 6 processes
+## Parallelizing: 3 jobs, 6 processes
 
-We use [`parallel_tests`](https://github.com/grosser/parallel_tests). It cuts the suite into 6 groups of files. Each job of the matrix takes 2, one per runner vCPU, and each process gets its own test database.
+We use [`parallel_tests`](https://github.com/grosser/parallel_tests). It cuts the suite into 6 groups of files. Each job of the matrix takes 2, one per runner vCPU.
 
 ![The changes job, the 3 jobs of 2 processes, and the required RSpec Tests check](decoupage-en.png "The required check doesn't change: it waits for the 3 jobs and merges the coverage.")
 
@@ -25,6 +25,7 @@ steps:
   - name: Prepare database
     run: |
       bin/rails db:schema:load
+      # process 2's database, copied from process 1's
       psql "$POSTGRES_URL" -c "CREATE DATABASE app_test2 TEMPLATE app_test"
 
   - name: Run RSpec
@@ -33,17 +34,17 @@ steps:
         --group-by ${{ inputs.runtime-log-run && 'runtime' || 'filesize' }} spec
 ```
 
-The second database is cloned from the first (`TEMPLATE`), so the schema is loaded only once. `database.yml` appends `TEST_ENV_NUMBER` to the database name, and each process gets its own.
+Each process has its own test database: `database.yml` appends `TEST_ENV_NUMBER` to its name.
 
-## The same split in all 3 jobs
+## Groups of the same duration
 
-For the groups to take about the same time, `parallel_tests` needs each file's duration. Every green run on `main` publishes that log, and PRs split their suite with it. Without a log, the split goes by file size.
+The slowest job sets the wait, so we want the 6 groups to take about as long as each other. Every green run on `main` records each spec file's duration in a log, and `parallel_tests` uses it to build groups of equal duration. Without a log, it splits by file size, which is less accurate.
 
-But if two jobs don't read the same log, they don't split the same way: some files run nowhere, and CI stays green.
+For the 3 jobs to split the same way, they must read the log of the same `main` run. If one job picks another, some files run nowhere, and CI stays green.
 
 ![Each job looks up the log, or the changes job looks it up once](log-en.png "A PR publishing its log at the wrong moment is enough to shift one job.")
 
-So the `changes` job, which already runs before the tests, looks up the log once and passes the run id to the 3 jobs:
+So the `changes` job, which already runs before the tests, picks that run once and passes its id to the 3 jobs:
 
 ```yaml
 - name: Find main's RSpec runtime log
@@ -59,9 +60,9 @@ GitHub bills each job rounded up to the minute, and each job pays its setup (abo
 
 ![Slowest job against billed minutes, for 8 configurations](configs-en.png "3 × 2 is the last step that buys more than 20 s per minute.")
 
-Two takeaways. 4 jobs of one process cost more than 3 jobs of 2, and finish later: the second vCPU sits idle. And beyond 3 jobs, rounding to the minute comes down to a few seconds: a real 5 × 2 run was billed 18 minutes instead of the expected 15.
+Going from 3 × 2 to 8 × 2 would save 88 s of waiting, for 6 more billed minutes on every run: +46% on the RSpec bill. Beyond 3 jobs, rounding to the minute also comes down to a few seconds: a real 5 × 2 run was billed 18 minutes instead of the expected 15.
 
-Over the first 10 runs after the merge, the slowest job finished between 213 and 274 s. Two flaky tests that already existed on `main` became more frequent with one database per process (lower ids): they're fixed.
+And 4 jobs of one process cost more than 3 jobs of 2, and finish later: each runner's second vCPU sits idle.
 
 ## Slimming down the specs
 
@@ -85,7 +86,7 @@ Human review still found tests that were green for the wrong reason: a `build_st
 
 ![Time to create an admin user, by method](factory-en.png "The factory gave every user an account, even admins, who have none in production.")
 
-So we closed the PR, and we're taking it another way: one PR per rule, reviewed in a few minutes. A rule that can be checked automatically becomes a RuboCop rule; the others go into the agents' knowledge, in plain sentences. And test users are created as in production. Nothing is merged on that side yet.
+So we apply the conventions one rule at a time: one PR per rule, reviewed in a few minutes. A rule that can be checked automatically becomes a RuboCop rule; the others go into the agents' knowledge, in plain sentences. And test users are created as in production.
 
 The 3 × 2 split won't have to change: on the slimmed-down suite, the same bench also picked 3 × 2.
 
