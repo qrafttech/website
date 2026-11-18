@@ -1,7 +1,6 @@
 ---
 title: "Dessiner chaque champ d'une carte avec un modèle IA"
 slug: dessiner-chaque-champ-d-une-carte-avec-un-modele-ia
-date: 2026-11-23
 author: "Adrien Lupo"
 cover: "carte-prospection.jpg"
 excerpt: "Les bases de contours de champs existantes étaient trop imprécises : on a fait tourner Delineate Anything sur Hugging Face Jobs, 120 images pour 2,13 $."
