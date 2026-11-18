@@ -1,6 +1,7 @@
 ---
 title: "Drawing every field on a map with an AI model"
 slug: drawing-every-field-on-a-map-with-an-ai-model
+date: 2026-11-23
 author: "Adrien Lupo"
 cover: "carte-prospection.jpg"
 excerpt: "The existing field boundary databases were too imprecise, so we ran Delineate Anything on Hugging Face Jobs: 120 images for $2.13."
