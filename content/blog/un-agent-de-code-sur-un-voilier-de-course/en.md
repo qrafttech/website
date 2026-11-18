@@ -2,6 +2,7 @@
 title: "A coding agent on a racing sailboat"
 slug: a-coding-agent-on-a-racing-sailboat
 author: "Nicolas Rouanne"
+cover: "cover.jpg"
 ---
 
 On a server, when an agent breaks something, you restart. On a racing sailboat, restarting the navigation computer cuts the autopilot.
@@ -25,11 +26,15 @@ GPS $RMC (out_TimeSync tab       ──┘      (picks the best         (nav PC,
 
 The detail that made me smile: the GPS → gpsd chain already existed in the Exocet's graph, fully wired, in a disabled tab. All that was left was to enable it and configure NTP. We went from +228.8 s to +4 ms.
 
+![Exocet time settings: GPSD port 8112 and NTP server](timesync.png "The Exocet, Synchronization tab: gpsd on port 8112, and the NTP server.")
+
 ## 2. When the link drops
 
 On a boat, losing the link is not an incident, it is the normal state. Offshore, 4G disappears. The server reflex would be a queue: buffer during the outage, replay when it comes back. Except that on return, you would replay an hour of stale "live".
 
 So I split two lanes, and I never mix them.
+
+![Diagram: aboard the Exocet, the publisher and the archive on the PiKVM; ashore R2, ClickHouse and Grafana](arch-en.jpg "Two lanes: live dashed, the archive solid.")
 
 **Live drops.** A publisher on the PiKVM reads the Exocet's stream (through the API its web app uses, undocumented), turns it into one full snapshot per second and pushes it ashore over a WebSocket. If the link drops, that second is lost, on purpose:
 
@@ -56,9 +61,13 @@ Two details: it retries at most every 5 s (not one TLS handshake per snapshot ov
 
 **One store, disposable.** Ashore, a GCP VM runs [ClickHouse](https://clickhouse.com/) and Grafana. Live rows arrive with `source='live'` and are provisional: when the full recording is reloaded from R2 (`source='psm'`, full rate), it replaces them. The store rebuilds entirely from R2, so it can be thrown away.
 
+![Grafana Live dashboard: wind, speed, polar targets and one hour of curves](live.jpg "The Live dashboard over one hour of racing, on October 9, during the Tour de Corse.")
+
 The most instructive bug came from there. After an Exocet restart, the publisher resolved only 8 channels out of 28, and streamed like that for two hours. The dashboard looked perfect: the "Data age" indicator green, at 0 s. And the wind showed 0.0, because ClickHouse's `argMax` aggregate over an empty window returns 0 rather than nothing. A degraded stream looks exactly like a healthy one. It is still open.
 
 The reverse happened too: on the evening we went live, the wind vane went silent for a quarter of an hour. My first reaction: "did we break something in the pixel?". No, it was a real gap on the sensor side, and the live lane had just shown it.
+
+![Grafana Replay dashboard: track around Corsica and speed against the polar](replay.jpg "Replay of the Tour de Corse: the track colored by polar %, speed against target.")
 
 ## 3. Power and the data plan
 
@@ -101,6 +110,8 @@ The Exocet's behaviour is its graph (21 flows, 743 nodes), and it only existed i
 - the `rev` hash Node-RED returns is out of git. It is runtime state, like a Terraform state, not configuration. On top of that, the Exocet returns `rev: null` for hours after a deploy: we compare content, never the hash;
 - the manufacturer's full configuration export is encrypted, and re-encrypted on every export: impossible to diff. It goes to R2 as a backup, not into git.
 
+![Diagram: Exocet snapshot as a pull request, merge to main, apply at the dock, backup to R2](git-en.jpg "The graph goes from the box to git on its own; it only goes back to the box by hand, at the dock.")
+
 For deployment, the agent suggested a manual button. I wanted it to go out on merge. The problem: a deploy restarts the Exocet application, and with it the autopilot. Harmless alongside a pontoon, dangerous under way, and CI cannot ask a human where the boat is. So it asks the boat:
 
 ```python
@@ -135,5 +146,7 @@ What changes compared with web development:
 - The failover to GPS has never been observed offshore. The 10 ms target is only verified on the Exocet, the only device that speaks NTP: the others are only bounded to a second or two.
 - The 4G cost of live is an estimate (~1 KB/s, a few MB per race hour). Never measured on a real regatta day. Power consumption neither.
 - Ashore, deleting the live rows then inserting the archive is not atomic.
+
+![Three screens of the Garmin watch app: TARGET, POLAR, TACTIC](watch.png "Since then, the numbers also reach the crew's wrists. Garmin simulator screens on an epix Pro, made-up values.")
 
 The next regatta will tell whether all this holds at sea 😅
