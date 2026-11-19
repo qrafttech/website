@@ -5,15 +5,15 @@ name: Publish scheduled articles
 # - An article PR (`blog/<slug-fr>` branch, opened by `/publish`) on the
 #   morning of its `date`, Paris time: the 48h before are the window to
 #   object.
-# - A TMBA talk PR (`tmba/<slug-fr>` branch, opened by the TMBA routine at
-#   11:00 on the day of the talk) at 18:00 Paris time the same day, if it is
-#   dated today: the afternoon is the window to object. A talk PR that misses
-#   its day is merged by hand.
+# - A TMBA talk PR (`tmba/<slug-fr>` branch, opened as a draft by the TMBA
+#   routine on the day of the talk, the article under `content/blog`) at
+#   18:00 Paris time the same day, if it is dated today and the speaker has
+#   marked it ready: nothing goes out without their agreement. A talk PR that
+#   misses its day is merged by hand.
 #
-# A PR is held while it is a draft (a talk by an external speaker stays one
-# until they agree), has a review requesting changes, failing or pending
-# checks, a file without a `date` or a conflict with main; closing it cancels
-# it. A PR from a fork is never merged: only a branch of this repo, which only
+# A PR is held while it is a draft, has a review requesting changes, failing
+# or pending checks, a file without a `date` or a conflict with main; closing
+# it cancels it. A PR from a fork is never merged: only a branch of this repo, which only
 # a collaborator can push, qualifies.
 #
 # main requires an approving review. The workflow merges with git and pushes
@@ -31,7 +31,7 @@ on:
   workflow_dispatch:
     inputs:
       collection:
-        description: "blog: articles dated today or before. tmba: talks dated today."
+        description: "blog: blog/ PRs dated today or before. tmba: tmba/ PRs dated today."
         type: choice
         options: [blog, tmba]
         default: blog
@@ -90,11 +90,11 @@ jobs:
           echo "$prs" | while read -r pr sha branch; do
             if [ -z "$pr" ]; then continue; fi
 
-            # The latest date among the content files of the PR: a file
+            # The latest date among the article files of the PR: a file
             # without a date is a draft, and holds the PR.
             latest=""
-            files=$(gh pr diff "$pr" --name-only | grep -E "^content/$COLLECTION/[^/]+/(fr|en)\.md$" || true)
-            if [ -z "$files" ]; then echo "#$pr: no $COLLECTION file, skipped"; continue; fi
+            files=$(gh pr diff "$pr" --name-only | grep -E '^content/blog/[^/]+/(fr|en)\.md$' || true)
+            if [ -z "$files" ]; then echo "#$pr: no article file, skipped"; continue; fi
             for file in $files; do
               date=$(gh api "repos/$GH_REPO/contents/$file?ref=$sha" -H "Accept: application/vnd.github.raw" \
                 | awk 'NR == 1 && $0 != "---" { exit } NR > 1 && $0 == "---" { exit } /^date:/ { print $2 }')

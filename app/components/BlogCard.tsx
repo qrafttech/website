@@ -2,7 +2,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import Eyebrow from "@/components/Eyebrow";
-import type { ArticleMeta } from "@/lib/content";
+import type { ArticleMeta } from "@/lib/blog";
 import type { Dictionary } from "@/lib/i18n/types";
 
 interface BlogCardProps {
@@ -10,6 +10,8 @@ interface BlogCardProps {
   /** Locale-prefixed by the caller — the card does not know its locale. */
   href: string;
   status: Dictionary["blog"]["status"];
+  /** The badge of a TMBA talk write-up. */
+  tmbaLabel: string;
 }
 
 /**
@@ -17,7 +19,12 @@ interface BlogCardProps {
  * the cover beside them when the article has one. Below `nav` the row stacks,
  * cover first. The cover is letterboxed, not cropped: covers come in every ratio.
  */
-export default function BlogCard({ article, href, status }: BlogCardProps) {
+export default function BlogCard({
+  article,
+  href,
+  status,
+  tmbaLabel,
+}: BlogCardProps) {
   const { title, date, dateISO, author, excerpt, cover } = article;
   const statusLabel =
     article.status === "published" ? null : status[article.status];
@@ -49,7 +56,13 @@ export default function BlogCard({ article, href, status }: BlogCardProps) {
             {excerpt}
           </p>
         )}
-        {author && <Eyebrow className="mt-3">{author}</Eyebrow>}
+        {(author || article.tmba) && (
+          <Eyebrow className="mt-3">
+            {article.tmba && <span className="text-blue">{tmbaLabel}</span>}
+            {article.tmba && author && <span className="mx-1.5">&middot;</span>}
+            {author}
+          </Eyebrow>
+        )}
       </div>
       {cover && (
         // eslint-disable-next-line @next/next/no-img-element

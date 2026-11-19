@@ -4,10 +4,9 @@ import { notFound } from "next/navigation";
 
 import PageHero from "@/app/components/PageHero";
 import BlogCard from "@/app/components/BlogCard";
-import BlogTabs from "@/app/components/BlogTabs";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
-import { fetchArticles } from "@/lib/content";
+import { fetchArticles } from "@/lib/blog";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
@@ -46,10 +45,7 @@ async function ArticleList({
   lang: Locale;
   copy: Awaited<ReturnType<typeof getDictionary>>["blog"];
 }) {
-  const [pageParam, articles] = await Promise.all([
-    page,
-    fetchArticles("blog", lang),
-  ]);
+  const [pageParam, articles] = await Promise.all([page, fetchArticles(lang)]);
 
   const totalPages = Math.max(
     1,
@@ -78,6 +74,7 @@ async function ArticleList({
               article={article}
               href={localePath(lang, `/blog/${article.slug}`)}
               status={copy.status}
+              tmbaLabel={copy.tmba}
             />
           </li>
         ))}
@@ -109,7 +106,6 @@ export default async function BlogPage({
   return (
     <main>
       <PageHero title={t.blog.title} subtitle={t.blog.subtitle} />
-      <BlogTabs lang={lang} current="blog" copy={t.blog.tabs} />
 
       <Wrap>
         <div className="py-16 md:py-24">

@@ -1,9 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
-import { contentDir } from "@/lib/content";
-
-const BLOG_DIR = contentDir("blog");
+import { BLOG_DIR } from "@/lib/blog";
 
 /**
  * The images next to the articles in `content/blog`, served as

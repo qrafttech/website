@@ -245,22 +245,20 @@ export interface Dictionary {
     lead: string;
     cta: CtaCopy;
     secondaryNote: string;
-    /** The Tuesday breakfast, linking to `/tmba`. */
-    tmbaNote: RichText;
   };
 
   blog: {
     title: string;
     subtitle: string;
     metaDescription: string;
-    backToList: string;
-    /** The blog's two tabs, on `/blog` and `/tmba`: articles and talks. */
-    tabs: { label: string; articles: string; tmba: string };
+    backToArticles: string;
     /** Link to the article's twin in the other locale, in THAT language. */
     translation: string;
     empty: string;
     /** Shown before the date of an unpublished article, outside production. */
     status: { scheduled: string; draft: string };
+    /** Badge of a Tech My Breath Away talk write-up. */
+    tmba: string;
     pagination: {
       label: string;
       previous: string;
@@ -271,32 +269,6 @@ export interface Dictionary {
       body: string;
       cta: string;
     };
-  };
-
-  /** Tech My Breath Away: the index (`/tmba`) and the page of each talk. */
-  tmba: {
-    title: string;
-    subtitle: string;
-    metaDescription: string;
-    format: {
-      title: string;
-      /** `{years}` and `{talks}` are filled from `lib/tmba.ts`. */
-      paragraphs: readonly string[];
-    };
-    /** Two ways in: come on a Tuesday, or give a talk. */
-    join: readonly {
-      key: string;
-      title: string;
-      body: string;
-      cta: CtaCopy;
-    }[];
-    talksTitle: string;
-    backToList: string;
-    /** Link to the talk's twin in the other locale, in THAT language. */
-    translation: string;
-    empty: string;
-    /** Shown before the date of an unpublished talk, outside production. */
-    status: { scheduled: string; draft: string };
   };
 
   notFound: {

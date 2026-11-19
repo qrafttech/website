@@ -5,10 +5,10 @@ const nextConfig = {
   // The dev server runs on orca-host and is opened from a desktop browser:
   // without this, Next.js blocks hot reload (`/_next/hmr`) from that origin.
   allowedDevOrigins: ["orca-host"],
-  // `lib/content.ts` reads `content/` at runtime too, when the nightly cron
+  // `lib/blog.ts` reads `content/blog` at runtime too, when the nightly cron
   // rebuilds the lists: the files must ship with the server functions.
   outputFileTracingIncludes: {
-    "/**": ["./content/*/**/*.md"],
+    "/**": ["./content/blog/**/*.md"],
     "/blog-assets/**": ["./content/blog/**/*"],
   },
   // PostHog reverse proxy — see instrumentation-client.ts.

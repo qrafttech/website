@@ -330,11 +330,6 @@ const invitation = {
   lead: "Racontez-nous ce que vous voulez construire, ou ce qui s’est cassé. Trente minutes suffisent pour savoir si nous sommes les bonnes personnes, et nous vous le dirons même quand la réponse est non.",
   cta: { label: "Discutons de votre projet", href: `mailto:${CONTACT_EMAIL}` },
   secondaryNote: "Le cowork est à deux minutes du Vieux-Port. Le café est bon.",
-  tmbaNote: [
-    { text: "Et chaque mardi à 9h45, " },
-    { text: "Tech My Breath Away", href: "/tmba" },
-    { text: " : notre petit-déjeuner tech, ouvert à tous." },
-  ] as RichText,
 } as const;
 
 /* --- Le blog et la page 404 ---------------------------------------------- */
@@ -345,15 +340,11 @@ const blog = {
     "Retours d’expérience, guides techniques et bonnes pratiques de notre équipe.",
   metaDescription:
     "Retours d’expérience, guides techniques et bonnes pratiques de l’équipe Qraft.",
-  backToList: "Retour aux articles",
-  tabs: {
-    label: "Rubriques du blog",
-    articles: "Articles",
-    tmba: "Tech My Breath Away",
-  },
+  backToArticles: "Retour aux articles",
   translation: "Read in English",
   empty: "Aucun article pour le moment. Revenez bientôt.",
   status: { scheduled: "Programmé", draft: "Brouillon" },
+  tmba: "Talk TMBA",
   pagination: {
     label: "Pagination",
     previous: "Précédent",
@@ -364,45 +355,6 @@ const blog = {
     body: "Cet article n’existe pas ou a été supprimé.",
     cta: "Retour aux articles",
   },
-} as const;
-
-/* --- Tech My Breath Away -------------------------------------------------- */
-
-const TMBA_MAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-  "Tech My Breath Away"
-)}`;
-
-const tmba = {
-  title: "Tech My Breath Away",
-  subtitle:
-    "Le petit-déjeuner tech de Qraft : chaque mardi à 9h45, au cowork et sur Meet.",
-  metaDescription:
-    "Tech My Breath Away, le petit-déjeuner tech du mardi chez Qraft à Marseille : un talk de 30 minutes, son résumé et deux minutes de vidéo.",
-  format: {
-    title: "Le format",
-    paragraphs: [
-      "Tous les mardis matin, une personne présente un sujet de son choix, plutôt tech mais pas forcément, autour de l’IA, du dev, du process, de la gestion d’équipe. Ça fait plus de {years} ans qu’on tient le rythme, et plus de {talks} talks.",
-    ],
-  },
-  join: [
-    {
-      key: "come",
-      title: "Venir un mardi",
-      body: "Le cowork est au 36 rue Sainte, à deux minutes du Vieux-Port, et il y a du café. Écrivez-nous : on vous envoie l’invitation, pour venir sur place ou suivre sur Meet.",
-      cta: { label: "Recevoir l’invitation", href: TMBA_MAIL },
-    },
-    {
-      key: "talk",
-      title: "Donner un talk",
-      body: "Trente minutes, une démo plutôt que des slides. Écrivez-nous avec votre sujet et on cale un mardi. La page de votre talk ne paraît qu’avec votre accord.",
-      cta: { label: "Proposer un sujet", href: TMBA_MAIL },
-    },
-  ],
-  talksTitle: "Les talks",
-  backToList: "Retour aux talks",
-  translation: "Read in English",
-  empty: "Le premier talk arrive bientôt.",
-  status: { scheduled: "Programmé", draft: "Brouillon" },
 } as const;
 
 const notFound = {
@@ -770,11 +722,9 @@ const cowork = {
         key: "techMeeting",
         label: "Réunion tech du mardi",
         body: [
-          { text: "Et chaque mardi matin, " },
-          { text: "Tech My Breath Away", href: "/tmba" },
-          {
-            text: " (optionnel) : un talk de 30 minutes pour partager ses trouvailles, puis on en discute.",
-          },
+          { text: "Et chaque mardi matin, la " },
+          { text: "réunion tech", strong: true },
+          { text: " (optionnelle) : un moment pour partager ses trouvailles." },
         ] as RichText,
       },
     ],
@@ -882,7 +832,6 @@ export const fr: Dictionary = {
   victoires,
   invitation,
   blog,
-  tmba,
   notFound,
   caseUi,
   clients,
