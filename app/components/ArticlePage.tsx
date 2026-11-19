@@ -187,9 +187,11 @@ export default async function ArticlePage({
                 </>
               )}
             </Eyebrow>
+            {/* `#t=1`: the player shows the frame at 1 s before it plays,
+                past the compilation's fade from black. */}
             {article.video && (
               <video
-                src={article.video}
+                src={`${article.video}#t=1`}
                 controls
                 playsInline
                 preload="metadata"
