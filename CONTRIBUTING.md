@@ -112,7 +112,7 @@ content/tmba/<slug-fr>/
   en.md
 ```
 
-No images: the page shows a 1 to 2 minute video compilation, hosted outside the repo.
+No images: the page shows a 1 to 2 minute video compilation, hosted outside the repo, in the `media` R2 bucket of the Qraft Cloudflare account, as `tmba/<slug-fr>.mp4`. It is served at `https://media.qraft.tech/tmba/<slug-fr>.mp4`; the upload credentials are in the 1Password item `chezmoi_qraft-website-media`.
 
 ## The front matter
 
@@ -122,19 +122,19 @@ title: "Brancher ses agents de code sur le tailnet d'un client"
 slug: brancher-ses-agents-de-code-sur-le-tailnet-d-un-client
 date: 2026-11-17
 author: "Camille"
-video: "https://…/compilation.mp4"
+video: "https://media.qraft.tech/tmba/brancher-ses-agents-de-code-sur-le-tailnet-d-un-client.mp4"
 excerpt: "One sentence for the list of talks."
 ---
 ```
 
-| Field     | Required | Role                                                                    |
-| --------- | -------- | ----------------------------------------------------------------------- |
-| `title`   | yes      | The talk's title.                                                       |
-| `slug`    | yes      | The URL. Unique per language, set once.                                 |
-| `date`    | yes      | The day of the talk, `YYYY-MM-DD`. The page goes out that day.          |
-| `author`  | yes      | The speaker's **first name only**.                                      |
-| `video`   | no       | The compilation, an `https` URL to a video file (`.mp4`), played as is. |
-| `excerpt` | no       | The summary in the list. Defaults to the first paragraph.               |
+| Field     | Required | Role                                                            |
+| --------- | -------- | --------------------------------------------------------------- |
+| `title`   | yes      | The talk's title.                                               |
+| `slug`    | yes      | The URL. Unique per language, set once.                         |
+| `date`    | yes      | The day of the talk, `YYYY-MM-DD`. The page goes out that day.  |
+| `author`  | yes      | The speaker's **first name only**.                              |
+| `video`   | no       | The compilation: `https://media.qraft.tech/tmba/<slug-fr>.mp4`. |
+| `excerpt` | no       | The summary in the list. Defaults to the first paragraph.       |
 
 The body is a detailed summary, not the transcript: the problem, the choices made and why, the limits, the good questions from the room.
 
