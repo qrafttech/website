@@ -132,7 +132,10 @@ export default function Nav({
   const isActive = (link: NavLink) => {
     const { path: linkPath, hash } = parseHref(link.href);
     if (hash) return onHome && activeSection === hash;
-    return path === linkPath || path.startsWith(`${linkPath}/`);
+    const under = (prefix: string) =>
+      path === prefix || path.startsWith(`${prefix}/`);
+    // The TMBA talks are a tab of the blog (`BlogTabs`), not a nav entry.
+    return under(linkPath) || (link.key === "blog" && under("/tmba"));
   };
 
   return (

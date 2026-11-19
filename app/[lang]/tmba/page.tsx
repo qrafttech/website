@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import PageHero from "@/app/components/PageHero";
 import BlogCard from "@/app/components/BlogCard";
+import BlogTabs from "@/app/components/BlogTabs";
 import Wrap from "@/components/Wrap";
 import CtaLink from "@/components/CtaLink";
 import { articlePath, fetchArticles } from "@/lib/content";
@@ -75,14 +76,16 @@ export default async function TmbaPage({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const [t, stats] = await Promise.all([
-    getDictionary(lang).then((dictionary) => dictionary.tmba),
+  const [dictionary, stats] = await Promise.all([
+    getDictionary(lang),
     fetchTmbaStats(),
   ]);
+  const t = dictionary.tmba;
 
   return (
     <main>
       <PageHero title={t.title} subtitle={t.subtitle} />
+      <BlogTabs lang={lang} current="tmba" copy={dictionary.blog.tabs} />
 
       <Wrap>
         <div className="grid gap-12 py-16 md:py-24 nav:grid-cols-[1.45fr_1fr] nav:gap-16">

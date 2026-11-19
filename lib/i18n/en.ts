@@ -343,6 +343,11 @@ const blog = {
   metaDescription:
     "Field notes, technical guides and working habits from the Qraft team.",
   backToList: "Back to the articles",
+  tabs: {
+    label: "Blog sections",
+    articles: "Articles",
+    tmba: "Tech My Breath Away",
+  },
   translation: "Lire en français",
   empty: "Nothing here yet. Come back soon.",
   status: { scheduled: "Scheduled", draft: "Draft" },

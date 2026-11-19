@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import PageHero from "@/app/components/PageHero";
 import BlogCard from "@/app/components/BlogCard";
+import BlogTabs from "@/app/components/BlogTabs";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
 import { fetchArticles } from "@/lib/content";
@@ -108,6 +109,7 @@ export default async function BlogPage({
   return (
     <main>
       <PageHero title={t.blog.title} subtitle={t.blog.subtitle} />
+      <BlogTabs lang={lang} current="blog" copy={t.blog.tabs} />
 
       <Wrap>
         <div className="py-16 md:py-24">

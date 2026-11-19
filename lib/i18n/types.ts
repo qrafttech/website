@@ -254,6 +254,8 @@ export interface Dictionary {
     subtitle: string;
     metaDescription: string;
     backToList: string;
+    /** The blog's two tabs, on `/blog` and `/tmba`: articles and talks. */
+    tabs: { label: string; articles: string; tmba: string };
     /** Link to the article's twin in the other locale, in THAT language. */
     translation: string;
     empty: string;

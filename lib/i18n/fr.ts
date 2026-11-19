@@ -346,6 +346,11 @@ const blog = {
   metaDescription:
     "Retours d’expérience, guides techniques et bonnes pratiques de l’équipe Qraft.",
   backToList: "Retour aux articles",
+  tabs: {
+    label: "Rubriques du blog",
+    articles: "Articles",
+    tmba: "Tech My Breath Away",
+  },
   translation: "Read in English",
   empty: "Aucun article pour le moment. Revenez bientôt.",
   status: { scheduled: "Programmé", draft: "Brouillon" },
