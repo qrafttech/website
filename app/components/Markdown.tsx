@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import type { Root } from "mdast";
 
 import Eyebrow from "@/components/Eyebrow";
-import { assetUrl } from "@/lib/blog";
+import { assetUrl } from "@/lib/content";
 
 const CALLOUT_MARKER = /^\[!(NOTE|TIP|WARNING)\]\s*/;
 const CALLOUT_ICON: Record<string, string> = { tip: "💡", warning: "⚠️" };

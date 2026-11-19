@@ -1,10 +1,11 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
+import { COLLECTIONS, listTag } from "@/lib/content";
 import { LOCALES } from "@/lib/i18n/config";
 
 /**
- * Releases the articles scheduled for today. The blog lists are cached until
+ * Releases the articles scheduled for today. The lists are cached until
  * something drops them, and nothing happens when an article's `date` arrives
  * — so Vercel calls this every night (see `vercel.json`) to rebuild the lists
  * with the new day. Vercel sends its `CRON_SECRET` as a bearer token.
@@ -19,7 +20,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const revalidated = LOCALES.map((locale) => `blog-list-${locale}`);
+  const revalidated = COLLECTIONS.flatMap((collection) =>
+    LOCALES.map((locale) => listTag(collection, locale))
+  );
   for (const tag of revalidated) {
     revalidateTag(tag, "max");
   }

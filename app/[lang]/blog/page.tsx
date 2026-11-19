@@ -6,7 +6,7 @@ import PageHero from "@/app/components/PageHero";
 import BlogCard from "@/app/components/BlogCard";
 import Pagination from "@/app/components/Pagination";
 import Wrap from "@/components/Wrap";
-import { fetchArticles } from "@/lib/blog";
+import { fetchArticles } from "@/lib/content";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
@@ -45,7 +45,10 @@ async function ArticleList({
   lang: Locale;
   copy: Awaited<ReturnType<typeof getDictionary>>["blog"];
 }) {
-  const [pageParam, articles] = await Promise.all([page, fetchArticles(lang)]);
+  const [pageParam, articles] = await Promise.all([
+    page,
+    fetchArticles("blog", lang),
+  ]);
 
   const totalPages = Math.max(
     1,

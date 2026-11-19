@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { type Locale, localeHref, localePath } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
-import { fetchArticles } from "@/lib/blog";
+import { fetchArticles } from "@/lib/content";
 
 const MOBILE_ARTICLES = 3;
 
@@ -13,7 +13,7 @@ export default async function Ticker({
   lang: Locale;
   ticker: Dictionary["ticker"];
 }) {
-  const articles = (await fetchArticles(lang)).slice(0, 6);
+  const articles = (await fetchArticles("blog", lang)).slice(0, 6);
 
   if (articles.length === 0) return null;
 

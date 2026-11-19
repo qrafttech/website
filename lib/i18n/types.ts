@@ -245,13 +245,15 @@ export interface Dictionary {
     lead: string;
     cta: CtaCopy;
     secondaryNote: string;
+    /** The Tuesday breakfast, linking to `/tmba`. */
+    tmbaNote: RichText;
   };
 
   blog: {
     title: string;
     subtitle: string;
     metaDescription: string;
-    backToArticles: string;
+    backToList: string;
     /** Link to the article's twin in the other locale, in THAT language. */
     translation: string;
     empty: string;
@@ -267,6 +269,31 @@ export interface Dictionary {
       body: string;
       cta: string;
     };
+  };
+
+  /** Tech My Breath Away: the index (`/tmba`) and the page of each talk. */
+  tmba: {
+    title: string;
+    subtitle: string;
+    metaDescription: string;
+    format: {
+      title: string;
+      paragraphs: readonly string[];
+    };
+    /** Two ways in: come on a Tuesday, or give a talk. */
+    join: readonly {
+      key: string;
+      title: string;
+      body: string;
+      cta: CtaCopy;
+    }[];
+    talksTitle: string;
+    backToList: string;
+    /** Link to the talk's twin in the other locale, in THAT language. */
+    translation: string;
+    empty: string;
+    /** Shown before the date of an unpublished talk, outside production. */
+    status: { scheduled: string; draft: string };
   };
 
   notFound: {

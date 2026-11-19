@@ -8,15 +8,34 @@ import { parse } from "yaml";
 import { type Locale, otherLocale } from "@/lib/i18n/config";
 
 /**
- * The articles, one folder each: `<dir>/fr.md`, `<dir>/en.md` (either may be
- * missing) and the images they reference by file name. The two languages of
- * an article are the two files of one folder.
+ * The Markdown collections under `content/`: the blog's articles, and the
+ * TMBA talks (`/tmba`). Both load the same way and differ only by folder and
+ * URL prefix: `content/<collection>` is published at `/<collection>`.
  */
-export const BLOG_DIR = path.join(process.cwd(), "content/blog");
+export const COLLECTIONS = ["blog", "tmba"] as const;
 
-/** Where an article's image is served — see `app/blog-assets`. */
+export type Collection = typeof COLLECTIONS[number];
+
+/**
+ * The articles of a collection, one folder each: `<dir>/fr.md`, `<dir>/en.md`
+ * (either may be missing) and the images they reference by file name. The two
+ * languages of an article are the two files of one folder.
+ */
+export function contentDir(collection: Collection): string {
+  return path.join(process.cwd(), "content", collection);
+}
+
+/**
+ * Where an article's image is served — see `app/blog-assets`. Only the blog
+ * serves images: a TMBA talk shows its video instead.
+ */
 export function assetUrl(dir: string, file: string): string {
   return `/blog-assets/${dir}/${file}`;
+}
+
+/** The locale-relative path of an article. */
+export function articlePath(collection: Collection, slug: string): string {
+  return `/${collection}/${slug}`;
 }
 
 /**
@@ -33,6 +52,7 @@ const SHOW_UNPUBLISHED = process.env.VERCEL_ENV !== "production";
 export type ArticleStatus = "published" | "scheduled" | "draft";
 
 export interface ArticleMeta {
+  collection: Collection;
   /** The article's folder, shared by its translations and its images. */
   dir: string;
   title: string;
@@ -45,6 +65,8 @@ export interface ArticleMeta {
   excerpt: string;
   /** Absolute URL of the cover image, if the article has one. */
   cover: string | null;
+  /** URL of a video file played on the page (a TMBA talk's compilation). */
+  video: string | null;
 }
 
 export interface ArticleFull extends ArticleMeta {
@@ -106,10 +128,11 @@ function firstParagraph(markdown: string): string {
 
 /** Throws on a malformed file, so a broken article fails the build. */
 function readArticle(
+  collection: Collection,
   dir: string,
   locale: Locale
 ): Omit<ArticleFull, "status"> | null {
-  const file = path.join(BLOG_DIR, dir, `${locale}.md`);
+  const file = path.join(contentDir(collection), dir, `${locale}.md`);
   if (!existsSync(file)) return null;
 
   const match = readFileSync(file, "utf8").match(
@@ -128,7 +151,13 @@ function readArticle(
     throw new Error(`${file}: date must be YYYY-MM-DD`);
   }
 
+  const video = data.video ? String(data.video) : null;
+  if (video && !/^https:\/\//.test(video)) {
+    throw new Error(`${file}: video must be an https URL`);
+  }
+
   return {
+    collection,
     dir,
     title,
     slug,
@@ -137,8 +166,14 @@ function readArticle(
     author: String(data.author ?? ""),
     excerpt: data.excerpt ? String(data.excerpt) : firstParagraph(body),
     cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
+    video,
     body,
   };
+}
+
+/** The cache tag of a list, dropped by the cron (`/api/cron/publish`). */
+export function listTag(collection: Collection, locale: Locale): string {
+  return `${collection}-list-${locale}`;
 }
 
 /**
@@ -158,8 +193,8 @@ function statusOf(dateISO: string, today: string): ArticleStatus {
 }
 
 /**
- * The articles of one locale, newest first, drafts on top when they are
- * shown. Each locale has its own list and its own slugs.
+ * The articles of one collection in one locale, newest first, drafts on top
+ * when they are shown. Each locale has its own list and its own slugs.
  *
  * `date` is the publication date: an article dated in the future is not
  * published yet, and one with no date is a draft. The list is cached until
@@ -167,15 +202,21 @@ function statusOf(dateISO: string, today: string): ArticleStatus {
  * the cache was last filled — the cron is what releases scheduled articles on
  * their day.
  */
-export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
+export async function fetchArticles(
+  collection: Collection,
+  locale: Locale
+): Promise<ArticleMeta[]> {
   "use cache";
   cacheLife("max");
-  cacheTag(`blog-list-${locale}`);
+  cacheTag(listTag(collection, locale));
+
+  const dir = contentDir(collection);
+  if (!existsSync(dir)) return [];
 
   const today = todayISO();
-  const articles = readdirSync(BLOG_DIR, { withFileTypes: true })
+  const articles = readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => readArticle(entry.name, locale))
+    .map((entry) => readArticle(collection, entry.name, locale))
     .filter((a) => a !== null)
     .map(({ body: _body, ...meta }) => ({
       ...meta,
@@ -187,7 +228,9 @@ export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
   const slugs = new Set<string>();
   for (const article of articles) {
     if (slugs.has(article.slug)) {
-      throw new Error(`Duplicate ${locale} slug: ${article.slug}`);
+      throw new Error(
+        `Duplicate ${collection} ${locale} slug: ${article.slug}`
+      );
     }
     slugs.add(article.slug);
   }
@@ -196,12 +239,13 @@ export async function fetchArticles(locale: Locale): Promise<ArticleMeta[]> {
 }
 
 export async function fetchArticleBySlug(
+  collection: Collection,
   locale: Locale,
   slug: string
 ): Promise<ArticleFull | null> {
-  const articles = await fetchArticles(locale);
+  const articles = await fetchArticles(collection, locale);
   const match = articles.find((a) => a.slug === slug);
-  const article = match && readArticle(match.dir, locale);
+  const article = match && readArticle(collection, match.dir, locale);
   return article ? { ...article, status: match.status } : null;
 }
 
@@ -213,6 +257,6 @@ export async function fetchTranslation(
   locale: Locale,
   article: ArticleMeta
 ): Promise<ArticleMeta | null> {
-  const siblings = await fetchArticles(otherLocale(locale));
+  const siblings = await fetchArticles(article.collection, otherLocale(locale));
   return siblings.find((a) => a.dir === article.dir) ?? null;
 }

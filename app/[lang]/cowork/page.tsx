@@ -18,7 +18,7 @@ import Wrap from "@/components/Wrap";
 import Rich from "@/components/Rich";
 import Eyebrow from "@/components/Eyebrow";
 import CtaLink from "@/components/CtaLink";
-import { isLocale, localePath } from "@/lib/i18n/config";
+import { isLocale, localeHref, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
 import type {
@@ -262,8 +262,14 @@ export default async function CoworkPage({
                 {amenity.label}
               </h3>
               <p className="mt-2 text-sm text-muted">
+                {/* The Tuesday amenity links to `/tmba`: dictionary hrefs
+                    are locale-relative, resolved here as on the home page. */}
                 <Rich
-                  content={amenity.body}
+                  content={amenity.body.map((segment) =>
+                    segment.href
+                      ? { ...segment, href: localeHref(lang, segment.href) }
+                      : segment
+                  )}
                   strongClassName="font-semibold text-ink2"
                 />
               </p>

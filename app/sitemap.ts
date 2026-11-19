@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
 
-import { type ArticleMeta, fetchArticles } from "@/lib/blog";
+import {
+  type ArticleMeta,
+  type Collection,
+  articlePath,
+  fetchArticles,
+} from "@/lib/content";
 import {
   LOCALES,
   type Locale,
@@ -34,11 +39,41 @@ function entry(
   };
 }
 
+/**
+ * One entry per article of `collection` in `locale`. An article's slug
+ * differs per language, so its alternate is looked up in the same folder
+ * rather than assumed from the path.
+ */
+async function articleEntries(
+  collection: Collection,
+  locale: Locale
+): Promise<MetadataRoute.Sitemap> {
+  const other = otherLocale(locale);
+  const [articles, siblings] = await Promise.all([
+    fetchArticles(collection, locale),
+    fetchArticles(collection, other),
+  ]);
+
+  return articles.map((article: ArticleMeta) => {
+    const translation = siblings.find(
+      (candidate) => candidate.dir === article.dir
+    );
+    const paths: LocalePaths = {
+      [locale]: articlePath(collection, article.slug),
+      ...(translation
+        ? { [other]: articlePath(collection, translation.slug) }
+        : {}),
+    };
+
+    return entry(locale, paths, {
+      ...(article.dateISO ? { lastModified: new Date(article.dateISO) } : {}),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    });
+  });
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles: Record<Locale, ArticleMeta[]> = {
-    fr: await fetchArticles("fr"),
-    en: await fetchArticles("en"),
-  };
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of LOCALES) {
@@ -64,28 +99,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entry(locale, "/blog", { changeFrequency: "weekly", priority: 0.8 })
     );
 
-    // An article's slug differs per language, so its alternate is looked up
-    // in the same folder rather than assumed from the path.
-    const other = otherLocale(locale);
-    for (const article of articles[locale]) {
-      const translation = articles[other].find(
-        (candidate) => candidate.dir === article.dir
-      );
-      const paths: LocalePaths = {
-        [locale]: `/blog/${article.slug}`,
-        ...(translation ? { [other]: `/blog/${translation.slug}` } : {}),
-      };
+    entries.push(...(await articleEntries("blog", locale)));
 
-      entries.push(
-        entry(locale, paths, {
-          ...(article.dateISO
-            ? { lastModified: new Date(article.dateISO) }
-            : {}),
-          changeFrequency: "monthly",
-          priority: 0.6,
-        })
-      );
-    }
+    entries.push(
+      entry(locale, "/tmba", { changeFrequency: "weekly", priority: 0.7 })
+    );
+    entries.push(...(await articleEntries("tmba", locale)));
   }
 
   return entries;

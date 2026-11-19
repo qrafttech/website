@@ -99,3 +99,54 @@ To move the publication, change the `date`. To cancel, close the PR.
 ## 7. Edit a published article
 
 A regular PR, on any branch name: it needs a review before merging. Don't change the `slug`, it is the URL.
+
+# A Tech My Breath Away talk
+
+Each Tuesday talk gets a page at `qraft.tech/tmba/<slug>` (`/en/tmba/<slug>` in English), listed on `/tmba`. A routine writes it after the talk; it works like an article, with these differences.
+
+## The folder
+
+```
+content/tmba/<slug-fr>/
+  fr.md
+  en.md
+```
+
+No images: the page shows a 1 to 2 minute video compilation, hosted outside the repo.
+
+## The front matter
+
+```yaml
+---
+title: "Brancher ses agents de code sur le tailnet d'un client"
+slug: brancher-ses-agents-de-code-sur-le-tailnet-d-un-client
+date: 2026-11-17
+author: "Camille"
+video: "https://…/compilation.mp4"
+excerpt: "One sentence for the list of talks."
+---
+```
+
+| Field     | Required | Role                                                                    |
+| --------- | -------- | ----------------------------------------------------------------------- |
+| `title`   | yes      | The talk's title.                                                       |
+| `slug`    | yes      | The URL. Unique per language, set once.                                 |
+| `date`    | yes      | The day of the talk, `YYYY-MM-DD`. The page goes out that day.          |
+| `author`  | yes      | The speaker's **first name only**.                                      |
+| `video`   | no       | The compilation, an `https` URL to a video file (`.mp4`), played as is. |
+| `excerpt` | no       | The summary in the list. Defaults to the first paragraph.               |
+
+The body is a detailed summary, not the transcript: the problem, the choices made and why, the limits, the good questions from the room.
+
+## Anonymization
+
+- **People**: first name only, the speaker included.
+- **Companies**: no name except Qraft. Write "a client", "a startup".
+- **Data**: no client figures, no prospect names.
+- **Video**: every second is checked, on-screen text included. Blur a small sensitive area; drop a clip whose whole screen is a problem (inbox, Slack, a table of client figures).
+
+## Publish
+
+The branch is `tmba/<slug-fr>`, the PR is dated the day of the talk. At 18:00 Paris time that day, it merges itself under the same conditions as an article (not a draft, no change requested, checks green, no conflict). Until then, comment on the PR to object, or close it to cancel.
+
+A talk by an external speaker (from a client, a guest) stays a **draft PR** until they explicitly agree. A PR that misses its day is no longer merged automatically: merge it by hand.

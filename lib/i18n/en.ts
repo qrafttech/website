@@ -328,6 +328,11 @@ const invitation = {
   },
   secondaryNote:
     "The cowork is two minutes from the Vieux-Port. The coffee is good.",
+  tmbaNote: [
+    { text: "And every Tuesday at 9:45, " },
+    { text: "Tech My Breath Away", href: "/tmba" },
+    { text: ": our tech breakfast, open to all." },
+  ] as RichText,
 } as const;
 
 /* --- The blog and the 404 -------------------------------------------------- */
@@ -337,7 +342,7 @@ const blog = {
   subtitle: "Field notes, technical guides and working habits from our team.",
   metaDescription:
     "Field notes, technical guides and working habits from the Qraft team.",
-  backToArticles: "Back to the articles",
+  backToList: "Back to the articles",
   translation: "Lire en français",
   empty: "Nothing here yet. Come back soon.",
   status: { scheduled: "Scheduled", draft: "Draft" },
@@ -351,6 +356,46 @@ const blog = {
     body: "This article does not exist, or it has been deleted.",
     cta: "Back to the articles",
   },
+} as const;
+
+/* --- Tech My Breath Away -------------------------------------------------- */
+
+const TMBA_MAIL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  "Tech My Breath Away"
+)}`;
+
+const tmba = {
+  title: "Tech My Breath Away",
+  subtitle:
+    "Qraft’s tech breakfast: every Tuesday at 9:45, at the cowork and on Meet.",
+  metaDescription:
+    "Tech My Breath Away, Qraft’s Tuesday tech breakfast in Marseille: a 30-minute talk, its summary and two minutes of video.",
+  format: {
+    title: "The format",
+    paragraphs: [
+      "Every Tuesday from 9:45 to 10:30, someone presents a topic for half an hour: a developer from Qraft, a developer from a client’s team, or a guest. A tool we just adopted, a problem that held out for three weeks, an idea we want to try out loud. Then we talk it over.",
+      "We have held about fifty since March 2025. Each talk now has its page here: a detailed summary, and two minutes of video taken from the demo.",
+    ],
+  },
+  join: [
+    {
+      key: "come",
+      title: "Come on a Tuesday",
+      body: "The cowork is at 36 rue Sainte, two minutes from the Vieux-Port, and there is coffee. Write to us and we will send you the invitation, to come in person or follow on Meet.",
+      cta: { label: "Get the invitation", href: TMBA_MAIL },
+    },
+    {
+      key: "talk",
+      title: "Give a talk",
+      body: "Thirty minutes, a demo rather than slides. Write to us with your topic and we will pick a Tuesday. The page of your talk only goes out with your agreement.",
+      cta: { label: "Suggest a topic", href: TMBA_MAIL },
+    },
+  ],
+  talksTitle: "The talks",
+  backToList: "Back to the talks",
+  translation: "Lire en français",
+  empty: "The first talk is coming soon.",
+  status: { scheduled: "Scheduled", draft: "Draft" },
 } as const;
 
 const notFound = {
@@ -717,10 +762,10 @@ const cowork = {
         key: "techMeeting",
         label: "Tuesday tech meeting",
         body: [
-          { text: "And every Tuesday morning, the " },
-          { text: "tech meeting", strong: true },
+          { text: "And every Tuesday morning, " },
+          { text: "Tech My Breath Away", href: "/tmba" },
           {
-            text: " (optional): a moment to show the others what you dug up.",
+            text: " (optional): a 30-minute talk to show the others what you dug up, then we talk it over.",
           },
         ] as RichText,
       },
@@ -827,6 +872,7 @@ export const en: Dictionary = {
   victoires,
   invitation,
   blog,
+  tmba,
   notFound,
   caseUi,
   clients,

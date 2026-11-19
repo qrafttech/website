@@ -2,7 +2,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import Eyebrow from "@/components/Eyebrow";
-import type { ArticleMeta } from "@/lib/blog";
+import type { ArticleMeta } from "@/lib/content";
 import type { Dictionary } from "@/lib/i18n/types";
 
 interface BlogCardProps {
