@@ -373,8 +373,7 @@ const tmba = {
   format: {
     title: "The format",
     paragraphs: [
-      "Every Tuesday from 9:45 to 10:30, someone presents a topic for half an hour: a developer from Qraft, a developer from a client’s team, or a guest. A tool we just adopted, a problem that held out for three weeks, an idea we want to try out loud. Then we talk it over.",
-      "We have held about fifty since March 2025. Each talk now has its page here: a detailed summary, and two minutes of video taken from the demo.",
+      "Every Tuesday morning, someone presents a topic of their choice, mostly tech but not always: AI, development, process, team management. We have kept the pace for more than {years} years, and more than {talks} talks.",
     ],
   },
   join: [

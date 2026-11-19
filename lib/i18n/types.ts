@@ -278,6 +278,7 @@ export interface Dictionary {
     metaDescription: string;
     format: {
       title: string;
+      /** `{years}` and `{talks}` are filled from `lib/tmba.ts`. */
       paragraphs: readonly string[];
     };
     /** Two ways in: come on a Tuesday, or give a talk. */

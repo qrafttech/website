@@ -6,6 +6,7 @@ import BlogCard from "@/app/components/BlogCard";
 import Wrap from "@/components/Wrap";
 import CtaLink from "@/components/CtaLink";
 import { articlePath, fetchArticles } from "@/lib/content";
+import { fetchTmbaStats, fillTmbaStats } from "@/lib/tmba";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
@@ -74,7 +75,10 @@ export default async function TmbaPage({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const t = (await getDictionary(lang)).tmba;
+  const [t, stats] = await Promise.all([
+    getDictionary(lang).then((dictionary) => dictionary.tmba),
+    fetchTmbaStats(),
+  ]);
 
   return (
     <main>
@@ -86,7 +90,7 @@ export default async function TmbaPage({
             <h2 className="text-section font-bold">{t.format.title}</h2>
             <div className="mt-6 max-w-[60ch] space-y-5 text-[1.0625rem] leading-[1.7] text-muted">
               {t.format.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <p key={paragraph}>{fillTmbaStats(paragraph, stats)}</p>
               ))}
             </div>
           </section>

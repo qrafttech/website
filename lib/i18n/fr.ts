@@ -376,8 +376,7 @@ const tmba = {
   format: {
     title: "Le format",
     paragraphs: [
-      "Chaque mardi de 9h45 à 10h30, quelqu’un présente un sujet pendant une demi-heure : un dev de Qraft, un dev de l’équipe d’un client ou un invité. Un outil qu’on vient d’adopter, un problème qui a résisté trois semaines, une idée qu’on veut tester à voix haute. Puis on en discute.",
-      "On en a tenu une cinquantaine depuis mars 2025. Chaque talk a maintenant sa page ici : un résumé détaillé, et deux minutes de vidéo prises dans la démo.",
+      "Tous les mardis matin, une personne présente un sujet de son choix, plutôt tech mais pas forcément, autour de l’IA, du dev, du process, de la gestion d’équipe. Ça fait plus de {years} ans qu’on tient le rythme, et plus de {talks} talks.",
     ],
   },
   join: [

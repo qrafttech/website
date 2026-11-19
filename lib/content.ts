@@ -181,7 +181,7 @@ export function listTag(collection: Collection, locale: Locale): string {
  * scheduled against. `date` is day-precise, so it compares against a
  * calendar day, not an instant.
  */
-function todayISO(): string {
+export function todayISO(): string {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Paris",
   }).format(new Date());
