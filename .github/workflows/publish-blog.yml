@@ -1,12 +1,20 @@
 name: Publish scheduled articles
 
-# An article PR (`blog/<slug-fr>` branch, opened by `/publish`) merges itself
-# on the morning of its `date`, Paris time, without a human approval: the
-# 48h before are the window to object. It is held while it is a draft, has a
-# review requesting changes, failing or pending checks, a file without a
-# `date` or a conflict with main; closing it cancels the article. A PR from a
-# fork is never merged: only a branch of this repo, which only a collaborator
-# can push, qualifies.
+# Two kinds of PR merge themselves, without a human approval:
+#
+# - An article PR (`blog/<slug-fr>` branch, opened by `/publish`) on the
+#   morning of its `date`, Paris time: the 48h before are the window to
+#   object.
+# - A TMBA talk PR (`tmba/<slug-fr>` branch, opened as a draft by the TMBA
+#   routine on the day of the talk, the article under `content/blog`) at
+#   18:00 Paris time the same day, if it is dated today and the speaker has
+#   marked it ready: nothing goes out without their agreement. A talk PR that
+#   misses its day is merged by hand.
+#
+# A PR is held while it is a draft, has a review requesting changes, failing
+# or pending checks, a file without a `date` or a conflict with main; closing
+# it cancels it. A PR from a fork is never merged: only a branch of this repo, which only
+# a collaborator can push, qualifies.
 #
 # main requires an approving review. The workflow merges with git and pushes
 # with the `BLOG_DEPLOY_KEY` deploy key, which the `Default` ruleset lets
@@ -14,9 +22,19 @@ name: Publish scheduled articles
 on:
   schedule:
     # 04:30 in Paris in summer, 03:30 in winter: after midnight either way,
-    # and well before the 9h social posts.
+    # and well before the 9h social posts. Blog articles.
     - cron: "30 2 * * *"
+    # 18:00 in Paris in summer, then in winter: the run that is not 18:00
+    # yet in Paris stops early. TMBA talks.
+    - cron: "0 16 * * *"
+    - cron: "0 17 * * *"
   workflow_dispatch:
+    inputs:
+      collection:
+        description: "blog: blog/ PRs dated today or before. tmba: tmba/ PRs dated today."
+        type: choice
+        options: [blog, tmba]
+        default: blog
 
 permissions:
   contents: read
@@ -29,14 +47,33 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
+      - name: Pick the collection
+        id: pick
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+          INPUT: ${{ inputs.collection }}
+        run: |
+          collection=${INPUT:-blog}
+          if [ -n "$SCHEDULE" ] && [ "$SCHEDULE" != "30 2 * * *" ]; then
+            collection=tmba
+            if [ "$(TZ=Europe/Paris date +%H)" -lt 18 ]; then
+              echo "Not 18:00 in Paris yet, skipped"
+              collection=
+            fi
+          fi
+          echo "collection=$collection" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        if: steps.pick.outputs.collection
         with:
           ref: main
           fetch-depth: 0
           ssh-key: ${{ secrets.BLOG_DEPLOY_KEY }}
 
-      - name: Merge the article PRs whose date has come
+      - name: Merge the PRs whose date has come
+        if: steps.pick.outputs.collection
         env:
+          COLLECTION: ${{ steps.pick.outputs.collection }}
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           GH_REPO_OWNER: ${{ github.repository_owner }}
@@ -47,7 +84,7 @@ jobs:
           prs=$(gh pr list --state open --limit 100 \
             --json number,headRefName,isDraft,reviewDecision,headRefOid,isCrossRepository \
             --jq '.[] | select(.isCrossRepository | not)
-              | select(.headRefName | startswith("blog/")) | select(.isDraft | not)
+              | select(.headRefName | startswith(env.COLLECTION + "/")) | select(.isDraft | not)
               | select(.reviewDecision != "CHANGES_REQUESTED") | "\(.number) \(.headRefOid) \(.headRefName)"')
 
           echo "$prs" | while read -r pr sha branch; do
@@ -67,12 +104,17 @@ jobs:
 
             if [ "$latest" = draft ]; then echo "#$pr: draft, skipped"; continue; fi
             if [[ "$latest" > "$today" ]]; then echo "#$pr: scheduled for $latest, skipped"; continue; fi
+            # A talk goes out on its day only: one that missed it is merged by hand.
+            if [ "$COLLECTION" = tmba ] && [ "$latest" != "$today" ]; then
+              echo "#$pr: dated $latest, not today, skipped"
+              continue
+            fi
             if ! gh pr checks "$pr" > /dev/null; then echo "#$pr: checks not green, skipped"; continue; fi
 
             git fetch -q origin "$sha" main
             git reset -q --hard origin/main
             if ! git merge -q --no-ff "$sha" -m "Merge pull request #$pr from $GH_REPO_OWNER/$branch" \
-              -m "Article daté du $latest, publié automatiquement."; then
+              -m "Daté du $latest, publié automatiquement."; then
               git merge --abort
               echo "#$pr: conflicts with main, skipped"
               continue

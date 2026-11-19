@@ -245,6 +245,8 @@ export interface Dictionary {
     lead: string;
     cta: CtaCopy;
     secondaryNote: string;
+    /** The Tuesday breakfast, linking to the TMBA talks of the blog. */
+    tmbaNote: RichText;
   };
 
   blog: {
@@ -257,6 +259,10 @@ export interface Dictionary {
     empty: string;
     /** Shown before the date of an unpublished article, outside production. */
     status: { scheduled: string; draft: string };
+    /** Badge of a Tech My Breath Away talk write-up. */
+    tmba: string;
+    /** The list's filter: every article, or the TMBA talks only. */
+    filters: { label: string; all: string; tmba: string };
     pagination: {
       label: string;
       previous: string;
@@ -267,6 +273,20 @@ export interface Dictionary {
       body: string;
       cta: string;
     };
+  };
+
+  /** Tech My Breath Away, above the blog list filtered on its talks. */
+  tmba: {
+    title: string;
+    /** `{years}` and `{talks}` are filled from `lib/tmba.ts`. */
+    paragraphs: readonly string[];
+    /** Two ways in: come on a Tuesday, or give a talk. */
+    join: readonly {
+      key: string;
+      title: string;
+      body: string;
+      cta: CtaCopy;
+    }[];
   };
 
   notFound: {

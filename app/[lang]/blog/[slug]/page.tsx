@@ -159,7 +159,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               ) : (
                 article.date
               )}
+              {/* A talk names its speaker, and says it is a talk. */}
+              {article.tmba && (
+                <>
+                  <span className="mx-1.5">&middot;</span>
+                  <span className="text-blue">{t.blog.tmba}</span>
+                  {article.author && (
+                    <>
+                      <span className="mx-1.5">&middot;</span>
+                      {article.author}
+                    </>
+                  )}
+                </>
+              )}
             </Eyebrow>
+            {/* `#t=1`: the player shows the frame at 1 s before it plays,
+                past a fade from black. */}
+            {article.video && (
+              <video
+                src={`${article.video}#t=1`}
+                controls
+                playsInline
+                preload="metadata"
+                className="mt-8 aspect-video w-full bg-ink"
+              />
+            )}
             <div className="pt-8">
               <Markdown body={article.body} dir={article.dir} />
             </div>

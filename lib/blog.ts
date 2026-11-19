@@ -45,6 +45,10 @@ export interface ArticleMeta {
   excerpt: string;
   /** Absolute URL of the cover image, if the article has one. */
   cover: string | null;
+  /** URL of a video played at the top of the article (a TMBA talk's). */
+  video: string | null;
+  /** The write-up of a Tech My Breath Away talk, badged as such. */
+  tmba: boolean;
 }
 
 export interface ArticleFull extends ArticleMeta {
@@ -128,6 +132,11 @@ function readArticle(
     throw new Error(`${file}: date must be YYYY-MM-DD`);
   }
 
+  const video = data.video ? String(data.video) : null;
+  if (video && !/^https:\/\//.test(video)) {
+    throw new Error(`${file}: video must be an https URL`);
+  }
+
   return {
     dir,
     title,
@@ -137,6 +146,8 @@ function readArticle(
     author: String(data.author ?? ""),
     excerpt: data.excerpt ? String(data.excerpt) : firstParagraph(body),
     cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
+    video,
+    tmba: data.tmba === true,
     body,
   };
 }

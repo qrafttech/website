@@ -38,6 +38,8 @@ Open a new browser window on [http://localhost:3000](http://localhost:3000) to l
 
 Articles are Markdown files in `content/blog`, one folder per article, published by a PR that merges itself on the article's date. [CONTRIBUTING.md](CONTRIBUTING.md) has the whole path: folder, front matter, Markdown, images, preview, scheduling.
 
+A Tech My Breath Away talk can become an article too, badged « Talk TMBA », once its speaker agrees: see the end of CONTRIBUTING.md.
+
 ## Linting & Styling
 
 ### Linting
