@@ -3,15 +3,15 @@ title: "Alléger les specs RSpec"
 slug: alleger-les-specs-rspec
 date: 2026-12-03
 author: "Nicolas Rouanne"
-cover: "conventions-fr.png"
-excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs, mesurées une par une, font tourner la même suite 45 % plus vite. La plus rentable est dans les factories : un enregistrement de trop se paie dans chaque exemple qui l'utilise."
+cover: "gains-fr.png"
+excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs et un correctif d'une ligne, mesurés un par un : ce que chacun fait gagner, par test et sur toute la suite."
 ---
 
 Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais la suite fait toujours le même travail, juste réparti sur 6 processus. Pour qu'elle en fasse moins, il faut des specs qui en font moins.
 
-On a appliqué quatre conventions. Chacune a d'abord été mesurée seule, sur une seule machine : la suite d'origine, puis la suite avec la convention, l'une après l'autre. Ensemble, la suite passe de 489 à 268 s :
+On a appliqué quatre conventions de specs, et trouvé en chemin un correctif d'une ligne qui rapporte plus que chacune d'elles. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
 
-![Durée de la suite sur la même machine, avant et avec les conventions](conventions-fr.png "De 489 à 268 s, sur la même machine.")
+![Secondes gagnées sur toute la suite par chaque amélioration, mesurée seule](gains-fr.png "Chaque barre est mesurée seule : les gains ne s'additionnent pas exactement.")
 
 ## Un seul exemple par setup coûteux
 
@@ -42,7 +42,11 @@ end
 
 Avec [`:aggregate_failures`](https://rspec.info/blog/2015/06/rspec-3-3-has-been-released/), l'exemple ne s'arrête pas au premier `expect` qui échoue : il les exécute tous et rapporte chaque échec, comme le faisaient les sept exemples.
 
-Appliqué à 28 fichiers, ça fait passer la suite de 7 650 à 7 231 exemples, et de 666 à 558 s (−16 %). Le gain se concentre dans les specs qui clonent ou génèrent des données : 22 s pour un seul fichier.
+Moins d'exemples, c'est moins de fois le même setup. Le spec de l'import ci-dessus passe de 72 exemples en 26 s à 29 exemples en 8 s :
+
+![Durée de deux fichiers de spec, avant et après le regroupement](aggregate-fr.png "Chaque exemple restant vérifie plus de choses, mais son setup ne tourne qu'une fois.")
+
+Appliqué à 28 fichiers, ça fait passer toute la suite de 666 à 558 s (−16 %).
 
 ## `build_stubbed` quand le spec ne lit jamais la base
 
@@ -58,11 +62,15 @@ subject(:chart) { build(:results_card, card: build_stubbed(:card_question_multip
 it { is_expected.not_to be_valid }
 ```
 
-`build_stubbed` construit l'objet avec un id, comme s'il était enregistré, mais sans toucher la base. Pour un user, ça prend 1,9 ms au lieu de 7 ms. Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain tourne autour de 1 % de la suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
+`build_stubbed` construit l'objet avec un id, comme s'il était enregistré, mais sans toucher la base :
+
+![Temps pour créer un user admin, en base ou en mémoire](stubbed-fr.png "Mesuré sans le compte que la factory ajoutait : on ne compare que l'écriture en base.")
+
+Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain tourne autour de 1 % de la suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
 
 ## Des factories sans cascades
 
-C'est là que la mesure a été la plus parlante. Voici ce que créait un `create(:survey)` :
+Voici ce que créait un `create(:survey)` :
 
 ```ruby
 factory :survey do
@@ -80,7 +88,7 @@ factory :user do
     evaluator.accounts.each do |account|
       account.save!
       role = Role.find_by(key: evaluator.account_role_key) || begin
-        Rbac::SyncCatalog.call       # recharge tout le catalogue des rôles
+        Rbac::SyncCatalog.call       # on y revient plus bas
         Role.find_by!(key: evaluator.account_role_key)
       end
       user.user_roles.create!(role:, roleable: account)
@@ -89,9 +97,7 @@ factory :user do
 end
 ```
 
-Chaque exemple tourne dans une transaction annulée à la fin, rôles compris. Au début d'un exemple, le rôle n'existait donc jamais : chaque exemple qui créait un questionnaire rechargeait tout le catalogue des rôles, pour le compte d'un owner que les specs ne lisaient presque jamais.
-
-Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe. Ici, 5 540 `mailing_account` étaient créés, pour 18 lus.
+Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account`, un owner et son rôle, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, pour 18 lus.
 
 La correction : l'owner n'a plus de compte, le `mailing_account` devient un trait qu'on demande, et les enregistrements enfants réutilisent le questionnaire de leur parent au lieu d'en créer un autre.
 
@@ -108,13 +114,36 @@ factory :account do
 end
 ```
 
-Seule, cette convention fait passer la suite de 699 à 574 s (−18 %) : 38 134 enregistrements créés au lieu de 44 135, et la factory `survey` passe de 148 à 40 s sur toute la suite. Mais l'essentiel venait du catalogue rechargé, qu'on a aussi corrigé à part, en une ligne : `config.before(:suite) { Rbac::SyncCatalog.call }`, −27 % à elle seule. Une fois le catalogue chargé une seule fois, la part propre des cascades est estimée à environ 3 %.
+Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 :
+
+![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite.")
+
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plus grosse part de ces 48 ms ne venait pourtant pas des comptes, mais de la ligne `Rbac::SyncCatalog.call` : c'est la section suivante.
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
 ![Temps pour créer un user admin selon la méthode](factory-fr.png "Le compte ajouté par la factory fait plus que doubler le temps de création.")
 
 Les factories des users staff n'ont plus de compte par défaut ; un spec qui en a besoin le passe.
+
+## Le catalogue des rôles, chargé une seule fois
+
+Dans l'app, les droits passent par des rôles : client en écriture, client en lecture, admin… Ces rôles et leurs permissions sont des lignes en base, que `Rbac::SyncCatalog` crée toutes d'un coup.
+
+La factory `user` en a besoin pour donner un rôle au user. Elle cherche le rôle en base, et s'il n'y est pas, elle lance toute la synchronisation (le `after(:create)` plus haut). Or chaque exemple RSpec tourne dans une transaction annulée à la fin : tout ce qu'il a créé disparaît, rôles compris. L'exemple suivant repart donc d'une base sans rôles, et son premier user relance la synchronisation complète.
+
+C'est pour ça que créer un questionnaire coûtait si cher : son owner recevait un compte avec un rôle, donc chaque exemple qui créait un questionnaire rechargeait tout le catalogue.
+
+La correction tient en une ligne : synchroniser le catalogue une fois, avant toute la suite, en dehors des transactions. Les rôles sont là pour tous les exemples, et la factory les trouve toujours.
+
+```ruby
+# spec/support/rbac_catalog.rb
+RSpec.configure do |config|
+  config.before(:suite) { Rbac::SyncCatalog.call }
+end
+```
+
+À elle seule, cette ligne fait passer la suite de 714 à 486 s : c'est le plus gros gain de tout l'article. Une fois le catalogue chargé avant la suite, la part propre des cascades tombe à une vingtaine de secondes.
 
 ## Ne créer que les enregistrements testés
 
@@ -133,9 +162,11 @@ let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
 before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
 ```
 
-Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4 suffisent pour vérifier ce qu'il calcule.
+Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4 suffisent pour vérifier ce qu'il calcule. Son fichier de spec passe de 40 à 9 s :
 
-Sur les 4 fichiers concernés, ça fait gagner environ 42 s, dont 25 s pour le rapport et 10 s pour l'import. C'est le plus petit gain des quatre. Il est même plus faible que l'écart entre deux mesures du même code (50 à 100 s) : on ne le voit qu'en mesurant fichier par fichier.
+![Durée du spec du rapport, avec 20 puis 4 répondants par profil](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
+
+Sur les 4 fichiers concernés, ça fait gagner environ 42 s. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
 
 ## Une règle à la fois
 

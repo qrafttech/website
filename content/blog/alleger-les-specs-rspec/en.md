@@ -3,15 +3,15 @@ title: "Slimming down RSpec specs"
 slug: slimming-down-rspec-specs
 date: 2026-12-03
 author: "Nicolas Rouanne"
-cover: "conventions-en.png"
-excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions, measured one by one, make the same suite run 45% faster. The most profitable one is in the factories: one record too many is paid for in every example that uses it."
+cover: "gains-en.png"
+excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions and a one-line fix, measured one by one: what each one saves, per test and on the whole suite."
 ---
 
 At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-github-actions) took a PR's CI from 10 minutes to less than 5. But the suite still does the same work, just spread over 6 processes. For it to do less, the specs have to do less.
 
-We applied four conventions. Each one was first measured alone, on a single machine: the original suite, then the suite with the convention, one after the other. Together, the suite goes from 489 to 268 s:
+We applied four spec conventions, and found along the way a one-line fix that saves more than any of them. Each change was measured alone, on a single machine: the original suite, then the suite with the change, one after the other.
 
-![Suite duration on the same machine, before and with the conventions](conventions-en.png "From 489 to 268 s, on the same machine.")
+![Seconds saved on the whole suite by each improvement, measured alone](gains-en.png "Each bar is measured alone: the gains don't add up exactly.")
 
 ## One example per expensive setup
 
@@ -42,7 +42,11 @@ end
 
 With [`:aggregate_failures`](https://rspec.info/blog/2015/06/rspec-3-3-has-been-released/), the example doesn't stop at the first failing `expect`: it runs them all and reports every failure, as the seven examples did.
 
-Applied to 28 files, this takes the suite from 7,650 to 7,231 examples, and from 666 to 558 s (−16%). The gain is concentrated in the specs that clone or generate data: 22 s for a single file.
+Fewer examples means fewer runs of the same setup. The import spec above goes from 72 examples in 26 s to 29 examples in 8 s:
+
+![Duration of two spec files, before and after grouping](aggregate-en.png "Each remaining example checks more, but its setup runs only once.")
+
+Applied to 28 files, this takes the whole suite from 666 to 558 s (−16%).
 
 ## `build_stubbed` when the spec never reads the database
 
@@ -58,11 +62,15 @@ subject(:chart) { build(:results_card, card: build_stubbed(:card_question_multip
 it { is_expected.not_to be_valid }
 ```
 
-`build_stubbed` builds the object with an id, as if it were saved, but without touching the database. For a user, that takes 1.9 ms instead of 7 ms. That's a few milliseconds per object: across the 19 files where we applied it, the gain is around 1% of the suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
+`build_stubbed` builds the object with an id, as if it were saved, but without touching the database:
+
+![Time to create an admin user, in the database or in memory](stubbed-en.png "Measured without the account the factory added: this only compares the database write.")
+
+That's a few milliseconds per object: across the 19 files where we applied it, the gain is around 1% of the suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
 
 ## Factories without cascades
 
-This is where the measurement said the most. Here's what a `create(:survey)` created:
+Here's what a `create(:survey)` created:
 
 ```ruby
 factory :survey do
@@ -80,7 +88,7 @@ factory :user do
     evaluator.accounts.each do |account|
       account.save!
       role = Role.find_by(key: evaluator.account_role_key) || begin
-        Rbac::SyncCatalog.call       # reloads the whole role catalog
+        Rbac::SyncCatalog.call       # more on this below
         Role.find_by!(key: evaluator.account_role_key)
       end
       user.user_roles.create!(role:, roleable: account)
@@ -89,9 +97,7 @@ factory :user do
 end
 ```
 
-Each example runs in a transaction that is rolled back at the end, roles included. So the role never existed at the start of an example: every example that created a survey reloaded the whole role catalog, for the account of an owner the specs almost never read.
-
-A factory default is paid for in every spec that uses the factory, and in every factory that associates it. Here, 5,540 `mailing_account`s were created, for 18 read.
+So a survey created in a spec also meant two accounts, two `mailing_account`s, an owner and its role, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, for 18 read.
 
 The fix: the owner no longer has an account, `mailing_account` becomes a trait you ask for, and child records reuse their parent's survey instead of creating another one.
 
@@ -108,13 +114,36 @@ factory :account do
 end
 ```
 
-Alone, this convention takes the suite from 699 to 574 s (−18%): 38,134 records created instead of 44,135, and the `survey` factory goes from 148 to 40 s over the whole suite. But most of that came from the reloaded catalog, which we also fixed separately, in one line: `config.before(:suite) { Rbac::SyncCatalog.call }`, −27% on its own. Once the catalog is loaded only once, the cascades' own share is estimated at about 3%.
+Creating a survey goes from 48 to 9 ms, and the suite creates more than 4,000 of them:
+
+![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite.")
+
+Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). Yet most of those 48 ms didn't come from the accounts, but from the `Rbac::SyncCatalog.call` line: that's the next section.
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 
 ![Time to create an admin user, by method](factory-en.png "The account the factory added more than doubles the creation time.")
 
 Staff user factories no longer have an account by default; a spec that needs one passes it.
+
+## The role catalog, loaded once
+
+In the app, permissions go through roles: client with edit rights, client with read rights, admin… These roles and their permissions are rows in the database, which `Rbac::SyncCatalog` creates all at once.
+
+The `user` factory needs them to give the user a role. It looks the role up in the database, and if it isn't there, it runs the whole sync (the `after(:create)` above). But every RSpec example runs in a transaction that is rolled back at the end: everything it created disappears, roles included. So the next example starts from a database with no roles, and its first user runs the full sync again.
+
+That's why creating a survey was so expensive: its owner got an account with a role, so every example that created a survey reloaded the whole catalog.
+
+The fix is one line: sync the catalog once, before the whole suite, outside the transactions. The roles are there for every example, and the factory always finds them.
+
+```ruby
+# spec/support/rbac_catalog.rb
+RSpec.configure do |config|
+  config.before(:suite) { Rbac::SyncCatalog.call }
+end
+```
+
+On its own, this line takes the suite from 714 to 486 s: the biggest gain in this whole article. Once the catalog is loaded before the suite, the cascades' own share drops to about twenty seconds.
 
 ## Only create the records under test
 
@@ -133,9 +162,11 @@ let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
 before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
 ```
 
-Same idea elsewhere: a report created 20 respondents per profile, when 4 are enough to check what it computes.
+Same idea elsewhere: a report created 20 respondents per profile, when 4 are enough to check what it computes. Its spec file goes from 40 to 9 s:
 
-Across the 4 files involved, this saves about 42 s, 25 s of it for the report and 10 s for the import. It's the smallest gain of the four. It's even smaller than the gap between two measurements of the same code (50 to 100 s): you only see it by measuring file by file.
+![Duration of the report spec, with 20 then 4 respondents per profile](minimal-en.png "Same 8 examples, same checks.")
+
+Across the 4 files involved, this saves about 42 s. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
 
 ## One rule at a time
 
