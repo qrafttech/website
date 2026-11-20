@@ -4,22 +4,18 @@ slug: dessiner-chaque-champ-d-une-carte-avec-un-modele-ia
 date: 2026-11-30
 author: "Adrien Lupo"
 cover: "cover.jpg"
-excerpt: "Les bases de contours de champs existantes étaient trop imprécises : on a fait tourner Delineate Anything sur Hugging Face Jobs, 120 images pour 2,13 $."
+excerpt: "Delineate Anything tourne sur un portable, mais il lui aurait fallu 18 heures pour nos 5 zones. Sur Hugging Face Jobs, les 120 images ont coûté 2,13 $."
 ---
 
-Pour la [carte de prospection qu'on a construite pour Telaqua](/blog/une-carte-pour-aider-les-commerciaux-de-telaqua-a-trouver-les-champs-irrigues), un client qui vend du matériel d'irrigation, il fallait dessiner chaque champ agricole sur cinq zones de 50 × 50 km, au Sénégal et en Côte d'Ivoire. Cet article raconte la partie IA : comment on a choisi le modèle, comment on l'a fait tourner sur Hugging Face pour **2,13 $**, puis un tour de la plateforme.
+Pour un client qui vend du matériel d'irrigation au Sénégal et en Côte d'Ivoire, on a construit [une carte de prospection](/blog/une-carte-pour-aider-des-commerciaux-a-trouver-les-champs-irrigues). Il fallait y dessiner chaque champ, sur 5 zones de 50 × 50 km. Le modèle qu'on a choisi tourne sur un MacBook, mais il lui aurait fallu environ 18 heures. On l'a fait tourner sur Hugging Face, et on a eu les 92 098 contours pour **2,13 $**.
 
 ## 1. Trois pistes pour dessiner les champs
 
-Des bases de contours de champs existent déjà, mais sur nos zones elles étaient trop imprécises. On a regardé trois pistes avant d'en retenir une.
+On a regardé trois pistes avant d'en retenir une.
 
 ### Fields of The World, une base déjà calculée
 
-[Fields of The World](https://fieldsofthe.world/) publie les contours de champs de toute la planète, déjà calculés : environ 1,6 milliard de champs par an, pour 2024 et 2025. Ils sont prédits sur des images Sentinel-2 à 10 m, par une équipe dont font partie Microsoft AI for Good et Taylor Geospatial. Les données sont sous licence CC-BY-4.0, en tuiles vectorielles PMTiles qu'on charge directement sur une carte.
-
-C'est la première chose que j'ai essayée. Autour de N'Douci, en Côte d'Ivoire, avec un seuil de confiance à 69 %, il y a **beaucoup de faux positifs** : de grands aplats recouvrent la forêt et les plantations sans séparer les parcelles. Si on monte le seuil, **on perd beaucoup de vrais champs**. Et le bon réglage change d'une zone à l'autre.
-
-![L'explorateur Fields of The World autour de N'Douci : de grands aplats colorés couvrent forêt et plantations sans séparer les parcelles.](fields-of-the-world-ndouci.jpg "Fields of The World autour de N'Douci (Côte d'Ivoire), prédictions 2025, seuil de confiance à 69 %.")
+[Fields of The World](https://fieldsofthe.world/) publie les contours de champs de toute la planète, sous licence CC-BY-4.0. C'est la première chose qu'on a essayée, et [l'article sur la carte](/blog/une-carte-pour-aider-des-commerciaux-a-trouver-les-champs-irrigues) raconte pourquoi elle ne suffisait pas. La base est calculée sur des images Sentinel-2 à 10 m par pixel, trop floues pour séparer des parcelles voisines.
 
 ### Fields of the Planet, un modèle cher à faire tourner à l'échelle
 
@@ -35,9 +31,9 @@ Il bloque sur trois points. D'abord **le coût** : il faut les mêmes images qu'
 
 ![Schéma de Delineate Anything : une seule photo satellite ordinaire entre dans le modèle (YOLO, 125 Mo), chaque champ sort comme un objet séparé avec son contour vectoriel.](delineate-anything-fr.png "Delineate Anything : une photo, un objet par champ.")
 
-Il lui faut **une photo couleur ordinaire, à une seule date**, avec une résolution entre 0,25 et 10 m. On l'utilise sur une photo satellite à environ 1 m. Il a été entraîné sur [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) (licence MIT) : 1,48 million d'images et 74 millions de champs annotés dans 61 pays, là où le jeu de Fields of The World en couvre 24, dont 17 européens.
+Il lui faut **une photo couleur ordinaire, à une seule date**, avec une résolution entre 0,25 et 10 m. On lui donne une photo satellite à environ 1 m, dix fois plus fine que les images Sentinel-2 de Fields of The World. Il a été entraîné sur [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) (licence MIT) : 1,48 million d'images et 74 millions de champs annotés dans 61 pays, là où le jeu de Fields of The World en couvre 24, dont 17 européens.
 
-Il est sous licence AGPL-3.0, qui **autorise l'usage commercial**. La contrainte porte sur le code modifié servi à des utilisateurs par le réseau, qui doit alors être publié ; nous lançons le pipeline des auteurs sans en modifier le code, en batch. Et il est petit, environ 62 millions de paramètres pour 125 Mo de poids : **il tourne même sur un portable**.
+Il est sous licence AGPL-3.0, qui **autorise l'usage commercial**. La contrainte porte sur le code modifié servi à des utilisateurs par le réseau, qui doit alors être publié ; nous lançons le pipeline des auteurs sans en modifier le code, en batch. Et il est petit, environ 62 millions de paramètres pour 125 Mo de poids. **Il tourne sur un portable**, et on a d'abord cru que ça suffirait.
 
 ## 2. L'implémentation
 
@@ -49,7 +45,7 @@ Le [dépôt GitHub de Delineate Anything](https://github.com/Lavreniuk/Delineate
 
 **Je ne touche pas au code de ce script.** Je le récupère à un commit fixé et je l'installe comme l'indique le README. Je change seulement deux réglages de sa configuration : le masque d'occupation du sol, pour lequel j'utilise [ESA WorldCover](https://esa-worldcover.org/), et la surface minimale d'un champ.
 
-Une image couvre environ 13 × 9 km, il en faut donc 120 pour mes cinq zones, 24 par zone.
+Une image couvre environ 13 × 9 km, il en faut donc 120 pour mes 5 zones, 24 par zone.
 
 ### Où faire tourner 120 images
 
@@ -57,7 +53,7 @@ J'ai comparé cinq options, à partir de mesures ou d'estimations tirées de nos
 
 ![Cinq façons de faire tourner le modèle sur 120 images : aucune API ne le sert, environ 18 h sur un Mac, 6 à 8 jours sur un serveur sans GPU, environ 4 à 5 $ sur un GPU à l'heure, 2,13 $ avec Hugging Face Jobs.](ou-faire-tourner-fr.png "Cinq options pour 120 images.")
 
-Aucun fournisseur d'inférence ne sert ce modèle par API sur Hugging Face, donc cette option est exclue. Sur mon MacBook Pro M1 Pro, le pipeline utilise le GPU d'Apple et tourne environ deux fois moins vite que sur un T4 : il faudrait à peu près 18 heures de calcul sans interruption. Un VPS sans GPU à 20 € HT par mois mettrait 6 à 8 jours, et un serveur avec GPU coûte autour de 200 € par mois. Un GPU loué à l'heure chez AWS, Google Cloud ou RunPod reviendrait à 4 ou 5 $, mais il faut allumer la machine, l'installer, puis l'éteindre. J'ai choisi **Hugging Face Jobs, qui loue un GPU à la minute** et se lance par une simple requête.
+Aucun fournisseur d'inférence ne sert ce modèle par API sur Hugging Face, donc cette option est exclue. Sur mon MacBook Pro M1 Pro, le pipeline utilise le GPU d'Apple, deux fois plus lent qu'un T4. Il faudrait environ 18 heures de calcul sans interruption. Un VPS sans GPU à 20 € HT par mois mettrait 6 à 8 jours, et un serveur avec GPU coûte autour de 200 € par mois. Un GPU loué à l'heure chez AWS, Google Cloud ou RunPod reviendrait à 4 ou 5 $, mais il faut allumer la machine, l'installer, puis l'éteindre. J'ai choisi **Hugging Face Jobs, qui loue un GPU à la minute** et se lance par une simple requête.
 
 ### Hugging Face Jobs
 
@@ -71,9 +67,7 @@ Le flavor `t4-small`, c'est un GPU NVIDIA T4 de 16 Go, 4 vCPU et 15 Go de RAM, p
 
 J'ai aussi mis un plafond : le script **ne lance aucun Job qui pourrait faire dépasser 10 $ au total**, et il vérifie d'abord, auprès de l'API de Hugging Face, que le prix du flavor n'a pas changé.
 
-Sur les cinq zones, ça a donné **120 images, 15 Jobs dont 10 en parallèle, 320 minutes facturées, 2,13 $ et 92 098 contours**.
-
-![La même photo satellite près de Saint-Louis, sans puis avec les contours de champs dessinés par Delineate Anything.](avant-apres.jpg)
+Sur les 5 zones, ça a donné 120 images, 15 Jobs dont 10 en parallèle et **92 098 contours**. Les Jobs ont tourné 320 minutes en tout, à 0,40 $ de l'heure, soit **2,13 $**.
 
 Pour essayer le modèle sur une image sans rien installer, le README des auteurs renvoie vers une [démo sur un Space Hugging Face](https://huggingface.co/spaces/hugging-apps/delineate-anything-v2).
 

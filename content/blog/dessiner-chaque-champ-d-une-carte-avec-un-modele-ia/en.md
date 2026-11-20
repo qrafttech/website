@@ -4,22 +4,18 @@ slug: drawing-every-field-on-a-map-with-an-ai-model
 date: 2026-11-30
 author: "Adrien Lupo"
 cover: "cover.jpg"
-excerpt: "The existing field boundary databases were too imprecise, so we ran Delineate Anything on Hugging Face Jobs: 120 images for $2.13."
+excerpt: "Delineate Anything runs on a laptop, but it would have needed 18 hours for our 5 areas. On Hugging Face Jobs, the 120 images cost $2.13."
 ---
 
-For the [prospecting map we built for Telaqua](/en/blog/a-map-to-help-telaqua-sales-reps-find-irrigated-fields), a client that sells irrigation equipment, we had to draw every farm field across five 50 × 50 km areas in Senegal and Côte d'Ivoire. This article covers the AI part: how we chose the model, how we ran it on Hugging Face for **$2.13**, then a tour of the platform.
+For a client that sells irrigation equipment in Senegal and Côte d'Ivoire, we built [a prospecting map](/en/blog/a-map-to-help-sales-reps-find-irrigated-fields). We had to draw every field on it, across 5 areas of 50 × 50 km. The model we picked runs on a MacBook, but it would have needed about 18 hours. We ran it on Hugging Face instead, and got the 92,098 outlines for **$2.13**.
 
 ## 1. Three options for drawing the fields
 
-Field boundary databases already exist, but on our areas they were too imprecise. We looked at three options before picking one.
+We looked at three options before picking one.
 
 ### Fields of The World, a precomputed database
 
-[Fields of The World](https://fieldsofthe.world/) publishes precomputed field boundaries for the whole planet: about 1.6 billion fields a year, for 2024 and 2025. They are predicted from Sentinel-2 imagery at 10 m, by a team that includes Microsoft AI for Good and Taylor Geospatial. The data is licensed CC-BY-4.0, served as PMTiles vector tiles you can load straight onto a map.
-
-It was the first thing I tried. Around N'Douci in Côte d'Ivoire, with the confidence threshold at 69%, there are **a lot of false positives**: large blobs cover forest and plantations without separating the plots. Raise the threshold and **you lose many real fields**. And the right setting changes from one area to the next.
-
-![The Fields of The World explorer around N'Douci: large coloured blobs cover forest and plantations without separating the plots.](fields-of-the-world-ndouci.jpg "Fields of The World around N'Douci (Côte d'Ivoire), 2025 predictions, confidence threshold at 69%.")
+[Fields of The World](https://fieldsofthe.world/) publishes field boundaries for the whole planet, under a CC-BY-4.0 licence. It was the first thing we tried, and [the article about the map](/en/blog/a-map-to-help-sales-reps-find-irrigated-fields) explains why it wasn't enough. The database is computed from Sentinel-2 images at 10 m per pixel, too blurry to separate neighbouring plots.
 
 ### Fields of the Planet, a model that is costly to run at scale
 
@@ -35,9 +31,9 @@ It falls short on three counts. First, **cost**: it needs the same imagery as in
 
 ![Diagram of Delineate Anything: a single ordinary satellite photo goes into the model (YOLO, 125 MB), and each field comes out as a separate object with its vector outline.](delineate-anything-en.png "Delineate Anything: one photo, one object per field.")
 
-It needs **an ordinary colour photo, from a single date**, at a resolution between 0.25 and 10 m. We use it on a satellite photo at about 1 m. It was trained on [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) (MIT licence): 1.48 million images and 74 million annotated fields across 61 countries, where the Fields of The World dataset covers 24, 17 of them in Europe.
+It needs **an ordinary colour photo, from a single date**, at a resolution between 0.25 and 10 m. We give it a satellite photo at about 1 m, ten times sharper than the Sentinel-2 images behind Fields of The World. It was trained on [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) (MIT licence): 1.48 million images and 74 million annotated fields across 61 countries, where the Fields of The World dataset covers 24, 17 of them in Europe.
 
-It is licensed AGPL-3.0, which **allows commercial use**. The obligation applies to modified code served to users over a network, whose source must then be published; we run the authors' pipeline without changing its code, as a batch. And it's small, about 62 million parameters for 125 MB of weights: **it even runs on a laptop**.
+It is licensed AGPL-3.0, which **allows commercial use**. The obligation applies to modified code served to users over a network, whose source must then be published; we run the authors' pipeline without changing its code, as a batch. And it's small, about 62 million parameters for 125 MB of weights. **It runs on a laptop**, and at first we thought that would do.
 
 ## 2. The implementation
 
@@ -49,7 +45,7 @@ The [Delineate Anything GitHub repository](https://github.com/Lavreniuk/Delineat
 
 **I don't touch this script's code.** I fetch it at a pinned commit and install it the way the README says. I only change two settings in its configuration: the land cover mask, for which I use [ESA WorldCover](https://esa-worldcover.org/), and the minimum field area.
 
-One image covers about 13 × 9 km, so my five areas need 120 of them, 24 per area.
+One image covers about 13 × 9 km, so my 5 areas need 120 of them, 24 per area.
 
 ### Where to run 120 images
 
@@ -57,7 +53,7 @@ I compared five options, from measurements or estimates based on our measurement
 
 ![Five ways to run the model on 120 images: no API serves it, about 18 h on a Mac, 6 to 8 days on a server without a GPU, about $4-5 on an hourly GPU, $2.13 with Hugging Face Jobs.](ou-faire-tourner-en.png "Five options for 120 images.")
 
-No inference provider serves this model through an API on Hugging Face, so that option is out. On my MacBook Pro M1 Pro, the pipeline uses Apple's GPU and runs about half as fast as on a T4: roughly 18 hours of non-stop compute. A VPS without a GPU at €20 a month before VAT would take 6 to 8 days, and a server with a GPU costs around €200 a month. A GPU rented by the hour from AWS, Google Cloud or RunPod would come to $4 or $5, but you have to start the machine, set it up, then shut it down. I picked **Hugging Face Jobs, which rents a GPU by the minute** and starts with a single request.
+No inference provider serves this model through an API on Hugging Face, so that option is out. On my MacBook Pro M1 Pro, the pipeline uses Apple's GPU, about half as fast as a T4. It would take roughly 18 hours of non-stop compute. A VPS without a GPU at €20 a month before VAT would take 6 to 8 days, and a server with a GPU costs around €200 a month. A GPU rented by the hour from AWS, Google Cloud or RunPod would come to $4 or $5, but you have to start the machine, set it up, then shut it down. I picked **Hugging Face Jobs, which rents a GPU by the minute** and starts with a single request.
 
 ### Hugging Face Jobs
 
@@ -71,9 +67,7 @@ The `t4-small` flavor is one 16 GB NVIDIA T4 GPU, 4 vCPU and 15 GB of RAM, for $
 
 I also set a cap: the script **starts no Job that could take the total past $10**, and it first checks with Hugging Face's API that the flavor's price hasn't changed.
 
-Across the five areas, that came to **120 images, 15 Jobs with 10 in parallel, 320 billed minutes, $2.13 and 92,098 outlines**.
-
-![The same satellite photo near Saint-Louis, without and then with the field outlines drawn by Delineate Anything.](avant-apres.jpg)
+Across the 5 areas, that came to 120 images, 15 Jobs with 10 in parallel and **92,098 outlines**. The Jobs ran for 320 minutes in total, at $0.40 an hour, so **$2.13**.
 
 To try the model on one image without installing anything, the authors' README points to a [demo on a Hugging Face Space](https://huggingface.co/spaces/hugging-apps/delineate-anything-v2).
 
