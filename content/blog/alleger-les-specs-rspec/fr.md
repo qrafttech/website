@@ -46,17 +46,19 @@ Appliqué à 28 fichiers, ça fait passer la suite de 7 650 à 7 231 exemples, e
 
 ## `build_stubbed` quand le spec ne lit jamais la base
 
-Une policy qui décide selon le type du user n'a pas besoin d'enregistrements en base. `build_stubbed` construit l'objet avec un id, sans `INSERT` :
+Beaucoup de specs enregistrent un objet en base alors qu'ils ne le relisent jamais. Par exemple, une validation refuse un camembert pour une question à choix multiple, parce que les réponses n'y font pas 100 %. Le spec n'a besoin que du type de la question, mais il l'enregistrait en base :
 
 ```ruby
-let(:account) { build_stubbed(:account) }
-let(:chart_template) { build_stubbed(:chart_template, master_report: build_stubbed(:master_report, account:)) }
-let(:user) { build_stubbed(:admin_user) }
+# avant : la question est enregistrée en base
+subject(:chart) { build(:results_card, card: create(:card_question_multiple), options: { chart_type: 'pie' }) }
 
-it { expect(described_class.new(user, chart_template).update?).to be false }
+# après : la question est construite en mémoire
+subject(:chart) { build(:results_card, card: build_stubbed(:card_question_multiple), options: { chart_type: 'pie' }) }
+
+it { is_expected.not_to be_valid }
 ```
 
-Le gain est faible. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite créait en base sans jamais le lire ; passer 19 fichiers en `build_stubbed` gagne autour de 1 %.
+`build_stubbed` construit l'objet avec un id, comme s'il était enregistré, mais sans toucher la base. Pour un user, ça prend 1,9 ms au lieu de 7 ms. Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain tourne autour de 1 % de la suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
 
 ## Des factories sans cascades
 

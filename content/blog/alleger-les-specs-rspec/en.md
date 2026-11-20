@@ -46,17 +46,19 @@ Applied to 28 files, this takes the suite from 7,650 to 7,231 examples, and from
 
 ## `build_stubbed` when the spec never reads the database
 
-A policy that decides based on the user's type doesn't need records in the database. `build_stubbed` builds the object with an id, without an `INSERT`:
+Many specs save an object to the database and never read it back. For example, a validation rejects a pie chart for a multiple-choice question, because its answers don't add up to 100%. The spec only needs the question's type, but it saved the question to the database:
 
 ```ruby
-let(:account) { build_stubbed(:account) }
-let(:chart_template) { build_stubbed(:chart_template, master_report: build_stubbed(:master_report, account:)) }
-let(:user) { build_stubbed(:admin_user) }
+# before: the question is saved to the database
+subject(:chart) { build(:results_card, card: create(:card_question_multiple), options: { chart_type: 'pie' }) }
 
-it { expect(described_class.new(user, chart_template).update?).to be false }
+# after: the question is built in memory
+subject(:chart) { build(:results_card, card: build_stubbed(:card_question_multiple), options: { chart_type: 'pie' }) }
+
+it { is_expected.not_to be_valid }
 ```
 
-The gain is small. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite created in the database without ever reading it at 29.8 s; switching 19 files to `build_stubbed` saves around 1%.
+`build_stubbed` builds the object with an id, as if it were saved, but without touching the database. For a user, that takes 1.9 ms instead of 7 ms. That's a few milliseconds per object: across the 19 files where we applied it, the gain is around 1% of the suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
 
 ## Factories without cascades
 
