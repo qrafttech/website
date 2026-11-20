@@ -60,7 +60,9 @@ The gain is small. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profi
 
 ## Remove examples that prove nothing more than their neighbour
 
-In a request spec, every example replays the request. When one example checks the response body, the one next to it checking the success status proves nothing more:
+In a request spec, every example replays the request. Two examples that prove the same thing are two requests for a single proof.
+
+The most frequent case: one example checks that the creation responds 201, and the example next to it checks the name of the returned account. If the returned name is the right one, the creation succeeded. The first example teaches nothing more, so we remove it:
 
 ```ruby
 before { create_freemium }
@@ -69,9 +71,11 @@ it('responds created') { expect(response).to have_http_status(:created) } # remo
 it('returns the account name') { expect(response.parsed_body['name']).to eq('Growth Team') }
 ```
 
-The rule names three cases: a success status next to an assertion on the body, a `count` next to a `pluck` or `match_array` on the same relation, and a second input value that goes through the same branch of the code.
+Same for an example that checks there are two records, next to another that checks which ones: if the list is right, so is the count.
 
-This one wasn't measured alone: the removed examples are scattered across the whole suite. And the criterion matters. In contexts that only checked the database, the status was the only proof about the response: about 110 contexts had to get it back. It also stays for endpoints called by an outside client (OAuth, webhooks), where the exact code is part of the contract.
+This convention wasn't measured alone, because the removed examples are scattered across the whole suite.
+
+You still have to look at what the neighbour checks. When it only looks at the database ("the account was deleted"), nothing says the response is right: the request can delete the account, then crash before responding. In that case, the status is the only proof about the response, and we keep it. We removed too many at first: it had to go back into about a hundred contexts.
 
 ## Factories without cascades
 

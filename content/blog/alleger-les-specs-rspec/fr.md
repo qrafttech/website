@@ -60,7 +60,9 @@ Le gain est faible. [FactoryDoctor](https://test-prof.evilmartians.io/guide/prof
 
 ## Supprimer les exemples qui ne prouvent rien de plus que leur voisin
 
-Dans un request spec, chaque exemple rejoue la requête. Quand un exemple vérifie le corps de la réponse, celui qui vérifie le status de succès à côté ne prouve rien de plus :
+Dans un request spec, chaque exemple rejoue la requête. Deux exemples qui prouvent la même chose, ce sont deux requêtes pour une seule preuve.
+
+Le cas le plus fréquent : un exemple vérifie que la création répond 201, et l'exemple d'à côté vérifie le nom du compte renvoyé. Si le nom renvoyé est le bon, c'est que la création a réussi. Le premier exemple n'apprend rien de plus, on le supprime :
 
 ```ruby
 before { create_freemium }
@@ -69,9 +71,11 @@ it('responds created') { expect(response).to have_http_status(:created) } # supp
 it('returns the account name') { expect(response.parsed_body['name']).to eq('Growth Team') }
 ```
 
-La règle nomme trois cas : un status de succès à côté d'une assertion sur le corps, un `count` à côté d'un `pluck` ou d'un `match_array` sur la même relation, et une seconde valeur d'entrée qui passe par la même branche du code.
+Même chose pour un exemple qui vérifie qu'il y a deux enregistrements, à côté d'un autre qui vérifie lesquels : si la liste est la bonne, le nombre l'est aussi.
 
-Celle-là n'a pas été mesurée seule : les exemples supprimés sont éparpillés dans toute la suite. Et le critère compte. Dans les contextes qui ne vérifiaient que la base, le status était la seule preuve sur la réponse : environ 110 contextes ont dû le retrouver. Il reste aussi pour les endpoints appelés par un client extérieur (OAuth, webhooks), où le code exact fait partie du contrat.
+Cette convention n'a pas été mesurée seule, parce que les exemples supprimés sont dispersés dans toute la suite.
+
+Il faut quand même regarder ce que vérifie le voisin. Quand il ne regarde que la base (« le compte a bien été supprimé »), rien ne dit que la réponse est la bonne : la requête peut supprimer le compte, puis planter avant de répondre. Dans ce cas, le status est la seule preuve sur la réponse, et on le garde. On en avait supprimé trop au départ : il a fallu le remettre dans une centaine de contextes.
 
 ## Des factories sans cascades
 
