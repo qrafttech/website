@@ -1,8 +1,9 @@
 ---
 title: "Slimming down RSpec specs"
 slug: slimming-down-rspec-specs
-date: 2026-12-07
+date: 2026-12-03
 author: "Nicolas Rouanne"
+cover: "conventions-en.png"
 excerpt: "Parallelizing RSpec cut the wait, not the work. Five spec conventions make the same suite run 45% faster, and one measurement showed where the real cost was: the factory."
 ---
 
