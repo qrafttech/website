@@ -11,7 +11,7 @@ At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-git
 
 We applied five conventions. Each one was first measured alone, on a single machine: the original suite, then the suite with the convention, one after the other. Together, the suite goes from 489 to 268 s:
 
-![Suite duration on the same machine: main's specs, the PR's, then main's](conventions-en.png "The two main passes frame the measurement: 1% apart.")
+![Suite duration on the same machine, before and with the conventions](conventions-en.png "From 489 to 268 s, on the same machine.")
 
 ## One example per expensive setup
 

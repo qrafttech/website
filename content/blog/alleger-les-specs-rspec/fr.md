@@ -11,7 +11,7 @@ Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-githu
 
 On a appliqué cinq conventions. Chacune a d'abord été mesurée seule, sur une seule machine : la suite d'origine, puis la suite avec la convention, l'une après l'autre. Ensemble, la suite passe de 489 à 268 s :
 
-![Durée de la suite sur la même machine : specs de main, de la PR, puis de main](conventions-fr.png "Les deux passes de main encadrent la mesure : 1 % d'écart entre elles.")
+![Durée de la suite sur la même machine, avant et avec les conventions](conventions-fr.png "De 489 à 268 s, sur la même machine.")
 
 ## Un seul exemple par setup coûteux
 
