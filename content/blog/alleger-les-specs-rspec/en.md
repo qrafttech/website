@@ -4,12 +4,12 @@ slug: slimming-down-rspec-specs
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "gains-en.png"
-excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions and a one-line fix, measured one by one: what each one saves, per test and on the whole suite."
+excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions and a regression fixed in one line, measured one by one: what each one saves, per test and on the whole suite."
 ---
 
 At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-github-actions) took a PR's CI from 10 minutes to less than 5. But the suite still does the same work, just spread over 6 processes. For it to do less, the specs have to do less.
 
-We applied four spec conventions, and found along the way a one-line fix that saves more than any of them. Each change was measured alone, on a single machine: the original suite, then the suite with the change, one after the other.
+We applied four spec conventions, and found along the way an August regression that cost more than any of them. Each change was measured alone, on a single machine: the original suite, then the suite with the change, one after the other.
 
 ![Seconds saved on the whole suite by each improvement, measured alone](gains-en.png "Each bar is measured alone: the gains don't add up exactly.")
 
@@ -118,7 +118,7 @@ Creating a survey goes from 48 to 9 ms, and the suite creates more than 4,000 of
 
 ![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite.")
 
-Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). Yet most of those 48 ms didn't come from the accounts, but from the `Rbac::SyncCatalog.call` line: that's the next section.
+Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). Yet most of those 48 ms didn't come from the accounts, but from the `Rbac::SyncCatalog.call` line, which copied all the app's roles: that's the next section.
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 
@@ -126,15 +126,15 @@ The same default remained on staff users: the factory gave every user an account
 
 Staff user factories no longer have an account by default; a spec that needs one passes it.
 
-## The role catalog, loaded once
+## An August regression: roles copied again for every example
 
-In the app, permissions go through roles: client with edit rights, client with read rights, admin… These roles and their permissions are rows in the database, which `Rbac::SyncCatalog` creates all at once.
+In August, the app got per-account permissions. At a client, each member now has a role: editor (edits surveys and invites members), analyst (sees the results) or follower (only sees the survey's progress). These roles, and what each one allows, are written in the code, then copied into two database tables, so that a user's permissions can be read with a simple query. That's all `Rbac::SyncCatalog` does: copy this list from the code to the database.
 
-The `user` factory needs them to give the user a role. It looks the role up in the database, and if it isn't there, it runs the whole sync (the `after(:create)` above). But every RSpec example runs in a transaction that is rolled back at the end: everything it created disappears, roles included. So the next example starts from a database with no roles, and its first user runs the full sync again.
+In the tests, the `user` factory gives a role to the user it creates. If the role isn't in the database, it runs the copy (the `after(:create)` above). But every RSpec example runs in a transaction that is rolled back at the end: everything it created disappears, roles included. So the next example starts with no roles, and its first user runs the copy again. Since every survey's owner got a role, almost every example paid for it.
 
-That's why creating a survey was so expensive: its owner got an account with a role, so every example that created a survey reloaded the whole catalog.
+Nobody noticed: the feature was well tested and the CI stayed green, it was just slower. We found it while looking for why creating a survey cost 48 ms.
 
-The fix is one line: sync the catalog once, before the whole suite, outside the transactions. The roles are there for every example, and the factory always finds them.
+The fix is one line: copy the roles once, before the whole suite, outside the transactions. They're there for every example, and the factory always finds them.
 
 ```ruby
 # spec/support/rbac_catalog.rb
@@ -143,7 +143,7 @@ RSpec.configure do |config|
 end
 ```
 
-On its own, this line takes the suite from 714 to 486 s: the biggest gain in this whole article. Once the catalog is loaded before the suite, the cascades' own share drops to about twenty seconds.
+On its own, this line takes the suite from 714 to 486 s: the biggest gain in this whole article. Once the roles are copied before the suite, the cascades' own share drops to about twenty seconds.
 
 ## Only create the records under test
 
@@ -168,11 +168,13 @@ Same idea elsewhere: a report created 20 respondents per profile, when 4 are eno
 
 Across the 4 files involved, this saves about 42 s. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
 
-## One rule at a time
+## What's next
 
-We now apply these conventions one rule at a time: one PR per rule, reviewed in a few minutes. A rule that can be checked automatically becomes a RuboCop rule; the others go into the agents' knowledge, in plain sentences.
+We're taking these conventions one by one: one small PR per convention, reviewed in a few minutes.
 
-The parallelization won't have to change: on the slimmed-down suite, the same bench also picked 3 jobs of 2 processes.
+To make them last, the ones a tool can check become RuboCop rules (RuboCop is the Ruby linter): a spec that breaks them fails the CI. The others are written, in plain sentences, in the instructions our coding agents read before writing a spec.
+
+And the CI split from [the previous article](/en/blog/parallelizing-rspec-on-github-actions) doesn't change: even on the slimmed-down suite, 3 jobs of 2 processes remain the best trade-off between waiting time and billed minutes.
 
 > [!NOTE]
 > `ubuntu-latest` runners land on different CPUs, and the same suite can take from 477 to 730 s. So versions of the suite are compared on a single machine, one after the other. We also track in PostHog the sum of each spec file's duration, which goes up when we add specs, not when we add jobs (see [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)).

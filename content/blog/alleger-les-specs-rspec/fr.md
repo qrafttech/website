@@ -4,12 +4,12 @@ slug: alleger-les-specs-rspec
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "gains-fr.png"
-excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs et un correctif d'une ligne, mesurés un par un : ce que chacun fait gagner, par test et sur toute la suite."
+excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs et une régression corrigée en une ligne, mesurées une par une : ce que chacun fait gagner, par test et sur toute la suite."
 ---
 
 Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais la suite fait toujours le même travail, juste réparti sur 6 processus. Pour qu'elle en fasse moins, il faut des specs qui en font moins.
 
-On a appliqué quatre conventions de specs, et trouvé en chemin un correctif d'une ligne qui rapporte plus que chacune d'elles. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
+On a appliqué quatre conventions de specs, et trouvé en chemin une régression d'août qui coûtait plus que chacune d'elles. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
 
 ![Secondes gagnées sur toute la suite par chaque amélioration, mesurée seule](gains-fr.png "Chaque barre est mesurée seule : les gains ne s'additionnent pas exactement.")
 
@@ -118,7 +118,7 @@ Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 
 
 ![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite.")
 
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plus grosse part de ces 48 ms ne venait pourtant pas des comptes, mais de la ligne `Rbac::SyncCatalog.call` : c'est la section suivante.
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plus grosse part de ces 48 ms ne venait pourtant pas des comptes, mais de la ligne `Rbac::SyncCatalog.call`, qui recopiait tous les rôles de l'app : c'est la section suivante.
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
@@ -126,15 +126,15 @@ Le même défaut restait sur les users staff : la factory donnait un compte à c
 
 Les factories des users staff n'ont plus de compte par défaut ; un spec qui en a besoin le passe.
 
-## Le catalogue des rôles, chargé une seule fois
+## Une régression d'août : les rôles recopiés à chaque exemple
 
-Dans l'app, les droits passent par des rôles : client en écriture, client en lecture, admin… Ces rôles et leurs permissions sont des lignes en base, que `Rbac::SyncCatalog` crée toutes d'un coup.
+En août, l'app a gagné des droits par compte. Chez un client, chaque membre a désormais un rôle : éditeur (il modifie les questionnaires et invite des membres), analyste (il voit les résultats) ou suiveur (il ne voit que l'avancement de l'enquête). Ces rôles, et ce que chacun autorise, sont écrits dans le code, puis recopiés dans deux tables en base, pour que les droits d'un user se lisent avec une simple requête. C'est tout ce que fait `Rbac::SyncCatalog` : recopier cette liste du code vers la base.
 
-La factory `user` en a besoin pour donner un rôle au user. Elle cherche le rôle en base, et s'il n'y est pas, elle lance toute la synchronisation (le `after(:create)` plus haut). Or chaque exemple RSpec tourne dans une transaction annulée à la fin : tout ce qu'il a créé disparaît, rôles compris. L'exemple suivant repart donc d'une base sans rôles, et son premier user relance la synchronisation complète.
+Dans les tests, la factory `user` donne un rôle au user qu'elle crée. Si le rôle n'est pas en base, elle lance la recopie (le `after(:create)` plus haut). Or chaque exemple RSpec tourne dans une transaction annulée à la fin : tout ce qu'il a créé disparaît, rôles compris. L'exemple suivant repart donc sans rôles, et son premier user relance la recopie. Comme l'owner de chaque questionnaire recevait un rôle, presque tous les exemples la payaient.
 
-C'est pour ça que créer un questionnaire coûtait si cher : son owner recevait un compte avec un rôle, donc chaque exemple qui créait un questionnaire rechargeait tout le catalogue.
+Personne ne l'a vu passer : la fonctionnalité était bien testée et la CI restait verte, elle était juste plus lente. On l'a retrouvé en cherchant pourquoi créer un questionnaire coûtait 48 ms.
 
-La correction tient en une ligne : synchroniser le catalogue une fois, avant toute la suite, en dehors des transactions. Les rôles sont là pour tous les exemples, et la factory les trouve toujours.
+La correction tient en une ligne : recopier les rôles une fois, avant toute la suite, en dehors des transactions. Ils sont là pour tous les exemples, et la factory les trouve toujours.
 
 ```ruby
 # spec/support/rbac_catalog.rb
@@ -143,7 +143,7 @@ RSpec.configure do |config|
 end
 ```
 
-À elle seule, cette ligne fait passer la suite de 714 à 486 s : c'est le plus gros gain de tout l'article. Une fois le catalogue chargé avant la suite, la part propre des cascades tombe à une vingtaine de secondes.
+À elle seule, cette ligne fait passer la suite de 714 à 486 s : c'est le plus gros gain de tout l'article. Une fois les rôles recopiés avant la suite, la part propre des cascades tombe à une vingtaine de secondes.
 
 ## Ne créer que les enregistrements testés
 
@@ -168,11 +168,13 @@ Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4
 
 Sur les 4 fichiers concernés, ça fait gagner environ 42 s. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
 
-## Une règle à la fois
+## Et maintenant
 
-On applique maintenant ces conventions une règle à la fois : une PR par règle, relue en quelques minutes. Une règle vérifiable automatiquement devient une règle RuboCop ; les autres vont dans le knowledge des agents, en phrases simples.
+On reprend ces conventions une par une : une petite PR par convention, qu'on relit en quelques minutes.
 
-La parallélisation n'aura pas à changer : sur la suite allégée, le même bench donnait aussi 3 jobs de 2 processus.
+Pour qu'elles tiennent dans le temps, celles qu'un outil peut vérifier deviennent des règles de RuboCop, le linter Ruby : un spec qui ne les respecte pas fait échouer la CI. Les autres sont écrites, en phrases simples, dans les instructions que nos agents de code lisent avant d'écrire un spec.
+
+Et le découpage de la CI de [l'article précédent](/blog/paralleliser-rspec-sur-github-actions) ne bouge pas : même sur la suite allégée, 3 jobs de 2 processus restent le meilleur compromis entre attente et minutes facturées.
 
 > [!NOTE]
 > Les runners `ubuntu-latest` tombent sur des CPU différents, et la même suite peut prendre de 477 à 730 s. Les versions de la suite sont donc comparées sur une seule machine, l'une après l'autre. On suit aussi dans PostHog la somme des temps de chaque fichier de spec, qui monte quand on ajoute des specs, pas quand on ajoute des jobs (voir [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)).
