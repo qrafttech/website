@@ -3,6 +3,7 @@ title: "Parallelizing RSpec on GitHub Actions"
 slug: parallelizing-rspec-on-github-actions
 date: 2026-11-26
 author: "Nicolas Rouanne"
+cover: "bilan-en.png"
 excerpt: "At one of our clients, a PR touching the API took 10 minutes to get through CI. With the RSpec suite split across 3 jobs of 2 processes, it takes less than 5, for 2 more billed minutes."
 ---
 
