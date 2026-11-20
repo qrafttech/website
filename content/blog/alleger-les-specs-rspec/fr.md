@@ -4,14 +4,14 @@ slug: alleger-les-specs-rspec
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "gains-fr.png"
-excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs et une régression corrigée en une ligne, mesurées une par une : ce que chacun fait gagner, par test et sur toute la suite."
+excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs, mesurées une par une : ce que chacun fait gagner, par test et sur toute la suite."
 ---
 
 Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais paralléliser, comme prendre des machines plus grosses, ne fait que répartir le même travail : on attend moins, la suite n'est pas plus efficace. La cause, ce sont des tests qui font beaucoup plus de travail que ce qu'ils vérifient, et c'est là-dessus qu'on a travaillé.
 
 Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
-On a appliqué quatre conventions de specs, et trouvé en chemin une régression d'août qui coûtait plus que chacune d'elles. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
+On a appliqué quatre conventions de specs. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
 
 ![Secondes gagnées sur toute la suite par chaque amélioration, mesurée seule](gains-fr.png "Chaque barre est mesurée seule : les gains ne s'additionnent pas exactement.")
 
@@ -90,7 +90,7 @@ factory :user do
     evaluator.accounts.each do |account|
       account.save!
       role = Role.find_by(key: evaluator.account_role_key) || begin
-        Rbac::SyncCatalog.call       # on y revient plus bas
+        Rbac::SyncCatalog.call       # recrée tous les rôles de l'app
         Role.find_by!(key: evaluator.account_role_key)
       end
       user.user_roles.create!(role:, roleable: account)
@@ -120,32 +120,21 @@ Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 
 
 ![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite.")
 
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plus grosse part de ces 48 ms ne venait pourtant pas des comptes, mais de la ligne `Rbac::SyncCatalog.call`, qui recopiait tous les rôles de l'app : c'est la section suivante.
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La pire cascade était cachée : pour donner un rôle à l'owner, la factory recréait tous les rôles de l'app, et ça à chaque exemple. C'est l'essentiel de ces 48 ms. Les créer une seule fois avant la suite fait à lui seul passer la suite de 714 à 486 s :
+
+```ruby
+RSpec.configure do |config|
+  config.before(:suite) { Rbac::SyncCatalog.call }
+end
+```
+
+Une fois les rôles créés avant la suite, les autres cascades ne pèsent plus qu'une vingtaine de secondes.
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
 ![Temps pour créer un user admin selon la méthode](factory-fr.png "Le compte ajouté par la factory fait plus que doubler le temps de création.")
 
 Les factories des users staff n'ont plus de compte par défaut ; un spec qui en a besoin le passe.
-
-## Une régression d'août : les rôles recopiés à chaque exemple
-
-En août, l'app a gagné des droits par compte. Chez un client, chaque membre a désormais un rôle : éditeur (il modifie les questionnaires et invite des membres), analyste (il voit les résultats) ou suiveur (il ne voit que l'avancement de l'enquête). Ces rôles, et ce que chacun autorise, sont écrits dans le code, puis recopiés dans deux tables en base, pour que les droits d'un user se lisent avec une simple requête. C'est tout ce que fait `Rbac::SyncCatalog` : recopier cette liste du code vers la base.
-
-Dans les tests, la factory `user` donne un rôle au user qu'elle crée. Si le rôle n'est pas en base, elle lance la recopie (le `after(:create)` plus haut). Or chaque exemple RSpec tourne dans une transaction annulée à la fin : tout ce qu'il a créé disparaît, rôles compris. L'exemple suivant repart donc sans rôles, et son premier user relance la recopie. Comme l'owner de chaque questionnaire recevait un rôle, presque tous les exemples la payaient.
-
-Personne ne l'a vu passer : la fonctionnalité était bien testée et la CI restait verte, elle était juste plus lente. On l'a retrouvé en cherchant pourquoi créer un questionnaire coûtait 48 ms.
-
-La correction tient en une ligne : recopier les rôles une fois, avant toute la suite, en dehors des transactions. Ils sont là pour tous les exemples, et la factory les trouve toujours.
-
-```ruby
-# spec/support/rbac_catalog.rb
-RSpec.configure do |config|
-  config.before(:suite) { Rbac::SyncCatalog.call }
-end
-```
-
-À elle seule, cette ligne fait passer la suite de 714 à 486 s : c'est le plus gros gain de tout l'article. Une fois les rôles recopiés avant la suite, la part propre des cascades tombe à une vingtaine de secondes.
 
 ## Ne créer que les enregistrements testés
 
