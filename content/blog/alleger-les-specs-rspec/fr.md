@@ -58,8 +58,6 @@ it { expect(described_class.new(user, chart_template).update?).to be false }
 
 Le gain est faible. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite créait en base sans jamais le lire ; passer 19 fichiers en `build_stubbed` gagne autour de 1 %.
 
-Et il y a un piège. Dans nos factories, les rôles d'un user sont créés dans un `after(:create)`, que `build_stubbed` ne lance pas. Un user `build_stubbed` n'a donc aucun rôle : un spec qui vérifie qu'un client ne peut pas modifier reste vert même si la policy laisse passer les clients, puisque ce client-là n'a aucun droit. `build_stubbed` est donc réservé aux décisions prises sur le type du user ou de l'enregistrement. Dès qu'une policy lit les rôles, le user est créé.
-
 ## Supprimer les exemples qui ne prouvent rien de plus que leur voisin
 
 Dans un request spec, chaque exemple rejoue la requête. Quand un exemple vérifie le corps de la réponse, celui qui vérifie le status de succès à côté ne prouve rien de plus :

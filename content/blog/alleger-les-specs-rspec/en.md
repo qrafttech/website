@@ -58,8 +58,6 @@ it { expect(described_class.new(user, chart_template).update?).to be false }
 
 The gain is small. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite created in the database without ever reading it at 29.8 s; switching 19 files to `build_stubbed` saves around 1%.
 
-And there's a trap. In our factories, a user's roles are created in an `after(:create)`, which `build_stubbed` doesn't run. So a `build_stubbed` user has no roles: a spec checking that a client can't edit stays green even if the policy lets clients through, since that client has no rights at all. So `build_stubbed` is kept for decisions made on the type of the user or the record. As soon as a policy reads roles, the user is created.
-
 ## Remove examples that prove nothing more than their neighbour
 
 In a request spec, every example replays the request. When one example checks the response body, the one next to it checking the success status proves nothing more:
