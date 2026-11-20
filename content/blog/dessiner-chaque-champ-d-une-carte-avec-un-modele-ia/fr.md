@@ -9,45 +9,23 @@ excerpt: "Delineate Anything tourne sur un portable, mais il lui aurait fallu 18
 
 Pour un client qui vend du matériel d'irrigation au Sénégal et en Côte d'Ivoire, on a construit [une carte de prospection](/blog/une-carte-pour-aider-des-commerciaux-a-trouver-les-champs-irrigues). Il fallait y dessiner chaque champ, sur 5 zones de 50 × 50 km. Le modèle qu'on a choisi tourne sur un MacBook, mais il lui aurait fallu environ 18 heures. On l'a fait tourner sur Hugging Face, et on a eu les 92 098 contours pour **2,13 $**.
 
-## 1. Trois pistes pour dessiner les champs
+## 1. Le modèle et son pipeline
 
-On a regardé trois pistes avant d'en retenir une.
-
-### Fields of The World, une base déjà calculée
-
-[Fields of The World](https://fieldsofthe.world/) publie les contours de champs de toute la planète, sous licence CC-BY-4.0. C'est la première chose qu'on a essayée, et [l'article sur la carte](/blog/une-carte-pour-aider-des-commerciaux-a-trouver-les-champs-irrigues) raconte pourquoi elle ne suffisait pas. La base est calculée sur des images Sentinel-2 à 10 m par pixel, trop floues pour séparer des parcelles voisines.
-
-### Fields of the Planet, un modèle cher à faire tourner à l'échelle
-
-La même équipe publie [Fields of the Planet](https://huggingface.co/fieldsoftheworld/ftp-b7), un modèle qu'on fait tourner soi-même : un U-Net de 270 Mo. Il prend deux images PlanetScope à 3 m de la même zone, avec le proche infrarouge, une au semis et une à la récolte. Il classe ensuite chaque pixel en fond, intérieur de champ ou bordure.
-
-![Schéma du modèle Fields of the Planet : deux images avec infrarouge, au semis et à la récolte, entrent dans un U-Net de 270 Mo qui classe chaque pixel en fond, intérieur de champ ou bordure.](fields-of-the-planet-fr.png "Fields of the Planet : deux dates, l'infrarouge, une classe par pixel.")
-
-Il bloque sur trois points. D'abord **le coût** : il faut les mêmes images qu'à l'entraînement, et c'est de l'imagerie Planet, payante. Ensuite **le passage à l'échelle** : les dates de semis et de récolte changent selon la culture, le pays et la région, il faudrait donc les choisir zone par zone pour couvrir un pays. Enfin **la licence**, CC-BY-NC-4.0, qui interdit l'usage commercial, donc un produit client comme celui-ci.
-
-### Delineate Anything, une simple photo suffit
-
-[Delineate Anything](https://huggingface.co/MykolaL/DelineateAnything) est **un modèle YOLO11 réentraîné pour délimiter des champs**. YOLO, pour *You Only Look Once*, est une famille de modèles de vision qui repère tous les objets d'une image en une seule passe, d'où leur rapidité. [YOLO11](https://docs.ultralytics.com/models/yolo11/) en est la version publiée par Ultralytics en septembre 2024. Elle sait détecter des objets, mais aussi tracer leur contour exact, ce qu'on appelle la segmentation d'instances. Delineate Anything en reprend la plus grosse variante, YOLO11x-seg, entraînée à reconnaître des champs plutôt que des voitures ou des piétons. **Chaque champ détecté devient un objet à part**, avec son propre contour.
+[Delineate Anything](https://huggingface.co/MykolaL/DelineateAnything) est **un modèle YOLO11 réentraîné pour délimiter des champs**. YOLO, pour *You Only Look Once*, est une famille de modèles de vision qui repère tous les objets d'une image en une seule passe, d'où leur rapidité. Delineate Anything reprend la plus grosse variante de [YOLO11](https://docs.ultralytics.com/models/yolo11/), YOLO11x-seg, qui trace aussi le contour exact de chaque objet. **Chaque champ détecté devient un objet à part**, avec son propre contour.
 
 ![Schéma de Delineate Anything : une seule photo satellite ordinaire entre dans le modèle (YOLO, 125 Mo), chaque champ sort comme un objet séparé avec son contour vectoriel.](delineate-anything-fr.png "Delineate Anything : une photo, un objet par champ.")
 
-Il lui faut **une photo couleur ordinaire, à une seule date**, avec une résolution entre 0,25 et 10 m. On lui donne une photo satellite à environ 1 m, dix fois plus fine que les images Sentinel-2 de Fields of The World. Il a été entraîné sur [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) (licence MIT) : 1,48 million d'images et 74 millions de champs annotés dans 61 pays, là où le jeu de Fields of The World en couvre 24, dont 17 européens.
-
-Il est sous licence AGPL-3.0, qui **autorise l'usage commercial**. La contrainte porte sur le code modifié servi à des utilisateurs par le réseau, qui doit alors être publié ; nous lançons le pipeline des auteurs sans en modifier le code, en batch. Et il est petit, environ 62 millions de paramètres pour 125 Mo de poids. **Il tourne sur un portable**, et on a d'abord cru que ça suffirait.
-
-## 2. L'implémentation
-
-### Le pipeline des auteurs
+Il prend une seule photo satellite en couleur. Il pèse 125 Mo, pour environ 62 millions de paramètres.
 
 Le [dépôt GitHub de Delineate Anything](https://github.com/Lavreniuk/Delineate-Anything) fournit un script, `delineate.py`, qui traite une grande image en quatre étapes. Il la découpe en vignettes de 512 px, les fait se chevaucher de moitié pour qu'un champ coupé au bord d'une vignette soit vu en entier dans la voisine, détecte les champs par lots sur le GPU, puis recolle le tout en une seule couche vectorielle. Il produit un GeoPackage, que je convertis en GeoJSON pour la carte.
 
 ![Les quatre étapes du pipeline Delineate Anything : découper en vignettes de 512 px, chevaucher de moitié, détecter par lots sur le GPU, recoller en une seule couche.](pipeline-delineate-fr.png "Le pipeline des auteurs, sur une image de 11 400 × 7 900 px : environ 770 contours.")
 
-**Je ne touche pas au code de ce script.** Je le récupère à un commit fixé et je l'installe comme l'indique le README. Je change seulement deux réglages de sa configuration : le masque d'occupation du sol, pour lequel j'utilise [ESA WorldCover](https://esa-worldcover.org/), et la surface minimale d'un champ.
+**Je ne touche pas au code de ce script.** Je le récupère à un commit fixé et je l'installe comme l'indique le README. Je change seulement deux réglages de sa configuration : le masque d'occupation du sol, pour lequel j'utilise [ESA WorldCover](https://esa-worldcover.org/), et la surface minimale d'un champ. C'est aussi ce qui nous laisse l'utiliser pour un client. Le modèle est sous licence AGPL-3.0, qui **autorise l'usage commercial** et n'oblige à publier que le code modifié qu'on sert à des utilisateurs par le réseau.
 
-Une image couvre environ 13 × 9 km, il en faut donc 120 pour mes 5 zones, 24 par zone.
+Une image couvre environ 13 × 9 km, il en faut donc 120 pour mes 5 zones, 24 par zone. **Le modèle tourne sur un portable**, et on a d'abord cru que ça suffirait.
 
-### Où faire tourner 120 images
+## 2. Où faire tourner 120 images
 
 J'ai comparé cinq options, à partir de mesures ou d'estimations tirées de nos mesures.
 
@@ -55,7 +33,7 @@ J'ai comparé cinq options, à partir de mesures ou d'estimations tirées de nos
 
 Aucun fournisseur d'inférence ne sert ce modèle par API sur Hugging Face, donc cette option est exclue. Sur mon MacBook Pro M1 Pro, le pipeline utilise le GPU d'Apple, deux fois plus lent qu'un T4. Il faudrait environ 18 heures de calcul sans interruption. Un VPS sans GPU à 20 € HT par mois mettrait 6 à 8 jours, et un serveur avec GPU coûte autour de 200 € par mois. Un GPU loué à l'heure chez AWS, Google Cloud ou RunPod reviendrait à 4 ou 5 $, mais il faut allumer la machine, l'installer, puis l'éteindre. J'ai choisi **Hugging Face Jobs, qui loue un GPU à la minute** et se lance par une simple requête.
 
-### Hugging Face Jobs
+## 3. Hugging Face Jobs
 
 Un [Job](https://huggingface.co/docs/hub/jobs), c'est une image Docker, une commande, un type de machine (le *flavor*) et des secrets. Hugging Face **démarre le conteneur, facture à la minute et l'arrête à la fin**. Pas besoin d'abonnement, un solde de crédits prépayés suffit.
 
@@ -71,7 +49,7 @@ Sur les 5 zones, ça a donné 120 images, 15 Jobs dont 10 en parallèle et **92 
 
 Pour essayer le modèle sur une image sans rien installer, le README des auteurs renvoie vers une [démo sur un Space Hugging Face](https://huggingface.co/spaces/hugging-apps/delineate-anything-v2).
 
-## 3. Hugging Face
+## 4. Hugging Face
 
 Hugging Face est la plateforme où se partagent les modèles, les datasets et les démos d'IA ouverts. C'est là qu'on a trouvé Delineate Anything et qu'on l'a fait tourner. Les chiffres ci-dessous datent du 17 novembre 2026.
 
@@ -85,11 +63,11 @@ Tasks dit ce que le modèle prend et rend, ici `image-segmentation`. Parameters 
 
 ![La page de Delineate Anything sur Hugging Face : tâche Image Segmentation, bibliothèque ultralytics, licence AGPL-3.0, et aucun Inference Provider.](hf-modele.jpg)
 
-Tous les modèles du Hub sont *open weight* : leurs poids se téléchargent. C'est **leur licence qui fixe ce qu'on a le droit d'en faire**, comme on l'a vu avec Fields of the Planet. Les modèles fermés comme GPT, Claude ou Gemini n'y sont pas, même si OpenAI y publie des modèles ouverts, les `gpt-oss`.
+Tous les modèles du Hub sont *open weight* : leurs poids se téléchargent. C'est **leur licence qui fixe ce qu'on a le droit d'en faire**, et certaines interdisent l'usage commercial. Les modèles fermés comme GPT, Claude ou Gemini n'y sont pas, même si OpenAI y publie des modèles ouverts, les `gpt-oss`.
 
 ### 1 134 666 datasets
 
-Un dataset est **un tableau d'exemples** : une entrée, et souvent la réponse attendue. On en croise trois usages dans ce projet. FBIS-73M a servi à entraîner Delineate Anything. Fields of The World sert de banc d'essai pour noter les modèles de délimitation, et Voxel51 en a mis [une copie sur le Hub](https://huggingface.co/datasets/Voxel51/fields-of-the-world). Enfin, nos résultats sont stockés dans un dataset privé, où chaque envoi d'un Job est un commit. On peut aussi s'en servir pour affiner un modèle existant avec ses propres exemples.
+Un dataset est **un tableau d'exemples** : une entrée, et souvent la réponse attendue. On en croise trois usages dans ce projet. [FBIS-73M](https://huggingface.co/datasets/MykolaL/FBIS-73M) a servi à entraîner Delineate Anything. Fields of The World sert de banc d'essai pour noter les modèles de délimitation, et Voxel51 en a mis [une copie sur le Hub](https://huggingface.co/datasets/Voxel51/fields-of-the-world). Enfin, nos résultats sont stockés dans un dataset privé, où chaque envoi d'un Job est un commit. On peut aussi s'en servir pour affiner un modèle existant avec ses propres exemples.
 
 ### 1 531 251 Spaces
 
