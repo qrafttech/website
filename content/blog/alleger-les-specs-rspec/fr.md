@@ -4,12 +4,12 @@ slug: alleger-les-specs-rspec
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "conventions-fr.png"
-excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Cinq conventions de specs, mesurées une par une, font tourner la même suite 45 % plus vite. La plus rentable est dans les factories : un enregistrement de trop se paie dans chaque exemple qui l'utilise."
+excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs, mesurées une par une, font tourner la même suite 45 % plus vite. La plus rentable est dans les factories : un enregistrement de trop se paie dans chaque exemple qui l'utilise."
 ---
 
 Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais la suite fait toujours le même travail, juste réparti sur 6 processus. Pour qu'elle en fasse moins, il faut des specs qui en font moins.
 
-On a appliqué cinq conventions. Chacune a d'abord été mesurée seule, sur une seule machine : la suite d'origine, puis la suite avec la convention, l'une après l'autre. Ensemble, la suite passe de 489 à 268 s :
+On a appliqué quatre conventions. Chacune a d'abord été mesurée seule, sur une seule machine : la suite d'origine, puis la suite avec la convention, l'une après l'autre. Ensemble, la suite passe de 489 à 268 s :
 
 ![Durée de la suite sur la même machine, avant et avec les conventions](conventions-fr.png "De 489 à 268 s, sur la même machine.")
 
@@ -57,25 +57,6 @@ it { expect(described_class.new(user, chart_template).update?).to be false }
 ```
 
 Le gain est faible. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite créait en base sans jamais le lire ; passer 19 fichiers en `build_stubbed` gagne autour de 1 %.
-
-## Supprimer les exemples qui ne prouvent rien de plus que leur voisin
-
-Dans un request spec, chaque exemple rejoue la requête. Deux exemples qui prouvent la même chose, ce sont deux requêtes pour une seule preuve.
-
-Le cas le plus fréquent : un exemple vérifie que la création répond 201, et l'exemple d'à côté vérifie le nom du compte renvoyé. Si le nom renvoyé est le bon, c'est que la création a réussi. Le premier exemple n'apprend rien de plus, on le supprime :
-
-```ruby
-before { create_freemium }
-
-it('responds created') { expect(response).to have_http_status(:created) } # supprimé
-it('returns the account name') { expect(response.parsed_body['name']).to eq('Growth Team') }
-```
-
-Même chose pour un exemple qui vérifie qu'il y a deux enregistrements, à côté d'un autre qui vérifie lesquels : si la liste est la bonne, le nombre l'est aussi.
-
-Cette convention n'a pas été mesurée seule, parce que les exemples supprimés sont dispersés dans toute la suite.
-
-Il faut quand même regarder ce que vérifie le voisin. Quand il ne regarde que la base (« le compte a bien été supprimé »), rien ne dit que la réponse est la bonne : la requête peut supprimer le compte, puis planter avant de répondre. Dans ce cas, le status est la seule preuve sur la réponse, et on le garde. On en avait supprimé trop au départ : il a fallu le remettre dans une centaine de contextes.
 
 ## Des factories sans cascades
 
@@ -152,7 +133,7 @@ before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET'
 
 Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4 suffisent pour vérifier ce qu'il calcule.
 
-Sur les 4 fichiers concernés, ça fait gagner environ 42 s, dont 25 s pour le rapport et 10 s pour l'import. C'est le plus petit gain des cinq. Il est même plus faible que l'écart entre deux mesures du même code (50 à 100 s) : on ne le voit qu'en mesurant fichier par fichier.
+Sur les 4 fichiers concernés, ça fait gagner environ 42 s, dont 25 s pour le rapport et 10 s pour l'import. C'est le plus petit gain des quatre. Il est même plus faible que l'écart entre deux mesures du même code (50 à 100 s) : on ne le voit qu'en mesurant fichier par fichier.
 
 ## Une règle à la fois
 

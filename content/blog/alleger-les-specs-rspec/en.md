@@ -4,12 +4,12 @@ slug: slimming-down-rspec-specs
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "conventions-en.png"
-excerpt: "Parallelizing RSpec cut the wait, not the work. Five spec conventions, measured one by one, make the same suite run 45% faster. The most profitable one is in the factories: one record too many is paid for in every example that uses it."
+excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions, measured one by one, make the same suite run 45% faster. The most profitable one is in the factories: one record too many is paid for in every example that uses it."
 ---
 
 At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-github-actions) took a PR's CI from 10 minutes to less than 5. But the suite still does the same work, just spread over 6 processes. For it to do less, the specs have to do less.
 
-We applied five conventions. Each one was first measured alone, on a single machine: the original suite, then the suite with the convention, one after the other. Together, the suite goes from 489 to 268 s:
+We applied four conventions. Each one was first measured alone, on a single machine: the original suite, then the suite with the convention, one after the other. Together, the suite goes from 489 to 268 s:
 
 ![Suite duration on the same machine, before and with the conventions](conventions-en.png "From 489 to 268 s, on the same machine.")
 
@@ -57,25 +57,6 @@ it { expect(described_class.new(user, chart_template).update?).to be false }
 ```
 
 The gain is small. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite created in the database without ever reading it at 29.8 s; switching 19 files to `build_stubbed` saves around 1%.
-
-## Remove examples that prove nothing more than their neighbour
-
-In a request spec, every example replays the request. Two examples that prove the same thing are two requests for a single proof.
-
-The most frequent case: one example checks that the creation responds 201, and the example next to it checks the name of the returned account. If the returned name is the right one, the creation succeeded. The first example teaches nothing more, so we remove it:
-
-```ruby
-before { create_freemium }
-
-it('responds created') { expect(response).to have_http_status(:created) } # removed
-it('returns the account name') { expect(response.parsed_body['name']).to eq('Growth Team') }
-```
-
-Same for an example that checks there are two records, next to another that checks which ones: if the list is right, so is the count.
-
-This convention wasn't measured alone, because the removed examples are scattered across the whole suite.
-
-You still have to look at what the neighbour checks. When it only looks at the database ("the account was deleted"), nothing says the response is right: the request can delete the account, then crash before responding. In that case, the status is the only proof about the response, and we keep it. We removed too many at first: it had to go back into about a hundred contexts.
 
 ## Factories without cascades
 
@@ -152,7 +133,7 @@ before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET'
 
 Same idea elsewhere: a report created 20 respondents per profile, when 4 are enough to check what it computes.
 
-Across the 4 files involved, this saves about 42 s, 25 s of it for the report and 10 s for the import. It's the smallest gain of the five. It's even smaller than the gap between two measurements of the same code (50 to 100 s): you only see it by measuring file by file.
+Across the 4 files involved, this saves about 42 s, 25 s of it for the report and 10 s for the import. It's the smallest gain of the four. It's even smaller than the gap between two measurements of the same code (50 to 100 s): you only see it by measuring file by file.
 
 ## One rule at a time
 
