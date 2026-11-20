@@ -135,7 +135,9 @@ Staff user factories no longer have an account by default; a spec that needs one
 
 ## Only create the records under test
 
-The slowest specs created data they checked nothing about. To test how the credits consumed by an import are rounded, one spec imported 1,500 respondents, because a credit covers 1,000:
+Some specs created much more data than they checked.
+
+For example, an import consumes credits: 1 credit per block of 1,000 respondents, rounded up. To check that rounding, you have to go past a block, so the spec imported 1,500 respondents and checked that it cost 2 credits. But what we test is the rounding, not the volume. For the duration of the spec, we bring the block down to 2 respondents with `stub_const`: 3 respondents give the same rounding to 2 credits.
 
 ```ruby
 # before
@@ -148,7 +150,9 @@ let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
 before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
 ```
 
-Across 4 files, the suite saves about 42 s: 25 s by taking a report from 20 to 4 respondents per profile, 10 s for the import above. It's the smallest of the five, and it stays below the gap between two measurements of the same code (50 to 100 s): only each file's profile shows it.
+Same idea elsewhere: a report created 20 respondents per profile, when 4 are enough to check what it computes.
+
+Across the 4 files involved, this saves about 42 s, 25 s of it for the report and 10 s for the import. It's the smallest gain of the five. It's even smaller than the gap between two measurements of the same code (50 to 100 s): you only see it by measuring file by file.
 
 ## One rule at a time
 

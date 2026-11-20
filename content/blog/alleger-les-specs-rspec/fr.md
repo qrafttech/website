@@ -135,7 +135,9 @@ Les factories des users staff n'ont plus de compte par défaut ; un spec qui en 
 
 ## Ne créer que les enregistrements testés
 
-Les specs les plus lents créaient des données dont ils ne vérifiaient rien. Pour tester l'arrondi des crédits consommés par un import, un spec importait 1 500 répondants, parce qu'un crédit en couvre 1 000 :
+Certains specs créaient beaucoup plus de données que ce qu'ils vérifiaient.
+
+Par exemple, un import consomme des crédits : 1 crédit par tranche de 1 000 répondants, arrondi au-dessus. Pour vérifier cet arrondi, il faut dépasser une tranche, donc le spec importait 1 500 répondants et vérifiait que ça coûtait 2 crédits. Mais ce qu'on teste, c'est l'arrondi, pas le volume. Le temps du spec, on ramène la tranche à 2 répondants avec `stub_const` : 3 répondants donnent le même arrondi à 2 crédits.
 
 ```ruby
 # avant
@@ -148,7 +150,9 @@ let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
 before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
 ```
 
-Sur 4 fichiers, la suite gagne environ 42 s : 25 s en passant un rapport de 20 à 4 répondants par profil, 10 s pour l'import ci-dessus. C'est la plus petite des cinq, et elle reste sous l'écart entre deux mesures du même code (50 à 100 s) : seul le profil de chaque fichier la montre.
+Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4 suffisent pour vérifier ce qu'il calcule.
+
+Sur les 4 fichiers concernés, ça fait gagner environ 42 s, dont 25 s pour le rapport et 10 s pour l'import. C'est le plus petit gain des cinq. Il est même plus faible que l'écart entre deux mesures du même code (50 à 100 s) : on ne le voit qu'en mesurant fichier par fichier.
 
 ## Une règle à la fois
 
