@@ -1,6 +1,7 @@
 ---
 title: "Alléger les specs RSpec"
 slug: alleger-les-specs-rspec
+date: 2026-12-07
 author: "Nicolas Rouanne"
 excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Cinq conventions de specs font tourner la même suite 45 % plus vite, et une mesure a montré où était le vrai coût : la factory."
 ---
