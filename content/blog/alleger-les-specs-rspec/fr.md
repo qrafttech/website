@@ -7,7 +7,9 @@ cover: "gains-fr.png"
 excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs et une régression corrigée en une ligne, mesurées une par une : ce que chacun fait gagner, par test et sur toute la suite."
 ---
 
-Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais la suite fait toujours le même travail, juste réparti sur 6 processus. Pour qu'elle en fasse moins, il faut des specs qui en font moins.
+Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais paralléliser, comme prendre des machines plus grosses, ne fait que répartir le même travail : on attend moins, la suite n'est pas plus efficace. La cause, ce sont des tests qui font beaucoup plus de travail que ce qu'ils vérifient, et c'est là-dessus qu'on a travaillé.
+
+Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
 On a appliqué quatre conventions de specs, et trouvé en chemin une régression d'août qui coûtait plus que chacune d'elles. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
 
@@ -172,9 +174,7 @@ Sur les 4 fichiers concernés, ça fait gagner environ 42 s. C'est moins que l'�
 
 On reprend ces conventions une par une : une petite PR par convention, qu'on relit en quelques minutes.
 
-Pour qu'elles tiennent dans le temps, celles qu'un outil peut vérifier deviennent des règles de RuboCop, le linter Ruby : un spec qui ne les respecte pas fait échouer la CI. Les autres sont écrites, en phrases simples, dans les instructions que nos agents de code lisent avant d'écrire un spec.
-
-Et le découpage de la CI de [l'article précédent](/blog/paralleliser-rspec-sur-github-actions) ne bouge pas : même sur la suite allégée, 3 jobs de 2 processus restent le meilleur compromis entre attente et minutes facturées.
+Le but, c'est que les prochains specs soient efficaces dès qu'on les écrit. Les conventions qu'un outil peut vérifier deviennent des règles de RuboCop, le linter Ruby : un spec qui ne les respecte pas fait échouer la CI. Les autres sont écrites, en phrases simples, dans les instructions que nos agents de code lisent avant d'écrire un spec.
 
 > [!NOTE]
 > Les runners `ubuntu-latest` tombent sur des CPU différents, et la même suite peut prendre de 477 à 730 s. Les versions de la suite sont donc comparées sur une seule machine, l'une après l'autre. On suit aussi dans PostHog la somme des temps de chaque fichier de spec, qui monte quand on ajoute des specs, pas quand on ajoute des jobs (voir [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)).

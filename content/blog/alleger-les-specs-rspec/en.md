@@ -7,7 +7,9 @@ cover: "gains-en.png"
 excerpt: "Parallelizing RSpec cut the wait, not the work. Four spec conventions and a regression fixed in one line, measured one by one: what each one saves, per test and on the whole suite."
 ---
 
-At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-github-actions) took a PR's CI from 10 minutes to less than 5. But the suite still does the same work, just spread over 6 processes. For it to do less, the specs have to do less.
+At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-github-actions) took a PR's CI from 10 minutes to less than 5. But parallelizing, like getting bigger machines, only spreads the same work: we wait less, the suite isn't any more efficient. The cause is tests that do much more work than what they check, and that's what we worked on.
+
+And it compounds: a fixed factory speeds up every spec that uses it, today's and the ones we'll write tomorrow, and a spec written with the right conventions is fast from the start.
 
 We applied four spec conventions, and found along the way an August regression that cost more than any of them. Each change was measured alone, on a single machine: the original suite, then the suite with the change, one after the other.
 
@@ -172,9 +174,7 @@ Across the 4 files involved, this saves about 42 s. That's less than the gap bet
 
 We're taking these conventions one by one: one small PR per convention, reviewed in a few minutes.
 
-To make them last, the ones a tool can check become RuboCop rules (RuboCop is the Ruby linter): a spec that breaks them fails the CI. The others are written, in plain sentences, in the instructions our coding agents read before writing a spec.
-
-And the CI split from [the previous article](/en/blog/parallelizing-rspec-on-github-actions) doesn't change: even on the slimmed-down suite, 3 jobs of 2 processes remain the best trade-off between waiting time and billed minutes.
+The goal is for the next specs to be efficient as soon as they're written. The conventions a tool can check become RuboCop rules (RuboCop is the Ruby linter): a spec that breaks them fails the CI. The others are written, in plain sentences, in the instructions our coding agents read before writing a spec.
 
 > [!NOTE]
 > `ubuntu-latest` runners land on different CPUs, and the same suite can take from 477 to 730 s. So versions of the suite are compared on a single machine, one after the other. We also track in PostHog the sum of each spec file's duration, which goes up when we add specs, not when we add jobs (see [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)).
