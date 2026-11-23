@@ -1,4 +1,4 @@
-.PHONY: help up down logs url sh lint format
+.PHONY: help up down logs url sh lint test format
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
@@ -20,6 +20,9 @@ sh: ## Open a shell in the web container
 
 lint: ## Run ESLint
 	docker compose exec web yarn lint
+
+test: ## Run the tests
+	docker compose exec web node --test tests/*.test.mjs
 
 format: ## Run Prettier
 	docker compose exec web yarn format
