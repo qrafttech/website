@@ -36,14 +36,14 @@ This works well for monthly totals. But it has a subtle bug when multiple client
 
 ## The problem: daily totals inflate
 
-On February 5th, I tracked 7h42m across three clients: Episto (4h34m), SAMM (2h21m), and Qraft (44m). That's 1.40 real workdays.
+On February 5th, I tracked 7h42m across three clients: Episto (4h34m), Health mobile app (2h21m), and Qraft (44m). That's 1.40 real workdays.
 
 With per-client carry-forward, each client had accumulated debt from previous days, and all three got a rounding bump on the same day:
 
 | **Client** | **Raw today** | **Rounded** |
 | --- | --- | --- |
 | Episto | 0.83d | 1.0 |
-| SAMM | 0.43d | 0.5 |
+| Health mobile app | 0.43d | 0.5 |
 | Qraft | 0.13d | 0.5 |
 | **Total** | **1.40d** | **2.0** ❌ |
 
@@ -77,7 +77,7 @@ For February 5th with 3 slots:
 | **Client** | **Debt** | **Gets** |
 | --- | --- | --- |
 | Episto | highest → slot 1 + slot 2 | **1.0** |
-| SAMM | 2nd → slot 3 | **0.5** |
+| Health mobile app | 2nd → slot 3 | **0.5** |
 | Qraft | lowest | **0.0** |
 | **Total** |  | **1.5** ✅ |
 
