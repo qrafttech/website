@@ -56,22 +56,27 @@ export function localeAlternates(
 }
 
 /**
- * An article-shaped page — a blog post or a case study. The OpenGraph/Twitter
- * convention lives here so the two routes cannot drift apart. The site shell's
- * own metadata is `type: "website"` and stays in the layout.
+ * The metadata of one page: title, description, canonical, hreflang set and
+ * link preview. The OpenGraph convention lives here so the routes cannot
+ * drift apart.
  *
- * A page's `openGraph` replaces the layout's instead of merging with it, so
- * what the layout sets (site name, locale, image) is repeated here. `image`
- * is the page's own, already at `OG_IMAGE_SIZE` — an article's link preview —
- * or else the site's. No `twitter` here or in the layout: Next derives the
- * Twitter card from `openGraph`.
+ * A page that sets no `openGraph` inherits the layout's whole, so its link
+ * preview shows the home page's title, description and URL. A page that sets
+ * one replaces the layout's instead of merging with it, so what the layout
+ * sets (site name, locale, image) is repeated here. `image` is the page's
+ * own, already at `OG_IMAGE_SIZE` — an article's link preview — or else the
+ * site's. No `twitter` here or in the layout: Next derives the Twitter card
+ * from `openGraph`.
  */
-export function articleMetadata(
+export function pageMetadata(
   locale: Locale,
   paths: string | LocalePaths,
   title: string,
   description: string,
-  image: string = SITE_OG_IMAGE
+  {
+    type = "website",
+    image = SITE_OG_IMAGE,
+  }: { type?: "website" | "article"; image?: string } = {}
 ): Metadata {
   const own = typeof paths === "string" ? paths : paths[locale] ?? "/";
 
@@ -80,7 +85,7 @@ export function articleMetadata(
     description,
     alternates: localeAlternates(locale, paths),
     openGraph: {
-      type: "article",
+      type,
       siteName: SITE_NAME,
       locale: OG_LOCALE[locale],
       title,

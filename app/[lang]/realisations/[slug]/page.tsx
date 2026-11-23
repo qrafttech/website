@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import ClientCase from "@/app/components/ClientCase";
 import { isLocale } from "@/lib/i18n/config";
 import { getClient, getDictionary } from "@/lib/i18n/dictionaries";
-import { articleMetadata } from "@/lib/i18n/metadata";
+import { pageMetadata } from "@/lib/i18n/metadata";
 
 interface ClientPageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -36,7 +36,9 @@ export async function generateMetadata({
 
   const title = `${client.name} — ${client.sector}`;
 
-  return articleMetadata(lang, `/realisations/${slug}`, title, client.lede);
+  return pageMetadata(lang, `/realisations/${slug}`, title, client.lede, {
+    type: "article",
+  });
 }
 
 export default async function ClientPage({ params }: ClientPageProps) {

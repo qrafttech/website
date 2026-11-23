@@ -9,7 +9,7 @@ import Wrap from "@/components/Wrap";
 import { fetchArticles } from "@/lib/blog";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { localeAlternates } from "@/lib/i18n/metadata";
+import { pageMetadata } from "@/lib/i18n/metadata";
 
 /**
  * One list per locale. An article is a folder with one Markdown file per
@@ -27,11 +27,7 @@ export async function generateMetadata({
 
   const t = await getDictionary(lang);
 
-  return {
-    title: t.blog.title,
-    description: t.blog.metaDescription,
-    alternates: localeAlternates(lang, "/blog"),
-  };
+  return pageMetadata(lang, "/blog", t.blog.title, t.blog.metaDescription);
 }
 
 const ARTICLES_PER_PAGE = 10;

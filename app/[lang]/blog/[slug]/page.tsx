@@ -21,7 +21,7 @@ import {
   otherLocale,
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { type LocalePaths, articleMetadata } from "@/lib/i18n/metadata";
+import { type LocalePaths, pageMetadata } from "@/lib/i18n/metadata";
 
 const getArticle = cache(fetchArticleBySlug);
 
@@ -79,12 +79,12 @@ export async function generateMetadata({
 
   const translation = await fetchTranslation(lang, article);
 
-  return articleMetadata(
+  return pageMetadata(
     lang,
     articlePaths(lang, slug, translation),
     article.title,
     article.excerpt || article.title,
-    article.social ?? undefined
+    { type: "article", image: article.social ?? undefined }
   );
 }
 

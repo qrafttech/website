@@ -20,7 +20,7 @@ import Eyebrow from "@/components/Eyebrow";
 import CtaLink from "@/components/CtaLink";
 import { isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { localeAlternates } from "@/lib/i18n/metadata";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import type {
   CoworkAmenityKey,
   CoworkGalleryKey,
@@ -52,11 +52,7 @@ export async function generateMetadata({
 
   const t = (await getDictionary(lang)).cowork;
 
-  return {
-    title: t.metaTitle,
-    description: t.description,
-    alternates: localeAlternates(lang, "/cowork"),
-  };
+  return pageMetadata(lang, "/cowork", t.metaTitle, t.description);
 }
 
 function mapsEmbedUrl(location: Cowork["location"]): string {
