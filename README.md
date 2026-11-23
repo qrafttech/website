@@ -53,6 +53,17 @@ $ yarn lint    # without Docker
 
 > **Continuous integration** 🤖 will run the linter and **fail the build** if any error is found. 👮‍♀️
 
+### Tests
+
+The tests check the articles of the blog: an article with a `date` has a cover.
+
+```sh
+$ make test    # with Docker
+$ yarn test    # without Docker
+```
+
+> **Continuous integration** 🤖 runs them on every pull request.
+
 ### Styling
 
 Code style 💅 is enforced by [_Prettier_](https://prettier.io/) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)

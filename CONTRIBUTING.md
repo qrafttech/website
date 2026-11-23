@@ -45,7 +45,9 @@ excerpt: "One sentence for the article list and social previews."
 | `social`  | no         | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.                   |
 | `excerpt` | no         | The summary. Defaults to the first paragraph.                                                                                        |
 
-A malformed file fails the build: missing title or slug, a date in another format, a `date` without a `cover`, a cover file that does not exist, two articles with the same slug.
+A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
+
+The tests (`make test`, run on every PR) fail on an article with a `date` and no `cover`, and on a cover file that does not exist.
 
 ## 3. The Markdown
 
