@@ -38,7 +38,13 @@ export async function generateMetadata({
   const t = await getDictionary(lang);
 
   return {
-    metadataBase: new URL(SITE_URL),
+    // A Vercel preview points at its own images, so that a link preview can
+    // be tested before the merge: production does not serve them yet.
+    metadataBase: new URL(
+      process.env.VERCEL_ENV === "preview"
+        ? `https://${process.env.VERCEL_URL}`
+        : SITE_URL
+    ),
     title: { default: t.meta.title, template: t.meta.titleTemplate },
     description: t.meta.description,
     alternates: localeAlternates(lang, "/"),
