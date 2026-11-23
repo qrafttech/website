@@ -38,7 +38,6 @@ export async function generateMetadata({
   const title = `${client.name} — ${client.sector}`;
 
   return pageMetadata(lang, `/realisations/${slug}`, title, client.lede, {
-    type: "article",
     image: clientSocialImages[slug],
   });
 }

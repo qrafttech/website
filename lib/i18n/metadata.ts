@@ -88,7 +88,10 @@ export function pageMetadata(
       type,
       siteName: SITE_NAME,
       locale: OG_LOCALE[locale],
-      title,
+      // An article's title stands alone. Any other page takes the document's,
+      // which ends with the site's name: a case study named after its client
+      // would otherwise read as the client's own page.
+      ...(type === "article" ? { title } : {}),
       description,
       url: localePath(locale, own),
       images: [{ url: image, ...OG_IMAGE_SIZE }],

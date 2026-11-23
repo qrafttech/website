@@ -22,8 +22,8 @@ export const clientScreenshots: Record<string, readonly StaticImageData[]> = {
 };
 
 /**
- * The image of a case study's link preview: its screenshot, at
- * `OG_IMAGE_SIZE`. A client without one gets the site's image.
+ * The image of a case study's link preview: a card with the Qraft lockup,
+ * the client's logo and its screenshot, made by `yarn gen:client-cards`.
  */
 export const clientSocialImages: Record<string, string> = {
   billi: "/images/social/billi.jpg",
@@ -33,4 +33,6 @@ export const clientSocialImages: Record<string, string> = {
   bruno: "/images/social/bruno.jpg",
   chloe: "/images/social/chloe.jpg",
   sante: "/images/social/sante.jpg",
+  episto: "/images/social/episto.jpg",
+  hellio: "/images/social/hellio.jpg",
 };
