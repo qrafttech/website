@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Inter, Sora, Space_Mono } from "next/font/google";
 
-import { SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
+import { OG_IMAGE_SIZE, SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 import { LOCALES, OG_LOCALE, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
@@ -38,7 +38,13 @@ export async function generateMetadata({
   const t = await getDictionary(lang);
 
   return {
-    metadataBase: new URL(SITE_URL),
+    // A Vercel preview points at its own images, so that a link preview can
+    // be tested before the merge: production does not serve them yet.
+    metadataBase: new URL(
+      process.env.VERCEL_ENV === "preview"
+        ? `https://${process.env.VERCEL_URL}`
+        : SITE_URL
+    ),
     title: { default: t.meta.title, template: t.meta.titleTemplate },
     description: t.meta.description,
     alternates: localeAlternates(lang, "/"),
@@ -49,13 +55,7 @@ export async function generateMetadata({
       locale: OG_LOCALE[lang],
       title: t.meta.title,
       description: t.meta.description,
-      images: [{ url: SITE_OG_IMAGE }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t.meta.title,
-      description: t.meta.description,
-      images: [SITE_OG_IMAGE],
+      images: [{ url: SITE_OG_IMAGE, ...OG_IMAGE_SIZE }],
     },
     icons: {
       icon: [
