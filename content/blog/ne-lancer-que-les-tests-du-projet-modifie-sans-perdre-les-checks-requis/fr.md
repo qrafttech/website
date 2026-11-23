@@ -3,6 +3,7 @@ title: "Ne lancer que les tests du projet modifié, sans perdre les checks requi
 slug: ne-lancer-que-les-tests-du-projet-modifie-sans-perdre-les-checks-requis
 date: 2026-11-12
 author: "Nicolas Rouanne"
+social: "runs-fr.png"
 ---
 
 Sur un des produits sur lesquels on travaille, le monorepo contient trois projets : une API Rails (`api/`), un front (`web/`) et un chat (`chat/`). Chaque PR lance quatre checks : RSpec, Rubocop, ESLint et les tests Vitest du chat. Les quatre sont requis pour merger sur `main`, et les quatre tournent quelle que soit la partie modifiée par la PR. Une PR qui ne touche que le front lance donc quand même RSpec, qui prend une dizaine de minutes.

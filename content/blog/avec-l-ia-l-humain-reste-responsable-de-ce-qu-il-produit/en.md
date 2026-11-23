@@ -3,6 +3,7 @@ title: "With AI, humans stay responsible for what they produce"
 slug: with-ai-humans-stay-responsible-for-what-they-produce
 date: 2026-11-16
 author: "Nicolas Rouanne"
+social: "social.jpg"
 ---
 
 At the end of October, at one of our clients, a member of the leadership team posted this message to the whole company.
