@@ -3,9 +3,11 @@ import type { Metadata } from "next";
 import {
   DEFAULT_LOCALE,
   LOCALES,
+  OG_LOCALE,
   type Locale,
   localePath,
 } from "@/lib/i18n/config";
+import { OG_IMAGE_SIZE, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 
 /**
  * Where one page lives in each locale, as locale-relative paths. A locale
@@ -57,12 +59,19 @@ export function localeAlternates(
  * An article-shaped page — a blog post or a case study. The OpenGraph/Twitter
  * convention lives here so the two routes cannot drift apart. The site shell's
  * own metadata is `type: "website"` and stays in the layout.
+ *
+ * A page's `openGraph` replaces the layout's instead of merging with it, so
+ * what the layout sets (site name, locale, image) is repeated here. `image`
+ * is the page's own, already at `OG_IMAGE_SIZE` — an article's link preview —
+ * or else the site's. No `twitter` here or in the layout: Next derives the
+ * Twitter card from `openGraph`.
  */
 export function articleMetadata(
   locale: Locale,
   paths: string | LocalePaths,
   title: string,
-  description: string
+  description: string,
+  image: string = SITE_OG_IMAGE
 ): Metadata {
   const own = typeof paths === "string" ? paths : paths[locale] ?? "/";
 
@@ -72,10 +81,12 @@ export function articleMetadata(
     alternates: localeAlternates(locale, paths),
     openGraph: {
       type: "article",
+      siteName: SITE_NAME,
+      locale: OG_LOCALE[locale],
       title,
       description,
       url: localePath(locale, own),
+      images: [{ url: image, ...OG_IMAGE_SIZE }],
     },
-    twitter: { card: "summary_large_image", title, description },
   };
 }
