@@ -45,6 +45,8 @@ export interface ArticleMeta {
   excerpt: string;
   /** Absolute URL of the cover image, if the article has one. */
   cover: string | null;
+  /** URL of the link preview's image (`og:image`) — see `app/blog-social`. */
+  social: string | null;
   /** URL of a video played at the top of the article (a TMBA talk's). */
   video: string | null;
   /** The write-up of a Tech My Breath Away talk, badged as such. */
@@ -108,11 +110,8 @@ function firstParagraph(markdown: string): string {
   return "";
 }
 
-/** Throws on a malformed file, so a broken article fails the build. */
-function readArticle(
-  dir: string,
-  locale: Locale
-): Omit<ArticleFull, "status"> | null {
+/** One language file split into its front matter and its Markdown. */
+function readFile(dir: string, locale: Locale) {
   const file = path.join(BLOG_DIR, dir, `${locale}.md`);
   if (!existsSync(file)) return null;
 
@@ -121,7 +120,27 @@ function readArticle(
   );
   if (!match) throw new Error(`${file}: missing front matter`);
   const [, front, body] = match;
-  const data = parse(front) ?? {};
+  return { file, data: parse(front) ?? {}, body };
+}
+
+/**
+ * The file an article's link preview is made from: its `social` image, or
+ * else its cover. `null` when the article has neither.
+ */
+export function socialSource(dir: string, locale: Locale): string | null {
+  const data = readFile(dir, locale)?.data;
+  const image = data?.social ?? data?.cover;
+  return image ? path.join(BLOG_DIR, dir, String(image)) : null;
+}
+
+/** Throws on a malformed file, so a broken article fails the build. */
+function readArticle(
+  dir: string,
+  locale: Locale
+): Omit<ArticleFull, "status"> | null {
+  const source = readFile(dir, locale);
+  if (!source) return null;
+  const { file, data, body } = source;
 
   const title = String(data.title ?? "");
   const slug = String(data.slug ?? "");
@@ -146,6 +165,8 @@ function readArticle(
     author: String(data.author ?? ""),
     excerpt: data.excerpt ? String(data.excerpt) : firstParagraph(body),
     cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
+    social:
+      data.social ?? data.cover ? `/blog-social/${dir}/${locale}.jpg` : null,
     video,
     tmba: data.tmba === true,
     body,

@@ -4,6 +4,7 @@ slug: write-it-in-pythonic-style-as-a-pythonista-would
 date: 2026-07-07
 author: "Nicolas Rouanne"
 cover: "attio-cleanup-pythonista.png"
+social: "social.png"
 ---
 
 Le prompt du titre n'est pas de moi — il vient de Sébastien Vian, CTO de [Wisetax](https://www.wisetax.fr/), hébergée dans notre coworking à Marseille. Il le dégaine sur du Python généré par LLM, et ça m'a suffisamment fait rire pour l'essayer le matin même sur un vrai script. La réécriture était sympa ; c'est la conversation qui a suivi qui s'est révélée intéressante.

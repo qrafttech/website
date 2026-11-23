@@ -10,6 +10,7 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/**": ["./content/blog/**/*.md"],
     "/blog-assets/**": ["./content/blog/**/*"],
+    "/blog-social/**": ["./content/blog/**/*"],
   },
   // PostHog reverse proxy — see instrumentation-client.ts.
   async rewrites() {

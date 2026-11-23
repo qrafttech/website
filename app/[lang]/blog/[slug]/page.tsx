@@ -83,7 +83,8 @@ export async function generateMetadata({
     lang,
     articlePaths(lang, slug, translation),
     article.title,
-    article.excerpt.slice(0, 160) || article.title
+    article.excerpt || article.title,
+    article.social ?? undefined
   );
 }
 
@@ -109,6 +110,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           headline: article.title,
+          image: article.social ? `${SITE_URL}${article.social}` : undefined,
           datePublished: article.dateISO || undefined,
           author: article.author
             ? { "@type": "Person", name: article.author }
