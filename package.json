@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "test": "node --test tests/*.test.mjs",
+    "lint": "eslint . && node scripts/lint-blog.mjs",
     "gen:stack-icons": "node scripts/gen-stack-icons.mjs",
     "format": "prettier --write ."
   },
