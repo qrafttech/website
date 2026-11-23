@@ -47,7 +47,7 @@ excerpt: "One sentence for the article list and social previews."
 
 A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
 
-The linter (`make lint`, required on every PR) fails on an article with a `date` and no `cover`, and on a cover file that does not exist.
+The tests (`make test`, required on every PR) fail on an article with a `date` and no `cover`, and on a cover file that does not exist.
 
 ## 3. The Markdown
 

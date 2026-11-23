@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . && node scripts/lint-blog.mjs",
+    "lint": "eslint .",
     "gen:stack-icons": "node scripts/gen-stack-icons.mjs",
+    "gen:client-cards": "node scripts/gen-client-cards.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
