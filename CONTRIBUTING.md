@@ -14,6 +14,7 @@ content/blog/<slug-fr>/
   en.md          # the English version, optional (and the other way round)
   cover-fr.jpg   # cover, optional
   cover-en.jpg
+  social.jpg     # link preview image, only when the cover does not suit it
   *.png          # the article's images
 ```
 
@@ -41,6 +42,7 @@ excerpt: "One sentence for the article list and social previews."
 | `date`    | no       | The publication date, `YYYY-MM-DD`. **Without a date the article is a draft** and is never published.               |
 | `author`  | yes      | Your name.                                                                                                          |
 | `cover`   | no       | The cover's file name, in the article's folder.                                                                     |
+| `social`  | no       | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.  |
 | `excerpt` | no       | The summary. Defaults to the first paragraph.                                                                       |
 
 A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
@@ -71,6 +73,7 @@ Prettier ignores `content/`, your Markdown is not reformatted.
 ## 4. Images
 
 - **Cover**: JPEG, 2400 × 1600 (3:2), around 150 KB. If it contains text, make a `cover-fr.jpg` and a `cover-en.jpg`.
+- **Link preview**: made from the cover. Social networks crop the image to 1200 × 630, so the cover is fitted whole into that frame and its edges are stretched to fill the rest. It only looks right on a plain background: for a photo, a screenshot that fills its frame or a tall image, add a `social` image, 1200 × 630 or larger at the same ratio. An article with neither gets the site's image.
 - **Figures**: PNG or JPEG, under 300 KB. No screenshot with real client data: anonymize first.
 
 ## 5. Preview
@@ -79,6 +82,8 @@ Two ways to see the rendered article:
 
 - **Locally**: `make up` then `make url` (see the [README](README.md)). Drafts are listed at the top of the blog.
 - **On the PR**: Vercel deploys a preview on every push, linked from the PR. Drafts and scheduled articles show there, never in production.
+
+The image of the link preview is at `/blog-social/<folder>/fr.jpg` (or `en.jpg`), on both.
 
 ## 6. Publish
 
