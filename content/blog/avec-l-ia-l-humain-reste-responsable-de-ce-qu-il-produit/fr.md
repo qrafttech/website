@@ -3,6 +3,7 @@ title: "Avec l'IA, l'humain reste responsable de ce qu'il produit"
 slug: avec-l-ia-l-humain-reste-responsable-de-ce-qu-il-produit
 date: 2026-11-16
 author: "Nicolas Rouanne"
+social: "social.jpg"
 ---
 
 Fin octobre, chez un de nos clients, un membre de la direction a posté ce message à toute l'équipe.

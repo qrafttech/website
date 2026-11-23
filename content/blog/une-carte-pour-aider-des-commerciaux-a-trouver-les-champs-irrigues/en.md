@@ -4,6 +4,7 @@ slug: a-map-to-help-sales-reps-find-irrigated-fields
 date: 2026-11-23
 author: "Adrien Lupo"
 cover: "carte-prospection.jpg"
+social: "social.jpg"
 excerpt: "A client's sales reps spotted fields by eye on Google Maps. We put their steps into a map: draw the fields, see which ones are irrigated, find out who farms them."
 ---
 

@@ -48,6 +48,23 @@ function articlePaths(
 }
 
 /**
+ * The article's summary, for search results and link previews. An `excerpt`
+ * fits whole. The first paragraph, which most articles fall back on, is cut
+ * after its last whole sentence, or else between two words: a preview that
+ * stops mid-word looks broken.
+ */
+function description({ excerpt, title }: ArticleMeta): string {
+  const MAX = 200;
+  if (excerpt.length <= MAX) return excerpt || title;
+
+  const sentences = excerpt.slice(0, MAX + 1).match(/^[\s\S]{80,}[.!?](?=\s)/);
+  if (sentences) return sentences[0];
+
+  const words = excerpt.slice(0, excerpt.lastIndexOf(" ", MAX));
+  return `${words.replace(/[\s,;:.!?«(–—-]+$/, "")}…`;
+}
+
+/**
  * With Cache Components enabled, Next requires every `generateStaticParams`
  * to yield at least one result so it can prove at build time that the route
  * has no unguarded dynamic access. When no article is published yet this
@@ -83,7 +100,8 @@ export async function generateMetadata({
     lang,
     articlePaths(lang, slug, translation),
     article.title,
-    article.excerpt.slice(0, 160) || article.title
+    description(article),
+    article.social ?? undefined
   );
 }
 
@@ -109,6 +127,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           headline: article.title,
+          image: article.social ? `${SITE_URL}${article.social}` : undefined,
           datePublished: article.dateISO || undefined,
           author: article.author
             ? { "@type": "Person", name: article.author }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Inter, Sora, Space_Mono } from "next/font/google";
 
-import { SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
+import { OG_IMAGE_SIZE, SITE_URL, SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 import { LOCALES, OG_LOCALE, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeAlternates } from "@/lib/i18n/metadata";
@@ -49,7 +49,7 @@ export async function generateMetadata({
       locale: OG_LOCALE[lang],
       title: t.meta.title,
       description: t.meta.description,
-      images: [{ url: SITE_OG_IMAGE }],
+      images: [{ url: SITE_OG_IMAGE, ...OG_IMAGE_SIZE }],
     },
     twitter: {
       card: "summary_large_image",

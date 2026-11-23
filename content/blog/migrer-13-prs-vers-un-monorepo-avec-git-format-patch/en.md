@@ -4,6 +4,7 @@ slug: migrating-13-prs-to-a-monorepo-with-git-format-patch
 date: 2026-01-26
 author: "Nicolas Rouanne"
 cover: "screenshot-2026-01-26-at-11-33-46.png"
+social: "social.png"
 ---
 
 ## Ever tried to migrate open PRs when consolidating repositories?
