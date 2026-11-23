@@ -63,7 +63,8 @@ export function localeAlternates(
  * A page's `openGraph` replaces the layout's instead of merging with it, so
  * what the layout sets (site name, locale, image) is repeated here. `image`
  * is the page's own, already at `OG_IMAGE_SIZE` — an article's link preview —
- * or else the site's.
+ * or else the site's. No `twitter` here or in the layout: Next derives the
+ * Twitter card from `openGraph`.
  */
 export function articleMetadata(
   locale: Locale,
@@ -80,18 +81,12 @@ export function articleMetadata(
     alternates: localeAlternates(locale, paths),
     openGraph: {
       type: "article",
-      url: localePath(locale, own),
       siteName: SITE_NAME,
       locale: OG_LOCALE[locale],
       title,
       description,
+      url: localePath(locale, own),
       images: [{ url: image, ...OG_IMAGE_SIZE }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image],
     },
   };
 }

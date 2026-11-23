@@ -19,11 +19,6 @@ export function assetUrl(dir: string, file: string): string {
   return `/blog-assets/${dir}/${file}`;
 }
 
-/** Where an article's link preview is served — see `app/blog-social`. */
-export function socialUrl(dir: string, locale: Locale): string {
-  return `/blog-social/${dir}/${locale}.jpg`;
-}
-
 /**
  * Drafts (no `date`) and scheduled articles (a `date` in the future) are
  * listed on preview deployments, so a PR can be read before it is merged,
@@ -50,7 +45,7 @@ export interface ArticleMeta {
   excerpt: string;
   /** Absolute URL of the cover image, if the article has one. */
   cover: string | null;
-  /** Absolute URL of the link preview's image, if the article has one. */
+  /** URL of the link preview's image (`og:image`) — see `app/blog-social`. */
   social: string | null;
 }
 
@@ -161,7 +156,8 @@ function readArticle(
     author: String(data.author ?? ""),
     excerpt: data.excerpt ? String(data.excerpt) : firstParagraph(body),
     cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
-    social: data.social ?? data.cover ? socialUrl(dir, locale) : null,
+    social:
+      data.social ?? data.cover ? `/blog-social/${dir}/${locale}.jpg` : null,
     body,
   };
 }

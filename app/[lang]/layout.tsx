@@ -51,12 +51,6 @@ export async function generateMetadata({
       description: t.meta.description,
       images: [{ url: SITE_OG_IMAGE, ...OG_IMAGE_SIZE }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: t.meta.title,
-      description: t.meta.description,
-      images: [SITE_OG_IMAGE],
-    },
     icons: {
       icon: [
         { url: "/favicon.ico" },

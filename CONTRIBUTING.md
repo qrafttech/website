@@ -43,7 +43,7 @@ excerpt: "One sentence for the article list and social previews."
 | `author`  | yes      | Your name.                                                                                                          |
 | `cover`   | no       | The cover's file name, in the article's folder.                                                                     |
 | `social`  | no       | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.  |
-| `excerpt` | no       | The summary. Defaults to the first paragraph. Link previews show its first 200 characters.                          |
+| `excerpt` | no       | The summary. Defaults to the first paragraph.                                                                       |
 
 A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
 
