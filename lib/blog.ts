@@ -147,6 +147,15 @@ function readArticle(
     throw new Error(`${file}: date must be YYYY-MM-DD`);
   }
 
+  // A draft may not have its cover yet; an article with a date goes out.
+  const cover = data.cover ? String(data.cover) : "";
+  if (dateISO && !cover) {
+    throw new Error(`${file}: an article with a date needs a cover`);
+  }
+  if (cover && !existsSync(path.join(BLOG_DIR, dir, cover))) {
+    throw new Error(`${file}: cover ${cover} not found`);
+  }
+
   return {
     dir,
     title,
@@ -155,7 +164,7 @@ function readArticle(
     date: dateISO ? formatDate(dateISO, locale) : "",
     author: String(data.author ?? ""),
     excerpt: data.excerpt ? String(data.excerpt) : firstParagraph(body),
-    cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
+    cover: cover ? assetUrl(dir, cover) : null,
     social:
       data.social ?? data.cover ? `/blog-social/${dir}/${locale}.jpg` : null,
     body,

@@ -12,7 +12,7 @@ You need to be a collaborator on the repo: ask nicolas.rouanne@qraft.tech. Push 
 content/blog/<slug-fr>/
   fr.md          # the French version
   en.md          # the English version, optional (and the other way round)
-  cover-fr.jpg   # cover, optional
+  cover-fr.jpg   # cover, required to publish
   cover-en.jpg
   social.jpg     # link preview image, only when the cover does not suit it
   *.png          # the article's images
@@ -35,17 +35,17 @@ excerpt: "One sentence for the article list and social previews."
 ---
 ```
 
-| Field     | Required | Role                                                                                                                |
-| --------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| `title`   | yes      | The displayed title.                                                                                                |
-| `slug`    | yes      | The URL: `qraft.tech/blog/<slug>` in French, `qraft.tech/en/blog/<slug>` in English. Unique per language, set once. |
-| `date`    | no       | The publication date, `YYYY-MM-DD`. **Without a date the article is a draft** and is never published.               |
-| `author`  | yes      | Your name.                                                                                                          |
-| `cover`   | no       | The cover's file name, in the article's folder.                                                                     |
-| `social`  | no       | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.  |
-| `excerpt` | no       | The summary. Defaults to the first paragraph.                                                                       |
+| Field     | Required   | Role                                                                                                                                 |
+| --------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`   | yes        | The displayed title.                                                                                                                 |
+| `slug`    | yes        | The URL: `qraft.tech/blog/<slug>` in French, `qraft.tech/en/blog/<slug>` in English. Unique per language, set once.                  |
+| `date`    | no         | The publication date, `YYYY-MM-DD`. **Without a date the article is a draft** and is never published.                                |
+| `author`  | yes        | Your name.                                                                                                                           |
+| `cover`   | to publish | The cover's file name, in the article's folder: the image of the article in the blog's list. Required once the article has a `date`. |
+| `social`  | no         | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.                   |
+| `excerpt` | no         | The summary. Defaults to the first paragraph.                                                                                        |
 
-A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
+A malformed file fails the build: missing title or slug, a date in another format, a `date` without a `cover`, a cover file that does not exist, two articles with the same slug.
 
 ## 3. The Markdown
 
@@ -72,8 +72,8 @@ Prettier ignores `content/`, your Markdown is not reformatted.
 
 ## 4. Images
 
-- **Cover**: JPEG, 2400 × 1600 (3:2), around 150 KB. If it contains text, make a `cover-fr.jpg` and a `cover-en.jpg`.
-- **Link preview**: made from the cover. Social networks crop the image to 1200 × 630, so the cover is fitted whole into that frame and its edges are stretched to fill the rest. It only looks right on a plain background: for a photo, a screenshot that fills its frame or a tall image, add a `social` image, 1200 × 630 or larger at the same ratio. An article with neither gets the site's image.
+- **Cover**: JPEG, 2400 × 1600 (3:2), around 150 KB. If it contains text, make a `cover-fr.jpg` and a `cover-en.jpg`. One of the article's figures can be its cover.
+- **Link preview**: made from the cover. Social networks crop the image to 1200 × 630, so the cover is fitted whole into that frame and its edges are stretched to fill the rest. It only looks right on a plain background: for a photo, a screenshot that fills its frame or a tall image, add a `social` image, 1200 × 630 or larger at the same ratio. A draft with neither gets the site's image.
 - **Figures**: PNG or JPEG, under 300 KB. No screenshot with real client data: anonymize first.
 
 ## 5. Preview
