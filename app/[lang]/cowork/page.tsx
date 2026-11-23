@@ -52,7 +52,9 @@ export async function generateMetadata({
 
   const t = (await getDictionary(lang)).cowork;
 
-  return pageMetadata(lang, "/cowork", t.metaTitle, t.description);
+  return pageMetadata(lang, "/cowork", t.metaTitle, t.description, {
+    image: "/images/social/cowork.jpg",
+  });
 }
 
 function mapsEmbedUrl(location: Cowork["location"]): string {

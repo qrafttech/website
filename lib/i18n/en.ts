@@ -334,9 +334,10 @@ const invitation = {
 
 const blog = {
   title: "Our articles",
+  metaTitle: "Blog: Claude Code, AI agents, field notes",
   subtitle: "Field notes, technical guides and working habits from our team.",
   metaDescription:
-    "Field notes, technical guides and working habits from the Qraft team.",
+    "Field notes on Claude Code, LLM evals, infrastructure and code review, from the applications and AI agents we build for our clients.",
   backToArticles: "Back to the articles",
   translation: "Lire en français",
   empty: "Nothing here yet. Come back soon.",
@@ -642,7 +643,7 @@ const address = `${street}, ${postalCode} ${city}`;
 
 const cowork = {
   title: "The Qraft cowork",
-  metaTitle: "Coworking in Marseille",
+  metaTitle: "Coworking in Marseille, 2 min from the Vieux-Port",
   subtitle:
     "150 m² of daylight in the middle of Marseille, two minutes from the Vieux-Port. For freelancers, founders and small teams.",
   description:

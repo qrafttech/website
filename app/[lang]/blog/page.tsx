@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   const t = await getDictionary(lang);
 
-  return pageMetadata(lang, "/blog", t.blog.title, t.blog.metaDescription);
+  return pageMetadata(lang, "/blog", t.blog.metaTitle, t.blog.metaDescription);
 }
 
 const ARTICLES_PER_PAGE = 10;

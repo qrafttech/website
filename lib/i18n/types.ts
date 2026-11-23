@@ -249,6 +249,7 @@ export interface Dictionary {
 
   blog: {
     title: string;
+    metaTitle: string;
     subtitle: string;
     metaDescription: string;
     backToArticles: string;

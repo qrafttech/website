@@ -336,10 +336,11 @@ const invitation = {
 
 const blog = {
   title: "Nos articles",
+  metaTitle: "Blog : Claude Code, agents IA, retours d’expérience",
   subtitle:
     "Retours d’expérience, guides techniques et bonnes pratiques de notre équipe.",
   metaDescription:
-    "Retours d’expérience, guides techniques et bonnes pratiques de l’équipe Qraft.",
+    "Nos retours d’expérience sur Claude Code, les évals LLM, l’infra et la revue de code, tirés des applications et des agents IA que nous construisons pour nos clients.",
   backToArticles: "Retour aux articles",
   translation: "Read in English",
   empty: "Aucun article pour le moment. Revenez bientôt.",
@@ -645,7 +646,7 @@ const address = `${street}, ${postalCode} ${city}`;
 
 const cowork = {
   title: "Le cowork de Qraft",
-  metaTitle: "Cowork à Marseille",
+  metaTitle: "Cowork à Marseille, à 2 min du Vieux-Port",
   subtitle:
     "150 m² d’espace lumineux au cœur de Marseille, à 2 min du Vieux-Port. Pour les freelances, entrepreneurs et start-ups.",
   description:

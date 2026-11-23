@@ -20,3 +20,17 @@ export const clientScreenshots: Record<string, readonly StaticImageData[]> = {
   chloe: [chloeScreenshot],
   sante: [santeScreenshot],
 };
+
+/**
+ * The image of a case study's link preview: its screenshot, at
+ * `OG_IMAGE_SIZE`. A client without one gets the site's image.
+ */
+export const clientSocialImages: Record<string, string> = {
+  billi: "/images/social/billi.jpg",
+  cevidentia: "/images/social/cevidentia.jpg",
+  easiware: "/images/social/easiware.jpg",
+  embarq: "/images/social/embarq.jpg",
+  bruno: "/images/social/bruno.jpg",
+  chloe: "/images/social/chloe.jpg",
+  sante: "/images/social/sante.jpg",
+};

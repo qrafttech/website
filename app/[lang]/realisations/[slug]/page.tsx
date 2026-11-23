@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ClientCase from "@/app/components/ClientCase";
+import { clientSocialImages } from "@/lib/client-screenshots";
 import { isLocale } from "@/lib/i18n/config";
 import { getClient, getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -38,6 +39,7 @@ export async function generateMetadata({
 
   return pageMetadata(lang, `/realisations/${slug}`, title, client.lede, {
     type: "article",
+    image: clientSocialImages[slug],
   });
 }
 
