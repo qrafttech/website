@@ -11,7 +11,7 @@ Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-githu
 
 Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
-On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et trois d'entre eux sont des estimations.
+L'app de ce client sert à faire des enquêtes en ligne : un compte crée des questionnaires, des gens y répondent, et l'app analyse les réponses. On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et trois d'entre eux sont des estimations.
 
 ![Secondes gagnées sur toute la suite par chaque convention, appliquée seule à la même suite de départ](gains-fr.png "Une barre par convention, chacune contre la même suite de départ : les barres ne s'additionnent pas.")
 
@@ -87,7 +87,7 @@ factory :user do
 end
 ```
 
-Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account` et un owner, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, dont 18 seulement demandés directement par un spec.
+Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account` (les réglages d'envoi d'emails d'un compte) et un owner (le user qui a créé le questionnaire), même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, dont 18 seulement demandés directement par un spec.
 
 La correction : l'owner n'a plus de compte, le `mailing_account` devient un trait qu'on demande, et les enregistrements enfants réutilisent le questionnaire de leur parent au lieu d'en créer un autre.
 
@@ -114,24 +114,24 @@ Les factories des users staff n'ont plus de compte par défaut ; un spec qui en 
 
 ## Ne créer que les enregistrements testés
 
-Certains specs créaient beaucoup plus de données que ce qu'ils vérifiaient.
-
-Par exemple, un import consomme des crédits : 1 crédit par tranche de 1 000 répondants, arrondi au-dessus. Pour vérifier cet arrondi, il faut dépasser une tranche, donc le spec importait 1 500 répondants et vérifiait que ça coûtait 2 crédits. Mais ce qu'on teste, c'est l'arrondi, pas le volume. Le temps du spec, on ramène la tranche à 2 répondants avec `stub_const` : 3 répondants donnent le même arrondi à 2 crédits.
+Certains specs créaient beaucoup plus de données que ce qu'ils vérifiaient. Le cas typique, c'est un seuil écrit dans le code. Pour tester une pagination à 20 éléments par page, un spec crée 45 éléments pour obtenir trois pages. Mais ce qu'il vérifie, c'est le découpage, pas le volume : le temps du spec, on ramène la page à 2 éléments avec `stub_const`, et 5 éléments donnent les mêmes trois pages.
 
 ```ruby
-# avant
-let(:respondent_count) { 1500 }
-let(:questions) { [build_parsed_question(cell_values: Array.new(1500, 'a'))] }
+# avant : 45 commandes pour obtenir 3 pages de 20
+before { create_list(:order, 45) }
 
-# après : 2 répondants par crédit, même arrondi, 3 lignes au lieu de 1 500
-let(:respondent_count) { 3 }
-let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
-before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
+# après : des pages de 2, et 5 commandes suffisent pour 3 pages
+before do
+  stub_const('Order::PER_PAGE', 2)
+  create_list(:order, 5)
+end
+
+it { expect(Order.page(3).count).to eq(1) }
 ```
 
-Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4 suffisent pour vérifier ce qu'il calcule. Son fichier de spec passe de 40 à 9 s :
+Chez notre client, c'était le même motif : un import coûte 1 crédit par tranche de 1 000 réponses, et le spec en importait 1 500 pour vérifier l'arrondi au crédit supérieur. Avec une tranche ramenée à 2, 3 réponses suffisent. Un autre spec créait 20 réponses par groupe, alors que 4 suffisent à vérifier ses calculs. Son fichier passe de 40 à 9 s :
 
-![Durée du spec du rapport, avec 20 puis 4 répondants par profil](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
+![Durée d'un fichier de spec, avec 20 puis 4 réponses par groupe](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
 
 Sur les 4 fichiers concernés, le profil de chaque fichier donne un gain d'environ 42 s, une estimation. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
 

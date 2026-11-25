@@ -11,7 +11,7 @@ At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-git
 
 And it compounds: a fixed factory speeds up every spec that uses it, today's and the ones we'll write tomorrow, and a spec written with the right conventions is fast from the start.
 
-We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and three of them are estimates.
+This client's app runs online surveys: an account creates questionnaires, people answer them, and the app analyzes the answers. We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and three of them are estimates.
 
 ![Seconds saved on the whole suite by each convention, applied alone to the same starting suite](gains-en.png "One bar per convention, each against the same starting suite: the bars don't add up.")
 
@@ -87,7 +87,7 @@ factory :user do
 end
 ```
 
-So a survey created in a spec also meant two accounts, two `mailing_account`s and an owner, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, only 18 of them requested directly by a spec.
+So a survey created in a spec also meant two accounts, two `mailing_account`s (an account's email sending settings) and an owner (the user who created the survey), even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, only 18 of them requested directly by a spec.
 
 The fix: the owner no longer has an account, `mailing_account` becomes a trait you ask for, and child records reuse their parent's survey instead of creating another one.
 
@@ -114,24 +114,24 @@ Staff user factories no longer have an account by default; a spec that needs one
 
 ## Only create the records under test
 
-Some specs created much more data than they checked.
-
-For example, an import consumes credits: 1 credit per block of 1,000 respondents, rounded up. To check that rounding, you have to go past a block, so the spec imported 1,500 respondents and checked that it cost 2 credits. But what we test is the rounding, not the volume. For the duration of the spec, we bring the block down to 2 respondents with `stub_const`: 3 respondents give the same rounding to 2 credits.
+Some specs created much more data than they checked. The typical case is a threshold written in the code. To test pagination at 20 items per page, a spec creates 45 items to get three pages. But what it checks is the split, not the volume: for the duration of the spec, we bring the page size down to 2 with `stub_const`, and 5 items give the same three pages.
 
 ```ruby
-# before
-let(:respondent_count) { 1500 }
-let(:questions) { [build_parsed_question(cell_values: Array.new(1500, 'a'))] }
+# before: 45 orders to get 3 pages of 20
+before { create_list(:order, 45) }
 
-# after: 2 respondents per credit, same rounding, 3 rows instead of 1,500
-let(:respondent_count) { 3 }
-let(:questions) { [build_parsed_question(cell_values: %w[a a a])] }
-before { stub_const('Credits::Recalculate::Quantitative::RESPONDENTS_PER_BUCKET', 2) }
+# after: pages of 2, and 5 orders are enough for 3 pages
+before do
+  stub_const('Order::PER_PAGE', 2)
+  create_list(:order, 5)
+end
+
+it { expect(Order.page(3).count).to eq(1) }
 ```
 
-Same idea elsewhere: a report created 20 respondents per profile, when 4 are enough to check what it computes. Its spec file goes from 40 to 9 s:
+At our client, it was the same pattern: an import costs 1 credit per block of 1,000 answers, and the spec imported 1,500 of them to check the rounding up to the next credit. With the block brought down to 2, 3 answers are enough. Another spec created 20 answers per group, when 4 are enough to check its calculations. Its file goes from 40 to 9 s:
 
-![Duration of the report spec, with 20 then 4 respondents per profile](minimal-en.png "Same 8 examples, same checks.")
+![Duration of a spec file, with 20 then 4 answers per group](minimal-en.png "Same 8 examples, same checks.")
 
 Across the 4 files involved, each file's profile puts the gain at about 42 s, an estimate. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
 
