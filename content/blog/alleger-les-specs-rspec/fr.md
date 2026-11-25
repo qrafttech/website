@@ -114,7 +114,7 @@ Les factories des users staff n'ont plus de compte par défaut ; un spec qui en 
 
 ## Ne créer que les enregistrements testés
 
-Certains specs créaient beaucoup plus de données que ce qu'ils vérifiaient. Le cas typique, c'est un seuil écrit dans le code. Pour tester une pagination à 20 éléments par page, un spec crée 45 éléments pour obtenir trois pages. Mais ce qu'il vérifie, c'est le découpage, pas le volume : le temps du spec, on ramène la page à 2 éléments avec `stub_const`, et 5 éléments donnent les mêmes trois pages.
+Certains specs créaient beaucoup plus de données que ce qu'ils vérifiaient. C'est souvent le cas quand le code contient un seuil. Prenons une pagination à 20 éléments par page : pour vérifier qu'il y a bien trois pages, un spec crée 45 éléments. Pourtant, ce qu'il teste, c'est la façon de découper en pages, pas le nombre d'éléments. On peut donc, le temps du spec, passer la taille de page à 2 avec `stub_const` : 5 éléments suffisent alors pour avoir trois pages.
 
 ```ruby
 # avant : 45 commandes pour obtenir 3 pages de 20

@@ -114,7 +114,7 @@ Staff user factories no longer have an account by default; a spec that needs one
 
 ## Only create the records under test
 
-Some specs created much more data than they checked. The typical case is a threshold written in the code. To test pagination at 20 items per page, a spec creates 45 items to get three pages. But what it checks is the split, not the volume: for the duration of the spec, we bring the page size down to 2 with `stub_const`, and 5 items give the same three pages.
+Some specs created much more data than they checked. It often happens when the code contains a threshold. Take pagination at 20 items per page: to check there really are three pages, a spec creates 45 items. Yet what it tests is how items are split into pages, not how many there are. So for the duration of the spec, we can set the page size to 2 with `stub_const`: 5 items are then enough to get three pages.
 
 ```ruby
 # before: 45 orders to get 3 pages of 20
