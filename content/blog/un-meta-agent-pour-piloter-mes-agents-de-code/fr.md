@@ -9,11 +9,11 @@ excerpt: "Avec huit sessions d'agents ouvertes, mon problème n'est pas de les l
 
 Avec l'agentic engineering, j'ai beaucoup de mal à garder en tête tout ce que je fais. J'ai à peu près huit sessions d'agents ouvertes en même temps, chacune dans son worktree, et la charge mentale monte vite : savoir sur quoi je travaille d'un jour sur l'autre, ou simplement après la pause de midi, quand je reprends et que je suis perdu. Le problème, ce n'est pas de lancer des agents, c'est de finir les tâches et de savoir enchaîner. En fait, c'est le focus, et l'orchestration.
 
-Depuis quelque temps, je voyais passer sur Twitter des gens qui ne parlaient plus qu'à un seul agent, pour se simplifier la vie ([Brian Armstrong](https://x.com/brian_armstrong/status/2119112609223827547), [Chris Tate](https://x.com/ctatedev/status/2119251380150087685)).
+Depuis quelque temps, je voyais passer sur Twitter des gens qui ne parlaient plus qu'à un seul agent, pour se simplifier la vie, comme [Brian Armstrong](https://x.com/brian_armstrong), le CEO de Coinbase, ou [Chris Tate](https://x.com/ctatedev), de Vercel Labs.
 
-![Le post de Brian Armstrong sur X : un agent principal par sujet, et un agent chief of staff qui les supervise](tweet-brian-armstrong.png)
+[![Le post de Brian Armstrong sur X : un agent principal par sujet, et un agent chief of staff qui les supervise](tweet-brian-armstrong.png)](https://x.com/brian_armstrong/status/2119112609223827547)
 
-![Le post de Chris Tate sur X : « I only talk to one agent now »](tweet-chris-tate.png)
+[![Le post de Chris Tate sur X : « I only talk to one agent now »](tweet-chris-tate.png)](https://x.com/ctatedev/status/2119251380150087685)
 
 Et puis Orca a lancé ses [bots](https://orca.dev/bots), et c'était un peu le sujet. Orca, c'est l'IDE dans lequel tournent mes agents de code, et un bot, c'est un agent qui y vit en permanence, sur ma machine et avec mon propre Claude Code, avec un nom, une mémoire et des automatisations. J'ai créé le mien le 20 novembre. Il s'appelle Poulpito, c'est un poulpe, il gère tout avec ses tentacules. Censé être « my best friend », c'est plutôt devenu mon chief of staff : c'est le seul agent à qui je parle, et c'est lui qui pilote les autres.
 
