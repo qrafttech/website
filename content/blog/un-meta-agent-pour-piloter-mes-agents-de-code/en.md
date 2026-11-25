@@ -33,11 +33,23 @@ There are also automations, which you create by asking it in the chat to run som
 
 The last one caught my eye. Five articles were moving in parallel in the website repository, with nobody following them through to publication, and it offered to take that on. That's exactly the orchestration work I usually hand it, except this time it saw it first. One click on "Start", and the suggestion becomes a request to it.
 
+All of this is set in the bot's settings. You pick the agent behind it (Claude Code for me), its permissions and the computer it lives on, how often "Look around" runs (every 4 hours) and the nightly memory upkeep, after how many days an item that doesn't move gets flagged (5 days), its soul and its memory, what it has access to, and the notifications: when it needs a permission, when a task is done, when it couldn't finish. Mine has no connectors, and I'm the only one who can talk to it.
+
+![Poulpito's settings: agent, permissions, computer, Look around, memory upkeep, items, soul and memory, access, notifications](orca-settings.png "Poulpito's settings in Orca, in two columns")
+
 ## An agent that doesn't code
 
 What I made of Poulpito is a meta-agent: it never writes code. When I give it something to do, it starts an agent for it, in a new worktree of the project the work belongs to, with a full brief: the context, what already exists, what to do first. Then it follows all of them, and when I come back it tells me what I can close, what should continue, and what comes first. It never merges on its own: each merge waits for my yes, pull request by pull request.
 
 ![The website project in Orca's sidebar, with one worktree per article and its agent](website-worktrees.png "The website project in Orca's sidebar: one worktree per article, each with its agent. This article was written in blog-meta-agent.")
+
+The agents it starts and the bot talk through Orca's orchestration messages: when an agent is done, or has a question, it sends a message, and it shows up like this in the other one's terminal.
+
+![An Orca notification: "You have 1 orchestration message"](orca-orchestration-message.png "An orchestration message waiting to be read")
+
+Poulpito reads those messages, gives me an update, and moves on. One lunchtime, for example, it had put a date on my four priorities, started an agent to prepare a meeting with my accountant, and listed what I might forget, with a single next step at the end.
+
+![An update from Poulpito: priorities in order, what I might forget, the next step](orca-briefing.png "An update from Poulpito, one lunchtime. Almost everything is greyed out: my clients and my personal life are in there.")
 
 What I expect from it is precision and low latency: an answer that is right, and that comes right away. If it makes me wait, or if I have to double-check what it tells me, I go back to my tabs. Before it, I had tried "Meta" sessions: one meta-agent per domain coordinating its own worktrees, and one more above them all, holding the overall context. That last one was the one that mattered, and it forgot everything at the end of each session. The bot writes down what it needs to remember.
 
@@ -70,6 +82,16 @@ So there is no pull request per change: it stays open and collects the commits, 
 ![Each change is a commit with its reason, one pull request collects them, merging it is the review](memory-en.png "The bot writes, commits and pushes; I read the pull request and merge it")
 
 Honestly, for now I don't really know what to do with it. It lets me follow what it writes down and how it evolves, and keep it in hand, but I don't see much more value than that. Mostly it's the same process as for everything else: I already version [my Claude Code configs and my skills](/en/blog/managing-multiple-claude-code-workspaces-from-a-single-repo) the same way, with symlinks into a repository and commits I read.
+
+## What it cost me
+
+The downside is the quota. I burned through it very fast, probably because I had stayed on Fable, with conversations that were too long: around noon, Poulpito stopped dead on "Claude usage limit reached", with my five-hour quota at 99%.
+
+![The Claude quota at 99% over five hours, and Poulpito stopping on "Claude usage limit reached"](orca-quota.png "My Claude quota around noon, and Poulpito stopping dead")
+
+After the reset, I was already at 28% within 40 minutes. I switched it to Opus 5.5 and asked it what was costing so much. According to it, it wasn't so much the model as its sub-agents: it started them as "forks", and each one re-read our whole thread before starting, 450,000 to 770,000 tokens per sub-agent. It now gives them a short brief, or sends the work to an agent in its worktree, and it suggested starting a fresh conversation and running the simple tasks on Sonnet. I haven't found the right setup yet; that's the next thing to sort out.
+
+![Poulpito explains what ate the quota and offers two levers on an item](orca-quota-chat.png "Its answer, on an item with two levers. Greyed out: a client name and the link to a private pull request.")
 
 ## The role, five days later
 

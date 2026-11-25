@@ -33,11 +33,23 @@ Il y a aussi les automatisations, qu'on crée en lui demandant dans le chat de l
 
 La dernière m'a intéressé. Cinq articles avançaient en parallèle dans le repo du site, sans personne pour les suivre jusqu'à la publication, et il m'a proposé de s'en charger. C'est exactement le travail d'orchestration que je lui confie d'habitude, sauf que cette fois c'est lui qui l'a vu. Un clic sur « Start », et la suggestion devient une demande que je lui fais.
 
+Tout ça se règle dans les réglages du bot. On y choisit l'agent qui tourne derrière (Claude Code chez moi), ses permissions et la machine où il vit, la fréquence de « Look around » (toutes les 4 heures) et l'entretien de sa mémoire la nuit, au bout de combien de jours un item qui ne bouge plus est signalé (5 jours), son âme et sa mémoire, ce à quoi il a accès, et les notifications : quand il a besoin d'une permission, quand une tâche est finie, quand il n'a pas pu finir. Chez moi, il n'a aucun connecteur, et il n'y a que moi qui peux lui parler.
+
+![Les réglages de Poulpito : agent, permissions, machine, Look around, entretien de la mémoire, items, âme et mémoire, accès, notifications](orca-settings.png "Les réglages de Poulpito dans Orca, sur deux colonnes")
+
 ## Un agent qui ne code pas
 
 Ce que j'ai fait de Poulpito, c'est un méta-agent : il n'écrit jamais de code. Quand je lui confie quelque chose, il lance un agent pour ça, dans un nouveau worktree du projet concerné, avec un brief complet : le contexte, ce qui existe déjà, la première chose à faire. Ensuite il les suit tous, et quand je reviens il me dit ce que je peux fermer, ce qui doit continuer, et par quoi commencer. Il ne merge jamais de lui-même : chaque merge attend mon oui, pull request par pull request.
 
 ![Le projet website dans la barre latérale d'Orca, avec un worktree par article et son agent](website-worktrees.png "Le projet website dans la barre latérale d'Orca : un worktree par article, chacun avec son agent. Cet article a été écrit dans blog-meta-agent.")
+
+Les agents qu'il lance et lui se parlent par les messages d'orchestration d'Orca : quand un agent a fini, ou qu'il a une question, il envoie un message, et ça s'affiche comme ça dans le terminal de l'autre.
+
+![Une notification Orca : « You have 1 orchestration message »](orca-orchestration-message.png "Un message d'orchestration qui attend d'être lu")
+
+Poulpito lit ces messages, me fait un point, et passe à la suite. Un midi, par exemple, il avait remis une date sur mes quatre priorités, lancé un agent pour préparer un rendez-vous avec mon comptable, et listé ce que je risquais d'oublier, avec une seule prochaine étape à la fin.
+
+![Un point de Poulpito : les priorités dans l'ordre, ce que je pourrais oublier, la prochaine étape](orca-briefing.png "Un point de Poulpito, un midi. Presque tout est grisé : il y a mes clients et ma vie perso dedans.")
 
 Ce que j'attends de lui, c'est de la précision et peu de latence : une réponse juste, et tout de suite. S'il me fait attendre, ou si je dois revérifier ce qu'il me dit, je retourne dans mes onglets. Avant lui, j'avais essayé avec des sessions « Meta » : un méta-agent par domaine, qui coordonnait ses propres worktrees, et un de plus au-dessus de tous, qui tenait le contexte d'ensemble. C'est ce dernier qui comptait, et il oubliait tout à la fin de chaque session. Le bot, lui, écrit ce dont il doit se souvenir.
 
@@ -70,6 +82,16 @@ Il n'y a donc pas une pull request par changement : elle reste ouverte et accumu
 ![Chaque changement est un commit avec sa raison, une pull request les accumule, la merger c'est la relecture](memory-fr.png "Le bot écrit, commit et pousse ; je lis la pull request et je la merge")
 
 Honnêtement, pour l'instant, je ne sais pas trop quoi en faire. Ça me sert à suivre ce qu'il note et comment il évolue, et à pouvoir le gérer, mais je n'y vois pas beaucoup plus de valeur. C'est surtout le même process que pour le reste : je versionne déjà [mes configs Claude Code et mes skills](/blog/gerer-plusieurs-espaces-de-travail-claude-code-depuis-un-seul-repo) de la même façon, avec des liens symboliques vers un repo et des commits que je relis.
+
+## Ce que ça m'a coûté
+
+Le revers, c'est le quota. J'ai tout cramé très vite, sans doute parce que j'étais resté sur Fable, avec des conversations trop longues : vers midi, Poulpito s'est arrêté net sur « Claude usage limit reached », avec mon quota sur cinq heures à 99 %.
+
+![Le quota Claude à 99 % sur cinq heures, et Poulpito qui s'arrête sur « Claude usage limit reached »](orca-quota.png "Mon quota Claude vers midi, et Poulpito qui s'arrête net")
+
+Après la remise à zéro, en 40 minutes j'étais déjà à 28 %. Je l'ai passé en Opus 5.5 et je lui ai demandé ce qui coûtait autant. D'après lui, ce n'était pas tant le modèle que ses sous-agents : il les lançait en « fork », et chacun relisait tout notre fil avant de commencer, de 450 000 à 770 000 tokens par sous-agent. Il leur donne maintenant une consigne courte, ou il envoie le travail à un agent dans son worktree, et il m'a proposé de repartir sur une conversation neuve et de lancer les tâches simples en Sonnet. Je n'ai pas encore trouvé le bon réglage, c'est le prochain truc à régler.
+
+![Poulpito explique ce qui a mangé le quota et propose deux leviers sur un item](orca-quota-chat.png "Sa réponse, sur un item avec deux leviers. Grisés : un nom de client et le lien vers une pull request privée.")
 
 ## Le rôle, cinq jours après
 
