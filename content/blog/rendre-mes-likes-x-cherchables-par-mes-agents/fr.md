@@ -4,28 +4,26 @@ slug: rendre-mes-likes-x-cherchables-par-mes-agents
 date: 2026-12-21
 author: "Nicolas Rouanne"
 cover: "cover.jpg"
-excerpt: "Ce que je like et mets en signet sur X, c'est un peu ma base de données, et je voulais que mes agents puissent chercher dedans. Un petit script sur l'API officielle, deux fichiers dans un bucket R2, environ 8 $ pour 17 ans de likes."
+excerpt: "Twitter, c'est mon outil de veille, et ce que j'y like ou mets en signet devient une base de connaissances où il est très difficile de chercher. Un petit script sur l'API officielle, un cache dans un bucket R2, environ 8 $ pour 17 ans de likes."
 ---
 
-Twitter, c'est un peu ma base de données. Ce que j'y like et mets en signet, c'est ce que je veux retrouver plus tard : un outil, un thread, un argument que quelqu'un a posé. Je voulais pouvoir chercher dedans facilement, et surtout qu'un agent puisse aller chercher dedans pour moi.
+Twitter, c'est un peu mon outil de veille. C'est là que je suis ce qui évolue sur l'IA, le dev et le software engineering, et là que j'échange avec des développeurs et des gens que j'aime suivre. J'y vois souvent des news et des infos que j'ai envie de garder ou de partager. Je les like ou je les mets en signet entre deux meetings, quand j'ai 5 minutes, sans les classer. Du coup, c'est un peu ma base de connaissances, mais c'est très difficile de chercher dedans. Je voulais pouvoir le faire, et surtout qu'un agent puisse le faire pour moi.
 
-Le point de départ, c'est [birdclaw](https://github.com/steipete/birdclaw), le repo de Peter Steinberger. Il importe l'archive X dans SQLite et l'expose aux agents, en CLI et en serveur MCP. Mais l'archive est une photo figée : on la demande à X, on attend de 1 à 4 jours, et pour rester à jour birdclaw passe de toute façon par l'API payante. Ma première réaction, c'était « tous les jours il va falloir que j'importe l'archive ? ». J'ai aussi regardé les outils qui lisent X avec les cookies de session du navigateur, ce qui est hors des CGU de X, et des userscripts qui exportent à la main. Aucun ne gardait les données à jour sans effort.
+Le point de départ, c'est [birdclaw](https://github.com/steipete/birdclaw), le repo de Peter Steinberger, qui part du même besoin : pouvoir chercher dans ses tweets. Comme l'API de X était difficile à consommer, birdclaw passe par l'archive. Il l'importe dans SQLite et l'expose aux agents, en CLI et en serveur MCP. Mais l'archive est une photo figée, qu'il faut redemander à X et attendre de 1 à 4 jours à chaque fois. J'ai aussi regardé les outils qui lisent X avec les cookies de session du navigateur, ce qui est hors des CGU de X, et des userscripts qui exportent à la main.
 
-## Ce que coûte l'API X maintenant
+## Passer directement par l'API
 
-Ma première contrainte, c'était de ne pas payer l'API. Puis j'ai regardé ce qu'elle coûte aujourd'hui. En février 2026, X a abandonné ses abonnements pour du prépayé à l'usage. Lire ses propres likes et signets, avec une app qu'on possède, compte comme une « owned read » et coûte 0,001 $ par post, contre 0,005 $ pour une lecture normale. Un même post relu le même jour UTC n'est facturé qu'une fois ([la grille tarifaire](https://docs.x.com/x-api/getting-started/pricing)).
+Depuis février 2026, l'API X est beaucoup plus facile à consommer. X a abandonné ses abonnements pour du prépayé à l'usage. Lire ses propres likes et signets, avec une app qu'on possède, compte comme une « owned read » et coûte 0,001 $ par post, contre 0,005 $ pour une lecture normale. Un même post relu le même jour UTC n'est facturé qu'une fois ([la grille tarifaire](https://docs.x.com/x-api/getting-started/pricing)).
 
-À ce prix, l'API officielle était la solution la plus simple. Et puisque birdclaw en a besoin de toute façon pour la synchro, j'ai construit directement dessus.
-
-## Deux appels d'API et un fichier
-
-Le besoin tient en deux appels d'API, un pour les likes et un pour les signets, et un endroit où écrire le résultat. C'est donc un script Python de moins de 400 lignes, sans dépendance, avec trois commandes :
+L'idée, c'est donc de passer directement par l'API, sans archive. Le besoin tient en deux appels d'API, un pour les likes et un pour les signets. C'est un script Python de moins de 400 lignes, sans dépendance, avec trois commandes :
 
 - `x-archive auth` connecte mon compte en OAuth 2.0, en lecture seule : `tweet.read`, `users.read`, `like.read` et `bookmark.read`
 - `x-archive sync` récupère ce qui est nouveau
 - `x-archive search <mots>` cherche
 
-Le stockage, ce sont deux fichiers JSONL, un post par ligne, dans un bucket Cloudflare R2. Mes agents du laptop et ceux du serveur lisent la même copie, sans synchro entre machines.
+## Un cache dans un bucket R2
+
+Je ne veux pas relire l'API à chaque recherche. Le prix par post est bas, mais la facture suit le nombre de posts lus. Le script stocke donc tout dans deux fichiers JSONL, un post par ligne, dans un bucket Cloudflare R2. C'est une sorte de cache. La synchro n'y ajoute que ce qui est nouveau, et toutes les recherches lisent ce cache, depuis le laptop comme depuis le serveur.
 
 ![Le bucket R2 : deux objets, bookmarks.jsonl et likes.jsonl, accès public désactivé.](bucket-r2.jpg "Le bucket x-archive, privé.")
 

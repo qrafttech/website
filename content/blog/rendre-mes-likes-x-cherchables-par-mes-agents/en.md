@@ -4,28 +4,26 @@ slug: making-my-x-likes-searchable-by-my-agents
 date: 2026-12-21
 author: "Nicolas Rouanne"
 cover: "cover.jpg"
-excerpt: "What I like and bookmark on X is a kind of database, and I wanted my agents to search it. A small script on the official API, two files in an R2 bucket, about $8 for 17 years of likes."
+excerpt: "X is where I keep up with tech, and what I like or bookmark there turns into a knowledge base that's very hard to search. A small script on the official API, a cache in an R2 bucket, about $8 for 17 years of likes."
 ---
 
-Twitter is a bit of a database for me. What I like and bookmark there is what I want to find again later: a tool, a thread, an argument someone made. I wanted to search it easily, and above all I wanted an agent to be able to search it for me.
+Twitter is where I keep up with things. It's where I follow what's moving in AI, dev and software engineering, and where I talk with developers and people I like to follow. I often see news and posts there that I want to keep or share. I like them or bookmark them between two meetings, when I have 5 minutes, without sorting them. So it's a kind of knowledge base, but a very hard one to search. I wanted to be able to search it, and above all I wanted an agent to be able to do it for me.
 
-The starting point was [birdclaw](https://github.com/steipete/birdclaw), Peter Steinberger's repo. It imports the X archive into SQLite and exposes it to agents, as a CLI and an MCP server. But the archive is a frozen snapshot: you request it from X, wait 1 to 4 days, and to stay up to date birdclaw goes through the paid API anyway. My first reaction was "so every day I'd have to import the archive again?". I also looked at tools that read X with the browser's session cookies, which is against X's terms of service, and at userscripts that export by hand. None of them kept the data fresh without effort.
+The starting point was [birdclaw](https://github.com/steipete/birdclaw), Peter Steinberger's repo, which comes from the same need: searching your own tweets. Since the X API was hard to consume, birdclaw goes through the archive. It imports it into SQLite and exposes it to agents, as a CLI and an MCP server. But the archive is a frozen snapshot, which you have to request again from X and wait 1 to 4 days for each time. I also looked at tools that read X with the browser's session cookies, which is against X's terms of service, and at userscripts that export by hand.
 
-## What the X API costs now
+## Going straight through the API
 
-My first constraint was not to pay for the API. Then I checked what it costs today. In February 2026 X dropped its subscriptions for prepaid, pay-per-use billing. Reading your own likes and bookmarks, with an app you own, counts as an "owned read" and costs $0.001 per post, against $0.005 for a regular read. A post read twice on the same UTC day is billed once ([pricing](https://docs.x.com/x-api/getting-started/pricing)).
+Since February 2026, the X API is much easier to consume. X dropped its subscriptions for prepaid, pay-per-use billing. Reading your own likes and bookmarks, with an app you own, counts as an "owned read" and costs $0.001 per post, against $0.005 for a regular read. A post read twice on the same UTC day is billed once ([pricing](https://docs.x.com/x-api/getting-started/pricing)).
 
-At that price, the official API was the simplest option. And since birdclaw needs it anyway for the sync, I built directly on it.
-
-## Two API calls and a file
-
-The need fits in two API calls, one for likes and one for bookmarks, and somewhere to write the result. So it's a Python script, under 400 lines, with no dependency, and three commands:
+So the idea is to go straight through the API, with no archive. The need fits in two API calls, one for likes and one for bookmarks. It's a Python script, under 400 lines, with no dependency, and three commands:
 
 - `x-archive auth` connects my account with OAuth 2.0, read-only: `tweet.read`, `users.read`, `like.read` and `bookmark.read`
 - `x-archive sync` fetches what's new
 - `x-archive search <words>` searches
 
-The storage is two JSONL files, one post per line, in a Cloudflare R2 bucket. My agents on the laptop and those on the server read the same copy, with no sync between machines.
+## A cache in an R2 bucket
+
+I don't want to read the API on every search. The price per post is low, but the bill follows the number of posts read. So the script stores everything in two JSONL files, one post per line, in a Cloudflare R2 bucket. It's a kind of cache. The sync only adds what's new, and every search reads that cache, from the laptop as well as from the server.
 
 ![The R2 bucket: two objects, bookmarks.jsonl and likes.jsonl, public access disabled.](bucket-r2.jpg "The x-archive bucket, private.")
 
