@@ -5,6 +5,7 @@ date: 2026-11-23
 author: "Adrien Lupo"
 cover: "carte-prospection.jpg"
 social: "social.jpg"
+video: "https://media.qraft.tech/blog/une-carte-pour-aider-des-commerciaux-a-trouver-les-champs-irrigues.mp4"
 excerpt: "Les commerciaux d'un client repéraient les champs à l'œil sur Google Maps. On a mis leurs gestes dans une carte : dessiner les champs, voir lesquels sont irrigués, savoir qui les exploite."
 ---
 

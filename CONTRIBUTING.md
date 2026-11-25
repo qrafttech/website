@@ -44,6 +44,7 @@ excerpt: "One sentence for the article list and social previews."
 | `cover`   | to publish | The cover's file name, in the article's folder: the image of the article in the blog's list. Required once the article has a `date`. |
 | `social`  | no         | The image of link previews (LinkedIn, Slack, iMessage…), when the cover does not suit them. Defaults to the cover.                   |
 | `excerpt` | no         | The summary. Defaults to the first paragraph.                                                                                        |
+| `video`   | no         | A video played at the top of the article, as an `https` URL: upload it to `https://media.qraft.tech/blog/<slug-fr>.mp4`.             |
 
 A malformed file fails the build: missing title or slug, a date in another format, two articles with the same slug.
 
