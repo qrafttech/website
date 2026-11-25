@@ -129,17 +129,40 @@ end
 it { expect(Order.page(3).count).to eq(1) }
 ```
 
-At our client, it was the same pattern: an import costs 1 credit per block of 1,000 answers, and the spec imported 1,500 of them to check the rounding up to the next credit. With the block brought down to 2, 3 answers are enough. Another spec created 20 answers per group, when 4 are enough to check its calculations. Its file goes from 40 to 9 s:
+At our client, we found this pattern twice. First in the import of answers, billed 1 credit per block of 1,000 answers, rounded up: to check that importing 1,500 answers costs 2 credits, the spec really imported 1,500 answers. With the block set to 2 answers for the duration of the test, 3 answers are enough to land on 2 credits again.
 
-![Duration of a spec file, with 20 then 4 answers per group](minimal-en.png "Same 8 examples, same checks.")
+Then in a simulation: to test a survey, the app can simulate respondents in each targeted group (adults, minors…) and flag the groups it won't manage to reach. The spec simulated 20 people per group, when 4 are enough to tell whether a group is reached. Its file goes from 40 to 9 s:
+
+![Duration of the simulation spec, with 20 then 4 simulated people per group](minimal-en.png "Same 8 examples, same checks.")
 
 Across the 4 files involved, each file's profile puts the gain at about 42 s, an estimate. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
 
 ## What's next
 
-We're taking these conventions one by one: one small PR per convention, reviewed in a few minutes.
+These conventions are coming into the codebase little by little. The big PR that applied them all at once was closed, and we're taking them one by one: one small PR per convention, reviewed in a few minutes.
 
-The goal is for the next specs to be efficient as soon as they're written. The conventions a tool can check become RuboCop rules (RuboCop is the Ruby linter): a spec that breaks them fails the CI. The others are written, in plain sentences, in the instructions our coding agents read before writing a spec.
+To make them stick once they're in, two things already run on every PR.
+
+**A RuboCop rule written for the project.** `RSpec/OneLinerExample` enforces the shape of examples: a one-line `it { expect(...).to ... }`, or a named example tagged `:aggregate_failures` when it checks several things. A CI script runs it only on the lines the PR adds or changes, so nobody has to rewrite every old spec:
+
+```yaml
+# .github/workflows/api-lint.yml
+- name: Check the style of touched specs
+  run: bin/check-spec-style origin/${{ github.base_ref }}
+```
+
+A new example written over several lines without `:aggregate_failures` fails the CI with this message:
+
+```
+Write the example as a one-liner `it { expect(...).to ... }` — no description, no `do … end`
+(tag `:aggregate_failures` when several expectations are needed).
+```
+
+**Instructions for the coding agents.** What a linter can't judge is written in plain sentences in `.claude/knowledge/api/spec.md`. A hook adds it to the agent's context as soon as it edits a file under `spec/`, for example:
+
+> Do not mimic legacy specs that violate these rules — the convention wins over existing style.
+
+That's where the conventions from this article that no linter can check will go, like `build_stubbed` when the spec doesn't read the database back.
 
 > [!NOTE]
 > `ubuntu-latest` runners land on different CPUs, and the same suite can take from 477 to 730 s. So versions of the suite are compared on a single machine, one after the other. We also track in PostHog the sum of each spec file's duration, which goes up when we add specs, not when we add jobs (see [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)).

@@ -129,17 +129,40 @@ end
 it { expect(Order.page(3).count).to eq(1) }
 ```
 
-Chez notre client, c'était le même motif : un import coûte 1 crédit par tranche de 1 000 réponses, et le spec en importait 1 500 pour vérifier l'arrondi au crédit supérieur. Avec une tranche ramenée à 2, 3 réponses suffisent. Un autre spec créait 20 réponses par groupe, alors que 4 suffisent à vérifier ses calculs. Son fichier passe de 40 à 9 s :
+Chez notre client, on a trouvé ce motif deux fois. D'abord dans l'import de réponses, facturé 1 crédit par tranche de 1 000 réponses, arrondi au-dessus : pour vérifier qu'un import de 1 500 réponses coûte bien 2 crédits, le spec importait vraiment 1 500 réponses. En fixant la tranche à 2 réponses le temps du test, 3 réponses suffisent pour retomber sur 2 crédits.
 
-![Durée d'un fichier de spec, avec 20 puis 4 réponses par groupe](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
+Ensuite dans une simulation : pour tester une enquête, l'app peut simuler des répondants dans chaque groupe visé (les adultes, les mineurs…) et signaler les groupes qu'on n'arrivera pas à atteindre. Le spec simulait 20 personnes par groupe, alors que 4 suffisent pour savoir si un groupe est atteint. Son fichier passe de 40 à 9 s :
+
+![Durée du spec de la simulation, avec 20 puis 4 personnes simulées par groupe](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
 
 Sur les 4 fichiers concernés, le profil de chaque fichier donne un gain d'environ 42 s, une estimation. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
 
 ## Et maintenant
 
-On reprend ces conventions une par une : une petite PR par convention, qu'on relit en quelques minutes.
+Ces conventions arrivent dans la codebase petit à petit. La grosse PR qui les appliquait toutes d'un coup a été fermée, et on les reprend une par une : une petite PR par convention, relue en quelques minutes.
 
-Le but, c'est que les prochains specs soient efficaces dès qu'on les écrit. Les conventions qu'un outil peut vérifier deviennent des règles de RuboCop, le linter Ruby : un spec qui ne les respecte pas fait échouer la CI. Les autres sont écrites, en phrases simples, dans les instructions que nos agents de code lisent avant d'écrire un spec.
+Pour qu'elles tiennent une fois en place, deux choses tournent déjà à chaque PR.
+
+**Une règle RuboCop écrite pour le projet.** `RSpec/OneLinerExample` impose la forme des exemples : un `it { expect(...).to ... }` d'une ligne, ou un exemple nommé et marqué `:aggregate_failures` quand il vérifie plusieurs choses. Un script de la CI ne la lance que sur les lignes que la PR ajoute ou modifie, pour ne pas obliger à réécrire tous les anciens specs :
+
+```yaml
+# .github/workflows/api-lint.yml
+- name: Check the style of touched specs
+  run: bin/check-spec-style origin/${{ github.base_ref }}
+```
+
+Un nouvel exemple écrit sur plusieurs lignes sans `:aggregate_failures` fait échouer la CI avec ce message :
+
+```
+Write the example as a one-liner `it { expect(...).to ... }` — no description, no `do … end`
+(tag `:aggregate_failures` when several expectations are needed).
+```
+
+**Des instructions pour les agents de code.** Ce qu'un linter ne sait pas juger est écrit en phrases simples dans `.claude/knowledge/api/spec.md`. Un hook l'ajoute automatiquement au contexte de l'agent dès qu'il modifie un fichier sous `spec/`, par exemple :
+
+> Do not mimic legacy specs that violate these rules — the convention wins over existing style.
+
+C'est là qu'iront les conventions de cet article qu'aucun linter ne peut vérifier, comme `build_stubbed` quand le spec ne relit pas la base.
 
 > [!NOTE]
 > Les runners `ubuntu-latest` tombent sur des CPU différents, et la même suite peut prendre de 477 à 730 s. Les versions de la suite sont donc comparées sur une seule machine, l'une après l'autre. On suit aussi dans PostHog la somme des temps de chaque fichier de spec, qui monte quand on ajoute des specs, pas quand on ajoute des jobs (voir [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)).
