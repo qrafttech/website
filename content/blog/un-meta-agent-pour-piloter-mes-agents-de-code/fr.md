@@ -4,18 +4,18 @@ slug: un-meta-agent-pour-piloter-mes-agents-de-code
 date: 2026-12-10
 author: "Nicolas Rouanne"
 cover: "cover-fr.jpg"
-excerpt: "Poulpito est un bot Orca à qui je parle, qui ne code pas : il confie chaque tâche à un agent dans le bon projet, les suit tous et me dit par quoi commencer. Orca lui donne un nom, une mémoire, des items et des automatisations ; j'ai ajouté une mémoire relue comme du code."
+excerpt: "Avec huit sessions d'agents ouvertes, mon problème n'est pas de les lancer, c'est de finir et d'enchaîner. Poulpito, un bot Orca, est le seul agent à qui je parle : il ne code pas, il confie chaque tâche à un agent dans le bon projet, les suit tous et me dit par quoi commencer."
 ---
 
-Depuis le 20 novembre, je ne parle plus qu'à un seul agent, et c'est lui qui pilote les autres. C'est un [bot Orca](https://orca.dev/bots). Orca, c'est l'IDE dans lequel tournent mes agents de code, et un bot, c'est un agent qui y vit en permanence, sur ma machine et avec mon propre Claude Code, avec un nom, une mémoire et des automatisations. Quand je l'ai créé, la fenêtre m'a demandé une tête, un nom et une raison d'être : j'ai pris le poulpe, je l'ai appelé Poulpito, et j'ai tapé « My best friend », parce que je ne savais pas encore bien à quoi il allait me servir.
+Avec l'agentic engineering, j'ai beaucoup de mal à garder en tête tout ce que je fais. J'ai à peu près huit sessions d'agents ouvertes en même temps, chacune dans son worktree, et la charge mentale monte vite : savoir sur quoi je travaille d'un jour sur l'autre, ou simplement après la pause de midi, quand je reprends et que je suis perdu. Le problème, ce n'est pas de lancer des agents, c'est de finir les tâches et de savoir enchaîner. En fait, c'est le focus, et l'orchestration.
+
+Depuis quelque temps, je voyais passer sur Twitter des gens qui ne parlaient plus qu'à un seul agent, pour se simplifier la vie. Et puis Orca a lancé ses [bots](https://orca.dev/bots), et c'était un peu le sujet. Orca, c'est l'IDE dans lequel tournent mes agents de code, et un bot, c'est un agent qui y vit en permanence, sur ma machine et avec mon propre Claude Code, avec un nom, une mémoire et des automatisations. J'en ai créé un le 20 novembre. La fenêtre m'a demandé une tête, un nom et une raison d'être : j'ai pris le poulpe, je l'ai appelé Poulpito, et j'ai tapé « My best friend ». En pratique, c'est plutôt devenu mon chief of staff : c'est le seul agent à qui je parle, et c'est lui qui pilote les autres.
 
 ![La fenêtre New bot d'Orca, avec le nom Poulpito et la raison d'être « My best friend »](new-bot.png "La fenêtre New bot d'Orca : une tête, un nom, une raison d'être, la machine où vit le bot et l'agent derrière")
 
-Le problème, par contre, je le connaissais. Un jour normal, j'ai à peu près huit sessions d'agents ouvertes en même temps, chacune dans son worktree : un fix sur un projet, un article pour ce site, une migration sur un autre. Les lancer, c'est facile, mais je passais mon temps d'un onglet à l'autre à me demander lequel attendait quoi, une relecture, une réponse, une décision, et celui qui attendait depuis le plus longtemps était rarement celui que j'ouvrais. Cinq jours après l'avoir créé, Poulpito est le seul à qui je parle.
-
 ## Ce qu'Orca donne à un bot
 
-Mes agents tournaient déjà dans Orca, sur [une VM à eux](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage), avec chaque projet dans la barre latérale, ses worktrees et un agent dans chacun. Le bot s'ajoute à ça avec une conversation qui ne s'arrête pas quand je ferme l'onglet. Voilà à quoi ça ressemble un matin de travail :
+Mes agents tournaient déjà dans Orca, sur [une VM à eux](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage), avec chaque projet dans la barre latérale, ses worktrees et un agent dans chacun. Le bot s'ajoute à ça avec une conversation qui ne s'arrête pas quand je ferme l'onglet, et qui garde le fil quand je le perds. Voilà à quoi ça ressemble un matin de travail :
 
 ![La fenêtre d'Orca avec le bot Poulpito : projets et worktrees à gauche, la conversation au centre, items et automatisations à droite](orca-window.jpg "À gauche, le bot, puis les projets et leurs worktrees. Au centre, ma conversation avec Poulpito. À droite, ses items, ses automatisations et ses suggestions. Noms et détails clients grisés.")
 

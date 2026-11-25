@@ -4,18 +4,18 @@ slug: a-meta-agent-to-run-my-coding-agents
 date: 2026-12-10
 author: "Nicolas Rouanne"
 cover: "cover-en.jpg"
-excerpt: "Poulpito is an Orca bot I talk to, which doesn't code: it hands each job to an agent in the right project, follows them all and tells me what comes first. Orca gives it a name, a memory, items and automations; I added a memory reviewed like code."
+excerpt: "With eight agent sessions open, my problem isn't starting them, it's finishing and moving on to the next. Poulpito, an Orca bot, is the only agent I talk to: it doesn't code, it hands each job to an agent in the right project, follows them all and tells me what comes first."
 ---
 
-Since 20 November I've been talking to a single agent, and it runs the others. It's an [Orca bot](https://orca.dev/bots). Orca is the IDE my coding agents run in, and a bot is an agent that lives there permanently, on my machine and with my own Claude Code, with a name, a memory and automations. When I created it, the dialog asked for a face, a name and a purpose: I picked the octopus, called it Poulpito, and typed "My best friend", because I didn't really know yet what I'd use it for.
+With agentic engineering, I have a hard time keeping track of everything I'm doing. I have about eight agent sessions open at once, each in its own worktree, and the mental load builds up fast: knowing what I'm working on from one day to the next, or just after the lunch break, when I pick things up again and I'm lost. The problem isn't starting agents, it's finishing tasks and knowing what to do next. It's really about focus, and orchestration.
+
+For a while I'd been seeing people on Twitter who only talked to a single agent, to make their life simpler. Then Orca launched its [bots](https://orca.dev/bots), and that was pretty much the topic. Orca is the IDE my coding agents run in, and a bot is an agent that lives there permanently, on my machine and with my own Claude Code, with a name, a memory and automations. I created one on 20 November. The dialog asked for a face, a name and a purpose: I picked the octopus, called it Poulpito, and typed "My best friend". In practice it has become my chief of staff instead: it's the only agent I talk to, and it runs the others.
 
 ![Orca's New bot dialog, with the name Poulpito and the purpose "My best friend"](new-bot.png "Orca's New bot dialog: a face, a name, a purpose, the computer the bot lives on and the agent behind it")
 
-The problem, though, I knew well. On a normal day I have about eight agent sessions open at once, each in its own worktree: a fix on one project, an article for this site, a migration on another. Starting them is easy, but I spent my time going from tab to tab wondering which one was waiting for what, a review, an answer, a decision, and the one that had been waiting longest was rarely the one I opened. Five days after I created it, Poulpito is the only one I talk to.
-
 ## What Orca gives a bot
 
-My agents already ran in Orca, on [a VM of their own](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script), with each project in the sidebar, its worktrees and an agent in each. The bot adds a conversation that doesn't end when I close the tab. This is what it looks like on a working morning:
+My agents already ran in Orca, on [a VM of their own](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script), with each project in the sidebar, its worktrees and an agent in each. The bot adds a conversation that doesn't end when I close the tab, and that keeps track when I lose it. This is what it looks like on a working morning:
 
 ![The Orca window with the bot Poulpito: projects and worktrees on the left, the conversation in the middle, items and automations on the right](orca-window.jpg "Left, the bot, then the projects and their worktrees. Middle, my conversation with Poulpito. Right, its items, automations and suggestions. Client names and details are greyed out.")
 
