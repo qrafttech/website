@@ -27,7 +27,11 @@ That panel holds what a plain agent session doesn't have. Items first: everythin
 
 ![A decision going through an item: the bot proposes to close it, I answer on the item, it is marked done](orca-item-decision.png "The bot proposes to close an item, I answer on the item, it marks it done. The next item is already waiting for my answer.")
 
-There are also automations, which it runs on a schedule or when something happens, and which I set up by asking it in the chat: Poulpito has two, "Look around" and "Tidy memory". And at the bottom, its suggestions for what comes next, several of them straight from GitHub.
+There are also automations, which you create by asking it in the chat to run something on a schedule or when something happens. The two in the panel, Orca runs on its own: "Tidy memory" tidies its memory at night, and "Look around", a few times a day, goes through what's waiting for me in GitHub and in my projects, read-only, and proposes next steps under "Suggestions".
+
+![Poulpito's suggestions, the last one being to follow the blog articles in progress until they are published](orca-suggestions.png "Poulpito's suggestions, the last one open. Greyed out: a suggestion naming a client project, and a piece of conversation.")
+
+The last one caught my eye. Five articles were moving in parallel in the website repository, with nobody following them through to publication, and it offered to take that on. That's exactly the orchestration work I usually hand it, except this time it saw it first. One click on "Start", and the suggestion becomes a request to it.
 
 ## An agent that doesn't code
 

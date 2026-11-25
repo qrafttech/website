@@ -27,7 +27,11 @@ Dans ce panneau, il y a ce qu'une simple session d'agent n'a pas. Les items d'ab
 
 ![Une décision qui passe par un item : le bot propose de le fermer, je réponds sur l'item, il est marqué fait](orca-item-decision.png "Le bot propose de fermer un item, je réponds sur l'item, il le marque fait. L'item suivant attend déjà ma réponse.")
 
-Il y a aussi les automatisations, qu'il lance à heure fixe ou quand quelque chose arrive, et que j'ai créées en le lui demandant dans le chat : Poulpito en a deux, « Look around » et « Tidy memory ». Et en bas, ses suggestions sur la suite, dont plusieurs viennent directement de GitHub.
+Il y a aussi les automatisations, qu'on crée en lui demandant dans le chat de lancer quelque chose à heure fixe ou quand un événement arrive. Les deux qu'on voit dans le panneau, Orca les fait tourner tout seul : « Tidy memory » range sa mémoire la nuit, et « Look around », quelques fois par jour, fait le tour de ce qui m'attend dans GitHub et dans mes projets, en lecture seule, et me propose des suites sous « Suggestions ».
+
+![Les suggestions de Poulpito, dont la dernière : suivre les articles du blog en cours jusqu'à leur publication](orca-suggestions.png "Les suggestions de Poulpito, la dernière ouverte. Grisés : une suggestion qui nomme un projet client, et un bout de conversation.")
+
+La dernière m'a intéressé. Cinq articles avançaient en parallèle dans le repo du site, sans personne pour les suivre jusqu'à la publication, et il m'a proposé de s'en charger. C'est exactement le travail d'orchestration que je lui confie d'habitude, sauf que cette fois c'est lui qui l'a vu. Un clic sur « Start », et la suggestion devient une demande que je lui fais.
 
 ## Un agent qui ne code pas
 
