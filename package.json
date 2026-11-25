@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "gen:stack-icons": "node scripts/gen-stack-icons.mjs",
+    "gen:client-cards": "node scripts/gen-client-cards.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {

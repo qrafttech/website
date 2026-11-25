@@ -20,3 +20,19 @@ export const clientScreenshots: Record<string, readonly StaticImageData[]> = {
   chloe: [chloeScreenshot],
   sante: [santeScreenshot],
 };
+
+/**
+ * The image of a case study's link preview: a card with the Qraft lockup,
+ * the client's logo and its screenshot, made by `yarn gen:client-cards`.
+ */
+export const clientSocialImages: Record<string, string> = {
+  billi: "/images/social/billi.jpg",
+  cevidentia: "/images/social/cevidentia.jpg",
+  easiware: "/images/social/easiware.jpg",
+  embarq: "/images/social/embarq.jpg",
+  bruno: "/images/social/bruno.jpg",
+  chloe: "/images/social/chloe.jpg",
+  sante: "/images/social/sante.jpg",
+  episto: "/images/social/episto.jpg",
+  hellio: "/images/social/hellio.jpg",
+};
