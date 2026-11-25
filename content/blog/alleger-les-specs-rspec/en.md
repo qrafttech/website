@@ -52,7 +52,7 @@ Applied to 28 files, this takes the whole suite from 666 to 558 s (−16%).
 
 ## `build_stubbed` when the spec never reads the database
 
-Many specs save an object to the database and never read it back. For example, a validation rejects a pie chart for a multiple-choice question, because its answers don't add up to 100%. The spec only needs the question's type, but it saved the question to the database:
+Many specs save an object to the database and never read it back. For example, a validation rejects a pie chart for a multiple-choice question, because its answers don't add up to 100%. The spec only needs the question's type, but it saved the whole question to the database:
 
 ```ruby
 # before: the question is saved to the database

@@ -52,7 +52,7 @@ Appliqué à 28 fichiers, ça fait passer toute la suite de 666 à 558 s (−16 
 
 ## `build_stubbed` quand le spec ne lit jamais la base
 
-Beaucoup de specs enregistrent un objet en base alors qu'ils ne le relisent jamais. Par exemple, une validation refuse un camembert pour une question à choix multiple, parce que les réponses n'y font pas 100 %. Le spec n'a besoin que du type de la question, mais il l'enregistrait en base :
+Beaucoup de specs enregistrent un objet en base alors qu'ils ne le relisent jamais. Par exemple, une validation refuse un camembert pour une question à choix multiple, parce que les réponses n'y font pas 100 %. Le spec n'a besoin que du type de la question, mais il enregistrait toute la question en base :
 
 ```ruby
 # avant : la question est enregistrée en base
