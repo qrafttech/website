@@ -7,56 +7,145 @@ cover: "cover-en.jpg"
 excerpt: "An exploration: an auth server in Rails with Devise, Doorkeeper and OpenID Connect, APIs that verify its tokens by themselves, and a browser that keeps no refresh token."
 ---
 
-A login often starts simple and grows by layers: email and password, then a Google button, then a customer who wants to sign in with their company's SSO, then two-factor. And next to the Rails app there is often a second service, in Python, which also needs to know who is calling. We wanted to see what a clean version of that looks like when you build it yourself: a separate auth server in Rails, apps that trust only that server, and OAuth 2 and OpenID Connect doing the job they were designed for.
+A login often starts simple and grows by layers: email and password, then a Google button, then a customer who wants to sign in with their company's SSO, then two-factor. And next to the Rails app there is often a second service, in Python, which also needs to know who is calling. We wanted to see what a clean version of that looks like when you build it yourself, in Rails, with OAuth 2 and OpenID Connect at the centre.
 
-It's an exploration. Adrien Lupo wrote most of the code. Everything runs locally, nothing is deployed, and the Python service isn't merged yet. Each choice was written down with its reason as we went, and this article follows those notes.
+It's an exploration, and Adrien Lupo wrote most of the code. Everything runs locally, nothing is deployed, and the Python API isn't merged yet.
 
-## Four pieces that share nothing
+The idea fits in a few sentences. The app never sees a password. A separate server, the SSO, checks who the person is. The app's backend asks it once, at login, then knows the browser by a cookie no script can read. Other services show a short-lived signed token instead, and the page can get one, valid 15 minutes, to call the second API. The rest of this article takes those sentences one at a time.
+
+## The pieces
 
 One repository, one folder per service:
 
 - `sso`, the auth server: Rails 8.1, [Devise](https://github.com/heartcombo/devise) for users and passwords, [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper) for OAuth 2, [doorkeeper-openid_connect](https://github.com/doorkeeper-gem/doorkeeper-openid_connect) for OpenID Connect. Google is a button on its login page.
-- `api`, the app's backend: Rails 8.1 in API mode. It knows what a person may do, in its own database, and it also hosts the back-office.
-- `web`, the front end in Vue. It stores no token.
-- a Python API, the second service, which verifies the same tokens.
+- `api`, the app's backend, in Rails 8.1. It logs browsers in, knows what each person may do, and holds their data.
+- `web`, the Vue front end.
+- the Python API, the second service.
 
-They share no database and no code, and talk only over HTTP. The SSO knows who the person is, the app knows what they may do, and each API checks a token by itself with the SSO's public key. The app trusts the SSO and nothing else: Google sits behind it, so adding another provider, or a customer's own, only changes the SSO.
+![The four pieces and how they talk to each other](pieces-en.png "Dashed means not built yet: the Python API and its calls.")
 
-![The four pieces and how they talk to each other](pieces-en.png "The browser only reaches the SSO through redirects, and only sends api its cookie. The Python API is dashed: it isn't merged yet.")
+They share no database and no code, and talk only over HTTP. The browser sends `api` a cookie and nothing else. `api` calls the SSO to trade a login code for tokens, to renew them, to revoke them at logout, and to fetch its public keys. Nobody asks the SSO whether a token or a session is still good.
 
-The SSO is in Rails because that's what we write most, and a Rails team can maintain it. [Better Auth](https://www.better-auth.com/) (Node) was considered: less code, but a second stack.
+| Job | Who does it |
+| --- | --- |
+| Know who the person is: email, password, Google account | `sso`, in its own database |
+| Issue tokens, publish the public keys that check them | `sso`, through Doorkeeper |
+| Log a browser in and remember it | `api`, with a row of its `browser_sessions` table |
+| Decide what a user may do, hold their data | `api`, in its own database |
+| Check that a token is genuine | each API, by itself |
 
-## What the SSO hands out
+The app trusts the SSO and nothing else. Google sits behind it, so adding another provider, or a customer's own, only changes the SSO. We built it in Rails because that's what we write most, and a Rails team can maintain it. [Better Auth](https://www.better-auth.com/) (Node) was considered: less code, but a second stack.
 
-The flow is OAuth 2's authorization code with [PKCE](https://www.rfc-editor.org/rfc/rfc7636). The client sends the browser to the SSO's `/oauth/authorize`, the person logs in there, the SSO sends the browser back with a one-time code, and the client exchanges that code for tokens at `/oauth/token`. PKCE ties the code to whoever started the login: the client sends the hash of a random secret with the first redirect, and the secret itself with the exchange.
+`api` also serves a back-office under `/admin` ([Administrate](https://github.com/thoughtbot/administrate) and Sidekiq's page). It logs in at the same SSO as a second client, and keeps its own cookie, limited to `/admin`. The two logins share no cookie, and ending one doesn't end the other. Being logged in isn't enough to get in: the user's `admin` column must be true in `api`'s database. Roles belong to the app, not to the SSO.
 
-The exchange returns three tokens, each with its own job:
+## Five things that are easy to confuse
 
-- the **access token**, the one an API accepts. Here a JWT signed with RS256, valid 15 minutes, whose `aud` claim lists the two APIs;
-- the **refresh token**, which gets a new access token without asking the person again. It's opaque, works once, and is replaced at each use;
-- the **ID token**, OpenID Connect's addition, which tells the client who logged in. Its `aud` is that client's id.
+A token is a string that proves something to whoever checks it. There are five such proofs here, and each one proves a different thing to a different party. They keep the same colour in every figure.
 
-The access token and the ID token are signed with the same key. What stops an API from accepting an ID token is `aud` alone, so an API's name must never be a client id.
+| | What it proves | Who holds it, who reads it | Lasts |
+| --- | --- | --- | --- |
+| **App session cookie** (pink) | This browser has a login in progress. It only holds the id of a `browser_sessions` row. | The browser holds it and only sends it under `/api`. `api` reads it. | 12 hours from the login |
+| **SSO cookies** (purple) | This browser already logged in at the SSO. | The browser only sends them to the SSO. | Until the browser closes, and 30 days for the remember cookie |
+| **Access token** (blue) | The SSO vouches that whoever carries it acts for this user, at these APIs. | `api` holds it. The page gets a copy when it asks. The APIs read it. | 15 minutes |
+| **Refresh token** (orange) | "I was given the last tokens, give me the next ones." | `api` holds it, it never reaches the browser. The SSO reads it. | One use, and never more than 30 days after the login |
+| **ID token** (teal) | The SSO says this person just logged in. It's what OpenID Connect adds. | `api` holds it and hands it back to the SSO at logout. No API accepts it. | 2 minutes |
 
-In Doorkeeper most of this is configuration. Two lines matter more than they look: `force_pkce`, and the restriction to S256, because Doorkeeper accepts the weaker `plain` method by default.
+The access token is a *bearer* token: an API accepts whoever presents it, and only checks that the token is genuine. That's why it's short-lived. The refresh token only works together with `api`'s secret, which the browser doesn't have.
+
+The access token is a JWT, a small JSON document anyone can read, followed by a signature. Its fields say who signed it (`iss`, the SSO), for which user (`sub`, their id at the SSO, and their `email`), for which APIs (`aud`, which names both) and until when (`exp`). It carries no role and no scope: there is one client, it's ours, and `aud` already says which APIs the token is for.
+
+## Login, step by step
+
+The protocol is OAuth 2, the standard way for an app to send a user to a separate server to log in and get tokens back. The flow is called *authorization code*: the browser comes back from the SSO with a one-time code, and `api` trades that code for tokens, server to server. The password is only typed on the SSO's page, or on Google's, and no token reaches the browser during the login. In OAuth's terms, `api` is the *client*.
+
+![The login of a browser, in 10 steps](login-en.png "Steps 3 and 5 are redirects the browser follows. Steps 6 and 7 never touch the browser.")
+
+Each piece of the figure stops one specific attack.
+
+| Piece | What it is | What it stops |
+| --- | --- | --- |
+| `state` (steps 2 to 5) | A random value `api` sends in step 3 and expects back in step 5. The pending login waits 10 minutes in a cookie named after it. | Another site making your browser finish a login it never started, into the attacker's account. |
+| Client secret (step 6) | Sent by `api` to the SSO, never through the browser. | Anyone who intercepted a code trading it for tokens. |
+| [PKCE](https://www.rfc-editor.org/rfc/rfc7636) (steps 3 and 6) | `api` keeps a random `code_verifier` and sends its SHA-256 hash, the `code_challenge`, in step 3. In step 6 the SSO hashes the verifier and compares. Doorkeeper accepts a variant with no hashing by default: the config keeps S256 only. | A stolen code being replayed in another browser. |
+| Registered redirect address (step 5) | The SSO only sends codes to `/api/auth/callback`, and a code works once. | A crafted link delivering the code to another site. |
+| `SameSite` (steps 5 and 9) | The pending-login cookie is `Lax`, so it's sent on the return from the SSO, which comes from another site. The session cookie is `Strict`, never sent on a request that starts from another site. | A link from another site reaching `api` with the session. |
+
+Every page needs a user, so there's no "Sign in" button. Before a page is drawn, `web`'s router calls `GET /api/me` and starts the login on a 401. In step 4, if the SSO already knows the browser through its cookies, it shows nothing and answers with a code at once: the person only sees a spinner. That's what makes single sign-on "single", and why logout must also end the SSO's session.
+
+With Google, the SSO runs the same round trip again in step 4, as Google's client this time. `api` sees no difference: it still receives tokens signed by the SSO, and Google's tokens never leave the SSO. A Google account is linked to an existing account only when Google says the email is verified, and it's found afterwards by Google's id, never by the email.
+
+## How an API trusts a token without asking the SSO
+
+The SSO signs every access token with an RSA private key (the RS256 algorithm). The matching public key can check a signature and can't produce one. So the APIs can be given the public key without being able to forge tokens.
+
+The SSO publishes its public keys at `/oauth/discovery/keys`, each with an id, the `kid`, and each token names the key that signed it. `api` fetches the list on the first token and keeps it in memory. It only asks again when a token names a key it doesn't have, and at most once every 10 seconds. The rest of the time, checking a token is arithmetic done inside `api`, with no network call.
+
+| Check | The question | What it stops |
+| --- | --- | --- |
+| Signature, RS256 only | Signed by the SSO key the `kid` names, and unchanged since? | Forged or edited tokens, and tokens that name a weaker algorithm |
+| `iss` | Issued by our SSO? | Tokens from another server |
+| `exp` | Still within its 15 minutes? | Old tokens, leaked ones included |
+| `aud` | Is my name in the list? | Tokens meant for another API, and ID tokens, whose `aud` is the client's id |
+
+With [ruby-jwt](https://github.com/jwt/ruby-jwt) it's one call. There are three traps, and each line closes one: `iss` and `aud` are only checked when asked for, a token with no `exp` at all passes, and the algorithm must be set by the API. If it were read from the token, a token signed with HS256 using the public key as the secret would be accepted, and everyone knows that key.
 
 ```ruby
-Doorkeeper.configure do
-  grant_flows %w[authorization_code]
-  force_pkce
-  pkce_code_challenge_methods %w[S256]
-  access_token_generator "::Doorkeeper::JWT"
-  access_token_expires_in 15.minutes
-  use_refresh_token
-  default_scopes :openid
-  enforce_configured_scopes
-  skip_authorization { true }
+claims, = JWT.decode(
+  token, nil, true,
+  jwks: self, # the SSO's key set, fetched once and kept in memory
+  algorithm: "RS256",
+  iss: sso.issuer, verify_iss: true,
+  aud: sso.audience, verify_aud: true,
+  required_claims: %w[exp sub]
+)
+```
+
+A refused token gets a 401. If `api` has no keys and can't reach the SSO, it answers 503, because the token may be valid and the client should retry, not log in again. Then `api` finds its own user row by `sub`, or creates it on the first token. The SSO never tells `api` about a new user.
+
+## Calling the Python API from the page
+
+The Python API is on another origin, so the cookie never reaches it. The page asks `api` for an access token, keeps it in memory and sends it to the Python API, which then asks `api` for the user's data with the same token.
+
+![The page gets a 15-minute token from api to call the Python API](jeton-court-en.png "Steps 1 to 3 are built. Steps 4 to 6 wait for the Python API.")
+
+The safest design keeps every token on the server and has `api` relay the page's calls to the Python API. It doesn't hold here. The Python API streams long answers, and relaying them through Rails would occupy one server thread per open stream, with 3 threads configured. A reverse proxy in front of both services could do the relaying, but it was out of scope. [OAuth 2.0 for Browser-Based Applications](https://www.rfc-editor.org/rfc/rfc10017) (RFC 10017) calls this compromise a *token-mediating backend*, and allows it when relaying isn't possible.
+
+- **The endpoint.** `POST /api/auth/token` answers `{ access_token, expires_in }`. While the stored token has more than a minute left, `api` hands it out as it is, with no call to the SSO.
+- **Renewal under a lock.** A refresh token works once, and the SSO treats a second use as a theft (see below). So two requests must never renew at the same time. `api` takes a database lock, reads the row again, and renews only if that's still needed. The second request finds the token the first one stored. In Chrome, six requests sent at the same moment all got the same new token, and the SSO saw a single refresh.
+- **What ends a login.** Only a 400 `invalid_grant` from the SSO, which means the refresh token itself is no good. `api` then deletes the row and answers 401, and the user logs in again. Any other failure, a slow or failing SSO, a wrong client secret, is a 503 and the session stays.
+- **In the page.** A variable, never the browser's storage. The page counts from `expires_in` rather than from an absolute time, because its clock may not agree with the server's.
+
+```ruby
+def access_token!(sso_client)
+  return [ access_token, access_token_expires_at ] if fresh?
+
+  with_lock do
+    update!(self.class.token_columns(sso_client.refresh(refresh_token))) unless fresh?
+  end
+  [ access_token, access_token_expires_at ]
+rescue SsoClient::Refused
+  destroy
+  raise
 end
 ```
 
-`openid` is the only scope. With one client that gets everything, a scope per API limited nothing, so `aud` alone says which APIs accept a token. Scopes will come back the day a client must get less than everything. `skip_authorization` removes the consent screen, since every client is ours.
+## Staying logged in, and logging out
 
-Two rules on refresh tokens aren't in Doorkeeper, and they are the reason for the SSO's only custom controller. A refresh token presented a second time means two parties hold it, and the SSO can't tell which one is the thief, so it revokes the whole chain (every refresh token descending from the same login) and both have to log in again. And a chain stops 30 days after the login, however often it was refreshed, so a stolen token that never gets caught still ends.
+A login lasts 12 hours from the moment it was made, however much it's used. `api` checks that itself, on the age of the row. After 12 hours the next call gets a 401 and `web` starts the login again. If the SSO still knows the browser through its 30-day remember cookie, that's a few redirects and no form.
+
+The browser adds cookies by itself, including to a request that another site's page makes it send. Three things protect the session against that. The cookie is `SameSite=Strict`. A request that isn't a GET and carries no token must name the app's origin in its `Origin` header, or it gets a 403. And no GET changes anything.
+
+Logout is a form that posts to `/api/auth/logout`, and it closes three things.
+
+| What it closes | How | If skipped |
+| --- | --- | --- |
+| The app session | `api` deletes the row, and the cookie names nothing. | The app keeps answering for up to 12 hours. |
+| The refresh token | `api` asks the SSO to revoke it. If the SSO can't be told, logout goes on. | A refresh token nobody holds stays valid for up to 30 days. |
+| The SSO session | `api` sends the browser to the SSO's `/oauth/logout` with the ID token it kept. The SSO ends its session and its remember cookie. | The next visit logs the user straight back in, with no password asked. |
+
+An access token the page already holds works until it expires, 15 minutes at most.
+
+Each renewal returns a new access token and a new refresh token, and the old refresh token stops working at that moment. That's rotation. The SSO adds two rules Doorkeeper doesn't have. If a used refresh token comes back, two parties hold it and the SSO can't tell which one is the thief, so it revokes every refresh token of that login and both have to log in again. And no refresh token works more than 30 days after its login, even if it was renewed the day before. This is the SSO's only custom controller, and it overrides no Doorkeeper method: it revokes the chain before Doorkeeper handles the request, and Doorkeeper then refuses it by itself.
 
 ```ruby
 class TokensController < Doorkeeper::TokensController
@@ -85,122 +174,33 @@ class TokensController < Doorkeeper::TokensController
 end
 ```
 
-The tokens are revoked here, then Doorkeeper refuses the request by itself with its usual `invalid_grant`. No Doorkeeper method is overridden. `login_at` is written by a Doorkeeper hook when the code is exchanged, and copied along the chain at each refresh. The check on `server.client` matters: without it, anyone holding an old refresh token could end someone's login without knowing the client's secret.
+## Why not keep the tokens in the browser
 
-## Verifying a token without calling the SSO
+That was our first design. The Vue app was an OAuth client like any other. It ran the login itself with [oidc-client-ts](https://github.com/authts/oidc-client-ts), kept its tokens in the tab's `sessionStorage`, refresh token included, and sent the access token as a Bearer to every API. The argument was uniformity: one mechanism for the browser today, a mobile app or a CLI tomorrow.
 
-An API never asks the SSO whether a token is valid. It fetches the SSO's public keys once, from the keys endpoint OpenID Connect publishes (`/oauth/discovery/keys`), keeps them in memory, and checks each signature itself. Each token names its key in a `kid` header. A token naming a key the API doesn't have makes it fetch again, at most once every 10 seconds, so the SSO can change its key without anyone touching the APIs. If the SSO can't be reached and no key is in memory, the answer is a 503, not a 401: the token may well be valid, and the client should retry rather than log in again.
+![Where the tokens live, in the first design and in the one we kept](avant-apres-en.png "In the first design a copied refresh token was worth 30 days. In the second, it never leaves api.")
 
-With [ruby-jwt](https://github.com/jwt/ruby-jwt) it's one call:
+It worked, but any script on the page can read `sessionStorage`, and a copied refresh token is worth up to 30 days of access. Rotation only catches the thief if the real app refreshes after them, so if the tab is closed, the stolen chain goes unnoticed until the end. OWASP's [Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) and RFC 10017 point the same way: keep the tokens on a server, and give the browser only a cookie no script can read.
 
-```ruby
-claims, = JWT.decode(
-  token, nil, true,
-  jwks: self, # the SSO's key set, fetched once and kept in memory
-  algorithm: "RS256",
-  iss: sso.issuer, verify_iss: true,
-  aud: sso.audience, verify_aud: true,
-  required_claims: %w[exp sub]
-)
-```
-
-Each line closes a hole. `iss` and `aud` are only checked when asked for. `exp` is checked by default, but a token with no `exp` at all passes, hence `required_claims`. And the algorithm is ours to choose, never the token's: the classic attack is a token signed with HS256, using the public key, which everyone knows, as the secret.
-
-The first valid token with an unknown `sub` creates the user's row in the app's database. The SSO and the app never talk about a user except through the token.
-
-## The first design, and why we left it
-
-In the first version the Vue app was an OAuth client like any other. It ran the authorization code flow itself with [oidc-client-ts](https://github.com/authts/oidc-client-ts), kept its tokens in the tab's `sessionStorage`, refresh token included, and sent the access token as a Bearer to every API. The argument was uniformity: one mechanism for every consumer, the browser today, a mobile app or a CLI tomorrow.
-
-It worked. But a refresh token in the browser can be read by any script on the page, and a copy is worth up to 30 days of access. Rotation only catches the thief if the real app refreshes after them: close the tab, and the stolen chain goes unnoticed until its 30 days are over. The front end also carried token logic it had no business carrying. `oidc-client-ts` can send two refreshes with the same token, which the reuse rule takes for a theft, so every refresh had to go through one function, one at a time.
-
-OWASP's [Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) and [OAuth 2.0 for Browser-Based Applications](https://www.rfc-editor.org/rfc/rfc10017) (RFC 10017) point the same way: keep the tokens on a server, and give the browser a cookie no script can read. That's the second design.
-
-![Where the tokens live, in the first design and in the one we kept](avant-apres-en.png "In the first design a copied refresh token was worth 30 days. In the second, the refresh token never leaves api.")
-
-## The design we kept: api logs the browser in
-
-`api` became the OAuth client of browsers. It's a confidential client, meaning it has a secret, which a page can't keep. It runs the authorization code flow server side, with its secret, and PKCE and `state` on top. No OpenID Connect library: a server-side code flow is one redirect and one POST, written with Ruby's standard library.
-
-![The login of a browser, step by step](login-en.png "The codes travel in addresses. The tokens only go between api and the SSO.")
-
-A few details make it hold.
-
-- The login in progress waits in a cookie named after its `state`, valid 10 minutes, holding the PKCE verifier and the page to come back to. The callback accepts a `state` only if the browser sends the cookie of that name, which proves this browser started this login. One cookie per login, so two tabs logging in at the same time both complete.
-- At the callback, `api` verifies the access token it just received exactly like any Bearer token, and finds or creates the user by `sub`. There is one verification path, not two.
-- The session is a row of `browser_sessions` holding the SSO's three tokens. The cookie only holds the row's id: encrypted by Rails, `HttpOnly`, `SameSite=Strict`, path `/api`. Deleting the row ends the login from the server, and a login lasts 12 hours.
-- `Strict` means the cookie is never sent on a request that starts from another site, and the return from the SSO is such a request. It still works because that return is recognised by the pending login's cookie, which is `Lax`, and the session cookie is set at that moment, not read.
-- A request that isn't a GET and carries no token must name the web app's origin in its `Origin` header, which the browser writes itself and a page can't change. `SameSite` already covers most of it, but a site is wider than an origin: a sibling subdomain is the same site.
-
-On the Vue side there's almost nothing left. The page asks `api` who's logged in, and the browser adds the cookie by itself:
-
-```typescript
-export async function loadUser() {
-  const response = await fetch('/api/me')
-  if (response.status === 401) {
-    user.value = null
-    return
-  }
-  if (!response.ok) throw new Error(`GET /api/me answered ${response.status}`)
-  user.value = await response.json()
-  sessionStorage.removeItem(LOGIN_STARTED_AT)
-}
-```
-
-On a 401 the router sends the browser to `/api/auth/login`. If the SSO still knows the browser, through its session or its 30-day remember cookie, the redirects come straight back and the person only sees a spinner.
-
-Other clients (another service, later a mobile app or a CLI) still send a Bearer token, verified the same way. So `api` has two ways in, and the browser is no longer just another consumer. That's the price of the cookie.
-
-## A short-lived token for the second API
-
-The Python API is called from the page, and it streams long answers. Relaying every call through `api` would hold a Rails thread per open stream, which 3 Puma threads can't sustain, and a reverse proxy in front of both was out of scope. RFC 10017 has a name for that compromise, the token-mediating backend. It ranks it below a backend that relays everything, and allows it when relaying isn't possible, which is the case here.
-
-So the page asks `api` for a token (`POST /api/auth/token`) and gets the SSO's ordinary 15-minute access token, with the seconds it has left. It keeps it in a variable, never in the browser's storage, and asks again 30 seconds before it expires. It counts from `expires_in` rather than from an absolute time, because the browser's clock may not agree with the server's. The refresh token never leaves `api`.
-
-![The page gets a 15-minute token from api to call the Python API](jeton-court-en.png "The Python API isn't merged yet: the design is proven up to the token.")
-
-Renewing is `api`'s job, and it has a trap. A refresh token works once and a second use revokes the chain, so two requests renewing at the same moment would log the person out. The renewal happens under a lock, and the row is read again inside it:
-
-```ruby
-def access_token!(sso_client)
-  return [ access_token, access_token_expires_at ] if fresh?
-
-  with_lock do
-    update!(self.class.token_columns(sso_client.refresh(refresh_token))) unless fresh?
-  end
-  [ access_token, access_token_expires_at ]
-rescue SsoClient::Refused
-  destroy
-  raise
-end
-```
-
-The second request finds the token the first one stored. In Chrome, six requests sent at the same moment with an expired token all got the same new token, and the SSO's log shows a single refresh. Only a 400 `invalid_grant` ends the login. Any other failure of the SSO, a wrong client secret included, is a 503 and the session stays, otherwise a mistyped secret would log every user out, one after the other.
-
-## The back-office
-
-The admin panel ([Administrate](https://github.com/thoughtbot/administrate), plus Sidekiq's page) lives in `api` under `/admin`. HTML pages can't send a Bearer header, so it logs in at the SSO as a client of its own, `admin`, also confidential, through [omniauth_openid_connect](https://github.com/omniauth/omniauth_openid_connect), which checks the ID token's signature, `iss`, `aud` and `nonce`. After the login, `api` keeps the user's id in a Rails session cookie limited to `/admin`. The two logins share no cookie, and neither can end the other.
-
-Being logged in isn't enough to get in. Only a user whose `admin` column is true in `api`'s database gets past `/admin`, and the column is read at every request, so a demotion counts from the next click. Roles belong to the app, not to the SSO or to the token.
+The price is that `api` now has two ways in, the cookie for browsers and the Bearer for other clients. The browser is no longer just another client.
 
 ## What local development taught us
 
-Some traps only show up once the pieces actually run on different origins:
+Some problems only show up once the pieces run on different origins.
 
-- Google refuses a redirect address on `sso.localhost`: it must end with a public top-level domain, and over plain http only `localhost` is accepted. So the SSO runs on `localhost:3000`.
-- Cookies ignore ports. Opened on `localhost:3001`, the back-office would have received the SSO's cookies, and the SSO its. It runs on `app.localhost:3001`, another host, with a cookie limited to `/admin`.
-- Behind Vite's proxy, `api` sees its own host, `localhost:3001`, and a redirect to a bare path sent the browser off the app. `api` now builds every address from the web app's configured origin.
+- Google refuses a redirect address on `sso.localhost`, because it must end with a public domain, and over plain http it only accepts `localhost`. So the SSO runs on `localhost:3000`.
+- Cookies ignore ports. Opened on `localhost:3001`, the back-office would have received the SSO's cookies, and the SSO its. It runs on `app.localhost:3001`, another host.
+- Behind Vite's proxy, `api` sees its own host, `localhost:3001`, and a redirect to a bare path sent the browser off the app. `api` now builds its addresses from the app's configured origin.
 - With an SSO session open, a login is a chain of redirects with nothing to stop it, so any failure that restarts it loops forever. A failed login ends on a page that starts nothing, and the front refuses to log in twice within 30 seconds.
 - Devise only forgets a user it finds in the session at logout. After the browser was closed the session is empty, and the remember cookie survived every logout. The logout controllers now load the user from that cookie before signing out.
 
 ## The risks we accepted
 
-The design doesn't remove every risk, and these are the ones we kept, knowingly:
+- **A script on the page can read an access token.** It can read neither the cookie nor the refresh token, but it can ask `api` for an access token, which works for 15 minutes at both APIs. In the first design it was 30 days. No content security policy is set up yet.
+- **Revocation is slow.** A user disabled at the SSO keeps access from a browser for up to 12 hours, and with a token for up to 15 minutes.
+- **One token works at both APIs.** A leak at one works at the other. A token per API needs resource indicators ([RFC 8707](https://www.rfc-editor.org/rfc/rfc8707)), which Doorkeeper only has in its 6.0 release candidate.
+- **No "log out everywhere".** Logout ends one login, not the others.
+- **The browser is remembered.** Anyone using the same browser within 30 days is logged in without a password, and there's no checkbox to opt out on a shared computer.
+- **The tokens are in `api`'s database**, stored as received. The refresh token is worth nothing without the client secret, which isn't in the database.
 
-- A script injected into the page can't read the cookie, but it can act as the user while the page is open, and it can read the short-lived token or ask for one, usable elsewhere for 15 minutes. In the first design a copied refresh token was worth 30 days. A strict content security policy and few third-party scripts remain the real defence.
-- One token names both APIs, so a token leaked at one works at the other. A token per API needs resource indicators ([RFC 8707](https://www.rfc-editor.org/rfc/rfc8707)), which Doorkeeper only has in its 6.0 release candidate.
-- Access tokens can't be recalled, since the APIs verify them offline. In a browser, a user disabled at the SSO keeps access to `api` until their 12-hour session ends.
-- `api`'s database holds a refresh token per session. Without the client secret, which isn't in the database, it's worth nothing, and the columns aren't encrypted.
-- The SSO remembers a browser for 30 days, with no checkbox to opt out on a shared computer: the person has to log out.
-
-It all still runs locally, on SQLite and plain http, tried in Chrome only, with the Google login tested in OmniAuth's test mode and not against the real Google. There's no sign-up, password reset, company SSO or two-factor yet. And the Python API's part stops at the token: the service itself isn't merged.
+It all still runs locally, on SQLite and plain http, tried in Chrome only, with the Google login tested in OmniAuth's test mode and not against the real Google. There's no sign-up, password reset, company SSO or two-factor yet. And the Python API isn't merged: the design is proven up to the token it will receive.
