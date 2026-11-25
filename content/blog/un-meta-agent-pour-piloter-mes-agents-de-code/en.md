@@ -83,19 +83,13 @@ What the review caught isn't spectacular, and that's the point. Three times, on 
 
 ## What went wrong
 
-Five days is enough to get things wrong. Each mistake left a written rule behind.
+The worst one was a merge. On 20 November, a pull request had just been closed on purpose. A minute and a half later, the bot merged it anyway: it went on what it had read before, and on a "c'est bon" (that's fine) from me that wasn't clear. The build was cancelled before it published anything, and I merged the revert six minutes later. Since then it re-reads the pull request right before merging, and if I haven't given it the repository and the number, it says them back and waits for my yes.
 
-Its first status reports were impossible to follow. I told it "je comprends rien" (I don't understand anything), then "je veux que tu sois mon chief of staff, pas mon stagiaire de 3e" (I want you to be my chief of staff, not a ninth-grade intern). The rule: a point of view in a few plain lines, then one next step.
+Its first status reports, I couldn't follow. I wrote "je comprends rien" (I don't get any of it), then "je veux que tu sois mon chief of staff, pas mon stagiaire de 3e" (I want you to be my chief of staff, not a ninth-grade intern). Now it gives me its view in a few lines, and one thing to do next.
 
-It started its agents nested under itself instead of in the project the work belonged to, so the work happened in the bot's folder rather than in the project's repository. The rule: each job gets its own worktree, in the right project.
+At first it started its agents in its own folder, not in the project they were working on. One worktree per job, in the right repository, and that was it.
 
-At one point I had two conversations open with the same bot. "Ça défie le purpose" (that defeats the purpose): the whole idea is one place to talk. The rule: one conversation.
-
-I told it "fais une passe" (do a pass) without saying on what, and instead of asking, it guessed: a triage of 66 open pull requests that nobody wanted. The rule: when an instruction is vague, ask what I mean, in one line.
-
-The worst one was a merge. On 20 November it merged a pull request that had been closed on purpose 87 seconds earlier, on a reading of it that was already stale and on an ambiguous "c'est bon" (that's fine) from me. The build was cancelled before it published anything, a revert was opened, and I merged it six minutes after the wrong merge. The rule: re-read the pull request at the moment of merging and stop unless it is open; and when I don't name the repository and the number, say them back and wait for my yes.
-
-The last one is subtler. I asked it to look for something in my past sessions, and it answered that it couldn't search them. What was true is that its agent hadn't: the search index was off, but the transcripts are plain files on disk. The rule: say what was not done, not what cannot be done.
+And once I told it "fais une passe" (do a pass) without saying on what. It triaged 66 open pull requests. Now it asks.
 
 ## The role, five days later
 

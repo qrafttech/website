@@ -83,19 +83,13 @@ Ce que la relecture a attrapé n'a rien de spectaculaire, et c'est bien le sujet
 
 ## Ce qui a mal tourné
 
-Cinq jours, c'est assez pour se tromper. Chaque erreur a laissé une règle écrite derrière elle.
+Le pire, c'est un merge. Le 20 novembre, une pull request venait d'être fermée exprès. Une minute et demie plus tard, le bot l'a mergée quand même : il se fiait à ce qu'il avait lu avant, et à un « c'est bon » pas clair de ma part. Le build a été annulé avant de publier quoi que ce soit, et j'ai mergé le revert six minutes après. Depuis, il relit la pull request juste avant de merger, et si je ne lui ai pas donné le repo et le numéro, il me les redit et attend mon oui.
 
-Ses premiers points d'étape étaient impossibles à suivre. Je lui ai dit « je comprends rien », puis « je veux que tu sois mon chief of staff, pas mon stagiaire de 3e ». La règle : un point de vue en quelques lignes simples, puis une seule prochaine étape.
+Ses premiers comptes rendus, je ne les suivais pas. Je lui ai écrit « je comprends rien », puis « je veux que tu sois mon chief of staff, pas mon stagiaire de 3e ». Maintenant il me donne son avis en quelques lignes, et une seule chose à faire ensuite.
 
-Il lançait ses agents imbriqués sous lui au lieu de les lancer dans le projet concerné, donc le travail se faisait dans le dossier du bot plutôt que dans le repo du projet. La règle : chaque tâche a son propre worktree, dans le bon projet.
+Au début, il lançait ses agents dans son propre dossier, pas dans le projet sur lequel ils travaillaient. Un worktree par tâche, dans le bon repo, et c'était réglé.
 
-À un moment, j'avais deux conversations ouvertes avec le même bot. « Ça défie le purpose » : toute l'idée, c'est un seul endroit où parler. La règle : une seule conversation.
-
-Je lui ai dit « fais une passe » sans dire sur quoi, et au lieu de demander, il a deviné : un tri de 66 pull requests ouvertes que personne n'avait demandé. La règle : quand une consigne est vague, demander ce que je veux dire, en une ligne.
-
-La pire, c'est un merge. Le 20 novembre, il a mergé une pull request qui avait été fermée exprès 87 secondes plus tôt, sur une lecture déjà périmée et sur un « c'est bon » ambigu de ma part. Le build a été annulé avant d'avoir publié quoi que ce soit, un revert a été ouvert, et je l'ai mergé six minutes après le mauvais merge. La règle : relire la pull request au moment de merger, et s'arrêter si elle n'est pas ouverte ; et quand je ne nomme pas le repo et le numéro, me les redire et attendre mon oui.
-
-La dernière est plus subtile. Je lui ai demandé de chercher quelque chose dans mes sessions passées, et il m'a répondu qu'il ne pouvait pas les fouiller. Ce qui était vrai, c'est que son agent ne l'avait pas fait : l'index de recherche était coupé, mais les transcripts sont de simples fichiers sur le disque. La règle : dire ce qui n'a pas été fait, pas ce qui ne peut pas l'être.
+Et une fois, je lui ai dit « fais une passe » sans dire sur quoi. Il a trié 66 pull requests ouvertes. Maintenant il demande.
 
 ## Le rôle, cinq jours après
 
