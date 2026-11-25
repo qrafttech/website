@@ -15,7 +15,7 @@ Du coup maintenant je parle à un seul agent, et c'est lui qui pilote les autres
 
 Mes agents tournent dans [Orca](https://github.com/stablyai/orca), sur [une VM à eux](/blog/mes-agents-de-code-sur-un-vps-ovh-avec-un-seul-script-de-demarrage). Le méta-agent est un agent de plus là-dedans, avec un autre rôle : il n'écrit jamais de code. Quand je lui confie quelque chose, il lance un agent pour ça, dans un nouveau worktree du projet concerné, avec un brief complet : le contexte, ce qui existe déjà, la première chose à faire. Ensuite il les suit tous, et quand je reviens il me dit ce que je peux fermer, ce qui doit continuer, et par quoi commencer.
 
-Il ne merge jamais. Le merge, c'est moi, pull request par pull request.
+Il ne merge jamais de lui-même : chaque merge attend mon oui, pull request par pull request.
 
 Ce que je lui demande, c'est de la précision et peu de latence : une réponse juste, et tout de suite. Un méta-agent qui me fait attendre, ou que je dois revérifier, coûte plus cher que les onglets qu'il remplace.
 

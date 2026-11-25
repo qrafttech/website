@@ -15,7 +15,7 @@ So now I talk to a single agent, and it runs the others.
 
 My agents run in [Orca](https://github.com/stablyai/orca), on [a VM of their own](/en/blog/moving-my-coding-agents-to-an-ovh-vps-with-a-single-boot-script). The meta-agent is one more agent in there, with a different job: it never writes code. When I give it something to do, it starts an agent for it, in a new worktree of the project the work belongs to, with a full brief: the context, what already exists, what to do first. Then it follows all of them, and when I come back it tells me what I can close, what should continue, and what comes first.
 
-It never merges. Merging is mine, pull request by pull request.
+It never merges on its own: each merge waits for my yes, pull request by pull request.
 
 What I ask of it is precision and low latency: an answer that is right, and that comes right away. A meta-agent that makes me wait, or that I have to double-check, costs more than the tabs it replaces.
 
