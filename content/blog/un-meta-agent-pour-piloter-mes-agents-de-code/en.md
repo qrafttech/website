@@ -69,7 +69,7 @@ So there is no pull request per change: it stays open and collects the commits, 
 
 ![Each change is a commit with its reason, one pull request collects them, merging it is the review](memory-en.png "The bot writes, commits and pushes; I read the pull request and merge it")
 
-I merged the first pull request on 20 November, and the second on the 25th, with about twelve commits collected in five days. What I caught while reading isn't spectacular. Three times, on 21, 24 and 25 November, I found memory lines that had been written outside our conversation and never committed: they showed up as uncommitted changes, not in the pull request, which is exactly how I saw them. And on the 25th, one line was simply wrong; it was fixed within the hour, with its own commit saying why. Without the history, I wouldn't have seen them.
+Honestly, for now I don't really know what to do with it. It lets me follow what it writes down and how it evolves, and keep it in hand, but I don't see much more value than that. Mostly it's the same process as for everything else: I already version [my Claude Code configs and my skills](/en/blog/managing-multiple-claude-code-workspaces-from-a-single-repo) the same way, with symlinks into a repository and commits I read.
 
 ## The role, five days later
 

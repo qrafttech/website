@@ -69,7 +69,7 @@ Il n'y a donc pas une pull request par changement : elle reste ouverte et accumu
 
 ![Chaque changement est un commit avec sa raison, une pull request les accumule, la merger c'est la relecture](memory-fr.png "Le bot écrit, commit et pousse ; je lis la pull request et je la merge")
 
-J'ai mergé la première pull request le 20 novembre, et la deuxième le 25, avec une douzaine de commits accumulés en cinq jours. Ce que j'ai attrapé en relisant n'a rien de spectaculaire. Trois fois, les 21, 24 et 25 novembre, j'ai trouvé des lignes de mémoire écrites en dehors de notre conversation et jamais commitées : elles apparaissaient comme des changements non commités, pas dans la pull request, et c'est justement comme ça que je les ai vues. Et le 25, une ligne était tout simplement fausse ; elle a été corrigée dans l'heure, avec son propre commit qui dit pourquoi. Sans l'historique, je ne les aurais pas vues.
+Honnêtement, pour l'instant, je ne sais pas trop quoi en faire. Ça me sert à suivre ce qu'il note et comment il évolue, et à pouvoir le gérer, mais je n'y vois pas beaucoup plus de valeur. C'est surtout le même process que pour le reste : je versionne déjà [mes configs Claude Code et mes skills](/blog/gerer-plusieurs-espaces-de-travail-claude-code-depuis-un-seul-repo) de la même façon, avec des liens symboliques vers un repo et des commits que je relis.
 
 ## Le rôle, cinq jours après
 
