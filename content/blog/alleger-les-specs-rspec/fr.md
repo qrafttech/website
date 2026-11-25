@@ -11,9 +11,9 @@ Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-githu
 
 Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
-L'app de ce client sert à faire des enquêtes en ligne : un compte crée des questionnaires, des gens y répondent, et l'app analyse les réponses. On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et trois d'entre eux sont des estimations.
+L'app de ce client sert à faire des enquêtes en ligne : un compte crée des questionnaires, des gens y répondent, et l'app analyse les réponses. On a appliqué quatre conventions de specs, et mesuré chacune seule sur le code d'aujourd'hui, sur deux machines (le protocole est en fin d'article).
 
-![Secondes gagnées sur toute la suite par chaque convention, appliquée seule à la même suite de départ](gains-fr.png "Une barre par convention, chacune contre la même suite de départ : les barres ne s'additionnent pas.")
+![Secondes gagnées par chaque convention, appliquée seule au code d'aujourd'hui](gains-fr.png "Chaque gain est mesuré seul, contre le même code de départ.")
 
 ## Un seul exemple par setup coûteux
 
@@ -44,11 +44,9 @@ end
 
 Avec [`:aggregate_failures`](https://rspec.info/blog/2015/06/rspec-3-3-has-been-released/), l'exemple ne s'arrête pas au premier `expect` qui échoue : il les exécute tous et rapporte chaque échec, comme le faisaient les sept exemples.
 
-Moins d'exemples, c'est moins de fois le même setup. Le spec de l'import ci-dessus passe de 72 exemples en 26 s à 29 exemples en 8 s :
+Moins d'exemples, c'est moins de fois le même setup. Sur les 32 fichiers où on l'a appliqué, on passe de 903 exemples en 3 minutes à 485 exemples en 1 minute 30 :
 
-![Durée de deux fichiers de spec, avant et après le regroupement](aggregate-fr.png "Chaque exemple restant vérifie plus de choses, mais son setup ne tourne qu'une fois.")
-
-Appliqué à 28 fichiers, ça fait passer toute la suite de 666 à 558 s (−16 %).
+![Durée des 32 fichiers regroupés, avant et après, sur deux machines](aggregate-fr.png "Chaque exemple restant vérifie plus de choses, mais son setup ne tourne qu'une fois.")
 
 ## `build_stubbed` quand le spec ne lit jamais la base
 
@@ -68,7 +66,7 @@ it { is_expected.not_to be_valid }
 
 ![Temps pour créer un user admin, en base ou en mémoire](stubbed-fr.png "Mesuré sans le compte que la factory ajoutait : on ne compare que l'écriture en base.")
 
-Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain est estimé à 5 à 10 s, environ 1 % de la suite, trop peu pour ressortir d'une mesure. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
+Ce sont quelques millisecondes par objet : les 19 fichiers où on l'a appliqué passent de 12 à 8 s, soit 4 s de gagnées.
 
 ## Des factories sans cascades
 
@@ -104,7 +102,7 @@ factory :account do
 end
 ```
 
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135. Le gain propre de cette convention est estimé à une vingtaine de secondes : chaque enregistrement évité ne coûte que quelques millisecondes, mais il y en a 6 000 de moins à chaque passage de la suite.
+Comme presque tous les specs créent des questionnaires, le gain se mesure sur toute la suite : environ 40 s (de 434 à 395 s sur une machine, de 498 à 455 s sur l'autre).
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
@@ -131,11 +129,11 @@ it { expect(Order.page(3).count).to eq(1) }
 
 Chez notre client, on a trouvé ce motif deux fois. D'abord dans l'import de réponses, facturé 1 crédit par tranche de 1 000 réponses, arrondi au-dessus : pour vérifier qu'un import de 1 500 réponses coûte bien 2 crédits, le spec importait vraiment 1 500 réponses. En fixant la tranche à 2 réponses le temps du test, 3 réponses suffisent pour retomber sur 2 crédits.
 
-Ensuite dans une simulation : pour tester une enquête, l'app peut simuler des répondants dans chaque groupe visé (les adultes, les mineurs…) et signaler les groupes qu'on n'arrivera pas à atteindre. Le spec simulait 20 personnes par groupe, alors que 4 suffisent pour savoir si un groupe est atteint. Son fichier passe de 40 à 9 s :
+Ensuite dans une simulation : pour tester une enquête, l'app peut simuler des répondants dans chaque groupe visé (les adultes, les mineurs…) et signaler les groupes qu'on n'arrivera pas à atteindre. Le spec simulait 20 personnes par groupe, alors que 4 suffisent pour savoir si un groupe est atteint.
 
-![Durée du spec de la simulation, avec 20 puis 4 personnes simulées par groupe](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
+Avec un troisième fichier qui ne crée plus de répondants inutiles, ces fichiers passent d'environ une minute à moins de 20 s :
 
-Sur les 4 fichiers concernés, le profil de chaque fichier donne un gain d'environ 42 s, une estimation. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
+![Durée des 3 fichiers allégés, avant et après, sur deux machines](minimal-fr.png "Mêmes exemples, mêmes vérifications.")
 
 ## Et maintenant
 
@@ -161,4 +159,4 @@ Write the example as a one-liner `it { expect(...).to ... }` — no description,
 > Do not mimic legacy specs that violate these rules — the convention wins over existing style.
 
 > [!NOTE]
-> Les runners `ubuntu-latest` tombent sur des CPU différents, et la même suite peut prendre de 477 à 730 s. Les versions de la suite sont donc comparées sur une seule machine, l'une après l'autre. On suit aussi dans PostHog la somme des temps de chaque fichier de spec, qui monte quand on ajoute des specs, pas quand on ajoute des jobs (voir [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)).
+> **Comment on a mesuré.** Les runners GitHub sont tirés au hasard parmi plusieurs modèles de processeurs, et la même suite y a pris de 400 à 575 s dans nos mesures : on ne compare donc jamais deux runs de CI entre eux. Chaque convention est appliquée seule au code d'aujourd'hui, puis un même runner fait tourner en alternance la version sans et la version avec : cinq fois chacune sur les seuls fichiers que la convention modifie (le reste de la suite ne change pas), trois fois sur la suite complète pour les factories, qui servent partout. On garde la médiane. Le tout a tourné sur deux runners, qui donnent les mêmes gains à quelques secondes près.

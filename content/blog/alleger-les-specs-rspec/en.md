@@ -11,9 +11,9 @@ At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-git
 
 And it compounds: a fixed factory speeds up every spec that uses it, today's and the ones we'll write tomorrow, and a spec written with the right conventions is fast from the start.
 
-This client's app runs online surveys: an account creates questionnaires, people answer them, and the app analyzes the answers. We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and three of them are estimates.
+This client's app runs online surveys: an account creates questionnaires, people answer them, and the app analyzes the answers. We applied four spec conventions, and measured each one alone on today's code, on two machines (the protocol is at the end of the article).
 
-![Seconds saved on the whole suite by each convention, applied alone to the same starting suite](gains-en.png "One bar per convention, each against the same starting suite: the bars don't add up.")
+![Seconds saved by each convention, applied alone to today's code](gains-en.png "Each gain is measured alone, against the same starting code.")
 
 ## One example per expensive setup
 
@@ -44,11 +44,9 @@ end
 
 With [`:aggregate_failures`](https://rspec.info/blog/2015/06/rspec-3-3-has-been-released/), the example doesn't stop at the first failing `expect`: it runs them all and reports every failure, as the seven examples did.
 
-Fewer examples means fewer runs of the same setup. The import spec above goes from 72 examples in 26 s to 29 examples in 8 s:
+Fewer examples means fewer runs of the same setup. Across the 32 files where we applied it, we go from 903 examples in 3 minutes to 485 examples in 1.5 minutes:
 
-![Duration of two spec files, before and after grouping](aggregate-en.png "Each remaining example checks more, but its setup runs only once.")
-
-Applied to 28 files, this takes the whole suite from 666 to 558 s (−16%).
+![Duration of the 32 grouped files, before and after, on two machines](aggregate-en.png "Each remaining example checks more, but its setup runs only once.")
 
 ## `build_stubbed` when the spec never reads the database
 
@@ -68,7 +66,7 @@ it { is_expected.not_to be_valid }
 
 ![Time to create an admin user, in the database or in memory](stubbed-en.png "Measured without the account the factory added: this only compares the database write.")
 
-That's a few milliseconds per object: across the 19 files where we applied it, the gain is estimated at 5 to 10 s, about 1% of the suite, too little to show up in a measurement. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
+That's a few milliseconds per object: the 19 files where we applied it go from 12 to 8 s, so 4 s saved.
 
 ## Factories without cascades
 
@@ -104,7 +102,7 @@ factory :account do
 end
 ```
 
-Over the whole suite, that's 38,134 records created instead of 44,135. The convention's own gain is estimated at about twenty seconds: each record avoided only costs a few milliseconds, but there are 6,000 fewer of them every time the suite runs.
+Since almost every spec creates surveys, the gain is measured on the whole suite: about 40 s (from 434 to 395 s on one machine, from 498 to 455 s on the other).
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 
@@ -131,11 +129,11 @@ it { expect(Order.page(3).count).to eq(1) }
 
 At our client, we found this pattern twice. First in the import of answers, billed 1 credit per block of 1,000 answers, rounded up: to check that importing 1,500 answers costs 2 credits, the spec really imported 1,500 answers. With the block set to 2 answers for the duration of the test, 3 answers are enough to land on 2 credits again.
 
-Then in a simulation: to test a survey, the app can simulate respondents in each targeted group (adults, minors…) and flag the groups it won't manage to reach. The spec simulated 20 people per group, when 4 are enough to tell whether a group is reached. Its file goes from 40 to 9 s:
+Then in a simulation: to test a survey, the app can simulate respondents in each targeted group (adults, minors…) and flag the groups it won't manage to reach. The spec simulated 20 people per group, when 4 are enough to tell whether a group is reached.
 
-![Duration of the simulation spec, with 20 then 4 simulated people per group](minimal-en.png "Same 8 examples, same checks.")
+With a third file that no longer creates useless respondents, these files go from about a minute to under 20 s:
 
-Across the 4 files involved, each file's profile puts the gain at about 42 s, an estimate. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
+![Duration of the 3 slimmed-down files, before and after, on two machines](minimal-en.png "Same examples, same checks.")
 
 ## What's next
 
@@ -161,4 +159,4 @@ Write the example as a one-liner `it { expect(...).to ... }` — no description,
 > Do not mimic legacy specs that violate these rules — the convention wins over existing style.
 
 > [!NOTE]
-> `ubuntu-latest` runners land on different CPUs, and the same suite can take from 477 to 730 s. So versions of the suite are compared on a single machine, one after the other. We also track in PostHog the sum of each spec file's duration, which goes up when we add specs, not when we add jobs (see [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)).
+> **How we measured.** GitHub runners are drawn at random among several CPU models, and the same suite took from 400 to 575 s on them in our measurements: so we never compare two CI runs with each other. Each convention is applied alone to today's code, then a single runner alternately runs the version without and the version with it: five times each on only the files the convention changes (the rest of the suite doesn't change), three times on the whole suite for the factories, which are used everywhere. We keep the median. All of it ran on two runners, which give the same gains within a few seconds.
