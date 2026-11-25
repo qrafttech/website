@@ -22,7 +22,7 @@ One repository, one folder per service:
 
 They share no database and no code, and talk only over HTTP. The SSO knows who the person is, the app knows what they may do, and each API checks a token by itself with the SSO's public key. The app trusts the SSO and nothing else: Google sits behind it, so adding another provider, or a customer's own, only changes the SSO.
 
-![The four pieces and how they talk to each other](pieces-en.png "The browser only reaches the SSO through redirects. The tokens stay between api and the SSO.")
+![The four pieces and how they talk to each other](pieces-en.png "The browser only reaches the SSO through redirects, and only sends api its cookie. The Python API is dashed: it isn't merged yet.")
 
 The SSO is in Rails because that's what we write most, and a Rails team can maintain it. [Better Auth](https://www.better-auth.com/) (Node) was considered: less code, but a second stack.
 

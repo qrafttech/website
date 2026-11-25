@@ -22,7 +22,7 @@ Un dépôt, un dossier par service :
 
 Ils ne partagent ni base ni code, et ne se parlent qu'en HTTP. Le SSO sait qui est la personne, l'app sait ce qu'elle a le droit de faire, et chaque API vérifie un jeton seule, avec la clé publique du SSO. L'app ne fait confiance qu'au SSO : Google est derrière lui, donc ajouter un autre fournisseur, ou celui d'un client, ne change que le SSO.
 
-![Les quatre pièces et comment elles se parlent](pieces-fr.png "Le navigateur ne va au SSO que par redirection. Les jetons restent entre api et le SSO.")
+![Les quatre pièces et comment elles se parlent](pieces-fr.png "Le navigateur ne va au SSO que par redirection, et n'envoie à api que son cookie. L'API Python est en pointillés : elle n'est pas encore mergée.")
 
 Le SSO est en Rails parce que c'est ce qu'on écrit le plus, et qu'une équipe Rails peut le maintenir. [Better Auth](https://www.better-auth.com/) (Node) a été envisagé : moins de code, mais une deuxième stack.
 
