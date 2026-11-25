@@ -62,6 +62,12 @@ GitHub-flavored Markdown: headings, lists, tables, code blocks, quotes.
   ![Alt text for accessibility](diagram.png "The caption under the image")
   ```
 
+- **Clickable images**: an image wrapped in a link, alone on its line, is a card: 550 px wide, centered, rounded, opening the link in a new tab. Give it no title, a card has no caption. Use it for an X post shown as an image (rendered with xeet, see the `/publish` skill) or any image that should link somewhere:
+
+  ```markdown
+  [![Alt text describing the post](tweet-author.png)](https://x.com/author/status/123)
+  ```
+
 - **Callouts**: a quote whose first line is `[!NOTE]`, `[!TIP]` or `[!WARNING]`:
 
   ```markdown
