@@ -27,19 +27,11 @@ Je ne veux pas relire l'API à chaque recherche. Le prix par post est bas, mais 
 
 ![Le bucket R2 : deux objets, bookmarks.jsonl et likes.jsonl, accès public désactivé.](bucket-r2.jpg "Le bucket x-archive, privé.")
 
-## Le ménage dans la console X
+## Une app en lecture seule
 
-Pour utiliser l'API, il faut une app dans la console développeur de X. En l'ouvrant, j'en ai trouvé deux, et je ne voulais pas que ce soit le bazar.
+Pour utiliser l'API, il faut une app dans la console développeur de X. La mienne s'appelle `nicolasrouanne-x-archive`, parce que `x-archive` tout court était déjà pris sur toute la plateforme X. Elle n'a que des droits en lecture.
 
-![La liste des apps dans la console développeur X : une app au nom généré automatiquement, et « Qraft Claude bot ».](apps-avant.jpg "Deux apps que je n'avais pas créées volontairement.")
-
-La première avait été générée par X à la création du compte développeur. La deuxième, « Qraft Claude bot », je ne me rappelais pas l'avoir créée, et je ne l'avais jamais utilisée. Elle portait depuis le 4 mars un jeton en lecture **et en écriture** sur mon compte.
-
-![L'app « Qraft Claude bot », onglet Keys & Tokens : un jeton d'accès OAuth 1.0a pour @nicolasrouanne, Read and write, généré le 4 mars 2026.](qraft-claude-bot-lecture-ecriture.jpg "Un jeton en écriture sur mon compte, dans une app que je n'utilisais pas.")
-
-J'ai supprimé les deux. Il ne reste qu'une app, `nicolasrouanne-x-archive`, en lecture seule. Le nom `x-archive` tout court était déjà pris sur toute la plateforme X, d'où le préfixe.
-
-![L'app nicolasrouanne-x-archive : un jeton d'accès OAuth 2.0 pour @nicolasrouanne avec les scopes bookmark.read, like.read, users.read et tweet.read.](app-lecture-seule.jpg "La seule app restante : quatre scopes en lecture, rien d'autre.")
+![L'app nicolasrouanne-x-archive : un jeton d'accès OAuth 2.0 pour @nicolasrouanne avec les scopes bookmark.read, like.read, users.read et tweet.read.](app-lecture-seule.jpg "L'app x-archive : quatre scopes en lecture, rien d'autre.")
 
 ## Tester avant de payer
 
