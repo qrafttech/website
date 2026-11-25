@@ -11,7 +11,7 @@ At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-git
 
 And it compounds: a fixed factory speeds up every spec that uses it, today's and the ones we'll write tomorrow, and a spec written with the right conventions is fast from the start.
 
-We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and two of them, too small to stand out from measurement noise, are estimates.
+We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and three of them are estimates.
 
 ![Seconds saved on the whole suite by each convention, applied alone to the same starting suite](gains-en.png "One bar per convention, each against the same starting suite: the bars don't add up.")
 
@@ -104,11 +104,7 @@ factory :account do
 end
 ```
 
-Creating a survey goes from 48 to 9 ms, and the suite creates more than 4,000 of them:
-
-![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite, same CPU.")
-
-Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). Most of that gain comes from an expensive sync the factory reran in every example when it created the owner's account, which the fix happens to skip: the convention's own share is estimated at about twenty seconds.
+Over the whole suite, that's 38,134 records created instead of 44,135. The convention's own gain is estimated at about twenty seconds: each record avoided only costs a few milliseconds, but there are 6,000 fewer of them every time the suite runs.
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 

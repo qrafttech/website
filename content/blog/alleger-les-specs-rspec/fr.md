@@ -11,7 +11,7 @@ Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-githu
 
 Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
-On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et deux d'entre eux, trop petits pour sortir du bruit de mesure, sont des estimations.
+On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et trois d'entre eux sont des estimations.
 
 ![Secondes gagnées sur toute la suite par chaque convention, appliquée seule à la même suite de départ](gains-fr.png "Une barre par convention, chacune contre la même suite de départ : les barres ne s'additionnent pas.")
 
@@ -104,11 +104,7 @@ factory :account do
 end
 ```
 
-Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 :
-
-![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite, même CPU.")
-
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plupart de ce gain vient d'une synchronisation coûteuse que la factory relançait à chaque exemple en créant le compte de l'owner, et que la correction évite au passage : la part propre de la convention est estimée à une vingtaine de secondes.
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135. Le gain propre de cette convention est estimé à une vingtaine de secondes : chaque enregistrement évité ne coûte que quelques millisecondes, mais il y en a 6 000 de moins à chaque passage de la suite.
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
