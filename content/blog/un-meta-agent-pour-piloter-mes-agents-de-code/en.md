@@ -9,7 +9,13 @@ excerpt: "With eight agent sessions open, my problem isn't starting them, it's f
 
 With agentic engineering, I have a hard time keeping track of everything I'm doing. I have about eight agent sessions open at once, each in its own worktree, and the mental load builds up fast: knowing what I'm working on from one day to the next, or just after the lunch break, when I pick things up again and I'm lost. The problem isn't starting agents, it's finishing tasks and knowing what to do next. It's really about focus, and orchestration.
 
-Orca launched its [bots](https://orca.dev/bots), and that was pretty much the topic. Orca is the IDE my coding agents run in, and a bot is an agent that lives there permanently, on my machine and with my own Claude Code, with a name, a memory and automations. I created mine on 20 November. It's called Poulpito, it's an octopus, it handles everything with its tentacles. Meant to be "my best friend", it has actually become my chief of staff: it's the only agent I talk to, and it runs the others.
+For a while I'd been seeing people on Twitter who only talked to a single agent, to make their life simpler ([Brian Armstrong](https://x.com/brian_armstrong/status/2119112609223827547), [Chris Tate](https://x.com/ctatedev/status/2119251380150087685)).
+
+![Brian Armstrong's post on X: one lead agent per area of focus, and a chief of staff agent that oversees them](tweet-brian-armstrong.png)
+
+![Chris Tate's post on X: "I only talk to one agent now"](tweet-chris-tate.png)
+
+Then Orca launched its [bots](https://orca.dev/bots), and that was pretty much the topic. Orca is the IDE my coding agents run in, and a bot is an agent that lives there permanently, on my machine and with my own Claude Code, with a name, a memory and automations. I created mine on 20 November. It's called Poulpito, it's an octopus, it handles everything with its tentacles. Meant to be "my best friend", it has actually become my chief of staff: it's the only agent I talk to, and it runs the others.
 
 ![Orca's New bot dialog, with the name Poulpito and the purpose "My best friend"](new-bot.png "Orca's New bot dialog: a face, a name, a purpose, the computer the bot lives on and the agent behind it")
 
