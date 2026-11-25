@@ -47,6 +47,8 @@ export interface ArticleMeta {
   cover: string | null;
   /** URL of the link preview's image (`og:image`) — see `app/blog-social`. */
   social: string | null;
+  /** URL of a video played at the top of the article. */
+  video: string | null;
 }
 
 export interface ArticleFull extends ArticleMeta {
@@ -147,6 +149,11 @@ function readArticle(
     throw new Error(`${file}: date must be YYYY-MM-DD`);
   }
 
+  const video = data.video ? String(data.video) : null;
+  if (video && !/^https:\/\//.test(video)) {
+    throw new Error(`${file}: video must be an https URL`);
+  }
+
   return {
     dir,
     title,
@@ -158,6 +165,7 @@ function readArticle(
     cover: data.cover ? assetUrl(dir, String(data.cover)) : null,
     social:
       data.social ?? data.cover ? `/blog-social/${dir}/${locale}.jpg` : null,
+    video,
     body,
   };
 }

@@ -162,6 +162,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 article.date
               )}
             </Eyebrow>
+            {article.video && (
+              <video
+                src={`${article.video}#t=1`}
+                controls
+                playsInline
+                preload="metadata"
+                className="mt-8 aspect-video w-full bg-ink"
+              />
+            )}
             <div className="pt-8">
               <Markdown body={article.body} dir={article.dir} />
             </div>
