@@ -2,12 +2,13 @@
 title: "Une stack Docker par worktree d'agent : de 6 min 36 à 1 min 18"
 slug: une-stack-docker-par-worktree-d-agent
 author: "Nicolas Rouanne"
+cover: "cover-fr.jpg"
 excerpt: "Chaque tâche d'agent a son worktree et sa stack Docker. On a mesuré pourquoi le setup était lent, et pourquoi trois en parallèle n'arrivaient pas à démarrer."
 ---
 
 Sur une app Rails sur laquelle on travaille, chaque tâche confiée à un agent part dans son propre worktree, et chaque worktree monte sa propre stack Docker : Postgres, Redis, l'API et Sidekiq, le front Vite, un chat et un éditeur d'emails en Node, nginx devant. L'agent peut lancer l'app, les tests, regarder la page qu'il vient de modifier, sans marcher sur les autres.
 
-Tout ça tourne sur une VM par dev : un VPS à 8 vCores et 24 Go de RAM, avec un volume additionnel de 100 Go qui porte à la fois les worktrees et le stockage de Docker. Et c'est ce disque qui décide de tout : environ 80 fsync par seconde, et ~250 fichiers créés par seconde quand on lui en demande beaucoup.
+Tout ça tourne sur [une VM par dev](/blog/un-hote-orca-pour-chaque-dev-sur-ovh-ou-gcp-ce-que-ca-coute-et-ce-qui-change) : un VPS à 8 vCores et 24 Go de RAM, avec un volume additionnel de 100 Go qui porte à la fois les worktrees et le stockage de Docker. Et c'est ce disque qui décide de tout : environ 80 fsync par seconde, et ~250 fichiers créés par seconde quand on lui en demande beaucoup.
 
 Un worktree neuf mettait 6 min 36 à être prêt. Pire : quand trois agents démarraient en même temps, aucun n'y arrivait. On a mesuré, corrigé, remesuré.
 
@@ -21,7 +22,7 @@ Les limites : un ou deux runs par variante en séquentiel, trois à six en paral
 
 ## Un worktree seul
 
-![Setup complet d'un worktree seul, par variante, découpé en phases](worktree-stack-sequentiel.png "Un worktree seul : chaque variante ajoute un réglage à la précédente")
+![Setup complet d'un worktree seul, par variante, découpé en phases](worktree-stack-sequentiel-fr.png "Un worktree seul : chaque variante ajoute un réglage à la précédente")
 
 ### Le conteneur web bloque tout le monde
 
@@ -47,7 +48,7 @@ volumes:
   # … les autres fichiers de config à la racine de web/
 ```
 
-Création du conteneur : de 3 min 50 à 11-15 s. Le `yarn install` du démarrage ne retélécharge plus non plus les 118 Mo de cache que le bind mount masquait.
+Le conteneur web est créé 11 à 15 s après le lancement du setup, au lieu de 3 min 50. Le `yarn install` du démarrage ne retélécharge plus non plus les 118 Mo de cache que le bind mount masquait.
 
 Ça a deux revers. Tout nouveau fichier à la racine de `web/` doit être ajouté à la liste. Et un bind mount de fichier suit l'inode : après un `git pull` qui remplace `package.json`, le conteneur garde l'ancienne version jusqu'à un `docker compose up -d --force-recreate web`. L'alternative qu'on regarde : laisser le montage `./web:/app` et installer `node_modules` un cran au-dessus, dans `/node_modules` de l'image. Node remonte les dossiers parents pour résoudre les modules, il n'y a plus de liste à tenir, mais un changement de `yarn.lock` demande de reconstruire l'image.
 
@@ -59,7 +60,7 @@ Le Postgres de ce compose ne sert qu'en local et dans les worktrees. On le lance
 command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off
 ```
 
-C'est le réglage que [la doc Postgres](https://www.postgresql.org/docs/current/non-durability.html) donne pour les bases jetables. Sur un run, le setup passe de 6 min 36 à 5 min 12 et le nombre de flushs disque de 5 835 à 2 243. Le prix : si la VM plante en pleine écriture, la base peut être corrompue. On la jette et on relance le seed.
+C'est le réglage que [la doc Postgres](https://www.postgresql.org/docs/current/non-durability.html) donne pour les bases jetables. Sur un run, le setup descend à 5 min 12, et le nombre de flushs disque passe de 5 835 à 2 243. Le prix : si la VM plante en pleine écriture, la base peut être corrompue. On la jette et on relance le seed.
 
 ### Et initdb, qui n'est pas concerné
 
@@ -70,17 +71,17 @@ environment:
   POSTGRES_INITDB_ARGS: --no-sync
 ```
 
-Seul sur un disque calme, ça ne change pas grand-chose : Postgres est prêt en 22-25 s au lieu de 29-41. Le setup complet passe de 1 min 42 à 1 min 18 en moyenne. L'effet est ailleurs, on y vient.
+Seul sur un disque calme, ça ne change pas grand-chose : Postgres est prêt 22 à 25 s après le lancement, au lieu de 29 à 41 s. Le setup complet passe de 1 min 42 à 1 min 18 en moyenne. L'effet est ailleurs, on y vient.
 
 ## Trois worktrees en même temps
 
 Le vrai usage, c'est plusieurs agents qui démarrent leur tâche dans la même minute. On a lancé trois setups à trois secondes d'intervalle.
 
-![Trois setups lancés en même temps : main, les trois correctifs, les mêmes plus initdb --no-sync](worktree-stack-parallele.png "Trois setups lancés à trois secondes d'intervalle")
+![Trois setups lancés en même temps : main, les trois correctifs, les mêmes plus initdb --no-sync](worktree-stack-parallele-fr.png "Trois setups lancés à trois secondes d'intervalle")
 
-Sur `main`, les trois échouent après 13 à 14 minutes. La création des conteneurs web prend 10 minutes à elle seule (trois copies de 51 000 fichiers sur le même disque), puis Postgres est déclaré unhealthy.
+Sur `main`, les trois échouent, au bout de 12 min 48 à 14 min 24. La création des conteneurs web prend 10 minutes à elle seule (trois copies de 51 000 fichiers sur le même disque), puis Postgres est déclaré unhealthy.
 
-Avec les trois correctifs (montage du web, `fsync=off`, pas de base de test), les conteneurs sont créés en 30-40 s… et les trois échouent quand même, au bout de 3 à 4 minutes. Les logs de Postgres s'arrêtent sur :
+Avec les trois correctifs (montage du web, `fsync=off`, pas de base de test), les conteneurs sont créés en 30 à 45 s… et les trois échouent quand même, au bout de 3 à 4 minutes. Les logs de Postgres s'arrêtent sur :
 
 ```
 running bootstrap script ... ok
@@ -93,7 +94,7 @@ Avec `POSTGRES_INITDB_ARGS: --no-sync`, `initdb` finit en 3 s, et les trois setu
 
 ## La RAM et le disque
 
-![Mémoire en attente d'écriture sur l'hôte pendant le setup d'un worktree seul](worktree-stack-dirty.png "Mémoire en attente d'écriture sur l'hôte, relevée chaque seconde")
+![Mémoire en attente d'écriture sur l'hôte pendant le setup d'un worktree seul](worktree-stack-dirty-fr.png "Mémoire en attente d'écriture sur l'hôte, relevée chaque seconde")
 
 La RAM ne bouge presque pas d'une variante à l'autre. Postgres reste sous 100 Mo. Une stack complète prend environ 3 Go sur l'hôte, trois en prennent environ 7 : sur 24 Go, ça tient.
 
