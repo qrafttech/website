@@ -13,7 +13,7 @@ import MonoLink from "@/components/MonoLink";
 import { fetchArticles } from "@/lib/blog";
 import { type Locale, isLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { localeAlternates } from "@/lib/i18n/metadata";
+import { pageMetadata } from "@/lib/i18n/metadata";
 import type { Dictionary } from "@/lib/i18n/types";
 import { fetchTmbaStats, fillTmbaStats } from "@/lib/tmba";
 
@@ -33,11 +33,7 @@ export async function generateMetadata({
 
   const t = await getDictionary(lang);
 
-  return {
-    title: t.blog.title,
-    description: t.blog.metaDescription,
-    alternates: localeAlternates(lang, "/blog"),
-  };
+  return pageMetadata(lang, "/blog", t.blog.metaTitle, t.blog.metaDescription);
 }
 
 const ARTICLES_PER_PAGE = 10;

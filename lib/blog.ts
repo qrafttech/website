@@ -47,7 +47,7 @@ export interface ArticleMeta {
   cover: string | null;
   /** URL of the link preview's image (`og:image`) — see `app/blog-social`. */
   social: string | null;
-  /** URL of a video played at the top of the article (a TMBA talk's). */
+  /** URL of a video played at the top of the article. */
   video: string | null;
   /** The write-up of a Tech My Breath Away talk, badged as such. */
   tmba: boolean;

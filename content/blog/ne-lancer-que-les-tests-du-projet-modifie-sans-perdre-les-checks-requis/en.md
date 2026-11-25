@@ -3,7 +3,7 @@ title: "Running only the changed project's tests, without losing required checks
 slug: running-only-the-changed-project-s-tests-without-losing-required-checks
 date: 2026-11-12
 author: "Nicolas Rouanne"
-social: "runs-en.png"
+cover: "runs-en.png"
 ---
 
 On one of the products we work on, the monorepo holds three projects: a Rails API (`api/`), a front end (`web/`) and a chat (`chat/`). Every PR runs four checks: RSpec, Rubocop, ESLint and the chat's Vitest tests. All four are required to merge into `main`, and all four run whatever part the PR changes. So a PR that only touches the front end still runs RSpec, which takes about ten minutes.

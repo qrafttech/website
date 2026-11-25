@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "gen:stack-icons": "node scripts/gen-stack-icons.mjs",
+    "gen:client-cards": "node scripts/gen-client-cards.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -16,7 +17,7 @@
     "clsx": "^1.2.1",
     "mdast-util-from-markdown": "^2.1.0",
     "mdast-util-to-string": "^4.0.0",
-    "next": "16.4.1",
+    "next": "16.4.5",
     "posthog-js": "^1.438.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
