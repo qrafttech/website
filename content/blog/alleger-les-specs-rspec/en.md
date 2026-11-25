@@ -11,9 +11,9 @@ At one of our clients, [parallelizing RSpec](/en/blog/parallelizing-rspec-on-git
 
 And it compounds: a fixed factory speeds up every spec that uses it, today's and the ones we'll write tomorrow, and a spec written with the right conventions is fast from the start.
 
-We applied four spec conventions. Each change was measured alone, on a single machine: the original suite, then the suite with the change, one after the other.
+We applied four spec conventions. Each one was applied alone to the same starting suite, then both versions ran one after the other on the same machine. So the gains don't add up, and two of them, too small to stand out from measurement noise, are estimates.
 
-![Seconds saved on the whole suite by each improvement, measured alone](gains-en.png "Each bar is measured alone: the gains don't add up exactly.")
+![Seconds saved on the whole suite by each convention, applied alone to the same starting suite](gains-en.png "One bar per convention, each against the same starting suite: the bars don't add up.")
 
 ## One example per expensive setup
 
@@ -68,7 +68,7 @@ it { is_expected.not_to be_valid }
 
 ![Time to create an admin user, in the database or in memory](stubbed-en.png "Measured without the account the factory added: this only compares the database write.")
 
-That's a few milliseconds per object: across the 19 files where we applied it, the gain is around 1% of the suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
+That's a few milliseconds per object: across the 19 files where we applied it, the gain is estimated at 5 to 10 s, about 1% of the suite, too little to show up in a measurement. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) put everything the suite saved without ever reading it back at 29.8 s.
 
 ## Factories without cascades
 
@@ -87,7 +87,7 @@ factory :user do
 end
 ```
 
-So a survey created in a spec also meant two accounts, two `mailing_account`s and an owner, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, for 18 read.
+So a survey created in a spec also meant two accounts, two `mailing_account`s and an owner, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, only 18 of them requested directly by a spec.
 
 The fix: the owner no longer has an account, `mailing_account` becomes a trait you ask for, and child records reuse their parent's survey instead of creating another one.
 
@@ -106,9 +106,9 @@ end
 
 Creating a survey goes from 48 to 9 ms, and the suite creates more than 4,000 of them:
 
-![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite.")
+![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite, same CPU.")
 
-Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%).
+Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). Most of that gain comes from an expensive sync the factory reran in every example when it created the owner's account, which the fix happens to skip: the convention's own share is estimated at about twenty seconds.
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 
@@ -137,7 +137,7 @@ Same idea elsewhere: a report created 20 respondents per profile, when 4 are eno
 
 ![Duration of the report spec, with 20 then 4 respondents per profile](minimal-en.png "Same 8 examples, same checks.")
 
-Across the 4 files involved, this saves about 42 s. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
+Across the 4 files involved, each file's profile puts the gain at about 42 s, an estimate. That's less than the gap between two measurements of the same code (50 to 100 s): on the whole suite you can't see it, you have to measure file by file.
 
 ## What's next
 

@@ -4,16 +4,16 @@ slug: alleger-les-specs-rspec
 date: 2026-12-03
 author: "Nicolas Rouanne"
 cover: "gains-fr.png"
-excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs, mesurées une par une : ce que chacun fait gagner, par test et sur toute la suite."
+excerpt: "Paralléliser RSpec a réduit l'attente, pas le travail. Quatre conventions de specs, mesurées une par une : ce que chacune fait gagner, par test et sur toute la suite."
 ---
 
 Chez un de nos clients, [paralléliser RSpec](/blog/paralleliser-rspec-sur-github-actions) a fait passer la CI d'une PR de 10 à moins de 5 minutes. Mais paralléliser, comme prendre des machines plus grosses, ne fait que répartir le même travail : on attend moins, la suite n'est pas plus efficace. La cause, ce sont des tests qui font beaucoup plus de travail que ce qu'ils vérifient, et c'est là-dessus qu'on a travaillé.
 
 Et ça se cumule : une factory corrigée accélère tous les specs qui l'utilisent, ceux d'aujourd'hui comme ceux qu'on écrira demain, et un spec écrit avec les bonnes conventions est rapide dès le départ.
 
-On a appliqué quatre conventions de specs. Chaque changement a été mesuré seul, sur une seule machine : la suite d'origine, puis la suite avec le changement, l'une après l'autre.
+On a appliqué quatre conventions de specs. Chacune a été appliquée seule à la même suite de départ, puis les deux versions ont tourné l'une après l'autre sur une même machine. Les gains ne s'additionnent donc pas, et deux d'entre eux, trop petits pour sortir du bruit de mesure, sont des estimations.
 
-![Secondes gagnées sur toute la suite par chaque amélioration, mesurée seule](gains-fr.png "Chaque barre est mesurée seule : les gains ne s'additionnent pas exactement.")
+![Secondes gagnées sur toute la suite par chaque convention, appliquée seule à la même suite de départ](gains-fr.png "Une barre par convention, chacune contre la même suite de départ : les barres ne s'additionnent pas.")
 
 ## Un seul exemple par setup coûteux
 
@@ -68,7 +68,7 @@ it { is_expected.not_to be_valid }
 
 ![Temps pour créer un user admin, en base ou en mémoire](stubbed-fr.png "Mesuré sans le compte que la factory ajoutait : on ne compare que l'écriture en base.")
 
-Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain tourne autour de 1 % de la suite. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
+Ce sont quelques millisecondes par objet : sur les 19 fichiers où on l'a appliqué, le gain est estimé à 5 à 10 s, environ 1 % de la suite, trop peu pour ressortir d'une mesure. [FactoryDoctor](https://test-prof.evilmartians.io/guide/profilers/factory_doctor) estimait à 29,8 s tout ce que la suite enregistrait sans jamais le relire.
 
 ## Des factories sans cascades
 
@@ -87,7 +87,7 @@ factory :user do
 end
 ```
 
-Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account` et un owner, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, pour 18 lus.
+Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account` et un owner, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, dont 18 seulement demandés directement par un spec.
 
 La correction : l'owner n'a plus de compte, le `mailing_account` devient un trait qu'on demande, et les enregistrements enfants réutilisent le questionnaire de leur parent au lieu d'en créer un autre.
 
@@ -106,9 +106,9 @@ end
 
 Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 :
 
-![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite.")
+![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite, même CPU.")
 
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %).
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La plupart de ce gain vient d'une synchronisation coûteuse que la factory relançait à chaque exemple en créant le compte de l'owner, et que la correction évite au passage : la part propre de la convention est estimée à une vingtaine de secondes.
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
@@ -137,7 +137,7 @@ Même idée ailleurs : un rapport créait 20 répondants par profil, alors que 4
 
 ![Durée du spec du rapport, avec 20 puis 4 répondants par profil](minimal-fr.png "Mêmes 8 exemples, mêmes vérifications.")
 
-Sur les 4 fichiers concernés, ça fait gagner environ 42 s. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
+Sur les 4 fichiers concernés, le profil de chaque fichier donne un gain d'environ 42 s, une estimation. C'est moins que l'écart entre deux mesures du même code (50 à 100 s) : sur toute la suite, on ne le voit pas, il faut mesurer fichier par fichier.
 
 ## Et maintenant
 
