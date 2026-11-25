@@ -83,23 +83,11 @@ end
 factory :user do
   transient do
     accounts { [build(:account)] }   # …with another account, and another mailing_account
-    account_role_key { 'client_edit' }
-  end
-
-  after(:create) do |user, evaluator|
-    evaluator.accounts.each do |account|
-      account.save!
-      role = Role.find_by(key: evaluator.account_role_key) || begin
-        Rbac::SyncCatalog.call       # recreates all the app's roles
-        Role.find_by!(key: evaluator.account_role_key)
-      end
-      user.user_roles.create!(role:, roleable: account)
-    end
   end
 end
 ```
 
-So a survey created in a spec also meant two accounts, two `mailing_account`s, an owner and its role, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, for 18 read.
+So a survey created in a spec also meant two accounts, two `mailing_account`s and an owner, even when the spec only looked at the survey. A factory default is paid for in every spec that uses the factory, and in every factory that associates it: 5,540 `mailing_account`s were created, for 18 read.
 
 The fix: the owner no longer has an account, `mailing_account` becomes a trait you ask for, and child records reuse their parent's survey instead of creating another one.
 
@@ -120,15 +108,7 @@ Creating a survey goes from 48 to 9 ms, and the suite creates more than 4,000 of
 
 ![Average time to create a survey and a user, with and without cascades](cascades-en.png "Measured by FactoryProf over the whole suite.")
 
-Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%). The worst cascade was hidden: to give the owner a role, the factory recreated all the app's roles, for every example. That's most of those 48 ms. Creating them once before the suite takes the suite from 714 to 486 s on its own:
-
-```ruby
-RSpec.configure do |config|
-  config.before(:suite) { Rbac::SyncCatalog.call }
-end
-```
-
-Once the roles are created before the suite, the other cascades only weigh about twenty seconds.
+Over the whole suite, that's 38,134 records created instead of 44,135, and the suite goes from 699 to 574 s (−18%).
 
 The same default remained on staff users: the factory gave every user an account, even admins, who have none in production (their access comes from their type). That account cost more than everything `build_stubbed` saved:
 

@@ -83,23 +83,11 @@ end
 factory :user do
   transient do
     accounts { [build(:account)] }   # …avec un autre compte, et un autre mailing_account
-    account_role_key { 'client_edit' }
-  end
-
-  after(:create) do |user, evaluator|
-    evaluator.accounts.each do |account|
-      account.save!
-      role = Role.find_by(key: evaluator.account_role_key) || begin
-        Rbac::SyncCatalog.call       # recrée tous les rôles de l'app
-        Role.find_by!(key: evaluator.account_role_key)
-      end
-      user.user_roles.create!(role:, roleable: account)
-    end
   end
 end
 ```
 
-Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account`, un owner et son rôle, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, pour 18 lus.
+Un questionnaire créé dans un spec, c'était donc aussi deux comptes, deux `mailing_account` et un owner, même quand le spec ne regardait que le questionnaire. Un défaut de factory se paie dans chaque spec qui utilise la factory, et dans chaque factory qui l'associe : 5 540 `mailing_account` étaient créés, pour 18 lus.
 
 La correction : l'owner n'a plus de compte, le `mailing_account` devient un trait qu'on demande, et les enregistrements enfants réutilisent le questionnaire de leur parent au lieu d'en créer un autre.
 
@@ -120,15 +108,7 @@ Créer un questionnaire passe de 48 à 9 ms, et la suite en crée plus de 4 000 
 
 ![Temps moyen pour créer un questionnaire et un user, avec et sans cascades](cascades-fr.png "Mesuré par FactoryProf sur toute la suite.")
 
-Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %). La pire cascade était cachée : pour donner un rôle à l'owner, la factory recréait tous les rôles de l'app, et ça à chaque exemple. C'est l'essentiel de ces 48 ms. Les créer une seule fois avant la suite fait à lui seul passer la suite de 714 à 486 s :
-
-```ruby
-RSpec.configure do |config|
-  config.before(:suite) { Rbac::SyncCatalog.call }
-end
-```
-
-Une fois les rôles créés avant la suite, les autres cascades ne pèsent plus qu'une vingtaine de secondes.
+Sur toute la suite, ça fait 38 134 enregistrements créés au lieu de 44 135, et la suite passe de 699 à 574 s (−18 %).
 
 Le même défaut restait sur les users staff : la factory donnait un compte à chaque user, même aux admins, qui n'en ont pas en production (leur accès vient de leur type). Ce compte coûtait plus que tout ce que `build_stubbed` faisait gagner :
 
