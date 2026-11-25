@@ -139,9 +139,7 @@ Sur les 4 fichiers concernés, le profil de chaque fichier donne un gain d'envir
 
 ## Et maintenant
 
-Ces conventions arrivent dans la codebase petit à petit. La grosse PR qui les appliquait toutes d'un coup a été fermée, et on les reprend une par une : une petite PR par convention, relue en quelques minutes.
-
-Pour qu'elles tiennent une fois en place, deux choses tournent déjà à chaque PR.
+On a écrit des règles pour que ces conventions tiennent. Elles tournent à chaque PR.
 
 **Une règle RuboCop écrite pour le projet.** `RSpec/OneLinerExample` impose la forme des exemples : un `it { expect(...).to ... }` d'une ligne, ou un exemple nommé et marqué `:aggregate_failures` quand il vérifie plusieurs choses. Un script de la CI ne la lance que sur les lignes que la PR ajoute ou modifie, pour ne pas obliger à réécrire tous les anciens specs :
 
@@ -161,8 +159,6 @@ Write the example as a one-liner `it { expect(...).to ... }` — no description,
 **Des instructions pour les agents de code.** Ce qu'un linter ne sait pas juger est écrit en phrases simples dans `.claude/knowledge/api/spec.md`. Un hook l'ajoute automatiquement au contexte de l'agent dès qu'il modifie un fichier sous `spec/`, par exemple :
 
 > Do not mimic legacy specs that violate these rules — the convention wins over existing style.
-
-C'est là qu'iront les conventions de cet article qu'aucun linter ne peut vérifier, comme `build_stubbed` quand le spec ne relit pas la base.
 
 > [!NOTE]
 > Les runners `ubuntu-latest` tombent sur des CPU différents, et la même suite peut prendre de 477 à 730 s. Les versions de la suite sont donc comparées sur une seule machine, l'une après l'autre. On suit aussi dans PostHog la somme des temps de chaque fichier de spec, qui monte quand on ajoute des specs, pas quand on ajoute des jobs (voir [Suivre les OKR tech d'une équipe dans PostHog](/blog/suivre-les-okr-tech-d-une-equipe-dans-posthog-depuis-github-actions)).

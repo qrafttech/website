@@ -139,9 +139,7 @@ Across the 4 files involved, each file's profile puts the gain at about 42 s, an
 
 ## What's next
 
-These conventions are coming into the codebase little by little. The big PR that applied them all at once was closed, and we're taking them one by one: one small PR per convention, reviewed in a few minutes.
-
-To make them stick once they're in, two things already run on every PR.
+We wrote rules so these conventions stick. They run on every PR.
 
 **A RuboCop rule written for the project.** `RSpec/OneLinerExample` enforces the shape of examples: a one-line `it { expect(...).to ... }`, or a named example tagged `:aggregate_failures` when it checks several things. A CI script runs it only on the lines the PR adds or changes, so nobody has to rewrite every old spec:
 
@@ -161,8 +159,6 @@ Write the example as a one-liner `it { expect(...).to ... }` — no description,
 **Instructions for the coding agents.** What a linter can't judge is written in plain sentences in `.claude/knowledge/api/spec.md`. A hook adds it to the agent's context as soon as it edits a file under `spec/`, for example:
 
 > Do not mimic legacy specs that violate these rules — the convention wins over existing style.
-
-That's where the conventions from this article that no linter can check will go, like `build_stubbed` when the spec doesn't read the database back.
 
 > [!NOTE]
 > `ubuntu-latest` runners land on different CPUs, and the same suite can take from 477 to 730 s. So versions of the suite are compared on a single machine, one after the other. We also track in PostHog the sum of each spec file's duration, which goes up when we add specs, not when we add jobs (see [Tracking a team's tech OKRs in PostHog](/en/blog/tracking-a-team-s-tech-okrs-in-posthog-straight-from-github-actions)).
