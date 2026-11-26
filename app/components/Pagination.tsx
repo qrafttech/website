@@ -9,6 +9,8 @@ interface PaginationProps {
   totalPages: number;
   lang: Locale;
   copy: Dictionary["blog"]["pagination"];
+  /** Query kept on every page link, e.g. the list's filter `type=tmba`. */
+  query?: string;
 }
 
 type PageItem = number | "ellipsis";
@@ -49,13 +51,16 @@ export default function Pagination({
   totalPages,
   lang,
   copy,
+  query,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageNumbers(currentPage, totalPages);
   const index = localePath(lang, "/blog");
-  const pageHref = (page: number) =>
-    page === 1 ? index : `${index}?page=${page}`;
+  const pageHref = (page: number) => {
+    const params = [query, page === 1 ? "" : `page=${page}`].filter(Boolean);
+    return params.length ? `${index}?${params.join("&")}` : index;
+  };
 
   return (
     <nav

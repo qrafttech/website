@@ -113,3 +113,50 @@ To move the publication, change the `date`. To cancel, close the PR.
 ## 7. Edit a published article
 
 A regular PR, on any branch name: it needs a review before merging. Don't change the `slug`, it is the URL.
+
+# A Tech My Breath Away talk
+
+A Tuesday talk can become a blog article, badged « Talk TMBA », **only if the speaker agrees**. A routine writes it after the talk; it is an article like the others, with these differences.
+
+## The front matter
+
+```yaml
+---
+title: "Brancher ses agents de code sur le tailnet d'un client"
+slug: brancher-ses-agents-de-code-sur-le-tailnet-d-un-client
+date: 2026-11-17
+author: "Camille"
+tmba: true
+video: "https://media.qraft.tech/tmba/brancher-ses-agents-de-code-sur-le-tailnet-d-un-client.mp4"
+excerpt: "One sentence for the list."
+---
+```
+
+| Field    | Role                                                                                 |
+| -------- | ------------------------------------------------------------------------------------ |
+| `date`   | The day of the talk.                                                                 |
+| `author` | The speaker's **first name only**.                                                   |
+| `tmba`   | `true`: the « Talk TMBA » badge in the list and on the article.                      |
+| `video`  | Optional. The compilation: `https://media.qraft.tech/tmba/<slug-fr>.mp4`, see below. |
+
+The body is a detailed summary, not the transcript: the problem, the choices made and why, the limits, the good questions from the room.
+
+## The video
+
+Optional, 1 to 2 minutes, made of the talk's visuals (slides, demo screens) with text on screen: **never the speaker's voice or face**. It lives outside the repo, in the `media` R2 bucket of the Qraft Cloudflare account, as `tmba/<slug-fr>.mp4`, served at `https://media.qraft.tech/tmba/<slug-fr>.mp4`; the upload credentials are in the 1Password item `chezmoi_qraft-website-media`.
+
+## Anonymization
+
+- **People**: first name only, the speaker included.
+- **Companies**: no name except Qraft. Write "a client", "a startup".
+- **Data**: no client figures, no prospect names.
+- **Video**: every second is checked, on-screen text included. Mask a small sensitive area; drop a shot whose whole screen is a problem (inbox, Slack, a table of client figures).
+
+## Publish
+
+The branch is `tmba/<slug-fr>`, and the PR is **opened as a draft**, for every speaker, from Qraft or not. The speaker reads the article and watches the video:
+
+- they agree: they mark the PR ready for review, and at 18:00 Paris time on the day of the talk it merges itself under the same conditions as an article (no change requested, checks green, no conflict);
+- they don't: the PR is closed, nothing is published.
+
+A PR marked ready after its day is no longer merged automatically: merge it by hand.

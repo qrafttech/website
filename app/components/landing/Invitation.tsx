@@ -4,7 +4,7 @@ import Section from "@/components/Section";
 import Diptych from "@/components/Diptych";
 import Figure from "@/components/Figure";
 import { type Locale, localeHref } from "@/lib/i18n/config";
-import type { Dictionary } from "@/lib/i18n/types";
+import type { Dictionary, RichText } from "@/lib/i18n/types";
 
 import balconImg from "@/public/images/scene-balcon.jpg";
 
@@ -20,14 +20,16 @@ export default function Invitation({
   const balcon = origine.photos.find((photo) => photo.key === "balcon");
 
   /* The dictionaries store locale-relative hrefs and every other link on the
-     page is prefixed by `localeHref` at its call site. This is the one link
-     that arrives inside a `RichText`, so it is resolved here rather than
-     teaching `Rich` about locales. */
-  const subtitle = invitation.subtitle.map((segment) =>
-    segment.href
-      ? { ...segment, href: localeHref(lang, segment.href) }
-      : segment
-  );
+     page is prefixed by `localeHref` at its call site. The links that arrive
+     inside a `RichText` are resolved here rather than teaching `Rich` about
+     locales. */
+  const localize = (content: RichText): RichText =>
+    content.map((segment) =>
+      segment.href
+        ? { ...segment, href: localeHref(lang, segment.href) }
+        : segment
+    );
+  const subtitle = localize(invitation.subtitle);
 
   return (
     /* `sand` rather than the default canvas: with `victoires` moved up, the
@@ -75,7 +77,11 @@ export default function Invitation({
               </CtaLink>
             </div>
             <p className="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-muted">
-              {invitation.secondaryNote}
+              {invitation.secondaryNote}{" "}
+              <Rich
+                content={localize(invitation.tmbaNote)}
+                linkClassName="text-ink2 underline underline-offset-4 transition-colors ease-epure hover:text-blue"
+              />
             </p>
           </div>
         }

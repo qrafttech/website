@@ -49,6 +49,8 @@ export interface ArticleMeta {
   social: string | null;
   /** URL of a video played at the top of the article. */
   video: string | null;
+  /** The write-up of a Tech My Breath Away talk, badged as such. */
+  tmba: boolean;
 }
 
 export interface ArticleFull extends ArticleMeta {
@@ -166,6 +168,7 @@ function readArticle(
     social:
       data.social ?? data.cover ? `/blog-social/${dir}/${locale}.jpg` : null,
     video,
+    tmba: data.tmba === true,
     body,
   };
 }
