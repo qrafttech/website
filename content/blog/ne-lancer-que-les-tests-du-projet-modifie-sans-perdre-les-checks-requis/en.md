@@ -204,7 +204,7 @@ The four checks run in parallel, so you wait for the longest one. That's RSpec i
 
 The measurements on the real runs confirm it: a push that doesn't touch `api/` waits 1.1 min at the 75th percentile, with one `changes` per workflow as with the shared job.
 
-For the typical PR, the one that touches the API, filtering saves nothing: RSpec itself has to get faster. That's the next part of the work, and three changes were merged on November 9. The permissions catalog, resynced in a good share of the tests, is now loaded once per suite. The job's setup is lighter. And the tool that flags lines changed without tests is no longer compiled on every new PR. Over the first 16 pushes that touch `api/`, the RSpec job goes from 14.7 to 9.4 minutes on average, and the wait from 16.8 to 10.2 min at the 75th percentile. That's still few pushes, but that's where the rest of the bill is: RSpec makes up nearly two thirds of the billed minutes.
+For the typical PR, the one that touches the API, filtering saves nothing: RSpec itself has to get faster. That's the next part of the work, and three changes were merged on November 9. The permissions catalog, resynced in a good share of the tests, is now loaded once per suite. The job's setup is lighter. And the tool that flags lines changed without tests is no longer compiled on every new PR. Over the first 16 pushes that touch `api/`, the RSpec job goes from 14.7 to 9.4 minutes on average, and the wait from 16.8 to 10.2 min at the 75th percentile. That's still few pushes, but that's where the rest of the bill is: RSpec makes up nearly two thirds of the billed minutes. The rest is in [Parallelizing RSpec on GitHub Actions](/en/blog/parallelizing-rspec-on-github-actions).
 
 ## Keeping the CI metrics right
 
