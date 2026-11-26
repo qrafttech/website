@@ -38,9 +38,13 @@ One side effect, at the office: my colleagues try to prompt-inject me by shoutin
 
 ## The mic and the dictation
 
-The mic is a DJI Mic Mini 2. The transmitter goes under my shirt, held by a magnet on the other side of the fabric:
+The mic is a DJI Mic Mini 2. The transmitter goes under my shirt:
 
 ![The DJI transmitter, white and translucent, slipped under the collar of a denim shirt](micro-sous-la-chemise.jpg "The transmitter, under the shirt")
+
+A tiny magnet on the other side of the fabric holds it in place. From the outside, all you see is a small black square:
+
+![A small black magnet with the DJI logo on the shirt collar](micro-aimant.jpg "From the outside, only the magnet that holds it")
 
 The receiver plugs straight into the MacBook's USB-C port, and the Mac sees it as a microphone:
 

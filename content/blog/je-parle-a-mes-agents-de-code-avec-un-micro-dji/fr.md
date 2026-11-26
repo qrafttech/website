@@ -36,9 +36,13 @@ Un effet de bord, au bureau : mes collègues essaient de me faire une prompt inj
 
 ## Le micro et la dictée
 
-Le micro, c'est un DJI Mic Mini 2. L'émetteur se met sous la chemise, tenu par un aimant de l'autre côté du tissu :
+Le micro, c'est un DJI Mic Mini 2. L'émetteur se met sous la chemise :
 
 ![L'émetteur DJI, blanc et translucide, glissé sous le col d'une chemise en jean](micro-sous-la-chemise.jpg "L'émetteur, sous la chemise")
+
+Un mini aimant, de l'autre côté du tissu, le tient en place. De l'extérieur, on ne voit qu'un petit carré noir :
+
+![Un petit aimant noir avec le logo DJI sur le col de la chemise](micro-aimant.jpg "De l'extérieur, il ne reste que l'aimant qui le tient")
 
 Le récepteur se branche directement sur le port USB-C du MacBook, et le Mac le voit comme un micro :
 
