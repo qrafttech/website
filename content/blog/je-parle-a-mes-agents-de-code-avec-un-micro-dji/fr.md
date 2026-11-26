@@ -34,21 +34,9 @@ Le récepteur se branche directement sur le port USB-C du MacBook, et le Mac le 
 
 ![Le récepteur DJI translucide branché sur le port USB-C d'un MacBook, posé sur une table en bois](recepteur-usb-c.jpg "Le récepteur, sur le port USB-C du MacBook")
 
-La dictée, c'est [Wispr Flow](https://wisprflow.ai) : je garde une touche enfoncée, je parle, je lâche, et le texte s'écrit là où est le curseur. Chez moi, c'est presque toujours le champ de chat d'Orca, l'app dans laquelle tournent mes agents. La touche, c'est celle du micro sur le clavier du Mac. macOS la garde pour sa propre dictée, et Wispr ne peut pas la prendre comme raccourci. Je la remappe donc sur F5 à chaque ouverture de session, avec un LaunchAgent qui lance `hidutil` :
+Pour la dictée, j'ai d'abord testé [Wispr Flow](https://wisprflow.ai). Il marche vraiment bien, y compris sur les mots piégeux comme « PR » ou « merge », surtout quand je parle franglais. Mais il est bien trop cher, et je ne voulais pas payer un outil de plus.
 
-```xml
-<key>ProgramArguments</key>
-<array>
-    <string>/usr/bin/hidutil</string>
-    <string>property</string>
-    <string>--set</string>
-    <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0xC000000CF,"HIDKeyboardModifierMappingDst":0x70000003E}]}</string>
-</array>
-<key>RunAtLoad</key>
-<true/>
-```
-
-Les remappages de `hidutil` ne vivent qu'en mémoire et disparaissent au redémarrage, d'où le `RunAtLoad`. Wispr voit alors un simple F5.
+J'utilise donc [Granola](https://www.granola.ai). Son métier principal, c'est d'enregistrer mes réunions, mais il a aussi un agent de dictée qui fait à peu près la même chose que Wispr Flow : j'appuie sur une touche, il enregistre et transcrit tout de suite. Le texte arrive dans le champ de chat d'Orca, l'app dans laquelle tournent mes agents.
 
 ## Des messages plus longs, moins rangés
 
@@ -75,6 +63,8 @@ Ce que la transcription rate le plus, ce sont les noms propres, et ce sont juste
 
 Chaque fois, Poulpito a deviné juste, parce qu'il connaît mes projets et que le reste de la phrase l'aide. « Review » et « perles » à côté d'un mot qui ressemble à Episto, ça ne laisse pas beaucoup de doute.
 
+Ces ratés ne disent pas tout, cela dit. Ma dernière longue dictée, justement sur Wispr Flow et Granola, est arrivée sans une erreur, chaque mot juste. Tout dépend de l'enregistrement : ça marche très bien même avec du bruit autour, grâce à la réduction de bruit active du micro, mais mieux il m'entend, mieux ça marche.
+
 ## Quand il devine mal
 
 Le vrai risque, ce n'est pas le nom déformé. C'est qu'à l'oral je réfléchis à voix haute, et qu'une réflexion ressemble beaucoup à une consigne. Le 26 au matin, on parlait d'une petite page interne pour suivre la sortie de nos articles. Je lui avais dit « on en parle d'abord », il m'avait proposé deux façons de l'héberger, et j'ai répondu « GitHub Actions et Cloudflare ». Pour moi, c'était une réponse dans la discussion. Pour Poulpito, c'était le feu vert : douze secondes plus tard, le repo existait sur GitHub, avec un nom que je n'avais pas encore choisi. Je l'ai arrêté, et le repo a été renommé deux minutes plus tard.
@@ -85,6 +75,6 @@ Poulpito a noté la règle dans sa mémoire, avec la raison :
 
 ## Ce qui aiderait
 
-Pour les noms propres, Wispr Flow a [un dictionnaire](https://docs.wisprflow.ai/articles/4052411709-teach-flow-your-words-with-the-dictionary) où on ajoute les mots qu'il doit reconnaître. Ma liste est courte, ce sont les noms de mes projets et le vocabulaire de mes journées : Episto, auth-greenfield, Jacanda, worktree, PR, Cloudflare.
+Pour les noms propres, il faudrait un vocabulaire à donner à la dictée. Ma liste est courte, ce sont les noms de mes projets et le vocabulaire de mes journées : Episto, auth-greenfield, Jacanda, worktree, PR, merge, Cloudflare.
 
 Pour le reste, c'est à l'agent de dire quand il n'est pas sûr. Poulpito le fait déjà quand il note dans sa mémoire une consigne que j'ai dictée : il écrit « in my reading », pour que je sache que c'est sa lecture et que je la relise. Ce que je voudrais, c'est la même chose avant d'agir : quand il hésite sur ce que j'ai dit, une ligne « j'ai compris ça, je lance ? » plutôt qu'un repo créé.

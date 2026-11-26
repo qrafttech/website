@@ -34,21 +34,9 @@ The receiver plugs straight into the MacBook's USB-C port, and the Mac sees it a
 
 ![The translucent DJI receiver plugged into the USB-C port of a MacBook, on a wooden table](recepteur-usb-c.jpg "The receiver, in the MacBook's USB-C port")
 
-The dictation itself is [Wispr Flow](https://wisprflow.ai): I hold a key, I talk, I let go, and the text is typed wherever the cursor is. For me, that's almost always the chat field in Orca, the app my agents run in. The key is the mic key on the Mac keyboard. macOS keeps it for its own dictation, so Wispr can't take it as a shortcut. I remap it to F5 at every login, with a LaunchAgent that runs `hidutil`:
+For the dictation, I first tried [Wispr Flow](https://wisprflow.ai). It works really well, tricky words like "PR" or "merge" included, especially when I speak franglais. But it's far too expensive, and I didn't want to pay for yet another tool.
 
-```xml
-<key>ProgramArguments</key>
-<array>
-    <string>/usr/bin/hidutil</string>
-    <string>property</string>
-    <string>--set</string>
-    <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0xC000000CF,"HIDKeyboardModifierMappingDst":0x70000003E}]}</string>
-</array>
-<key>RunAtLoad</key>
-<true/>
-```
-
-`hidutil` mappings only live in memory and are gone after a reboot, hence `RunAtLoad`. Wispr then sees a plain F5.
+So I use [Granola](https://www.granola.ai). Its main job is recording my meetings, but it also has a dictation agent that does roughly what Wispr Flow does: I press a key, it records and transcribes right away. The text lands in the chat field in Orca, the app my agents run in.
 
 ## Longer messages, less tidy
 
@@ -75,6 +63,8 @@ What the transcription misses most is proper nouns, and those are exactly the on
 
 Each time, Poulpito guessed right, because it knows my projects and the rest of the sentence helps. "Review" and "perles" next to a word that sounds like Episto leave little doubt.
 
+These misses aren't the whole story, though. My last long dictation, about Wispr Flow and Granola as it happens, came through without a single error, every word right. It all depends on the recording: it works really well even with noise around, thanks to the mic's active noise cancellation, but the better it hears me, the better it works.
+
 ## When it guesses wrong
 
 The real risk isn't a mangled name. It's that when I talk, I think out loud, and thinking out loud sounds a lot like an instruction. On the morning of the 26th, we were discussing a small internal page to track when our articles go out. I had told it "let's talk about it first", it had offered two ways to host it, and I answered "GitHub Actions and Cloudflare". To me, that was an answer in the discussion. To Poulpito, it was the go: twelve seconds later, the repo existed on GitHub, under a name I hadn't chosen yet. I stopped it, and the repo was renamed two minutes later.
@@ -85,6 +75,6 @@ Poulpito wrote the rule down in its memory, with the reason:
 
 ## What would help
 
-For proper nouns, Wispr Flow has [a dictionary](https://docs.wisprflow.ai/articles/4052411709-teach-flow-your-words-with-the-dictionary) where you add the words it should recognize. My list is short, it's the names of my projects and the words of my days: Episto, auth-greenfield, Jacanda, worktree, PR, Cloudflare.
+For proper nouns, the dictation would need a vocabulary to work from. My list is short, it's the names of my projects and the words of my days: Episto, auth-greenfield, Jacanda, worktree, PR, merge, Cloudflare.
 
 For the rest, it's up to the agent to say when it isn't sure. Poulpito already does it when it writes down an instruction I dictated: it adds "in my reading", so I know it's its interpretation and reread it. What I want is the same thing before acting: when it hesitates over what I said, one line saying "here's what I understood, shall I go?" rather than a new repo.
