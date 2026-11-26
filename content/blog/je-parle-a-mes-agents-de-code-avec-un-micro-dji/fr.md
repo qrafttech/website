@@ -5,76 +5,49 @@ date: 2026-12-24
 author: "Nicolas Rouanne"
 cover: "cover.jpg"
 social: "social.jpg"
-excerpt: "Je ne tape presque plus : je dicte à mes agents de code toute la journée, avec un petit micro sans fil sur le col. Mes messages sont plus longs et plus riches, les noms propres arrivent déformés, et mon méta-agent a dû apprendre à attendre mon feu vert."
+excerpt: "Je ne tape presque plus : je parle à mes agents de code toute la journée. Ça leur donne du contexte, ça me libère la tête, je pense en parlant, et surtout ça va beaucoup plus vite."
 ---
 
-Le 25 novembre au soir, j'ai envoyé ce message à Poulpito, le [méta-agent qui pilote mes autres agents de code](/blog/un-meta-agent-pour-piloter-mes-agents-de-code). C'est la transcription brute :
+Je ne tape presque plus. Toute la journée, je parle à mes agents de code, avec un petit micro sans fil sur le col, et ça a changé ma façon de travailler avec eux.
+
+Voilà un message que j'ai envoyé le 25 novembre au soir à Poulpito, le [méta-agent qui pilote mes autres agents](/blog/un-meta-agent-pour-piloter-mes-agents-de-code). C'est la transcription brute, mots déformés compris (j'y reviens plus bas) :
 
 > J'ai fini parce que c'était en cours sur Hot Greenfield, est-ce que tu peux supprimer le Word Tricourt et en recrée un pour supprimer tous les commentaires comme j'avais fait dans une paire, tu reprends l'esprit de cette paire pour savoir quel commentaire il faut supprimer ou pas et un deuxième Wrice ça Khadi bien les deux ensemble pour pour mettre tous les schémas d'architecture que je t'ai déjà partagé qui sont notamment dans l'article de blog sur le Red faire un propre mettre le voilà et après on va faire un troisième tri pour déployer tout ça sur quelque part, je sais pas moi, j'imagine Claude Flöhr mais je pas très facile, j'en sais rien ça c'est moins c'est moins prioritaire
 
-Je ne l'ai pas tapé, je l'ai dit. « Hot Greenfield », c'est auth-greenfield, le repo de notre exploration sur le SSO. « Word Tricourt », c'est un worktree, « une paire », une PR, et « Claude Flöhr », Cloudflare. Poulpito a pourtant tout compris : il a supprimé l'ancien worktree, lancé un agent pour retirer les commentaires du code dans l'esprit de la PR en question, un deuxième pour refaire la doc avec les schémas de [l'article sur le SSO](/blog/construire-un-serveur-sso-propre-en-rails), et noté le déploiement, « peut-être sur Cloudflare », pour plus tard.
+## Je pense en parlant
 
-C'est à peu près comme ça que je travaille maintenant : je ne tape presque plus, je parle à mes agents toute la journée.
+Ce message, je ne l'aurais jamais tapé. Il y a trois tâches, leur ordre, une PR à prendre comme modèle, l'article où trouver les schémas, et une hésitation sur l'hébergement (« je sais pas moi, j'imagine Claude Flöhr »). À l'oral, je parle vraiment comme si je réfléchissais à voix haute : je dis ce que je veux, pourquoi, ce que j'ai déjà fait ailleurs, ce dont je ne suis pas sûr. C'est exactement le contexte dont un agent a besoin.
 
-## Pourquoi la voix
+Ça me libère aussi la tête. Je n'ai plus à mettre en forme ce que je pense avant de l'envoyer : je parle plus naturellement, et je réfléchis pendant que je parle. Je relis d'ailleurs rarement ce que j'envoie. C'est la réponse de l'agent qui me sert de relecture. Ce soir-là, Poulpito avait tout compris :
 
-Ce que je dis à mes agents, c'est rarement du code. C'est une intention (supprime ce worktree, recrée-en un), du contexte (comme dans telle PR), un ordre de priorité (le déploiement, ça peut attendre), et beaucoup de retours sur le ton de ce qu'ils écrivent. Tout ça, je le dis bien plus vite que je ne le tape, et je peux le dire en marchant, loin du clavier.
+> C'est lancé dans auth-greenfield :
+>
+> - **L'ancien worktree est supprimé.** Il était propre et tout était déjà dans main.
+> - **Agent 1, les commentaires** : il reprend les règles de ta PR 1 […]
+> - **Agent 2, la doc et les schémas** : un README propre et une `architecture.md` à jour. Il remplace les vieux schémas par ceux de l'article SSO […]
+>
+> **Le déploiement**, peut-être sur Cloudflare, est noté sur la tâche auth-greenfield. On le lance quand les deux PR seront mergées.
 
-## Le matériel
+Si une ligne ne correspond pas à ce que je voulais dire, je le vois tout de suite. Et surtout, ça va beaucoup plus vite qu'au clavier.
 
-Le micro, c'est un DJI Mic Mini 2. L'émetteur se met sous la chemise, contre le col :
+Ça s'emboîte bien avec un méta-agent. Je ne parle qu'à un seul agent : pas d'onglet à choisir, je dis tout à Poulpito, et c'est lui qui répartit le travail entre les autres.
+
+Un effet de bord, au bureau : mes collègues essaient de me faire une prompt injection, en criant dans mon micro plus fort que moi. Pour l'instant, ça n'a pas marché.
+
+## Le micro et la dictée
+
+Le micro, c'est un DJI Mic Mini 2. L'émetteur se met sous la chemise, tenu par un aimant de l'autre côté du tissu :
 
 ![L'émetteur DJI, blanc et translucide, glissé sous le col d'une chemise en jean](micro-sous-la-chemise.jpg "L'émetteur, sous la chemise")
-
-Un aimant, de l'autre côté du tissu, le tient en place. De l'extérieur, on ne voit qu'un petit carré noir :
-
-![Un petit aimant noir avec le logo DJI sur le col de la chemise](micro-aimant.jpg "De l'extérieur, il ne reste que l'aimant qui le tient")
 
 Le récepteur se branche directement sur le port USB-C du MacBook, et le Mac le voit comme un micro :
 
 ![Le récepteur DJI translucide branché sur le port USB-C d'un MacBook, posé sur une table en bois](recepteur-usb-c.jpg "Le récepteur, sur le port USB-C du MacBook")
 
-Pour la dictée, j'ai d'abord testé [Wispr Flow](https://wisprflow.ai). Il marche vraiment bien, y compris sur les mots piégeux comme « PR » ou « merge », surtout quand je parle franglais. Mais il est bien trop cher, et je ne voulais pas payer un outil de plus.
+Pour la dictée, j'ai d'abord testé [Wispr Flow](https://wisprflow.ai). Il marche vraiment bien, y compris sur les mots piégeux comme « PR » ou « merge », surtout quand je parle franglais. Mais il est bien trop cher, et je ne voulais pas payer un outil de plus. J'utilise donc [Granola](https://www.granola.ai) : son métier principal, c'est d'enregistrer mes réunions, mais il a aussi un agent de dictée qui fait à peu près la même chose. J'appuie sur une touche, il enregistre et transcrit tout de suite, et le texte arrive dans le chat d'Orca, l'app dans laquelle tournent mes agents.
 
-J'utilise donc [Granola](https://www.granola.ai). Son métier principal, c'est d'enregistrer mes réunions, mais il a aussi un agent de dictée qui fait à peu près la même chose que Wispr Flow : j'appuie sur une touche, il enregistre et transcrit tout de suite. Le texte arrive dans le champ de chat d'Orca, l'app dans laquelle tournent mes agents.
+## Quand ça rate
 
-## Des messages plus longs, moins rangés
+La transcription déforme surtout les noms propres. Dans le message du début, « Hot Greenfield », c'est auth-greenfield, le repo de notre exploration sur le SSO, « Word Tricourt » un worktree, « une paire » une PR, et « Claude Flöhr » Cloudflare. Le lendemain, j'ai eu « Épistole » pour Episto, un de nos clients, et « Canard Racing » pour Jacanda Racing, mon projet de voile. Poulpito a deviné juste à chaque fois, parce qu'il connaît mes projets et que le reste de la phrase l'aide. Et avec un enregistrement propre, presque tout passe : ma dernière longue dictée est arrivée sans une erreur. Ça marche très bien même avec du bruit autour, grâce à la réduction de bruit active du micro, mais mieux il m'entend, mieux ça marche.
 
-Avec un méta-agent, je ne parle qu'à un seul agent, et la voix s'y prête bien : je n'ai pas à choisir l'onglet du bon projet, je dis tout à Poulpito et c'est lui qui répartit. Mes messages sont devenus plus longs et plus riches. Celui du début contient trois tâches, leur ordre, une PR à prendre comme modèle, l'article où trouver les schémas et une hésitation sur l'hébergement. Je n'aurais jamais tapé tout ça d'une traite.
-
-Ils sont aussi moins structurés : pas de liste, des phrases qui repartent au milieu, des « voilà ». C'est l'agent qui remet de l'ordre, et sa réponse me sert de relecture. Voilà celle que j'ai eue ce soir-là :
-
-> C'est lancé dans auth-greenfield :
->
-> - **L'ancien worktree est supprimé.** Il était propre et tout était déjà dans main.
-> - **Agent 1, les commentaires** : il reprend les règles de ta PR 1 (tout retirer sauf les shebangs, `schema.rb` et ce dont un outil a besoin). […]
-> - **Agent 2, la doc et les schémas** : un README propre et une `architecture.md` à jour. Il remplace les vieux schémas par ceux de l'article SSO […]
->
-> **Le déploiement**, peut-être sur Cloudflare, est noté sur la tâche auth-greenfield. On le lance quand les deux PR seront mergées.
-
-Si une ligne ne correspond pas à ce que j'ai voulu dire, je le vois tout de suite.
-
-## Les noms propres
-
-Ce que la transcription rate le plus, ce sont les noms propres, et ce sont justement ceux qui comptent : les noms de mes projets. Deux autres, le lendemain matin :
-
-- « est-ce que tu peux review Épistole ? On reprend les deux reviews de perles » : Episto, un de nos clients, et ses deux PRs en cours de review ;
-- « la Canard Racing Engineering » : Jacanda Racing, mon projet de voile.
-
-Chaque fois, Poulpito a deviné juste, parce qu'il connaît mes projets et que le reste de la phrase l'aide. « Review » et « perles » à côté d'un mot qui ressemble à Episto, ça ne laisse pas beaucoup de doute.
-
-Ces ratés ne disent pas tout, cela dit. Ma dernière longue dictée, justement sur Wispr Flow et Granola, est arrivée sans une erreur, chaque mot juste. Tout dépend de l'enregistrement : ça marche très bien même avec du bruit autour, grâce à la réduction de bruit active du micro, mais mieux il m'entend, mieux ça marche.
-
-## Quand il devine mal
-
-Le vrai risque, ce n'est pas le nom déformé. C'est qu'à l'oral je réfléchis à voix haute, et qu'une réflexion ressemble beaucoup à une consigne. Le 26 au matin, on parlait d'une petite page interne pour suivre la sortie de nos articles. Je lui avais dit « on en parle d'abord », il m'avait proposé deux façons de l'héberger, et j'ai répondu « GitHub Actions et Cloudflare ». Pour moi, c'était une réponse dans la discussion. Pour Poulpito, c'était le feu vert : douze secondes plus tard, le repo existait sur GitHub, avec un nom que je n'avais pas encore choisi. Je l'ai arrêté, et le repo a été renommé deux minutes plus tard.
-
-Poulpito a noté la règle dans sa mémoire, avec la raison :
-
-> When Nicolas thinks out loud ("la question, c'est...", "on en parle"), he is discussing, not instructing: I answer and wait for his go before creating anything. That day I created a GitHub repo while he was still choosing its name.
-
-## Ce qui aiderait
-
-Pour les noms propres, il faudrait un vocabulaire à donner à la dictée. Ma liste est courte, ce sont les noms de mes projets et le vocabulaire de mes journées : Episto, auth-greenfield, Jacanda, worktree, PR, merge, Cloudflare.
-
-Pour le reste, c'est à l'agent de dire quand il n'est pas sûr. Poulpito le fait déjà quand il note dans sa mémoire une consigne que j'ai dictée : il écrit « in my reading », pour que je sache que c'est sa lecture et que je la relise. Ce que je voudrais, c'est la même chose avant d'agir : quand il hésite sur ce que j'ai dit, une ligne « j'ai compris ça, je lance ? » plutôt qu'un repo créé.
+Le seul vrai raté vient justement de ma façon de penser à voix haute : une réflexion ressemble beaucoup à une consigne. Un matin, je lui avais dit « on en parle d'abord » à propos d'une petite page interne, puis j'ai répondu « GitHub Actions et Cloudflare » à sa question sur l'hébergement. Douze secondes plus tard, le repo existait sur GitHub, avec un nom que je n'avais pas encore choisi. Depuis, il a une règle dans sa mémoire : quand je réfléchis à voix haute, il répond, et il attend mon go avant de créer quoi que ce soit.
