@@ -1,0 +1,64 @@
+---
+title: "Making my X likes searchable by my agents"
+slug: making-my-x-likes-searchable-by-my-agents
+date: 2026-12-21
+author: "Nicolas Rouanne"
+cover: "cover.jpg"
+excerpt: "X is where I keep up with tech, and what I like or bookmark there turns into a knowledge base that's very hard to search. A small script on the official API, a cache in an R2 bucket, about $8 for 17 years of likes."
+---
+
+Twitter is where I keep up with things. It's where I follow what's moving in AI, dev and software engineering, and where I talk with developers and people I like to follow. I often see news and posts there that I want to keep or share. I like them or bookmark them between two meetings, when I have 5 minutes, without sorting them. So it's a kind of knowledge base, but a very hard one to search. I wanted to be able to search it, and above all I wanted an agent to be able to do it for me.
+
+The starting point was [birdclaw](https://github.com/steipete/birdclaw), Peter Steinberger's repo, which comes from the same need: searching your own tweets. Since the X API was hard to consume, birdclaw goes through the archive. It imports it into SQLite and exposes it to agents, as a CLI and an MCP server. But the archive is a frozen snapshot, which you have to request again from X and wait 1 to 4 days for each time. I also looked at tools that read X with the browser's session cookies, which is against X's terms of service, and at userscripts that export by hand.
+
+## Going straight through the API
+
+Since February 2026, the X API is much easier to consume. X dropped its subscriptions for prepaid, pay-per-use billing. Reading your own likes and bookmarks, with an app you own, counts as an "owned read" and costs $0.001 per post, against $0.005 for a regular read. A post read twice on the same UTC day is billed once ([pricing](https://docs.x.com/x-api/getting-started/pricing)).
+
+So the idea is to go straight through the API, with no archive. The need fits in two API calls, one for likes and one for bookmarks. It's a Python script, under 400 lines, with no dependency, and three commands:
+
+- `x-archive auth` connects my account with OAuth 2.0, read-only: `tweet.read`, `users.read`, `like.read` and `bookmark.read`
+- `x-archive sync` fetches what's new
+- `x-archive search <words>` searches
+
+## A cache in an R2 bucket
+
+I don't want to read the API on every search. The price per post is low, but the bill follows the number of posts read. So the script stores everything in two JSONL files, one post per line, in a Cloudflare R2 bucket. It's a kind of cache. The sync only adds what's new, and every search reads that cache, from the laptop as well as from the server.
+
+![The R2 bucket: two objects, bookmarks.jsonl and likes.jsonl, public access disabled.](bucket-r2.jpg "The x-archive bucket, private.")
+
+## A read-only app
+
+To use the API, you need an app in the X developer console. Mine is called `nicolasrouanne-x-archive`, because `x-archive` alone was already taken across the whole X platform. It only has read access.
+
+![The nicolasrouanne-x-archive app: an OAuth 2.0 access token for @nicolasrouanne with the bookmark.read, like.read, users.read and tweet.read scopes.](app-lecture-seule.jpg "The x-archive app: four read scopes, nothing else.")
+
+## Testing before paying
+
+Before loading everything, I fetched a single page: 100 likes and 100 bookmarks. The console's Usage page showed 311 billable events for $0.32, that is 186 unique posts plus 125 authors.
+
+![The Usage page of the X console: 311 billable events, total cost $0.32, 2 requests.](usage-premier-test.jpg "The test page: 311 events, $0.32.")
+
+So author profiles are billed too. But at the same $0.001 as posts, where I feared $0.01, ten times more.
+
+## Never paying twice
+
+Each page read is paid for, so the script writes it to disk before sending it to R2. If the upload fails, the next sync picks up what was already bought instead of reading it again.
+
+The full load brought back 5,643 likes, from October 4, 2009 to today, and 199 bookmarks. X counts 5,907 likes; the rest can't be read anymore, because the posts were deleted or the accounts closed. 63 pages, a few minutes, around 8,050 billable events, so around $8 once and for all. After that, I estimate it at about $2 a month.
+
+![likes.jsonl opened in an editor: one like per line, with its id, url, author, author name and date.](likes-jsonl.jpg "likes.jsonl, one post per line.")
+
+## Every morning at 6:57
+
+The sync runs on my agent server, in an [Orca](https://github.com/stablyai/orca) automation every morning at 6:57. The sync is the automation's _precheck_, the command that runs before the agent:
+
+```bash
+--precheck "! /usr/local/bin/x-archive sync >> ~/.local/state/x-archive.log 2>&1"
+```
+
+If the sync succeeds, no agent starts, so it costs nothing in LLM. If it fails, an agent starts, reads the log and sends me a Slack DM with the cause.
+
+## What the agents see
+
+An agent searches with the same command as me. `x-archive search steipete`, or `x-archive search --bookmarks R2` to search only the bookmarks, returns the date, the author, the link and the full text of each post. t.co links are expanded, and the search ignores case and accents.
