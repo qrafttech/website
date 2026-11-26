@@ -39,12 +39,26 @@ function isSafeHref(href: string): boolean {
   return /^(https?:\/\/|mailto:|\/|#)/.test(href);
 }
 
+type HastNode = { type: string; tagName?: string; children?: HastNode[] };
+
+function onlyChild(node?: HastNode): HastNode | null {
+  return node?.children?.length === 1 ? node.children[0] : null;
+}
+
+function isTag(node: HastNode | null, tagName: string): boolean {
+  return node?.type === "element" && node.tagName === tagName;
+}
+
+/** `[![alt](post.png)](https://x.com/…)`: an image that links somewhere. */
+function isLinkedImage(node: HastNode | null): boolean {
+  return isTag(node, "a") && isTag(onlyChild(node ?? undefined), "img");
+}
+
 const components: Components = {
-  // An image on its own line is a figure, not a paragraph.
+  // An image on its own line is a figure, not a paragraph, linked or not.
   p: ({ node, children }) => {
-    const only = node?.children.length === 1 ? node.children[0] : null;
-    if (only?.type === "element" && only.tagName === "img")
-      return <>{children}</>;
+    const only = onlyChild(node);
+    if (isTag(only, "img") || isLinkedImage(only)) return <>{children}</>;
     return <p className="text-base leading-relaxed text-muted">{children}</p>;
   },
   h1: ({ children }) => (
@@ -69,7 +83,20 @@ const components: Components = {
     <ol className="list-decimal space-y-2 pl-6">{children}</ol>
   ),
   li: ({ children }) => <li className="text-base text-muted">{children}</li>,
-  a: ({ href = "", children }) => {
+  a: ({ node, href = "", children }) => {
+    // A linked image is a card, the size of an embedded X post.
+    if (isLinkedImage(node ?? null)) {
+      return (
+        <a
+          href={isSafeHref(href) ? href : "#"}
+          className="mx-auto block max-w-[550px] [&_img]:rounded-xl [&_img]:border [&_img]:border-hair [&_img]:shadow-sm [&_img]:transition-shadow hover:[&_img]:shadow-md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      );
+    }
     const className = "text-blue underline underline-offset-4 hover:text-ink2";
     if (href.startsWith("/")) {
       return (
