@@ -10,6 +10,8 @@ excerpt: "I barely type any more: I talk to my coding agents all day. It gives t
 
 I barely type any more. All day long, I talk to my coding agents, with a small wireless mic on my collar, and it changed the way I work with them.
 
+![The translucent DJI mic transmitter held between two fingers, in front of a MacBook keyboard](micro-en-main.jpg "The mic's transmitter, held between two fingers")
+
 Here is a message I sent on the evening of November 25 to Poulpito, the [meta-agent that runs my other agents](/en/blog/a-meta-agent-to-run-my-coding-agents). It's in French, and it's the raw transcription, mangled words included (more on those below):
 
 > J'ai fini parce que c'était en cours sur Hot Greenfield, est-ce que tu peux supprimer le Word Tricourt et en recrée un pour supprimer tous les commentaires comme j'avais fait dans une paire, tu reprends l'esprit de cette paire pour savoir quel commentaire il faut supprimer ou pas et un deuxième Wrice ça Khadi bien les deux ensemble pour pour mettre tous les schémas d'architecture que je t'ai déjà partagé qui sont notamment dans l'article de blog sur le Red faire un propre mettre le voilà et après on va faire un troisième tri pour déployer tout ça sur quelque part, je sais pas moi, j'imagine Claude Flöhr mais je pas très facile, j'en sais rien ça c'est moins c'est moins prioritaire

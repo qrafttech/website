@@ -10,6 +10,8 @@ excerpt: "Je ne tape presque plus : je parle à mes agents de code toute la jour
 
 Je ne tape presque plus. Toute la journée, je parle à mes agents de code, avec un petit micro sans fil sur le col, et ça a changé ma façon de travailler avec eux.
 
+![L'émetteur du micro DJI, translucide, tenu entre deux doigts devant le clavier d'un MacBook](micro-en-main.jpg "L'émetteur du micro, tenu entre deux doigts")
+
 Voilà un message que j'ai envoyé le 25 novembre au soir à Poulpito, le [méta-agent qui pilote mes autres agents](/blog/un-meta-agent-pour-piloter-mes-agents-de-code). C'est la transcription brute, mots déformés compris (j'y reviens plus bas) :
 
 > J'ai fini parce que c'était en cours sur Hot Greenfield, est-ce que tu peux supprimer le Word Tricourt et en recrée un pour supprimer tous les commentaires comme j'avais fait dans une paire, tu reprends l'esprit de cette paire pour savoir quel commentaire il faut supprimer ou pas et un deuxième Wrice ça Khadi bien les deux ensemble pour pour mettre tous les schémas d'architecture que je t'ai déjà partagé qui sont notamment dans l'article de blog sur le Red faire un propre mettre le voilà et après on va faire un troisième tri pour déployer tout ça sur quelque part, je sais pas moi, j'imagine Claude Flöhr mais je pas très facile, j'en sais rien ça c'est moins c'est moins prioritaire
